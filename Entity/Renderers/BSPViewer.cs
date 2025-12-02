@@ -7952,24 +7952,23 @@ namespace entity.Renderers
                         using (var webClient = new System.Net.WebClient())
                         {
                             byte[] imageData = webClient.DownloadData(url);
-                            using (var ms = new System.IO.MemoryStream(imageData))
+                            // Must create texture on main thread
+                            this.BeginInvoke(new System.Action(() =>
                             {
-                                // Must create texture on main thread, so store data for later
-                                this.BeginInvoke(new System.Action(() =>
+                                try
                                 {
-                                    try
+                                    using (var ms = new System.IO.MemoryStream(imageData))
                                     {
-                                        ms.Position = 0;
                                         Texture tex = TextureLoader.FromStream(render.device, ms);
                                         emblemTextureCache[emblemKey] = tex;
                                     }
-                                    catch { }
-                                    finally
-                                    {
-                                        emblemLoadingSet.Remove(emblemKey);
-                                    }
-                                }));
-                            }
+                                }
+                                catch { }
+                                finally
+                                {
+                                    emblemLoadingSet.Remove(emblemKey);
+                                }
+                            }));
                         }
                     }
                     catch
