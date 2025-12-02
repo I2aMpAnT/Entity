@@ -7670,17 +7670,26 @@ namespace entity.Renderers
                      player.Event.ToLowerInvariant().Contains("death"));
 
                 // Ground offset to align with floor (adjust as needed)
-                float groundOffset = -0.35f;
+                float groundOffset = -0.15f;
 
                 // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
                 float modelZOffset = zOffset + groundOffset;
 
+                // Calculate circle Z - stays on ground even when jumping
+                // When airborne, estimate ground level by subtracting jump height
+                float circleZ = player.PosZ + groundOffset;
+                if (player.IsAirborne)
+                {
+                    // Keep circle lower when jumping (approximate ground level)
+                    circleZ = player.PosZ + groundOffset - (player.AirborneTicks * 0.02f);
+                }
+
                 // Only draw model and circle if alive
                 if (!isDead)
                 {
-                    // Draw team color circle at player's feet
-                    DrawTeamCircle(player.PosX, player.PosY, player.PosZ + groundOffset, teamColor);
+                    // Draw team color circle at ground level
+                    DrawTeamCircle(player.PosX, player.PosY, circleZ, teamColor);
 
                     // Draw ground shadow when airborne
                     if (player.IsAirborne && player.AirborneTicks > 5)
