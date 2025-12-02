@@ -7702,7 +7702,12 @@ namespace entity.Renderers
                 // K/D Stats
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
+
+                // Debug: show raw isdead value
+                int isdeadIdx = cols.ContainsKey("isdead") ? cols["isdead"] : -1;
+                string isdeadRaw = (isdeadIdx >= 0 && parts.Length > isdeadIdx) ? parts[isdeadIdx].Trim() : "N/A";
                 t.IsDead = getBool("isdead");
+                AddTelemetryDebugLog($"IsDead DEBUG: idx={isdeadIdx} raw='{isdeadRaw}' parsed={t.IsDead}");
 
                 // Events
                 t.Event = getStr("event");
@@ -8025,7 +8030,8 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
-            return $"https://h2emblem.carnagereport.workers.dev/P{player.ColorPrimary}-S{player.ColorSecondary}-EP0-ES1-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            // P=primary armor, S=secondary armor, EP=emblem primary (tertiary), ES=emblem secondary (quaternary)
+            return $"https://h2emblem.carnagereport.workers.dev/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
