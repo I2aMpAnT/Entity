@@ -345,26 +345,52 @@ namespace entity.Renderers
         /// </summary>
         public class PlayerTelemetry
         {
+            // Identity
             public string PlayerName;
-            public string XboxIdentifier;
-            public string MachineIdentifier;
+            public string XboxId;
+            public string MachineId;
             public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
-            public int EmblemForeground;
-            public int EmblemBackground;
-            public int PrimaryColor;
-            public int SecondaryColor;
-            public int TertiaryColor;
-            public int QuaternaryColor;
+
+            // Emblem & Colors
+            public int EmblemFg;
+            public int EmblemBg;
+            public int ColorPrimary;
+            public int ColorSecondary;
+            public int ColorTertiary;
+            public int ColorQuaternary;
+
+            // Timing
             public DateTime Timestamp;
-            public int GameTimeMs;
-            public float X;
-            public float Y;
-            public float Z;
-            public float FacingYaw;
-            public float FacingPitch;
+
+            // Position & Velocity
+            public float PosX;
+            public float PosY;
+            public float PosZ;
+            public float VelX;
+            public float VelY;
+            public float VelZ;
+            public float Speed;
+
+            // Orientation (radians and degrees)
+            public float Yaw;
+            public float Pitch;
+            public float YawDeg;
+            public float PitchDeg;
+
+            // Movement State
             public bool IsCrouching;
+            public float CrouchBlend;
             public bool IsAirborne;
+            public int AirborneTicks;
+
+            // Weapons
+            public int WeaponSlot;
             public string CurrentWeapon;
+            public int FragGrenades;
+            public int PlasmaGrenades;
+
+            // Events
+            public string Event;
         }
 
         /// <summary>
@@ -876,7 +902,9 @@ namespace entity.Renderers
                 foreach (var kvp in livePlayers)
                 {
                     var p = kvp.Value;
-                    sb.AppendLine($"  - {p.PlayerName}: ({p.X:F1}, {p.Y:F1}, {p.Z:F1}) Team={p.Team}");
+                    sb.AppendLine($"  - {p.PlayerName}: Pos=({p.PosX:F1}, {p.PosY:F1}, {p.PosZ:F1})");
+                    sb.AppendLine($"    Team={p.Team} Spd={p.Speed:F1} Yaw={p.YawDeg:F0}° Crouch={p.IsCrouching} Air={p.IsAirborne}");
+                    sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades}");
                 }
             }
 
@@ -7385,7 +7413,7 @@ namespace entity.Renderers
                         {
                             livePlayers[telemetry.PlayerName] = telemetry;
                         }
-                        AddDebugLog($"[PLAYER] {telemetry.PlayerName} @ ({telemetry.X:F1}, {telemetry.Y:F1}, {telemetry.Z:F1})");
+                        AddDebugLog($"[PLAYER] {telemetry.PlayerName} @ ({telemetry.PosX:F1}, {telemetry.PosY:F1}, {telemetry.PosZ:F1}) Spd={telemetry.Speed:F1}");
                     }
                     else
                     {
@@ -7425,81 +7453,103 @@ namespace entity.Renderers
             {
                 PlayerTelemetry t = new PlayerTelemetry();
 
-                // Required fields
-                if (cols.ContainsKey("playername") && parts.Length > cols["playername"])
-                    t.PlayerName = parts[cols["playername"]].Trim();
-                else
-                    return null; // Player name required
+                // Helper to get string value
+                Func<string, string> getStr = (col) => {
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        return parts[cols[col]].Trim();
+                    return null;
+                };
 
-                if (cols.ContainsKey("x") && parts.Length > cols["x"])
-                    float.TryParse(parts[cols["x"]].Trim(), System.Globalization.NumberStyles.Float,
-                        System.Globalization.CultureInfo.InvariantCulture, out t.X);
+                // Helper to get float value
+                Func<string, float> getFloat = (col) => {
+                    float val = 0;
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        float.TryParse(parts[cols[col]].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out val);
+                    return val;
+                };
 
-                if (cols.ContainsKey("y") && parts.Length > cols["y"])
-                    float.TryParse(parts[cols["y"]].Trim(), System.Globalization.NumberStyles.Float,
-                        System.Globalization.CultureInfo.InvariantCulture, out t.Y);
+                // Helper to get int value
+                Func<string, int> getInt = (col) => {
+                    int val = 0;
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        int.TryParse(parts[cols[col]].Trim(), out val);
+                    return val;
+                };
 
-                if (cols.ContainsKey("z") && parts.Length > cols["z"])
-                    float.TryParse(parts[cols["z"]].Trim(), System.Globalization.NumberStyles.Float,
-                        System.Globalization.CultureInfo.InvariantCulture, out t.Z);
+                // Helper to get bool value
+                Func<string, bool> getBool = (col) => {
+                    bool val = false;
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        bool.TryParse(parts[cols[col]].Trim(), out val);
+                    return val;
+                };
 
-                // Optional fields
-                if (cols.ContainsKey("xboxidentifier") && parts.Length > cols["xboxidentifier"])
-                    t.XboxIdentifier = parts[cols["xboxidentifier"]].Trim();
+                // Required: PlayerName
+                t.PlayerName = getStr("playername");
+                if (string.IsNullOrEmpty(t.PlayerName))
+                    return null;
 
-                if (cols.ContainsKey("machineidentifier") && parts.Length > cols["machineidentifier"])
-                    t.MachineIdentifier = parts[cols["machineidentifier"]].Trim();
+                // Identity
+                t.XboxId = getStr("xboxid");
+                t.MachineId = getStr("machineid");
 
-                if (cols.ContainsKey("team") && parts.Length > cols["team"])
+                // Team - handle both string names and numeric values
+                string teamStr = getStr("team");
+                if (!string.IsNullOrEmpty(teamStr))
                 {
-                    string teamStr = parts[cols["team"]].Trim().ToLowerInvariant();
-                    if (teamStr.Contains("red")) t.Team = 0;
-                    else if (teamStr.Contains("blue")) t.Team = 1;
-                    else if (teamStr.Contains("green")) t.Team = 2;
-                    else if (teamStr.Contains("orange")) t.Team = 3;
-                    else t.Team = -1;
+                    teamStr = teamStr.ToLowerInvariant();
+                    if (teamStr.Contains("red") || teamStr == "0") t.Team = 0;
+                    else if (teamStr.Contains("blue") || teamStr == "1") t.Team = 1;
+                    else if (teamStr.Contains("green") || teamStr == "2") t.Team = 2;
+                    else if (teamStr.Contains("orange") || teamStr == "3") t.Team = 3;
+                    else int.TryParse(teamStr, out t.Team);
                 }
 
-                if (cols.ContainsKey("emblemforeground") && parts.Length > cols["emblemforeground"])
-                    int.TryParse(parts[cols["emblemforeground"]].Trim(), out t.EmblemForeground);
+                // Emblem & Colors
+                t.EmblemFg = getInt("emblemfg");
+                t.EmblemBg = getInt("emblembg");
+                t.ColorPrimary = getInt("colorprimary");
+                t.ColorSecondary = getInt("colorsecondary");
+                t.ColorTertiary = getInt("colortertiary");
+                t.ColorQuaternary = getInt("colorquaternary");
 
-                if (cols.ContainsKey("emblembackground") && parts.Length > cols["emblembackground"])
-                    int.TryParse(parts[cols["emblembackground"]].Trim(), out t.EmblemBackground);
+                // Timestamp
+                string tsStr = getStr("timestamp");
+                if (!string.IsNullOrEmpty(tsStr))
+                    DateTime.TryParse(tsStr, out t.Timestamp);
 
-                if (cols.ContainsKey("primarycolor") && parts.Length > cols["primarycolor"])
-                    int.TryParse(parts[cols["primarycolor"]].Trim(), out t.PrimaryColor);
+                // Position
+                t.PosX = getFloat("posx");
+                t.PosY = getFloat("posy");
+                t.PosZ = getFloat("posz");
 
-                if (cols.ContainsKey("secondarycolor") && parts.Length > cols["secondarycolor"])
-                    int.TryParse(parts[cols["secondarycolor"]].Trim(), out t.SecondaryColor);
+                // Velocity
+                t.VelX = getFloat("velx");
+                t.VelY = getFloat("vely");
+                t.VelZ = getFloat("velz");
+                t.Speed = getFloat("speed");
 
-                if (cols.ContainsKey("tertiarycolor") && parts.Length > cols["tertiarycolor"])
-                    int.TryParse(parts[cols["tertiarycolor"]].Trim(), out t.TertiaryColor);
+                // Orientation
+                t.Yaw = getFloat("yaw");
+                t.Pitch = getFloat("pitch");
+                t.YawDeg = getFloat("yawdeg");
+                t.PitchDeg = getFloat("pitchdeg");
 
-                if (cols.ContainsKey("quaternarycolor") && parts.Length > cols["quaternarycolor"])
-                    int.TryParse(parts[cols["quaternarycolor"]].Trim(), out t.QuaternaryColor);
+                // Movement State
+                t.IsCrouching = getBool("iscrouching");
+                t.CrouchBlend = getFloat("crouchblend");
+                t.IsAirborne = getBool("isairborne");
+                t.AirborneTicks = getInt("airborneticks");
 
-                if (cols.ContainsKey("gametimems") && parts.Length > cols["gametimems"])
-                    int.TryParse(parts[cols["gametimems"]].Trim(), out t.GameTimeMs);
+                // Weapons
+                t.WeaponSlot = getInt("weaponslot");
+                t.CurrentWeapon = getStr("currentweapon");
+                t.FragGrenades = getInt("fraggrenades");
+                t.PlasmaGrenades = getInt("plasmagrenades");
 
-                if (cols.ContainsKey("facingyaw") && parts.Length > cols["facingyaw"])
-                    float.TryParse(parts[cols["facingyaw"]].Trim(), System.Globalization.NumberStyles.Float,
-                        System.Globalization.CultureInfo.InvariantCulture, out t.FacingYaw);
-
-                if (cols.ContainsKey("facingpitch") && parts.Length > cols["facingpitch"])
-                    float.TryParse(parts[cols["facingpitch"]].Trim(), System.Globalization.NumberStyles.Float,
-                        System.Globalization.CultureInfo.InvariantCulture, out t.FacingPitch);
-
-                if (cols.ContainsKey("iscrouching") && parts.Length > cols["iscrouching"])
-                    bool.TryParse(parts[cols["iscrouching"]].Trim(), out t.IsCrouching);
-
-                if (cols.ContainsKey("isairborne") && parts.Length > cols["isairborne"])
-                    bool.TryParse(parts[cols["isairborne"]].Trim(), out t.IsAirborne);
-
-                if (cols.ContainsKey("currentweapon") && parts.Length > cols["currentweapon"])
-                    t.CurrentWeapon = parts[cols["currentweapon"]].Trim();
-
-                if (cols.ContainsKey("timestamp") && parts.Length > cols["timestamp"])
-                    DateTime.TryParse(parts[cols["timestamp"]].Trim(), out t.Timestamp);
+                // Events
+                t.Event = getStr("event");
 
                 return t;
             }
@@ -7533,12 +7583,15 @@ namespace entity.Renderers
             {
                 Color teamColor = GetTeamColor(player.Team);
 
+                // Adjust Z position for crouching
+                float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
+
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Apply rotation based on facing yaw
-                    Matrix rotation = Matrix.RotationZ(player.FacingYaw);
-                    render.device.Transform.World = rotation * Matrix.Translation(player.X, player.Y, player.Z);
+                    // Apply rotation based on yaw (in radians)
+                    Matrix rotation = Matrix.RotationZ(player.Yaw);
+                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
 
                     Material teamMaterial = new Material();
                     teamMaterial.Diffuse = teamColor;
@@ -7562,8 +7615,10 @@ namespace entity.Renderers
                     mat.Ambient = teamColor;
                     mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-                    Matrix rotation = Matrix.RotationX((float)(Math.PI / 2));
-                    render.device.Transform.World = rotation * Matrix.Translation(player.X, player.Y, player.Z + 0.35f);
+                    // Apply yaw rotation and position
+                    Matrix yawRotation = Matrix.RotationZ(player.Yaw);
+                    Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
+                    render.device.Transform.World = tiltRotation * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
                     render.device.Material = mat;
                     render.device.SetTexture(0, null);
                     render.device.RenderState.FillMode = FillMode.Solid;
