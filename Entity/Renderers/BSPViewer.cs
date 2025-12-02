@@ -942,7 +942,7 @@ namespace entity.Renderers
                     var p = kvp.Value;
                     sb.AppendLine($"  - {p.PlayerName}: Pos=({p.PosX:F1}, {p.PosY:F1}, {p.PosZ:F1})");
                     sb.AppendLine($"    Team={p.Team} Spd={p.Speed:F1} Yaw={p.YawDeg:F0}° Crouch={p.IsCrouching} Air={p.IsAirborne}");
-                    sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades}");
+                    sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades} Event={p.Event ?? "none"}");
                 }
             }
 
