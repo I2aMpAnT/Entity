@@ -624,6 +624,7 @@ namespace Globals
                             {
                                 RegistryAccess ra = new RegistryAccess(Microsoft.Win32.Registry.CurrentUser, RegistryAccess.RegPaths.Halo2 + @"Entity\ME\Tags\");
                                 string[] tags = ra.getKeys();
+                                if (tags == null) tags = new string[0];
                                 foreach (string tagType in tags)
                                 {
                                     QuickAccessTagType qatt = new QuickAccessTagType();
