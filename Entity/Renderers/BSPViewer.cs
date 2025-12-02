@@ -7535,49 +7535,10 @@ namespace entity.Renderers
                         {
                             lock (livePlayersLock)
                             {
-                                string pName = telemetry.PlayerName;
-                                Vector3 newPos = new Vector3(telemetry.PosX, telemetry.PosY, telemetry.PosZ);
-
-                                // Track death state based on death count changes
-                                if (!playerPrevDeaths.ContainsKey(pName))
-                                {
-                                    playerPrevDeaths[pName] = telemetry.Deaths;
-                                    playerDeadState[pName] = false;
-                                    playerPrevPosition[pName] = newPos;
-                                }
-                                else
-                                {
-                                    int prevDeaths = playerPrevDeaths[pName];
-                                    Vector3 prevPos = playerPrevPosition.ContainsKey(pName) ? playerPrevPosition[pName] : newPos;
-
-                                    // Death count increased = player died
-                                    if (telemetry.Deaths > prevDeaths)
-                                    {
-                                        playerDeadState[pName] = true;
-                                        AddDebugLog($"[DEATH] {pName} died! Deaths: {prevDeaths} -> {telemetry.Deaths}");
-                                    }
-
-                                    // If dead and position changed significantly (>5 units) = respawned
-                                    if (playerDeadState.ContainsKey(pName) && playerDeadState[pName])
-                                    {
-                                        float dist = (newPos - prevPos).Length();
-                                        if (dist > 5.0f)
-                                        {
-                                            playerDeadState[pName] = false;
-                                            AddDebugLog($"[RESPAWN] {pName} respawned! Moved {dist:F1} units");
-                                        }
-                                    }
-
-                                    playerPrevDeaths[pName] = telemetry.Deaths;
-                                    playerPrevPosition[pName] = newPos;
-                                }
-
-                                // Set IsDead based on our tracking
-                                telemetry.IsDead = playerDeadState.ContainsKey(pName) && playerDeadState[pName];
-
+                                // IsDead comes directly from sender now
                                 livePlayers[telemetry.PlayerName] = telemetry;
                             }
-                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} @ ({telemetry.PosX:F1}, {telemetry.PosY:F1}, {telemetry.PosZ:F1}) Spd={telemetry.Speed:F1}");
+                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} @ ({telemetry.PosX:F1}, {telemetry.PosY:F1}, {telemetry.PosZ:F1}) Spd={telemetry.Speed:F1} Dead={telemetry.IsDead}");
                         }
                     }
                 }
@@ -7611,21 +7572,22 @@ namespace entity.Renderers
         private void SetDefaultColumnOrder()
         {
             csvColumnIndices.Clear();
-            // Matches: Timestamp, PlayerName, Team, XboxId, MachineId,
+            // Matches actual telemetry sender format:
+            //          Timestamp, PlayerName, Team, XboxId, MachineId,
             //          EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary,
             //          PosX, PosY, PosZ, VelX, VelY, VelZ, Speed,
             //          Yaw, Pitch, YawDeg, PitchDeg,
-            //          IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
+            //          IsDead, RespawnTimer, IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
             //          WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades,
-            //          Event, Kills, Deaths, IsDead
+            //          Kills, Deaths, Assists, Event
             string[] columns = {
                 "timestamp", "playername", "team", "xboxid", "machineid",
                 "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
                 "posx", "posy", "posz", "velx", "vely", "velz", "speed",
                 "yaw", "pitch", "yawdeg", "pitchdeg",
-                "iscrouching", "crouchblend", "isairborne", "airborneticks",
+                "isdead", "respawntimer", "iscrouching", "crouchblend", "isairborne", "airborneticks",
                 "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
-                "event", "kills", "deaths", "isdead"
+                "kills", "deaths", "assists", "event"
             };
             for (int i = 0; i < columns.Length; i++)
             {
@@ -7740,7 +7702,7 @@ namespace entity.Renderers
                 // K/D Stats
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
-                // Note: IsDead is now computed from death count changes in the listener loop
+                t.IsDead = getBool("isdead");
 
                 // Events
                 t.Event = getStr("event");
