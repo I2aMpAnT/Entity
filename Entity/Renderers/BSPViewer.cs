@@ -6706,19 +6706,45 @@ namespace entity.Renderers
             {
                 string[] lines = File.ReadAllLines(filePath);
                 float autoTimestamp = 0;
+                int lineNumber = 0;
+                int skippedLines = 0;
 
                 foreach (string line in lines)
                 {
+                    lineNumber++;
                     if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#") || line.StartsWith("//"))
                         continue;
 
+                    // Skip header lines that contain non-numeric data
                     string[] parts = line.Split(',');
                     if (parts.Length >= 3)
                     {
-                        float x = float.Parse(parts[0].Trim());
-                        float y = float.Parse(parts[1].Trim());
-                        float z = float.Parse(parts[2].Trim());
-                        float timestamp = parts.Length >= 4 ? float.Parse(parts[3].Trim()) : autoTimestamp;
+                        float x, y, z, timestamp;
+
+                        // Use InvariantCulture and TryParse for robust parsing
+                        if (!float.TryParse(parts[0].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out x) ||
+                            !float.TryParse(parts[1].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out y) ||
+                            !float.TryParse(parts[2].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out z))
+                        {
+                            skippedLines++;
+                            continue; // Skip lines that can't be parsed (e.g., headers)
+                        }
+
+                        if (parts.Length >= 4)
+                        {
+                            if (!float.TryParse(parts[3].Trim(), System.Globalization.NumberStyles.Float,
+                                System.Globalization.CultureInfo.InvariantCulture, out timestamp))
+                            {
+                                timestamp = autoTimestamp;
+                            }
+                        }
+                        else
+                        {
+                            timestamp = autoTimestamp;
+                        }
 
                         playerPath.Add(new PlayerPathPoint(x, y, z, timestamp));
                         autoTimestamp += 0.1f; // Default 100ms between points if no timestamp
@@ -6727,7 +6753,15 @@ namespace entity.Renderers
 
                 if (playerPath.Count > 0)
                 {
-                    MessageBox.Show($"Loaded {playerPath.Count} path points.", "Path Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string msg = $"Loaded {playerPath.Count} path points.";
+                    if (skippedLines > 0)
+                        msg += $"\n({skippedLines} lines skipped due to invalid format)";
+                    MessageBox.Show(msg, "Path Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No valid path points found in file.\nExpected format: x,y,z[,timestamp]",
+                        "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
