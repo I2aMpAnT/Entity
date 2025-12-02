@@ -922,10 +922,55 @@ namespace entity.Renderers
             toolStrip.Visible = true;
         }
 
+        private Form debugForm = null;
+        private TextBox debugTextBox = null;
+        private System.Windows.Forms.Timer debugTimer = null;
+
         private void ShowTelemetryDebug()
         {
+            // If already open, just bring to front
+            if (debugForm != null && !debugForm.IsDisposed)
+            {
+                debugForm.BringToFront();
+                return;
+            }
+
+            // Create live debug window
+            debugForm = new Form();
+            debugForm.Text = "Live Telemetry Debug";
+            debugForm.Size = new System.Drawing.Size(500, 400);
+            debugForm.StartPosition = FormStartPosition.CenterParent;
+
+            debugTextBox = new TextBox();
+            debugTextBox.Multiline = true;
+            debugTextBox.ReadOnly = true;
+            debugTextBox.ScrollBars = ScrollBars.Both;
+            debugTextBox.Dock = DockStyle.Fill;
+            debugTextBox.Font = new System.Drawing.Font("Consolas", 9);
+            debugForm.Controls.Add(debugTextBox);
+
+            // Timer to update every 100ms
+            debugTimer = new System.Windows.Forms.Timer();
+            debugTimer.Interval = 100;
+            debugTimer.Tick += (s, e) => UpdateDebugText();
+            debugTimer.Start();
+
+            debugForm.FormClosed += (s, e) => {
+                debugTimer.Stop();
+                debugTimer.Dispose();
+                debugTimer = null;
+            };
+
+            UpdateDebugText();
+            debugForm.Show();
+        }
+
+        private void UpdateDebugText()
+        {
+            if (debugTextBox == null || debugTextBox.IsDisposed) return;
+
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("=== TELEMETRY DEBUG ===\n");
+            sb.AppendLine("=== LIVE TELEMETRY DEBUG (updates every 100ms) ===\n");
 
             sb.AppendLine($"Listener Running: {telemetryListenerRunning}");
             sb.AppendLine($"Show Live Telemetry: {showLiveTelemetry}");
@@ -959,7 +1004,7 @@ namespace entity.Renderers
                 }
             }
 
-            MessageBox.Show(sb.ToString(), "Telemetry Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            debugTextBox.Text = sb.ToString();
         }
 
         #endregion
