@@ -7765,8 +7765,27 @@ namespace entity.Renderers
                 // Create font if needed
                 if (playerNameFont == null || playerNameFont.Disposed)
                 {
-                    playerNameFont = new Microsoft.DirectX.Direct3D.Font(render.device,
-                        new System.Drawing.Font("Arial", 10, FontStyle.Bold));
+                    // Try Highway Gothic first (Halo's UI font), then fallbacks
+                    string[] fontNames = { "Highway Gothic", "Conduit ITC", "Eurostile", "Arial" };
+                    System.Drawing.Font drawFont = null;
+                    foreach (string fontName in fontNames)
+                    {
+                        try
+                        {
+                            drawFont = new System.Drawing.Font(fontName, 10, FontStyle.Bold);
+                            if (drawFont.Name.Equals(fontName, StringComparison.OrdinalIgnoreCase) ||
+                                drawFont.OriginalFontName.Equals(fontName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                break; // Found the font
+                            }
+                            drawFont.Dispose();
+                            drawFont = null;
+                        }
+                        catch { }
+                    }
+                    if (drawFont == null)
+                        drawFont = new System.Drawing.Font("Arial", 10, FontStyle.Bold);
+                    playerNameFont = new Microsoft.DirectX.Direct3D.Font(render.device, drawFont);
                 }
 
                 // Create sprite if needed
