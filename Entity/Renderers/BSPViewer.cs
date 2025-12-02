@@ -7779,7 +7779,7 @@ namespace entity.Renderers
                     {
                         try
                         {
-                            drawFont = new System.Drawing.Font(fontName, 10, FontStyle.Bold);
+                            drawFont = new System.Drawing.Font(fontName, 14, FontStyle.Bold);
                             if (drawFont.Name.Equals(fontName, StringComparison.OrdinalIgnoreCase) ||
                                 drawFont.OriginalFontName.Equals(fontName, StringComparison.OrdinalIgnoreCase))
                             {
@@ -7791,7 +7791,7 @@ namespace entity.Renderers
                         catch { }
                     }
                     if (drawFont == null)
-                        drawFont = new System.Drawing.Font("Arial", 10, FontStyle.Bold);
+                        drawFont = new System.Drawing.Font("Arial", 14, FontStyle.Bold);
                     playerNameFont = new Microsoft.DirectX.Direct3D.Font(render.device, drawFont);
                 }
 
@@ -7835,7 +7835,7 @@ namespace entity.Renderers
                     string emblemKey = GetEmblemKey(player);
                     Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
 
-                    int emblemSize = 48;
+                    int emblemSize = 240;
                     int emblemX = centerX - emblemSize / 2;
                     int emblemY = topY - emblemSize - 8;
 
@@ -7863,9 +7863,9 @@ namespace entity.Renderers
                             DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
                     }
 
-                    // Draw weapon icon below emblem
-                    int weaponIconSize = 24;
-                    int weaponY = topY;
+                    // Draw weapon icon behind player name (semi-transparent, larger)
+                    int weaponIconSize = 64;
+                    int nameY = topY;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
@@ -7873,19 +7873,18 @@ namespace entity.Renderers
                         emblemSprite.Draw2D(weaponTexture,
                             new System.Drawing.Point(0, 0),
                             0f,
-                            new System.Drawing.Point(centerX - weaponIconSize / 2, weaponY),
-                            Color.White);
+                            new System.Drawing.Point(centerX - weaponIconSize / 2, nameY - 10),
+                            Color.FromArgb(120, 255, 255, 255)); // Semi-transparent
                         emblemSprite.End();
                     }
 
-                    // Draw player name below weapon icon
-                    int nameY = weaponY + weaponIconSize + 2;
+                    // Draw player name on top of weapon icon
                     playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 60, nameY, 120, 20),
+                        new System.Drawing.Rectangle(centerX - 80, nameY + 15, 160, 24),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
 
                     // Draw blue waypoint arrow below name pointing down at player
-                    int arrowY = nameY + 18;
+                    int arrowY = nameY + 40;
                     playerNameFont.DrawText(null, "▼",
                         new System.Drawing.Rectangle(centerX - 20, arrowY, 40, 20),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, Color.CornflowerBlue);
