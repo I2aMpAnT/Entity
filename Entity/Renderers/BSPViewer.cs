@@ -7844,8 +7844,8 @@ namespace entity.Renderers
                     {
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
                         emblemSprite.Draw2D(emblemTexture,
-                            System.Drawing.Rectangle.Empty,
-                            emblemSize / 64.0f,
+                            new System.Drawing.Point(0, 0),
+                            0f,
                             new System.Drawing.Point(emblemX, emblemY),
                             Color.White);
                         emblemSprite.End();
