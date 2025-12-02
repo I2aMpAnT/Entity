@@ -461,6 +461,16 @@ namespace entity.Renderers
         private bool showLiveTelemetry = false;
 
         /// <summary>
+        /// Font for drawing player names.
+        /// </summary>
+        private Microsoft.DirectX.Direct3D.Font playerNameFont;
+
+        /// <summary>
+        /// Mesh for team indicator circle.
+        /// </summary>
+        private Mesh teamCircleMesh;
+
+        /// <summary>
         /// Column indices for CSV parsing (detected from header).
         /// </summary>
         private Dictionary<string, int> csvColumnIndices = new Dictionary<string, int>();
@@ -7629,14 +7639,8 @@ namespace entity.Renderers
                 // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
 
-                // Calculate lean based on velocity (tilt in movement direction)
-                float leanX = 0f, leanY = 0f;
-                if (player.Speed > 0.5f)
-                {
-                    float leanAmount = Math.Min(player.Speed / 10f, 0.15f); // Max 0.15 radians lean
-                    leanX = player.VelY * leanAmount / Math.Max(player.Speed, 0.1f);
-                    leanY = -player.VelX * leanAmount / Math.Max(player.Speed, 0.1f);
-                }
+                // Draw team color circle at player's feet
+                DrawTeamCircle(player.PosX, player.PosY, player.PosZ, teamColor);
 
                 // Draw ground shadow when airborne
                 if (player.IsAirborne && player.AirborneTicks > 5)
@@ -7653,10 +7657,9 @@ namespace entity.Renderers
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Apply rotation and lean based on yaw and velocity
+                    // Apply yaw rotation only (no lean - was causing goofy look)
                     Matrix rotation = Matrix.RotationZ(player.Yaw);
-                    Matrix lean = Matrix.RotationX(leanX) * Matrix.RotationY(leanY);
-                    render.device.Transform.World = lean * rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
+                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
 
                     Material teamMaterial = new Material();
                     teamMaterial.Diffuse = teamColor;
@@ -7680,22 +7683,85 @@ namespace entity.Renderers
                     mat.Ambient = teamColor;
                     mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-                    // Apply yaw rotation, lean, and position
+                    // Apply yaw rotation and position (no lean)
                     Matrix yawRotation = Matrix.RotationZ(player.Yaw);
                     Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
-                    Matrix lean = Matrix.RotationX(leanX) * Matrix.RotationY(leanY);
-                    render.device.Transform.World = tiltRotation * lean * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
+                    render.device.Transform.World = tiltRotation * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
                     render.device.Material = mat;
                     render.device.SetTexture(0, null);
                     render.device.RenderState.FillMode = FillMode.Solid;
                     playerMarkerMesh.DrawSubset(0);
                 }
 
+                // Draw player name above head
+                DrawPlayerName(player);
+
                 // Draw event indicator (weapon fire, melee, etc.)
                 if (!string.IsNullOrEmpty(player.Event))
                 {
                     DrawEventIndicator(player, teamColor);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Draws a team color circle at player's feet.
+        /// </summary>
+        private void DrawTeamCircle(float x, float y, float z, Color teamColor)
+        {
+            // Create or reuse circle mesh
+            if (teamCircleMesh == null || teamCircleMesh.Disposed)
+            {
+                teamCircleMesh = Mesh.Cylinder(render.device, 0.4f, 0.4f, 0.02f, 24, 1);
+            }
+
+            Material circleMat = new Material();
+            circleMat.Diffuse = teamColor;
+            circleMat.Ambient = teamColor;
+            circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+
+            // Position circle at player's feet
+            render.device.Transform.World = Matrix.RotationX((float)(Math.PI / 2)) * Matrix.Translation(x, y, z + 0.02f);
+            render.device.Material = circleMat;
+            render.device.SetTexture(0, null);
+            render.device.RenderState.Lighting = true;
+            teamCircleMesh.DrawSubset(0);
+        }
+
+        /// <summary>
+        /// Draws the player name above their head.
+        /// </summary>
+        private void DrawPlayerName(PlayerTelemetry player)
+        {
+            try
+            {
+                // Create font if needed
+                if (playerNameFont == null || playerNameFont.Disposed)
+                {
+                    playerNameFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                        new System.Drawing.Font("Arial", 10, FontStyle.Bold));
+                }
+
+                // Project 3D position to screen coordinates
+                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 1.0f); // Above head
+                Vector3 screenPos = Vector3.Project(worldPos,
+                    render.device.Viewport,
+                    render.device.Transform.Projection,
+                    render.device.Transform.View,
+                    Matrix.Identity);
+
+                // Only draw if in front of camera
+                if (screenPos.Z > 0 && screenPos.Z < 1)
+                {
+                    Color teamColor = GetTeamColor(player.Team);
+                    playerNameFont.DrawText(null, player.PlayerName,
+                        new System.Drawing.Rectangle((int)screenPos.X - 50, (int)screenPos.Y - 10, 100, 20),
+                        DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
+                }
+            }
+            catch
+            {
+                // Font rendering failed, ignore
             }
         }
 
