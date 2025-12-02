@@ -7835,14 +7835,33 @@ namespace entity.Renderers
                     string emblemKey = GetEmblemKey(player);
                     Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
 
-                    int emblemSize = 240;
+                    int emblemSize = 64;
                     int emblemX = centerX - emblemSize / 2;
                     int emblemY = topY - emblemSize - 8;
 
-                    // Draw border rectangle
-                    playerNameFont.DrawText(null, "■",
-                        new System.Drawing.Rectangle(emblemX - 4, emblemY - 4, emblemSize + 8, emblemSize + 8),
-                        DrawTextFormat.Center | DrawTextFormat.NoClip, borderColor);
+                    // Draw border rectangle using Line (filled box)
+                    using (Line line = new Line(render.device))
+                    {
+                        line.Width = emblemSize + 8;
+                        line.Begin();
+                        // Draw border
+                        Vector2[] borderPts = {
+                            new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY - 4),
+                            new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY + emblemSize + 4)
+                        };
+                        line.Draw(borderPts, borderColor);
+                        line.End();
+
+                        // Draw inner fill
+                        line.Width = emblemSize;
+                        line.Begin();
+                        Vector2[] innerPts = {
+                            new Vector2(centerX, emblemY),
+                            new Vector2(centerX, emblemY + emblemSize)
+                        };
+                        line.Draw(innerPts, teamColor);
+                        line.End();
+                    }
 
                     // Draw emblem texture if available
                     if (emblemTexture != null && !emblemTexture.Disposed)
@@ -7855,17 +7874,15 @@ namespace entity.Renderers
                             Color.White);
                         emblemSprite.End();
                     }
-                    else
-                    {
-                        // Fallback: draw colored square while loading
-                        playerNameFont.DrawText(null, "█",
-                            new System.Drawing.Rectangle(emblemX, emblemY, emblemSize, emblemSize),
-                            DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
-                    }
 
-                    // Draw weapon icon behind player name (semi-transparent, larger)
-                    int weaponIconSize = 64;
+                    // Draw player name
                     int nameY = topY;
+                    playerNameFont.DrawText(null, player.PlayerName,
+                        new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
+                        DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
+
+                    // Draw weapon icon after player name (smaller, 32px)
+                    int weaponIconSize = 32;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
@@ -7873,18 +7890,13 @@ namespace entity.Renderers
                         emblemSprite.Draw2D(weaponTexture,
                             new System.Drawing.Point(0, 0),
                             0f,
-                            new System.Drawing.Point(centerX - weaponIconSize / 2, nameY - 10),
-                            Color.FromArgb(120, 255, 255, 255)); // Semi-transparent
+                            new System.Drawing.Point(centerX + 50, nameY - 6),
+                            Color.White);
                         emblemSprite.End();
                     }
 
-                    // Draw player name on top of weapon icon
-                    playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 80, nameY + 15, 160, 24),
-                        DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
-
                     // Draw blue waypoint arrow below name pointing down at player
-                    int arrowY = nameY + 40;
+                    int arrowY = nameY + 20;
                     playerNameFont.DrawText(null, "▼",
                         new System.Drawing.Rectangle(centerX - 20, arrowY, 40, 20),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, Color.CornflowerBlue);
