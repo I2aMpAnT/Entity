@@ -439,6 +439,13 @@ namespace entity.Renderers
         /// </summary>
         private Dictionary<string, int> csvColumnIndices = new Dictionary<string, int>();
 
+        /// <summary>
+        /// Debug log of recent telemetry messages.
+        /// </summary>
+        private List<string> telemetryDebugLog = new List<string>();
+        private object telemetryDebugLogLock = new object();
+        private const int MaxDebugLogEntries = 50;
+
         #endregion
 
         #endregion
@@ -841,8 +848,52 @@ namespace entity.Renderers
             };
             toolStrip.Items.Add(btnListen);
 
+            // Debug button to show incoming telemetry data
+            ToolStripButton btnDebug = new ToolStripButton();
+            btnDebug.Text = "🔍 Debug";
+            btnDebug.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnDebug.Click += (s, e) => {
+                ShowTelemetryDebug();
+            };
+            toolStrip.Items.Add(btnDebug);
+
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
+        }
+
+        private void ShowTelemetryDebug()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("=== TELEMETRY DEBUG ===\n");
+
+            sb.AppendLine($"Listener Running: {telemetryListenerRunning}");
+            sb.AppendLine($"Show Live Telemetry: {showLiveTelemetry}");
+            sb.AppendLine($"CSV Columns Parsed: {csvColumnIndices.Count}");
+
+            lock (livePlayersLock)
+            {
+                sb.AppendLine($"Live Players: {livePlayers.Count}");
+                foreach (var kvp in livePlayers)
+                {
+                    var p = kvp.Value;
+                    sb.AppendLine($"  - {p.PlayerName}: ({p.X:F1}, {p.Y:F1}, {p.Z:F1}) Team={p.Team}");
+                }
+            }
+
+            sb.AppendLine("\n=== RECENT LOG ===\n");
+            lock (telemetryDebugLogLock)
+            {
+                foreach (var entry in telemetryDebugLog)
+                {
+                    sb.AppendLine(entry);
+                }
+                if (telemetryDebugLog.Count == 0)
+                {
+                    sb.AppendLine("(no data received yet)");
+                }
+            }
+
+            MessageBox.Show(sb.ToString(), "Telemetry Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion
@@ -7300,12 +7351,16 @@ namespace entity.Renderers
         {
             IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
 
+            AddDebugLog("Telemetry listener started, waiting for UDP data on port 2222...");
+
             while (telemetryListenerRunning)
             {
                 try
                 {
                     byte[] data = telemetryUdpClient.Receive(ref remoteEP);
                     string line = Encoding.UTF8.GetString(data).Trim();
+
+                    AddDebugLog($"[RECV] {line}");
 
                     if (string.IsNullOrWhiteSpace(line)) continue;
 
@@ -7318,6 +7373,7 @@ namespace entity.Renderers
                         {
                             csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
                         }
+                        AddDebugLog($"[HEADER] Parsed {csvColumnIndices.Count} columns");
                         continue;
                     }
 
@@ -7329,6 +7385,11 @@ namespace entity.Renderers
                         {
                             livePlayers[telemetry.PlayerName] = telemetry;
                         }
+                        AddDebugLog($"[PLAYER] {telemetry.PlayerName} @ ({telemetry.X:F1}, {telemetry.Y:F1}, {telemetry.Z:F1})");
+                    }
+                    else
+                    {
+                        AddDebugLog("[ERROR] Failed to parse telemetry line");
                     }
                 }
                 catch (SocketException)
@@ -7336,9 +7397,21 @@ namespace entity.Renderers
                     // Socket closed, exit loop
                     if (!telemetryListenerRunning) break;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // Other error, continue listening
+                    AddDebugLog($"[ERROR] {ex.Message}");
+                }
+            }
+        }
+
+        private void AddDebugLog(string message)
+        {
+            lock (telemetryDebugLogLock)
+            {
+                telemetryDebugLog.Add($"{DateTime.Now:HH:mm:ss.fff} {message}");
+                while (telemetryDebugLog.Count > MaxDebugLogEntries)
+                {
+                    telemetryDebugLog.RemoveAt(0);
                 }
             }
         }
