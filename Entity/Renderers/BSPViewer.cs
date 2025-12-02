@@ -7664,6 +7664,11 @@ namespace entity.Renderers
             {
                 Color teamColor = GetTeamColor(player.Team);
 
+                // Check if player is dead
+                bool isDead = !string.IsNullOrEmpty(player.Event) &&
+                    (player.Event.ToLowerInvariant().Contains("dead") ||
+                     player.Event.ToLowerInvariant().Contains("death"));
+
                 // Ground offset to align with floor (adjust as needed)
                 float groundOffset = -0.35f;
 
@@ -7671,69 +7676,73 @@ namespace entity.Renderers
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
                 float modelZOffset = zOffset + groundOffset;
 
-                // Draw team color circle at player's feet
-                DrawTeamCircle(player.PosX, player.PosY, player.PosZ + groundOffset, teamColor);
-
-                // Draw ground shadow when airborne
-                if (player.IsAirborne && player.AirborneTicks > 5)
+                // Only draw model and circle if alive
+                if (!isDead)
                 {
-                    DrawGroundShadow(player.PosX, player.PosY, player.PosZ, teamColor);
-                }
+                    // Draw team color circle at player's feet
+                    DrawTeamCircle(player.PosX, player.PosY, player.PosZ + groundOffset, teamColor);
 
-                // Draw velocity trail when moving fast
-                if (player.Speed > 2f)
-                {
-                    DrawVelocityTrail(player, teamColor);
-                }
-
-                // Use biped model if available
-                if (playerBipedModel != null)
-                {
-                    // Convert yaw degrees to radians for rotation
-                    float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
-                    Matrix rotation = Matrix.RotationZ(yawRadians);
-                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + modelZOffset);
-
-                    // Apply rotation then translation (model rotates around its own origin, then moves to position)
-                    render.device.Transform.World = Matrix.Multiply(rotation, translation);
-
-                    Material teamMaterial = new Material();
-                    teamMaterial.Diffuse = teamColor;
-                    teamMaterial.Ambient = teamColor;
-                    teamMaterial.Emissive = Color.FromArgb(teamColor.R / 3, teamColor.G / 3, teamColor.B / 3);
-
-                    render.device.RenderState.Lighting = true;
-                    render.device.Material = teamMaterial;
-                    ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
-                }
-                else
-                {
-                    // Fall back to cylinder marker
-                    if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+                    // Draw ground shadow when airborne
+                    if (player.IsAirborne && player.AirborneTicks > 5)
                     {
-                        playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
+                        DrawGroundShadow(player.PosX, player.PosY, player.PosZ, teamColor);
                     }
 
-                    Material mat = new Material();
-                    mat.Diffuse = teamColor;
-                    mat.Ambient = teamColor;
-                    mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+                    // Draw velocity trail when moving fast
+                    if (player.Speed > 2f)
+                    {
+                        DrawVelocityTrail(player, teamColor);
+                    }
 
-                    // Apply yaw rotation and position
-                    float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
-                    Matrix yawRotation = Matrix.RotationZ(yawRadians);
-                    Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
-                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + modelZOffset);
-                    // Tilt to stand upright, rotate by yaw, then translate to position
-                    render.device.Transform.World = Matrix.Multiply(Matrix.Multiply(tiltRotation, yawRotation), translation);
-                    render.device.Material = mat;
-                    render.device.SetTexture(0, null);
-                    render.device.RenderState.FillMode = FillMode.Solid;
-                    playerMarkerMesh.DrawSubset(0);
+                    // Use biped model if available
+                    if (playerBipedModel != null)
+                    {
+                        // Convert yaw degrees to radians for rotation
+                        float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                        Matrix rotation = Matrix.RotationZ(yawRadians);
+                        Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + modelZOffset);
+
+                        // Apply rotation then translation (model rotates around its own origin, then moves to position)
+                        render.device.Transform.World = Matrix.Multiply(rotation, translation);
+
+                        Material teamMaterial = new Material();
+                        teamMaterial.Diffuse = teamColor;
+                        teamMaterial.Ambient = teamColor;
+                        teamMaterial.Emissive = Color.FromArgb(teamColor.R / 3, teamColor.G / 3, teamColor.B / 3);
+
+                        render.device.RenderState.Lighting = true;
+                        render.device.Material = teamMaterial;
+                        ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
+                    }
+                    else
+                    {
+                        // Fall back to cylinder marker
+                        if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+                        {
+                            playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
+                        }
+
+                        Material mat = new Material();
+                        mat.Diffuse = teamColor;
+                        mat.Ambient = teamColor;
+                        mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+
+                        // Apply yaw rotation and position
+                        float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                        Matrix yawRotation = Matrix.RotationZ(yawRadians);
+                        Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
+                        Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + modelZOffset);
+                        // Tilt to stand upright, rotate by yaw, then translate to position
+                        render.device.Transform.World = Matrix.Multiply(Matrix.Multiply(tiltRotation, yawRotation), translation);
+                        render.device.Material = mat;
+                        render.device.SetTexture(0, null);
+                        render.device.RenderState.FillMode = FillMode.Solid;
+                        playerMarkerMesh.DrawSubset(0);
+                    }
                 }
 
-                // Draw player name above head (event colors handled by emblem border)
-                DrawPlayerName(player);
+                // Draw player name/emblem above head (passes isDead to show X when dead)
+                DrawPlayerName(player, isDead);
             }
         }
 
@@ -7771,7 +7780,7 @@ namespace entity.Renderers
         /// <summary>
         /// Draws the player name and emblem above their head.
         /// </summary>
-        private void DrawPlayerName(PlayerTelemetry player)
+        private void DrawPlayerName(PlayerTelemetry player, bool isDead = false)
         {
             try
             {
@@ -7845,39 +7854,49 @@ namespace entity.Renderers
                     int emblemX = centerX - emblemSize / 2;
                     int emblemY = topY - emblemSize - 8;
 
-                    // Draw border rectangle using Line (filled box)
-                    using (Line line = new Line(render.device))
+                    if (isDead)
                     {
-                        line.Width = emblemSize + 8;
-                        line.Begin();
-                        // Draw border
-                        Vector2[] borderPts = {
-                            new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY - 4),
-                            new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY + emblemSize + 4)
-                        };
-                        line.Draw(borderPts, borderColor);
-                        line.End();
-
-                        // Draw inner fill
-                        line.Width = emblemSize;
-                        line.Begin();
-                        Vector2[] innerPts = {
-                            new Vector2(centerX, emblemY),
-                            new Vector2(centerX, emblemY + emblemSize)
-                        };
-                        line.Draw(innerPts, teamColor);
-                        line.End();
+                        // Draw bold red X for dead players (replaces emblem)
+                        playerNameFont.DrawText(null, "X",
+                            new System.Drawing.Rectangle(emblemX, emblemY, emblemSize, emblemSize),
+                            DrawTextFormat.Center | DrawTextFormat.VerticalCenter | DrawTextFormat.NoClip, Color.Red);
                     }
-
-                    // Draw emblem texture if available (scale to fit emblemSize)
-                    if (emblemTexture != null && !emblemTexture.Disposed)
+                    else
                     {
-                        float emblemScale = emblemSize / 256.0f; // Scale to 25% of current
-                        emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Transform = Matrix.Scaling(emblemScale, emblemScale, 1f) * Matrix.Translation(emblemX, emblemY, 0);
-                        emblemSprite.Draw(emblemTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
-                        emblemSprite.Transform = Matrix.Identity;
-                        emblemSprite.End();
+                        // Draw border rectangle using Line (filled box)
+                        using (Line line = new Line(render.device))
+                        {
+                            line.Width = emblemSize + 8;
+                            line.Begin();
+                            // Draw border
+                            Vector2[] borderPts = {
+                                new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY - 4),
+                                new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY + emblemSize + 4)
+                            };
+                            line.Draw(borderPts, borderColor);
+                            line.End();
+
+                            // Draw inner fill
+                            line.Width = emblemSize;
+                            line.Begin();
+                            Vector2[] innerPts = {
+                                new Vector2(centerX, emblemY),
+                                new Vector2(centerX, emblemY + emblemSize)
+                            };
+                            line.Draw(innerPts, teamColor);
+                            line.End();
+                        }
+
+                        // Draw emblem texture if available (scale to fit emblemSize)
+                        if (emblemTexture != null && !emblemTexture.Disposed)
+                        {
+                            float emblemScale = emblemSize / 256.0f; // Scale to 25% of current
+                            emblemSprite.Begin(SpriteFlags.AlphaBlend);
+                            emblemSprite.Transform = Matrix.Scaling(emblemScale, emblemScale, 1f) * Matrix.Translation(emblemX, emblemY, 0);
+                            emblemSprite.Draw(emblemTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
+                            emblemSprite.Transform = Matrix.Identity;
+                            emblemSprite.End();
+                        }
                     }
 
                     // Draw player name
