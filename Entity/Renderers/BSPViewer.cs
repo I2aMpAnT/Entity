@@ -7685,13 +7685,13 @@ namespace entity.Renderers
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Convert yaw degrees to radians
-                    // Add 180 degree offset to face correct direction
-                    float yawRadians = (player.YawDeg + 180f) * (float)(Math.PI / 180.0);
+                    // Convert yaw degrees to radians for rotation
+                    float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
                     Matrix rotation = Matrix.RotationZ(yawRadians);
+                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
 
-                    // Position at player location
-                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
+                    // Apply rotation then translation (model rotates around its own origin, then moves to position)
+                    render.device.Transform.World = Matrix.Multiply(rotation, translation);
 
                     Material teamMaterial = new Material();
                     teamMaterial.Diffuse = teamColor;
@@ -7719,7 +7719,9 @@ namespace entity.Renderers
                     float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
                     Matrix yawRotation = Matrix.RotationZ(yawRadians);
                     Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
-                    render.device.Transform.World = tiltRotation * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
+                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
+                    // Tilt to stand upright, rotate by yaw, then translate to position
+                    render.device.Transform.World = Matrix.Multiply(Matrix.Multiply(tiltRotation, yawRotation), translation);
                     render.device.Material = mat;
                     render.device.SetTexture(0, null);
                     render.device.RenderState.FillMode = FillMode.Solid;
