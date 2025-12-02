@@ -7664,8 +7664,9 @@ namespace entity.Renderers
             {
                 Color teamColor = GetTeamColor(player.Team);
 
-                // Adjust Z position for crouching
+                // Adjust Z position for crouching, and lower model to ground level
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
+                float modelZOffset = zOffset - 0.5f; // Lower model to not float
 
                 // Draw team color circle at player's feet
                 DrawTeamCircle(player.PosX, player.PosY, player.PosZ, teamColor);
@@ -7688,7 +7689,7 @@ namespace entity.Renderers
                     // Convert yaw degrees to radians for rotation
                     float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
                     Matrix rotation = Matrix.RotationZ(yawRadians);
-                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
+                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + modelZOffset);
 
                     // Apply rotation then translation (model rotates around its own origin, then moves to position)
                     render.device.Transform.World = Matrix.Multiply(rotation, translation);
@@ -7719,7 +7720,7 @@ namespace entity.Renderers
                     float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
                     Matrix yawRotation = Matrix.RotationZ(yawRadians);
                     Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
-                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
+                    Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + modelZOffset);
                     // Tilt to stand upright, rotate by yaw, then translate to position
                     render.device.Transform.World = Matrix.Multiply(Matrix.Multiply(tiltRotation, yawRotation), translation);
                     render.device.Material = mat;
