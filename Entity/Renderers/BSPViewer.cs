@@ -7754,7 +7754,7 @@ namespace entity.Renderers
 
             // Position circle flat at player's feet (no rotation needed - cylinder Z is up)
             // Lower it so the disc sits at ground level
-            render.device.Transform.World = Matrix.Translation(x, y, z - 0.03f);
+            render.device.Transform.World = Matrix.Translation(x, y, z - 0.15f);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
@@ -7878,11 +7878,10 @@ namespace entity.Renderers
                         emblemSprite.End();
                     }
 
-                    // Draw player name with yaw angle for debugging rotation
+                    // Draw player name
                     int nameY = topY;
-                    string displayName = $"{player.PlayerName} ({player.YawDeg:F0}°)";
-                    playerNameFont.DrawText(null, displayName,
-                        new System.Drawing.Rectangle(centerX - 100, nameY, 200, 24),
+                    playerNameFont.DrawText(null, player.PlayerName,
+                        new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
 
                     // Draw weapon icon after player name (scaled to 16px)
