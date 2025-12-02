@@ -7835,7 +7835,7 @@ namespace entity.Renderers
                     string emblemKey = GetEmblemKey(player);
                     Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
 
-                    int emblemSize = 64;
+                    int emblemSize = 32;
                     int emblemX = centerX - emblemSize / 2;
                     int emblemY = topY - emblemSize - 8;
 
@@ -7881,8 +7881,8 @@ namespace entity.Renderers
                         new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
 
-                    // Draw weapon icon after player name (smaller, 32px)
-                    int weaponIconSize = 32;
+                    // Draw weapon icon after player name (24px)
+                    int weaponIconSize = 24;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
