@@ -27,12 +27,12 @@ namespace entity.MetaEditor2
         /// <summary>
         /// The ent name.
         /// </summary>
-        public string EntName = "Error in getting plugin element name";
+        public new string EntName = "Error in getting plugin element name";
 
         /// <summary>
         /// The line number.
         /// </summary>
-        public int LineNumber;
+        public new int LineNumber;
 
         /// <summary>
         /// The value.
@@ -52,7 +52,7 @@ namespace entity.MetaEditor2
         /// <summary>
         /// The chunk offset.
         /// </summary>
-        public int chunkOffset;
+        public new int chunkOffset;
 
         /// <summary>
         /// The color.
@@ -67,7 +67,7 @@ namespace entity.MetaEditor2
         /// <summary>
         /// The offset in map.
         /// </summary>
-        public int offsetInMap;
+        public new int offsetInMap;
 
         /// <summary>
         /// The red text.

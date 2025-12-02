@@ -173,7 +173,9 @@ namespace entity.Renderers
         /// <summary>
         /// The gizmo.
         /// </summary>
+#pragma warning disable CS0649 // Field is never assigned
         private Gizmo gizmo;
+#pragma warning restore CS0649
 
         /// <summary>
         /// The in sizing.
@@ -243,7 +245,9 @@ namespace entity.Renderers
         /// <summary>
         /// The shaderx.
         /// </summary>
+#pragma warning disable CS0649 // Field is never assigned
         private DXShader shaderx;
+#pragma warning restore CS0649
 
         /// <summary>
         /// The spawnmodelindex.
@@ -313,16 +317,16 @@ namespace entity.Renderers
             this.BackColor = Color.Blue;
 
             #region Clear the labels
-            toolStripLabel2.Text = "Camera Position: X: 0 • Y: 0 • Z: 0";
+            toolStripLabel2.Text = "Camera Position: X: 0 ï¿½ Y: 0 ï¿½ Z: 0";
             tsLabel1.Text = "Type: <";
             tsButtonType.Text = string.Empty;
             tsLabel2.Text = "> (";
             tsLabelCount.Text = string.Empty;
-            tsLabelX.Text = ") • X: ";
+            tsLabelX.Text = ") ï¿½ X: ";
             tsTextBoxX.Text = string.Empty;
-            tsLabelY.Text = " • Y: ";
+            tsLabelY.Text = " ï¿½ Y: ";
             tsTextBoxY.Text = string.Empty;
-            tsLabelZ.Text = " • Z: ";
+            tsLabelZ.Text = " ï¿½ Z: ";
             tsTextBoxZ.Text = string.Empty;
 
             tsLabelYaw.Text = string.Empty;
@@ -2524,10 +2528,10 @@ namespace entity.Renderers
                 }
 
                 /************/
-                tsLabel1.Text = selectionStart.X.ToString().PadRight(10) + " • " +
+                tsLabel1.Text = selectionStart.X.ToString().PadRight(10) + " ï¿½ " +
                                 selectionStart.Y.ToString().PadRight(10) + selectionStart.Z.ToString().PadRight(10) +
-                                " • " + selectionWidth.ToString().PadRight(10) + " • " +
-                                selectionHeight.ToString().PadRight(10) + " • " + selectionDepth.ToString().PadRight(10);
+                                " ï¿½ " + selectionWidth.ToString().PadRight(10) + " ï¿½ " +
+                                selectionHeight.ToString().PadRight(10) + " ï¿½ " + selectionDepth.ToString().PadRight(10);
                 selectionMesh = Mesh.Box(render.device, tempselectionWidth, tempselectionHeight, tempselectionDepth);
             }
                 
@@ -2844,8 +2848,8 @@ namespace entity.Renderers
             render.device.RenderState.Ambient = Color.White;
             // Set camera postion
             string tempstring = toolStripLabel2.Text;
-            string tempstring2 = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " • Y: " +
-                                 cam.y.ToString().PadRight(10) + " • Z: " + cam.z.ToString().PadRight(10);
+            string tempstring2 = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " ï¿½ Y: " +
+                                 cam.y.ToString().PadRight(10) + " ï¿½ Z: " + cam.z.ToString().PadRight(10);
             if (tempstring != tempstring2)
             {
                 if (statusStrip.Items.IndexOf(toolStripLabel2) == -1)
@@ -5507,8 +5511,8 @@ namespace entity.Renderers
 
                     // Set camera postion
                     string tempstring = toolStripLabel2.Text;
-                    string tempstring2 = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " • Y: " +
-                                         cam.y.ToString().PadRight(10) + " • Z: " + cam.z.ToString().PadRight(10);
+                    string tempstring2 = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " ï¿½ Y: " +
+                                         cam.y.ToString().PadRight(10) + " ï¿½ Z: " + cam.z.ToString().PadRight(10);
                     if (tempstring != tempstring2)
                     {
                         toolStripLabel2.Text = tempstring2;
@@ -5898,11 +5902,11 @@ namespace entity.Renderers
                 // Stop it from overwriting text in boxes when user is trying to change it!
                 if (updateXYZYPR)
                 {
-                    tsLabelX.Text = ") • X: ";
+                    tsLabelX.Text = ") ï¿½ X: ";
                     tsTextBoxX.Text = bsp.Spawns.Spawn[lastSelectedSpawn].X.ToString("#0.0000####");
-                    tsLabelY.Text = " • Y: ";
+                    tsLabelY.Text = " ï¿½ Y: ";
                     tsTextBoxY.Text = bsp.Spawns.Spawn[lastSelectedSpawn].Y.ToString("#0.0000####");
-                    tsLabelZ.Text = " • Z: ";
+                    tsLabelZ.Text = " ï¿½ Z: ";
                     tsTextBoxZ.Text = bsp.Spawns.Spawn[lastSelectedSpawn].Z.ToString("#0.0000####");
                 }
 
@@ -5919,11 +5923,11 @@ namespace entity.Renderers
                     {
                         SpawnInfo.RotateYawPitchRollBaseSpawn temprot;
                         temprot = bsp.Spawns.Spawn[lastSelectedSpawn] as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                        tsLabelYaw.Text = " • Yaw:";
+                        tsLabelYaw.Text = " ï¿½ Yaw:";
                         tsTextBoxYaw.Text = temprot.Yaw.ToString("#0.0000####");
-                        tsLabelPitch.Text = " • Pitch:";
+                        tsLabelPitch.Text = " ï¿½ Pitch:";
                         tsTextBoxPitch.Text = temprot.Pitch.ToString("#0.0000####");
-                        tsLabelRoll.Text = " • Roll:";
+                        tsLabelRoll.Text = " ï¿½ Roll:";
                         tsTextBoxRoll.Text = temprot.Roll.ToString("#0.0000####");
                     }
                 }
@@ -5942,11 +5946,11 @@ namespace entity.Renderers
                             {
                                 rot = 2;
                                 temprot2 = bsp.Spawns.Spawn[SelectedSpawn[x]] as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                                tsLabelYaw.Text = " • Yaw:";
+                                tsLabelYaw.Text = " ï¿½ Yaw:";
                                 tsTextBoxYaw.Text = temprot.RotationDirection.ToString("#0.0000####");
-                                tsLabelPitch.Text = " • Pitch:";
+                                tsLabelPitch.Text = " ï¿½ Pitch:";
                                 tsTextBoxPitch.Text = temprot2.Pitch.ToString("#0.0000####");
-                                tsLabelRoll.Text = " • Roll:";
+                                tsLabelRoll.Text = " ï¿½ Roll:";
                                 tsTextBoxRoll.Text = temprot2.Roll.ToString("#0.0000####");
                                 break;
                             }
@@ -5954,7 +5958,7 @@ namespace entity.Renderers
 
                         // ...otherwise just show rotation
                         rot = 1;
-                        tsLabelYaw.Text = " • Yaw:";
+                        tsLabelYaw.Text = " ï¿½ Yaw:";
                         tsTextBoxYaw.Text = temprot.RotationDirection.ToString("#0.0000####");
                         tsLabelPitch.Text = string.Empty;
                         tsLabelRoll.Text = string.Empty;
@@ -6515,8 +6519,8 @@ namespace entity.Renderers
             }
 
             // Add the camera position
-            toolStripLabel2.Text = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " • Y: " +
-                                   cam.y.ToString().PadRight(10) + " • Z: " + cam.z.ToString().PadRight(10);
+            toolStripLabel2.Text = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " ï¿½ Y: " +
+                                   cam.y.ToString().PadRight(10) + " ï¿½ Z: " + cam.z.ToString().PadRight(10);
             statusStrip.Items.Add(toolStripLabel2);
             statusStrip.ResumeLayout();
 

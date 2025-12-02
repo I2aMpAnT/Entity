@@ -5444,7 +5444,6 @@ namespace entity.MapForms
             else
             #region 2D Sequenced Images
             {
-                int sprites = 1;
                 BinaryReader br = new BinaryReader(map.SelectedMeta.MS);
                 br.BaseStream.Seek(60, SeekOrigin.Begin);
                 int seqCount = br.ReadInt32();
