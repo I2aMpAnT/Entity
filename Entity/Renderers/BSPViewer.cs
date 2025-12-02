@@ -405,12 +405,12 @@ namespace entity.Renderers
         #region Live Telemetry Network Fields
 
         /// <summary>
-        /// TCP listener for receiving live player telemetry.
+        /// UDP client for receiving live player telemetry.
         /// </summary>
-        private TcpListener telemetryListener;
+        private UdpClient telemetryUdpClient;
 
         /// <summary>
-        /// Thread for handling incoming telemetry connections.
+        /// Thread for handling incoming telemetry data.
         /// </summary>
         private Thread telemetryListenerThread;
 
@@ -7239,7 +7239,7 @@ namespace entity.Renderers
         #region Live Telemetry Network Methods
 
         /// <summary>
-        /// Starts the telemetry listener on port 2222.
+        /// Starts the UDP telemetry listener on port 2222.
         /// </summary>
         public void StartTelemetryListener()
         {
@@ -7248,16 +7248,19 @@ namespace entity.Renderers
 
             try
             {
-                telemetryListener = new TcpListener(IPAddress.Any, 2222);
-                telemetryListener.Start();
+                telemetryUdpClient = new UdpClient(2222);
+                telemetryUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 telemetryListenerRunning = true;
                 showLiveTelemetry = true;
+
+                // Reset header parsing state
+                csvColumnIndices.Clear();
 
                 telemetryListenerThread = new Thread(TelemetryListenerLoop);
                 telemetryListenerThread.IsBackground = true;
                 telemetryListenerThread.Start();
 
-                MessageBox.Show("Telemetry listener started on port 2222.\nSend CSV data with header row first.",
+                MessageBox.Show("UDP telemetry listener started on port 2222.\nSend CSV lines (header first, then data).",
                     "Listener Started", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -7277,7 +7280,7 @@ namespace entity.Renderers
 
             try
             {
-                telemetryListener?.Stop();
+                telemetryUdpClient?.Close();
                 telemetryListenerThread?.Join(1000);
             }
             catch { }
@@ -7289,85 +7292,52 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Main loop for accepting telemetry connections.
+        /// Main loop for receiving UDP telemetry data.
         /// </summary>
         private void TelemetryListenerLoop()
         {
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+
             while (telemetryListenerRunning)
             {
                 try
                 {
-                    if (telemetryListener.Pending())
+                    byte[] data = telemetryUdpClient.Receive(ref remoteEP);
+                    string line = Encoding.UTF8.GetString(data).Trim();
+
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+                    string[] parts = line.Split(',');
+
+                    // Parse header row if we haven't yet
+                    if (csvColumnIndices.Count == 0)
                     {
-                        TcpClient client = telemetryListener.AcceptTcpClient();
-                        Thread clientThread = new Thread(() => HandleTelemetryClient(client));
-                        clientThread.IsBackground = true;
-                        clientThread.Start();
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
+                        }
+                        continue;
                     }
-                    else
+
+                    // Parse data row
+                    PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
+                    if (telemetry != null)
                     {
-                        Thread.Sleep(10);
+                        lock (livePlayersLock)
+                        {
+                            livePlayers[telemetry.PlayerName] = telemetry;
+                        }
                     }
+                }
+                catch (SocketException)
+                {
+                    // Socket closed, exit loop
+                    if (!telemetryListenerRunning) break;
                 }
                 catch (Exception)
                 {
-                    if (!telemetryListenerRunning) break;
+                    // Other error, continue listening
                 }
-            }
-        }
-
-        /// <summary>
-        /// Handles an individual telemetry client connection.
-        /// </summary>
-        private void HandleTelemetryClient(TcpClient client)
-        {
-            try
-            {
-                using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                {
-                    bool headerParsed = false;
-                    Dictionary<string, int> colIndices = new Dictionary<string, int>();
-
-                    while (telemetryListenerRunning && client.Connected)
-                    {
-                        string line = reader.ReadLine();
-                        if (line == null) break;
-                        if (string.IsNullOrWhiteSpace(line)) continue;
-
-                        string[] parts = line.Split(',');
-
-                        // Parse header row
-                        if (!headerParsed)
-                        {
-                            for (int i = 0; i < parts.Length; i++)
-                            {
-                                colIndices[parts[i].Trim().ToLowerInvariant()] = i;
-                            }
-                            headerParsed = true;
-                            csvColumnIndices = colIndices;
-                            continue;
-                        }
-
-                        // Parse data row
-                        PlayerTelemetry telemetry = ParseTelemetryLine(parts, colIndices);
-                        if (telemetry != null)
-                        {
-                            lock (livePlayersLock)
-                            {
-                                livePlayers[telemetry.PlayerName] = telemetry;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // Connection closed or error
-            }
-            finally
-            {
-                client?.Close();
             }
         }
 
