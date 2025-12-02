@@ -6706,40 +6706,69 @@ namespace entity.Renderers
             {
                 string[] lines = File.ReadAllLines(filePath);
                 float autoTimestamp = 0;
-                int lineNumber = 0;
                 int skippedLines = 0;
 
-                foreach (string line in lines)
+                // Column indices (default for simple x,y,z format)
+                int xCol = 0, yCol = 1, zCol = 2, timestampCol = 3;
+                bool hasHeader = false;
+                float timestampDivisor = 1.0f; // For converting ms to seconds
+
+                // Check for header row and detect column layout
+                if (lines.Length > 0)
                 {
-                    lineNumber++;
+                    string[] headerParts = lines[0].Split(',');
+                    for (int i = 0; i < headerParts.Length; i++)
+                    {
+                        string col = headerParts[i].Trim().ToLowerInvariant();
+                        if (col == "x") { xCol = i; hasHeader = true; }
+                        else if (col == "y") { yCol = i; hasHeader = true; }
+                        else if (col == "z") { zCol = i; hasHeader = true; }
+                        else if (col == "gametimems" || col == "timestamp")
+                        {
+                            timestampCol = i;
+                            hasHeader = true;
+                            if (col == "gametimems") timestampDivisor = 1000.0f; // Convert ms to seconds
+                        }
+                    }
+                }
+
+                int startLine = hasHeader ? 1 : 0;
+                int minColumns = Math.Max(Math.Max(xCol, yCol), Math.Max(zCol, timestampCol)) + 1;
+
+                for (int lineIdx = startLine; lineIdx < lines.Length; lineIdx++)
+                {
+                    string line = lines[lineIdx];
                     if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#") || line.StartsWith("//"))
                         continue;
 
-                    // Skip header lines that contain non-numeric data
                     string[] parts = line.Split(',');
-                    if (parts.Length >= 3)
+                    if (parts.Length >= minColumns || parts.Length >= 3)
                     {
                         float x, y, z, timestamp;
 
+                        // Adjust column indices if file has fewer columns than expected
+                        int actualXCol = parts.Length > xCol ? xCol : 0;
+                        int actualYCol = parts.Length > yCol ? yCol : 1;
+                        int actualZCol = parts.Length > zCol ? zCol : 2;
+
                         // Use InvariantCulture and TryParse for robust parsing
-                        if (!float.TryParse(parts[0].Trim(), System.Globalization.NumberStyles.Float,
+                        if (!float.TryParse(parts[actualXCol].Trim(), System.Globalization.NumberStyles.Float,
                             System.Globalization.CultureInfo.InvariantCulture, out x) ||
-                            !float.TryParse(parts[1].Trim(), System.Globalization.NumberStyles.Float,
+                            !float.TryParse(parts[actualYCol].Trim(), System.Globalization.NumberStyles.Float,
                             System.Globalization.CultureInfo.InvariantCulture, out y) ||
-                            !float.TryParse(parts[2].Trim(), System.Globalization.NumberStyles.Float,
+                            !float.TryParse(parts[actualZCol].Trim(), System.Globalization.NumberStyles.Float,
                             System.Globalization.CultureInfo.InvariantCulture, out z))
                         {
                             skippedLines++;
-                            continue; // Skip lines that can't be parsed (e.g., headers)
+                            continue;
                         }
 
-                        if (parts.Length >= 4)
+                        // Try to get timestamp
+                        if (parts.Length > timestampCol &&
+                            float.TryParse(parts[timestampCol].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out timestamp))
                         {
-                            if (!float.TryParse(parts[3].Trim(), System.Globalization.NumberStyles.Float,
-                                System.Globalization.CultureInfo.InvariantCulture, out timestamp))
-                            {
-                                timestamp = autoTimestamp;
-                            }
+                            timestamp = timestamp / timestampDivisor; // Convert to seconds if needed
                         }
                         else
                         {
@@ -6747,7 +6776,7 @@ namespace entity.Renderers
                         }
 
                         playerPath.Add(new PlayerPathPoint(x, y, z, timestamp));
-                        autoTimestamp += 0.1f; // Default 100ms between points if no timestamp
+                        autoTimestamp += 0.1f;
                     }
                 }
 
@@ -6760,7 +6789,7 @@ namespace entity.Renderers
                 }
                 else
                 {
-                    MessageBox.Show("No valid path points found in file.\nExpected format: x,y,z[,timestamp]",
+                    MessageBox.Show("No valid path points found in file.\nExpected format: CSV with X,Y,Z columns or x,y,z[,timestamp]",
                         "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
