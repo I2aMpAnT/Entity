@@ -7660,9 +7660,11 @@ namespace entity.Renderers
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Apply yaw rotation only (no lean - was causing goofy look)
-                    Matrix rotation = Matrix.RotationZ(player.Yaw);
-                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
+                    // Convert yaw degrees to radians and rotate
+                    float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                    Matrix rotation = Matrix.RotationZ(yawRadians);
+                    // Lower the model so feet are on ground (offset down by ~0.7 units)
+                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ - 0.7f + zOffset);
 
                     Material teamMaterial = new Material();
                     teamMaterial.Diffuse = teamColor;
@@ -7686,8 +7688,9 @@ namespace entity.Renderers
                     mat.Ambient = teamColor;
                     mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-                    // Apply yaw rotation and position (no lean)
-                    Matrix yawRotation = Matrix.RotationZ(player.Yaw);
+                    // Apply yaw rotation and position
+                    float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                    Matrix yawRotation = Matrix.RotationZ(yawRadians);
                     Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
                     render.device.Transform.World = tiltRotation * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
                     render.device.Material = mat;
@@ -7712,10 +7715,11 @@ namespace entity.Renderers
         /// </summary>
         private void DrawTeamCircle(float x, float y, float z, Color teamColor)
         {
-            // Create or reuse circle mesh
+            // Create or reuse circle mesh - flat disc on XY plane
             if (teamCircleMesh == null || teamCircleMesh.Disposed)
             {
-                teamCircleMesh = Mesh.Cylinder(render.device, 0.4f, 0.4f, 0.02f, 24, 1);
+                // Create a flat cylinder (disc) - height is along Z axis by default
+                teamCircleMesh = Mesh.Cylinder(render.device, 0.5f, 0.5f, 0.05f, 24, 1);
             }
 
             Material circleMat = new Material();
@@ -7723,12 +7727,16 @@ namespace entity.Renderers
             circleMat.Ambient = teamColor;
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-            // Position circle at player's feet
-            render.device.Transform.World = Matrix.RotationX((float)(Math.PI / 2)) * Matrix.Translation(x, y, z + 0.02f);
+            // Position circle flat at player's feet (no rotation needed - cylinder Z is up)
+            render.device.Transform.World = Matrix.Translation(x, y, z + 0.02f);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
+            render.device.RenderState.AlphaBlendEnable = true;
+            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
             teamCircleMesh.DrawSubset(0);
+            render.device.RenderState.AlphaBlendEnable = false;
         }
 
         /// <summary>
