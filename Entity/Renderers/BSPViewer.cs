@@ -7664,12 +7664,15 @@ namespace entity.Renderers
             {
                 Color teamColor = GetTeamColor(player.Team);
 
+                // Ground offset to align with floor (adjust as needed)
+                float groundOffset = -0.35f;
+
                 // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
-                float modelZOffset = zOffset; // No additional lowering
+                float modelZOffset = zOffset + groundOffset;
 
                 // Draw team color circle at player's feet
-                DrawTeamCircle(player.PosX, player.PosY, player.PosZ, teamColor);
+                DrawTeamCircle(player.PosX, player.PosY, player.PosZ + groundOffset, teamColor);
 
                 // Draw ground shadow when airborne
                 if (player.IsAirborne && player.AirborneTicks > 5)
