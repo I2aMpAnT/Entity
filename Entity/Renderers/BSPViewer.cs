@@ -482,6 +482,21 @@ namespace entity.Renderers
         private object telemetryDebugLogLock = new object();
         private const int MaxDebugLogEntries = 50;
 
+        /// <summary>
+        /// Cached emblem textures by emblem key (EF_EB_P_S format).
+        /// </summary>
+        private Dictionary<string, Texture> emblemTextureCache = new Dictionary<string, Texture>();
+
+        /// <summary>
+        /// Sprite for drawing 2D textures.
+        /// </summary>
+        private Sprite emblemSprite;
+
+        /// <summary>
+        /// Set of emblem keys currently being loaded.
+        /// </summary>
+        private HashSet<string> emblemLoadingSet = new HashSet<string>();
+
         #endregion
 
         #endregion
@@ -7660,16 +7675,11 @@ namespace entity.Renderers
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Convert yaw and pitch degrees to radians
+                    // Convert yaw degrees to radians (no pitch tilt)
                     float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
-                    float pitchRadians = player.PitchDeg * (float)(Math.PI / 180.0) * 0.3f; // Reduce pitch effect
+                    Matrix rotation = Matrix.RotationZ(yawRadians);
 
-                    // Apply yaw (left/right turn) and pitch (looking up/down)
-                    Matrix yawRotation = Matrix.RotationZ(yawRadians);
-                    Matrix pitchRotation = Matrix.RotationY(-pitchRadians); // Tilt forward/back
-                    Matrix rotation = pitchRotation * yawRotation;
-
-                    // Position at player location (no Z offset - use raw position)
+                    // Position at player location
                     render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
 
                     Material teamMaterial = new Material();
@@ -7746,7 +7756,7 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Draws the player name above their head.
+        /// Draws the player name and emblem above their head.
         /// </summary>
         private void DrawPlayerName(PlayerTelemetry player)
         {
@@ -7759,8 +7769,14 @@ namespace entity.Renderers
                         new System.Drawing.Font("Arial", 10, FontStyle.Bold));
                 }
 
+                // Create sprite if needed
+                if (emblemSprite == null || emblemSprite.Disposed)
+                {
+                    emblemSprite = new Sprite(render.device);
+                }
+
                 // Project 3D position to screen coordinates
-                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 1.0f); // Above head
+                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 1.2f); // Above head
                 Vector3 screenPos = Vector3.Project(worldPos,
                     render.device.Viewport,
                     render.device.Transform.Projection,
@@ -7771,15 +7787,137 @@ namespace entity.Renderers
                 if (screenPos.Z > 0 && screenPos.Z < 1)
                 {
                     Color teamColor = GetTeamColor(player.Team);
+                    int centerX = (int)screenPos.X;
+                    int topY = (int)screenPos.Y;
+
+                    // Determine border color based on events
+                    Color borderColor = Color.White; // Default
+                    if (!string.IsNullOrEmpty(player.Event))
+                    {
+                        string evt = player.Event.ToLowerInvariant();
+                        if (evt.Contains("fire") || evt.Contains("shot") || evt.Contains("shoot"))
+                        {
+                            borderColor = Color.Yellow; // Shooting
+                        }
+                        else if (evt.Contains("damage") || evt.Contains("hit") || evt.Contains("hurt"))
+                        {
+                            borderColor = Color.Red; // Taking damage
+                        }
+                    }
+
+                    // Get emblem texture (load async if not cached)
+                    string emblemKey = GetEmblemKey(player);
+                    Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
+
+                    int emblemSize = 32;
+                    int emblemX = centerX - emblemSize / 2;
+                    int emblemY = topY - emblemSize - 8;
+
+                    // Draw border rectangle
+                    playerNameFont.DrawText(null, "■",
+                        new System.Drawing.Rectangle(emblemX - 4, emblemY - 4, emblemSize + 8, emblemSize + 8),
+                        DrawTextFormat.Center | DrawTextFormat.NoClip, borderColor);
+
+                    // Draw emblem texture if available
+                    if (emblemTexture != null && !emblemTexture.Disposed)
+                    {
+                        emblemSprite.Begin(SpriteFlags.AlphaBlend);
+                        emblemSprite.Draw2D(emblemTexture,
+                            new System.Drawing.Rectangle(0, 0, 64, 64),
+                            new System.Drawing.SizeF(emblemSize, emblemSize),
+                            new System.Drawing.PointF(emblemX, emblemY),
+                            Color.White);
+                        emblemSprite.End();
+                    }
+                    else
+                    {
+                        // Fallback: draw colored square while loading
+                        playerNameFont.DrawText(null, "█",
+                            new System.Drawing.Rectangle(emblemX, emblemY, emblemSize, emblemSize),
+                            DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
+                    }
+
+                    // Draw player name below emblem
                     playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle((int)screenPos.X - 50, (int)screenPos.Y - 10, 100, 20),
+                        new System.Drawing.Rectangle(centerX - 60, topY, 120, 20),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
                 }
             }
             catch
             {
-                // Font rendering failed, ignore
+                // Rendering failed, ignore
             }
+        }
+
+        /// <summary>
+        /// Gets a unique key for an emblem based on player colors.
+        /// </summary>
+        private string GetEmblemKey(PlayerTelemetry player)
+        {
+            return $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}";
+        }
+
+        /// <summary>
+        /// Gets the Carnage Report emblem URL for a player.
+        /// </summary>
+        private string GetEmblemUrl(PlayerTelemetry player)
+        {
+            return $"https://carnagereport.com/?P={player.ColorPrimary}&S={player.ColorSecondary}&EP=0&ES=1&EF={player.EmblemFg}&EB={player.EmblemBg}&ET=0";
+        }
+
+        /// <summary>
+        /// Gets or loads an emblem texture, caching it for reuse.
+        /// </summary>
+        private Texture GetOrLoadEmblemTexture(PlayerTelemetry player, string emblemKey)
+        {
+            // Return cached texture if available
+            if (emblemTextureCache.ContainsKey(emblemKey))
+            {
+                return emblemTextureCache[emblemKey];
+            }
+
+            // Start async load if not already loading
+            if (!emblemLoadingSet.Contains(emblemKey))
+            {
+                emblemLoadingSet.Add(emblemKey);
+                string url = GetEmblemUrl(player);
+
+                // Load emblem in background thread
+                System.Threading.ThreadPool.QueueUserWorkItem(_ =>
+                {
+                    try
+                    {
+                        using (var webClient = new System.Net.WebClient())
+                        {
+                            byte[] imageData = webClient.DownloadData(url);
+                            using (var ms = new System.IO.MemoryStream(imageData))
+                            {
+                                // Must create texture on main thread, so store data for later
+                                this.BeginInvoke(new Action(() =>
+                                {
+                                    try
+                                    {
+                                        ms.Position = 0;
+                                        Texture tex = TextureLoader.FromStream(render.device, ms);
+                                        emblemTextureCache[emblemKey] = tex;
+                                    }
+                                    catch { }
+                                    finally
+                                    {
+                                        emblemLoadingSet.Remove(emblemKey);
+                                    }
+                                }));
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        emblemLoadingSet.Remove(emblemKey);
+                    }
+                });
+            }
+
+            return null; // Not loaded yet
         }
 
         /// <summary>
