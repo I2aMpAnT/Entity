@@ -2793,6 +2793,11 @@ namespace entity.Renderers
                 return;
             }
 
+            if (cam == null)
+            {
+                return;
+            }
+
             if (RenderSky.Checked)
             {
                 render.BeginScene(Color.Black);
