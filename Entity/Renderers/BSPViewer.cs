@@ -710,6 +710,9 @@ namespace entity.Renderers
                 btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
             };
             toolStrip.Items.Add(btnTrail);
+
+            // Make toolbar visible so path controls are accessible
+            toolStrip.Visible = true;
         }
 
         #endregion
