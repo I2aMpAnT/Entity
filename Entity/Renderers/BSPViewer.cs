@@ -327,6 +327,16 @@ namespace entity.Renderers
         private bool showPathTrail = true;
 
         /// <summary>
+        /// Parsed biped model for rendering player on path.
+        /// </summary>
+        private ParsedModel playerBipedModel;
+
+        /// <summary>
+        /// Whether biped model loading has been attempted.
+        /// </summary>
+        private bool playerBipedModelLoaded = false;
+
+        /// <summary>
         /// Player path point structure.
         /// </summary>
         public struct PlayerPathPoint
@@ -6936,22 +6946,15 @@ namespace entity.Renderers
             if (playerPath.Count == 0)
                 return;
 
+            // Try to load biped model if not already attempted
+            if (!playerBipedModelLoaded)
+            {
+                LoadPlayerBipedModel();
+            }
+
             // Get current team for color
             int currentTeam = (pathCurrentIndex < playerPath.Count) ? playerPath[pathCurrentIndex].Team : -1;
             Color teamColor = GetTeamColor(currentTeam);
-            Color trailColor = Color.FromArgb(128, teamColor); // Lighter trail
-
-            // Initialize player marker mesh if needed (cylinder shape for visibility)
-            if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
-            {
-                playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
-            }
-
-            // Update material with team color
-            PlayerMarkerMaterial = new Material();
-            PlayerMarkerMaterial.Diffuse = teamColor;
-            PlayerMarkerMaterial.Ambient = teamColor;
-            PlayerMarkerMaterial.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
             // Draw path trail as lines
             if (showPathTrail && playerPath.Count >= 2)
@@ -6976,14 +6979,123 @@ namespace entity.Renderers
                 render.device.RenderState.Lighting = true;
             }
 
-            // Draw current position marker (rotated to stand upright)
+            // Draw current position marker
             Vector3 currentPos = GetCurrentPathPosition();
-            Matrix rotation = Matrix.RotationX((float)(Math.PI / 2)); // Stand cylinder upright
-            render.device.Transform.World = rotation * Matrix.Translation(currentPos.X, currentPos.Y, currentPos.Z + 0.35f);
-            render.device.Material = PlayerMarkerMaterial;
-            render.device.SetTexture(0, null);
-            render.device.RenderState.FillMode = FillMode.Solid;
-            playerMarkerMesh.DrawSubset(0);
+
+            // Use biped model if available, otherwise fall back to cylinder
+            if (playerBipedModel != null)
+            {
+                // Set up transform for biped model
+                render.device.Transform.World = Matrix.Translation(currentPos.X, currentPos.Y, currentPos.Z);
+
+                // Apply team color tint by modifying material before drawing
+                Material teamMaterial = new Material();
+                teamMaterial.Diffuse = teamColor;
+                teamMaterial.Ambient = teamColor;
+                teamMaterial.Emissive = Color.FromArgb(teamColor.R / 3, teamColor.G / 3, teamColor.B / 3);
+
+                // Draw the biped model with team color
+                render.device.RenderState.Lighting = true;
+                render.device.Material = teamMaterial;
+                ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
+            }
+            else
+            {
+                // Fall back to cylinder marker
+                if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+                {
+                    playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
+                }
+
+                PlayerMarkerMaterial = new Material();
+                PlayerMarkerMaterial.Diffuse = teamColor;
+                PlayerMarkerMaterial.Ambient = teamColor;
+                PlayerMarkerMaterial.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+
+                Matrix rotation = Matrix.RotationX((float)(Math.PI / 2));
+                render.device.Transform.World = rotation * Matrix.Translation(currentPos.X, currentPos.Y, currentPos.Z + 0.35f);
+                render.device.Material = PlayerMarkerMaterial;
+                render.device.SetTexture(0, null);
+                render.device.RenderState.FillMode = FillMode.Solid;
+                playerMarkerMesh.DrawSubset(0);
+            }
+        }
+
+        /// <summary>
+        /// Loads the player biped model from the map (Spartan/Master Chief).
+        /// </summary>
+        private void LoadPlayerBipedModel()
+        {
+            playerBipedModelLoaded = true;
+
+            try
+            {
+                // Track map state to restore it properly
+                int alreadyOpen = map.isOpen ? (int)map.openMapType : -1;
+                if (alreadyOpen != (int)MapTypes.Internal)
+                {
+                    map.OpenMap(MapTypes.Internal);
+                }
+
+                // Find the default biped model (Master Chief/Spartan) from the scenario
+                // This is stored at offset 308 in the scenario tag (meta 0)
+                map.BR.BaseStream.Position = map.MetaInfo.Offset[0] + 308;
+                int tempr = map.BR.ReadInt32();
+                if (tempr == 0)
+                {
+                    RestoreMapState(alreadyOpen);
+                    return;
+                }
+
+                tempr -= map.SecondaryMagic;
+                map.BR.BaseStream.Position = tempr + 4;
+                int bipdTagIndex = map.Functions.ForMeta.FindMetaByID(map.BR.ReadInt32());
+
+                if (bipdTagIndex == -1)
+                {
+                    RestoreMapState(alreadyOpen);
+                    return;
+                }
+
+                // Get the model tag number from the biped
+                int modelTagNumber = map.Functions.FindModelByBaseClass(bipdTagIndex);
+
+                if (modelTagNumber == -1)
+                {
+                    RestoreMapState(alreadyOpen);
+                    return;
+                }
+
+                // Load the model
+                Meta m = new Meta(map);
+                m.ReadMetaFromMap(modelTagNumber, false);
+
+                playerBipedModel = new ParsedModel(ref m);
+                ParsedModel.DisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref playerBipedModel);
+
+                m.Dispose();
+                RestoreMapState(alreadyOpen);
+            }
+            catch (Exception)
+            {
+                // If loading fails, we'll just use the cylinder fallback
+                playerBipedModel = null;
+            }
+        }
+
+        /// <summary>
+        /// Restores the map to its previous open state.
+        /// </summary>
+        private void RestoreMapState(int previousState)
+        {
+            if (previousState == -1)
+            {
+                map.CloseMap();
+            }
+            else
+            {
+                map.OpenMap((MapTypes)previousState);
+            }
         }
 
         /// <summary>
