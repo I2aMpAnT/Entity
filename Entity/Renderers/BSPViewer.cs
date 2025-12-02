@@ -14,6 +14,10 @@ namespace entity.Renderers
     using System.ComponentModel;
     using System.Drawing;
     using System.IO;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Text;
+    using System.Threading;
     using System.Windows.Forms;
 
     using entity;
@@ -337,6 +341,33 @@ namespace entity.Renderers
         private bool playerBipedModelLoaded = false;
 
         /// <summary>
+        /// Player telemetry data structure with all fields.
+        /// </summary>
+        public class PlayerTelemetry
+        {
+            public string PlayerName;
+            public string XboxIdentifier;
+            public string MachineIdentifier;
+            public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
+            public int EmblemForeground;
+            public int EmblemBackground;
+            public int PrimaryColor;
+            public int SecondaryColor;
+            public int TertiaryColor;
+            public int QuaternaryColor;
+            public DateTime Timestamp;
+            public int GameTimeMs;
+            public float X;
+            public float Y;
+            public float Z;
+            public float FacingYaw;
+            public float FacingPitch;
+            public bool IsCrouching;
+            public bool IsAirborne;
+            public string CurrentWeapon;
+        }
+
+        /// <summary>
         /// Player path point structure.
         /// </summary>
         public struct PlayerPathPoint
@@ -346,16 +377,67 @@ namespace entity.Renderers
             public float Z;
             public float Timestamp; // In seconds from start
             public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
+            public float FacingYaw;
+            public string PlayerName;
+            public string CurrentWeapon;
+            public bool IsCrouching;
+            public bool IsAirborne;
 
-            public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1)
+            public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1,
+                float facingYaw = 0, string playerName = "", string weapon = "",
+                bool crouching = false, bool airborne = false)
             {
                 X = x;
                 Y = y;
                 Z = z;
                 Timestamp = timestamp;
                 Team = team;
+                FacingYaw = facingYaw;
+                PlayerName = playerName;
+                CurrentWeapon = weapon;
+                IsCrouching = crouching;
+                IsAirborne = airborne;
             }
         }
+
+        #endregion
+
+        #region Live Telemetry Network Fields
+
+        /// <summary>
+        /// TCP listener for receiving live player telemetry.
+        /// </summary>
+        private TcpListener telemetryListener;
+
+        /// <summary>
+        /// Thread for handling incoming telemetry connections.
+        /// </summary>
+        private Thread telemetryListenerThread;
+
+        /// <summary>
+        /// Whether the telemetry listener is running.
+        /// </summary>
+        private volatile bool telemetryListenerRunning = false;
+
+        /// <summary>
+        /// Dictionary of live player data by player name.
+        /// </summary>
+        private Dictionary<string, PlayerTelemetry> livePlayers = new Dictionary<string, PlayerTelemetry>();
+
+        /// <summary>
+        /// Lock object for thread-safe access to live player data.
+        /// </summary>
+        private object livePlayersLock = new object();
+
+        /// <summary>
+        /// Whether to show live telemetry instead of recorded path.
+        /// </summary>
+        private bool showLiveTelemetry = false;
+
+        /// <summary>
+        /// Column indices for CSV parsing (detected from header).
+        /// </summary>
+        private Dictionary<string, int> csvColumnIndices = new Dictionary<string, int>();
 
         #endregion
 
@@ -650,7 +732,19 @@ namespace entity.Renderers
             // Initialize path playback controls
             InitializePathControls();
 
+            // Clean up telemetry listener on close
+            this.FormClosing += BSPViewer_FormClosing;
+
             Main();
+        }
+
+        private void BSPViewer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Stop telemetry listener if running
+            if (telemetryListenerRunning)
+            {
+                StopTelemetryListener();
+            }
         }
 
         /// <summary>
@@ -722,6 +816,30 @@ namespace entity.Renderers
                 btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
             };
             toolStrip.Items.Add(btnTrail);
+
+            // Separator before live telemetry
+            ToolStripSeparator separator2 = new ToolStripSeparator();
+            toolStrip.Items.Add(separator2);
+
+            // Live telemetry listener button
+            ToolStripButton btnListen = new ToolStripButton();
+            btnListen.Text = "📡 Listen";
+            btnListen.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnListen.Click += (s, e) => {
+                if (telemetryListenerRunning)
+                {
+                    StopTelemetryListener();
+                    btnListen.Text = "📡 Listen";
+                    showLiveTelemetry = false;
+                }
+                else
+                {
+                    StartTelemetryListener();
+                    btnListen.Text = "🔴 Stop";
+                    showLiveTelemetry = true;
+                }
+            };
+            toolStrip.Items.Add(btnListen);
 
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
@@ -3423,6 +3541,9 @@ namespace entity.Renderers
             // Update and render player path animation
             UpdatePathAnimation();
             RenderPlayerPath();
+
+            // Render live telemetry players
+            RenderLivePlayers();
 
             #endregion
 
@@ -7112,6 +7233,323 @@ namespace entity.Renderers
                 default: return Color.Yellow;
             }
         }
+
+        #endregion
+
+        #region Live Telemetry Network Methods
+
+        /// <summary>
+        /// Starts the telemetry listener on port 2222.
+        /// </summary>
+        public void StartTelemetryListener()
+        {
+            if (telemetryListenerRunning)
+                return;
+
+            try
+            {
+                telemetryListener = new TcpListener(IPAddress.Any, 2222);
+                telemetryListener.Start();
+                telemetryListenerRunning = true;
+                showLiveTelemetry = true;
+
+                telemetryListenerThread = new Thread(TelemetryListenerLoop);
+                telemetryListenerThread.IsBackground = true;
+                telemetryListenerThread.Start();
+
+                MessageBox.Show("Telemetry listener started on port 2222.\nSend CSV data with header row first.",
+                    "Listener Started", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to start telemetry listener: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Stops the telemetry listener.
+        /// </summary>
+        public void StopTelemetryListener()
+        {
+            telemetryListenerRunning = false;
+            showLiveTelemetry = false;
+
+            try
+            {
+                telemetryListener?.Stop();
+                telemetryListenerThread?.Join(1000);
+            }
+            catch { }
+
+            lock (livePlayersLock)
+            {
+                livePlayers.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Main loop for accepting telemetry connections.
+        /// </summary>
+        private void TelemetryListenerLoop()
+        {
+            while (telemetryListenerRunning)
+            {
+                try
+                {
+                    if (telemetryListener.Pending())
+                    {
+                        TcpClient client = telemetryListener.AcceptTcpClient();
+                        Thread clientThread = new Thread(() => HandleTelemetryClient(client));
+                        clientThread.IsBackground = true;
+                        clientThread.Start();
+                    }
+                    else
+                    {
+                        Thread.Sleep(10);
+                    }
+                }
+                catch (Exception)
+                {
+                    if (!telemetryListenerRunning) break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles an individual telemetry client connection.
+        /// </summary>
+        private void HandleTelemetryClient(TcpClient client)
+        {
+            try
+            {
+                using (NetworkStream stream = client.GetStream())
+                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    bool headerParsed = false;
+                    Dictionary<string, int> colIndices = new Dictionary<string, int>();
+
+                    while (telemetryListenerRunning && client.Connected)
+                    {
+                        string line = reader.ReadLine();
+                        if (line == null) break;
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        string[] parts = line.Split(',');
+
+                        // Parse header row
+                        if (!headerParsed)
+                        {
+                            for (int i = 0; i < parts.Length; i++)
+                            {
+                                colIndices[parts[i].Trim().ToLowerInvariant()] = i;
+                            }
+                            headerParsed = true;
+                            csvColumnIndices = colIndices;
+                            continue;
+                        }
+
+                        // Parse data row
+                        PlayerTelemetry telemetry = ParseTelemetryLine(parts, colIndices);
+                        if (telemetry != null)
+                        {
+                            lock (livePlayersLock)
+                            {
+                                livePlayers[telemetry.PlayerName] = telemetry;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Connection closed or error
+            }
+            finally
+            {
+                client?.Close();
+            }
+        }
+
+        /// <summary>
+        /// Parses a telemetry CSV line into a PlayerTelemetry object.
+        /// </summary>
+        private PlayerTelemetry ParseTelemetryLine(string[] parts, Dictionary<string, int> cols)
+        {
+            try
+            {
+                PlayerTelemetry t = new PlayerTelemetry();
+
+                // Required fields
+                if (cols.ContainsKey("playername") && parts.Length > cols["playername"])
+                    t.PlayerName = parts[cols["playername"]].Trim();
+                else
+                    return null; // Player name required
+
+                if (cols.ContainsKey("x") && parts.Length > cols["x"])
+                    float.TryParse(parts[cols["x"]].Trim(), System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture, out t.X);
+
+                if (cols.ContainsKey("y") && parts.Length > cols["y"])
+                    float.TryParse(parts[cols["y"]].Trim(), System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture, out t.Y);
+
+                if (cols.ContainsKey("z") && parts.Length > cols["z"])
+                    float.TryParse(parts[cols["z"]].Trim(), System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture, out t.Z);
+
+                // Optional fields
+                if (cols.ContainsKey("xboxidentifier") && parts.Length > cols["xboxidentifier"])
+                    t.XboxIdentifier = parts[cols["xboxidentifier"]].Trim();
+
+                if (cols.ContainsKey("machineidentifier") && parts.Length > cols["machineidentifier"])
+                    t.MachineIdentifier = parts[cols["machineidentifier"]].Trim();
+
+                if (cols.ContainsKey("team") && parts.Length > cols["team"])
+                {
+                    string teamStr = parts[cols["team"]].Trim().ToLowerInvariant();
+                    if (teamStr.Contains("red")) t.Team = 0;
+                    else if (teamStr.Contains("blue")) t.Team = 1;
+                    else if (teamStr.Contains("green")) t.Team = 2;
+                    else if (teamStr.Contains("orange")) t.Team = 3;
+                    else t.Team = -1;
+                }
+
+                if (cols.ContainsKey("emblemforeground") && parts.Length > cols["emblemforeground"])
+                    int.TryParse(parts[cols["emblemforeground"]].Trim(), out t.EmblemForeground);
+
+                if (cols.ContainsKey("emblembackground") && parts.Length > cols["emblembackground"])
+                    int.TryParse(parts[cols["emblembackground"]].Trim(), out t.EmblemBackground);
+
+                if (cols.ContainsKey("primarycolor") && parts.Length > cols["primarycolor"])
+                    int.TryParse(parts[cols["primarycolor"]].Trim(), out t.PrimaryColor);
+
+                if (cols.ContainsKey("secondarycolor") && parts.Length > cols["secondarycolor"])
+                    int.TryParse(parts[cols["secondarycolor"]].Trim(), out t.SecondaryColor);
+
+                if (cols.ContainsKey("tertiarycolor") && parts.Length > cols["tertiarycolor"])
+                    int.TryParse(parts[cols["tertiarycolor"]].Trim(), out t.TertiaryColor);
+
+                if (cols.ContainsKey("quaternarycolor") && parts.Length > cols["quaternarycolor"])
+                    int.TryParse(parts[cols["quaternarycolor"]].Trim(), out t.QuaternaryColor);
+
+                if (cols.ContainsKey("gametimems") && parts.Length > cols["gametimems"])
+                    int.TryParse(parts[cols["gametimems"]].Trim(), out t.GameTimeMs);
+
+                if (cols.ContainsKey("facingyaw") && parts.Length > cols["facingyaw"])
+                    float.TryParse(parts[cols["facingyaw"]].Trim(), System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture, out t.FacingYaw);
+
+                if (cols.ContainsKey("facingpitch") && parts.Length > cols["facingpitch"])
+                    float.TryParse(parts[cols["facingpitch"]].Trim(), System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture, out t.FacingPitch);
+
+                if (cols.ContainsKey("iscrouching") && parts.Length > cols["iscrouching"])
+                    bool.TryParse(parts[cols["iscrouching"]].Trim(), out t.IsCrouching);
+
+                if (cols.ContainsKey("isairborne") && parts.Length > cols["isairborne"])
+                    bool.TryParse(parts[cols["isairborne"]].Trim(), out t.IsAirborne);
+
+                if (cols.ContainsKey("currentweapon") && parts.Length > cols["currentweapon"])
+                    t.CurrentWeapon = parts[cols["currentweapon"]].Trim();
+
+                if (cols.ContainsKey("timestamp") && parts.Length > cols["timestamp"])
+                    DateTime.TryParse(parts[cols["timestamp"]].Trim(), out t.Timestamp);
+
+                return t;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Renders live player telemetry.
+        /// </summary>
+        private void RenderLivePlayers()
+        {
+            if (!showLiveTelemetry)
+                return;
+
+            // Try to load biped model if not already attempted
+            if (!playerBipedModelLoaded)
+            {
+                LoadPlayerBipedModel();
+            }
+
+            List<PlayerTelemetry> players;
+            lock (livePlayersLock)
+            {
+                players = new List<PlayerTelemetry>(livePlayers.Values);
+            }
+
+            foreach (PlayerTelemetry player in players)
+            {
+                Color teamColor = GetTeamColor(player.Team);
+
+                // Use biped model if available
+                if (playerBipedModel != null)
+                {
+                    // Apply rotation based on facing yaw
+                    Matrix rotation = Matrix.RotationZ(player.FacingYaw);
+                    render.device.Transform.World = rotation * Matrix.Translation(player.X, player.Y, player.Z);
+
+                    Material teamMaterial = new Material();
+                    teamMaterial.Diffuse = teamColor;
+                    teamMaterial.Ambient = teamColor;
+                    teamMaterial.Emissive = Color.FromArgb(teamColor.R / 3, teamColor.G / 3, teamColor.B / 3);
+
+                    render.device.RenderState.Lighting = true;
+                    render.device.Material = teamMaterial;
+                    ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
+                }
+                else
+                {
+                    // Fall back to cylinder marker
+                    if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+                    {
+                        playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
+                    }
+
+                    Material mat = new Material();
+                    mat.Diffuse = teamColor;
+                    mat.Ambient = teamColor;
+                    mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+
+                    Matrix rotation = Matrix.RotationX((float)(Math.PI / 2));
+                    render.device.Transform.World = rotation * Matrix.Translation(player.X, player.Y, player.Z + 0.35f);
+                    render.device.Material = mat;
+                    render.device.SetTexture(0, null);
+                    render.device.RenderState.FillMode = FillMode.Solid;
+                    playerMarkerMesh.DrawSubset(0);
+                }
+
+                // Draw player name label
+                // (Text rendering would require additional setup, skipping for now)
+            }
+        }
+
+        /// <summary>
+        /// Event handler for Listen button click.
+        /// </summary>
+        private void btnListen_Click(object sender, EventArgs e)
+        {
+            if (telemetryListenerRunning)
+            {
+                StopTelemetryListener();
+                if (sender is ToolStripButton btn)
+                    btn.Text = "Listen";
+            }
+            else
+            {
+                StartTelemetryListener();
+                if (sender is ToolStripButton btn)
+                    btn.Text = "Stop";
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Event handler for Load Path button click.
