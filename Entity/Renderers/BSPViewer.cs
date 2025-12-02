@@ -279,6 +279,74 @@ namespace entity.Renderers
         /// </summary>
         private bool updateXYZYPR = true;
 
+        #region Player Path Animation Fields
+
+        /// <summary>
+        /// List of player path coordinates with timestamps.
+        /// </summary>
+        private List<PlayerPathPoint> playerPath = new List<PlayerPathPoint>();
+
+        /// <summary>
+        /// Current index in the player path animation.
+        /// </summary>
+        private int pathCurrentIndex = 0;
+
+        /// <summary>
+        /// Whether path animation is playing.
+        /// </summary>
+        private bool pathIsPlaying = false;
+
+        /// <summary>
+        /// Playback speed multiplier.
+        /// </summary>
+        private float pathPlaybackSpeed = 1.0f;
+
+        /// <summary>
+        /// Time accumulator for animation.
+        /// </summary>
+        private float pathTimeAccumulator = 0;
+
+        /// <summary>
+        /// Last frame time for delta calculation.
+        /// </summary>
+        private DateTime pathLastFrameTime = DateTime.Now;
+
+        /// <summary>
+        /// Mesh for rendering the player marker.
+        /// </summary>
+        private Mesh playerMarkerMesh;
+
+        /// <summary>
+        /// Material for the player marker.
+        /// </summary>
+        private Material PlayerMarkerMaterial;
+
+        /// <summary>
+        /// Whether to show the path trail.
+        /// </summary>
+        private bool showPathTrail = true;
+
+        /// <summary>
+        /// Player path point structure.
+        /// </summary>
+        public struct PlayerPathPoint
+        {
+            public float X;
+            public float Y;
+            public float Z;
+            public float Timestamp; // In seconds from start
+
+            public PlayerPathPoint(float x, float y, float z, float timestamp)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+                Timestamp = timestamp;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructors and Destructors
@@ -567,7 +635,81 @@ namespace entity.Renderers
                 this.NoCulling.Checked = true;
             }
 
+            // Initialize path playback controls
+            InitializePathControls();
+
             Main();
+        }
+
+        /// <summary>
+        /// Initializes the player path playback UI controls.
+        /// </summary>
+        private void InitializePathControls()
+        {
+            // Add separator
+            ToolStripSeparator separator = new ToolStripSeparator();
+            toolStrip.Items.Add(separator);
+
+            // Load Path button
+            ToolStripButton btnLoadPath = new ToolStripButton();
+            btnLoadPath.Text = "Load Path";
+            btnLoadPath.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnLoadPath.Click += btnLoadPath_Click;
+            toolStrip.Items.Add(btnLoadPath);
+
+            // Play/Pause button
+            ToolStripButton btnPlayPause = new ToolStripButton();
+            btnPlayPause.Text = "▶ Play";
+            btnPlayPause.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnPlayPause.Click += (s, e) => {
+                TogglePathPlayback();
+                btnPlayPause.Text = pathIsPlaying ? "⏸ Pause" : "▶ Play";
+            };
+            toolStrip.Items.Add(btnPlayPause);
+
+            // Reset button
+            ToolStripButton btnReset = new ToolStripButton();
+            btnReset.Text = "⏹ Reset";
+            btnReset.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnReset.Click += (s, e) => {
+                ResetPathAnimation();
+                btnPlayPause.Text = "▶ Play";
+            };
+            toolStrip.Items.Add(btnReset);
+
+            // Speed label
+            ToolStripLabel lblSpeed = new ToolStripLabel();
+            lblSpeed.Text = "Speed:";
+            toolStrip.Items.Add(lblSpeed);
+
+            // Speed dropdown
+            ToolStripComboBox cboSpeed = new ToolStripComboBox();
+            cboSpeed.Items.AddRange(new object[] { "0.25x", "0.5x", "1x", "2x", "4x", "10x" });
+            cboSpeed.SelectedIndex = 2; // Default 1x
+            cboSpeed.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSpeed.Width = 60;
+            cboSpeed.SelectedIndexChanged += (s, e) => {
+                switch (cboSpeed.SelectedIndex)
+                {
+                    case 0: pathPlaybackSpeed = 0.25f; break;
+                    case 1: pathPlaybackSpeed = 0.5f; break;
+                    case 2: pathPlaybackSpeed = 1.0f; break;
+                    case 3: pathPlaybackSpeed = 2.0f; break;
+                    case 4: pathPlaybackSpeed = 4.0f; break;
+                    case 5: pathPlaybackSpeed = 10.0f; break;
+                }
+            };
+            toolStrip.Items.Add(cboSpeed);
+
+            // Show Trail checkbox
+            ToolStripButton btnTrail = new ToolStripButton();
+            btnTrail.Text = "Trail: ON";
+            btnTrail.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnTrail.Click += (s, e) => {
+                showPathTrail = !showPathTrail;
+                btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
+            };
+            toolStrip.Items.Add(btnTrail);
         }
 
         #endregion
@@ -3260,6 +3402,14 @@ namespace entity.Renderers
             {
                 this.BackColor = Color.FromArgb(235, 233, 237);
             }
+
+            #region RenderPlayerPath
+
+            // Update and render player path animation
+            UpdatePathAnimation();
+            RenderPlayerPath();
+
+            #endregion
 
             render.EndScene();
         }
@@ -6531,6 +6681,252 @@ namespace entity.Renderers
 
             // Allow quick update of statusBar, then disable again
             statusStrip.SuspendLayout();
+        }
+
+        #endregion
+
+        #region Player Path Animation Methods
+
+        /// <summary>
+        /// Loads player path data from a CSV file.
+        /// Format: x,y,z[,timestamp] - one point per line.
+        /// If timestamp is omitted, points are evenly spaced at 0.1 second intervals.
+        /// </summary>
+        /// <param name="filePath">Path to the CSV file.</param>
+        public void LoadPlayerPath(string filePath)
+        {
+            playerPath.Clear();
+            pathCurrentIndex = 0;
+            pathTimeAccumulator = 0;
+
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                float autoTimestamp = 0;
+
+                foreach (string line in lines)
+                {
+                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#") || line.StartsWith("//"))
+                        continue;
+
+                    string[] parts = line.Split(',');
+                    if (parts.Length >= 3)
+                    {
+                        float x = float.Parse(parts[0].Trim());
+                        float y = float.Parse(parts[1].Trim());
+                        float z = float.Parse(parts[2].Trim());
+                        float timestamp = parts.Length >= 4 ? float.Parse(parts[3].Trim()) : autoTimestamp;
+
+                        playerPath.Add(new PlayerPathPoint(x, y, z, timestamp));
+                        autoTimestamp += 0.1f; // Default 100ms between points if no timestamp
+                    }
+                }
+
+                if (playerPath.Count > 0)
+                {
+                    MessageBox.Show($"Loaded {playerPath.Count} path points.", "Path Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading path file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Opens a file dialog to load player path data.
+        /// </summary>
+        private void LoadPlayerPathDialog()
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Load Player Path Data";
+                ofd.Filter = "CSV Files (*.csv)|*.csv|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                ofd.FilterIndex = 1;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    LoadPlayerPath(ofd.FileName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Toggles path animation playback.
+        /// </summary>
+        private void TogglePathPlayback()
+        {
+            if (playerPath.Count == 0)
+            {
+                MessageBox.Show("No path data loaded. Please load a path file first.", "No Path Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            pathIsPlaying = !pathIsPlaying;
+            pathLastFrameTime = DateTime.Now;
+
+            if (pathIsPlaying && pathCurrentIndex >= playerPath.Count - 1)
+            {
+                // Restart from beginning if at end
+                pathCurrentIndex = 0;
+                pathTimeAccumulator = 0;
+            }
+        }
+
+        /// <summary>
+        /// Resets path animation to beginning.
+        /// </summary>
+        private void ResetPathAnimation()
+        {
+            pathCurrentIndex = 0;
+            pathTimeAccumulator = 0;
+            pathIsPlaying = false;
+        }
+
+        /// <summary>
+        /// Updates path animation state.
+        /// </summary>
+        private void UpdatePathAnimation()
+        {
+            if (!pathIsPlaying || playerPath.Count < 2)
+                return;
+
+            DateTime now = DateTime.Now;
+            float deltaTime = (float)(now - pathLastFrameTime).TotalSeconds;
+            pathLastFrameTime = now;
+
+            pathTimeAccumulator += deltaTime * pathPlaybackSpeed;
+
+            // Find current position based on time
+            while (pathCurrentIndex < playerPath.Count - 1 &&
+                   pathTimeAccumulator >= playerPath[pathCurrentIndex + 1].Timestamp)
+            {
+                pathCurrentIndex++;
+            }
+
+            // Stop at end
+            if (pathCurrentIndex >= playerPath.Count - 1)
+            {
+                pathIsPlaying = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the interpolated current position along the path.
+        /// </summary>
+        private Vector3 GetCurrentPathPosition()
+        {
+            if (playerPath.Count == 0)
+                return new Vector3(0, 0, 0);
+
+            if (pathCurrentIndex >= playerPath.Count - 1)
+            {
+                var last = playerPath[playerPath.Count - 1];
+                return new Vector3(last.X, last.Y, last.Z);
+            }
+
+            var p1 = playerPath[pathCurrentIndex];
+            var p2 = playerPath[pathCurrentIndex + 1];
+
+            // Interpolate between current and next point
+            float t = 0;
+            float duration = p2.Timestamp - p1.Timestamp;
+            if (duration > 0)
+            {
+                t = (pathTimeAccumulator - p1.Timestamp) / duration;
+                t = Math.Max(0, Math.Min(1, t));
+            }
+
+            return new Vector3(
+                p1.X + (p2.X - p1.X) * t,
+                p1.Y + (p2.Y - p1.Y) * t,
+                p1.Z + (p2.Z - p1.Z) * t
+            );
+        }
+
+        /// <summary>
+        /// Renders the player path and current position marker.
+        /// </summary>
+        private void RenderPlayerPath()
+        {
+            if (playerPath.Count == 0)
+                return;
+
+            // Initialize player marker mesh if needed
+            if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+            {
+                playerMarkerMesh = Mesh.Sphere(render.device, 0.15f, 12, 12);
+                PlayerMarkerMaterial = new Material();
+                PlayerMarkerMaterial.Diffuse = Color.Yellow;
+                PlayerMarkerMaterial.Ambient = Color.Yellow;
+                PlayerMarkerMaterial.Emissive = Color.Orange;
+            }
+
+            // Draw path trail as lines
+            if (showPathTrail && playerPath.Count >= 2)
+            {
+                render.device.SetTexture(0, null);
+                render.device.RenderState.Lighting = false;
+                render.device.VertexFormat = CustomVertex.PositionColored.Format;
+                render.device.Transform.World = Matrix.Identity;
+
+                // Create line vertices
+                CustomVertex.PositionColored[] lineVerts = new CustomVertex.PositionColored[playerPath.Count];
+                for (int i = 0; i < playerPath.Count; i++)
+                {
+                    int colorValue = (i <= pathCurrentIndex) ? Color.Lime.ToArgb() : Color.Gray.ToArgb();
+                    lineVerts[i] = new CustomVertex.PositionColored(
+                        playerPath[i].X, playerPath[i].Y, playerPath[i].Z,
+                        colorValue
+                    );
+                }
+
+                render.device.DrawUserPrimitives(PrimitiveType.LineStrip, lineVerts.Length - 1, lineVerts);
+                render.device.RenderState.Lighting = true;
+            }
+
+            // Draw current position marker
+            Vector3 currentPos = GetCurrentPathPosition();
+            render.device.Transform.World = Matrix.Translation(currentPos);
+            render.device.Material = PlayerMarkerMaterial;
+            render.device.SetTexture(0, null);
+            render.device.RenderState.FillMode = FillMode.Solid;
+            playerMarkerMesh.DrawSubset(0);
+        }
+
+        /// <summary>
+        /// Event handler for Load Path button click.
+        /// </summary>
+        private void btnLoadPath_Click(object sender, EventArgs e)
+        {
+            LoadPlayerPathDialog();
+        }
+
+        /// <summary>
+        /// Event handler for Play/Pause button click.
+        /// </summary>
+        private void btnPlayPausePath_Click(object sender, EventArgs e)
+        {
+            TogglePathPlayback();
+        }
+
+        /// <summary>
+        /// Event handler for Reset button click.
+        /// </summary>
+        private void btnResetPath_Click(object sender, EventArgs e)
+        {
+            ResetPathAnimation();
+        }
+
+        /// <summary>
+        /// Event handler for path speed trackbar change.
+        /// </summary>
+        private void trackBarPathSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            if (sender is TrackBar tb)
+            {
+                pathPlaybackSpeed = tb.Value / 10.0f; // 0.1x to 5.0x speed
+            }
         }
 
         #endregion
