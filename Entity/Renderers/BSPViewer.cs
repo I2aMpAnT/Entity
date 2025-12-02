@@ -3461,6 +3461,13 @@ namespace entity.Renderers
                 {
                     if (SelectedSpawn[i] == x)
                     {
+                        // Skip wireframe boxes for obstacles and scenery - just show solid models
+                        if (bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn ||
+                            bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn)
+                        {
+                            break;
+                        }
+
                         render.device.SetTexture(0, null);
                         render.device.RenderState.AlphaBlendEnable = false;
                         render.device.RenderState.AlphaTestEnable = false;
@@ -3469,10 +3476,10 @@ namespace entity.Renderers
                         // Adjust center position of Bounding Boxes to proper offset
                         Matrix mat = Matrix.Identity;
                         mat = Matrix.Add(
-                            mat, 
+                            mat,
                             Matrix.Translation(
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff, 
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff, 
+                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff,
+                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff,
                                 bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff));
                         render.device.Transform.World = mat * TranslationMatrix[x];
                         BoundingBoxModel[x].DrawSubset(0);
