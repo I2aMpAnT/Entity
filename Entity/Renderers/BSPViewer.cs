@@ -7682,7 +7682,15 @@ namespace entity.Renderers
                 t.FragGrenades = getInt("fraggrenades");
                 t.PlasmaGrenades = getInt("plasmagrenades");
 
-                // K/D Stats
+                // K/D Stats - with debug
+                int killsIdx = cols.ContainsKey("kills") ? cols["kills"] : -1;
+                int deathsIdx = cols.ContainsKey("deaths") ? cols["deaths"] : -1;
+                int isdeadIdx = cols.ContainsKey("isdead") ? cols["isdead"] : -1;
+                string killsRaw = (killsIdx >= 0 && parts.Length > killsIdx) ? parts[killsIdx] : "N/A";
+                string deathsRaw = (deathsIdx >= 0 && parts.Length > deathsIdx) ? parts[deathsIdx] : "N/A";
+                string isdeadRaw = (isdeadIdx >= 0 && parts.Length > isdeadIdx) ? parts[isdeadIdx] : "N/A";
+                AddTelemetryDebugLog($"K/D DEBUG: kills[{killsIdx}]='{killsRaw}' deaths[{deathsIdx}]='{deathsRaw}' isdead[{isdeadIdx}]='{isdeadRaw}'");
+
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
                 t.IsDead = getBool("isdead");
