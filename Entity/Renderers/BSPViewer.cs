@@ -7664,9 +7664,9 @@ namespace entity.Renderers
             {
                 Color teamColor = GetTeamColor(player.Team);
 
-                // Adjust Z position for crouching, and lower model to ground level
+                // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
-                float modelZOffset = zOffset - 0.5f; // Lower model to not float
+                float modelZOffset = zOffset; // No additional lowering
 
                 // Draw team color circle at player's feet
                 DrawTeamCircle(player.PosX, player.PosY, player.PosZ, teamColor);
@@ -7866,15 +7866,14 @@ namespace entity.Renderers
                         line.End();
                     }
 
-                    // Draw emblem texture if available
+                    // Draw emblem texture if available (scale to fit emblemSize)
                     if (emblemTexture != null && !emblemTexture.Disposed)
                     {
+                        float emblemScale = emblemSize / 64.0f; // Assuming 64px source
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Draw2D(emblemTexture,
-                            new System.Drawing.Point(0, 0),
-                            0f,
-                            new System.Drawing.Point(emblemX, emblemY),
-                            Color.White);
+                        emblemSprite.Transform = Matrix.Scaling(emblemScale, emblemScale, 1f) * Matrix.Translation(emblemX, emblemY, 0);
+                        emblemSprite.Draw(emblemTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
+                        emblemSprite.Transform = Matrix.Identity;
                         emblemSprite.End();
                     }
 
