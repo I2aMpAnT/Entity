@@ -335,13 +335,15 @@ namespace entity.Renderers
             public float Y;
             public float Z;
             public float Timestamp; // In seconds from start
+            public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
 
-            public PlayerPathPoint(float x, float y, float z, float timestamp)
+            public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1)
             {
                 X = x;
                 Y = y;
                 Z = z;
                 Timestamp = timestamp;
+                Team = team;
             }
         }
 
@@ -6673,7 +6675,11 @@ namespace entity.Renderers
             else
             {
                 statusStrip.Items.Clear();
-                toolStrip.Visible = false;
+                // Keep toolbar visible if player path is loaded
+                if (playerPath.Count == 0)
+                {
+                    toolStrip.Visible = false;
+                }
             }
 
             // Add the camera position
@@ -6709,7 +6715,7 @@ namespace entity.Renderers
                 int skippedLines = 0;
 
                 // Column indices (default for simple x,y,z format)
-                int xCol = 0, yCol = 1, zCol = 2, timestampCol = 3;
+                int xCol = 0, yCol = 1, zCol = 2, timestampCol = 3, teamCol = -1;
                 bool hasHeader = false;
                 float timestampDivisor = 1.0f; // For converting ms to seconds
 
@@ -6723,6 +6729,7 @@ namespace entity.Renderers
                         if (col == "x") { xCol = i; hasHeader = true; }
                         else if (col == "y") { yCol = i; hasHeader = true; }
                         else if (col == "z") { zCol = i; hasHeader = true; }
+                        else if (col == "team") { teamCol = i; hasHeader = true; }
                         else if (col == "gametimems" || col == "timestamp")
                         {
                             timestampCol = i;
@@ -6775,7 +6782,18 @@ namespace entity.Renderers
                             timestamp = autoTimestamp;
                         }
 
-                        playerPath.Add(new PlayerPathPoint(x, y, z, timestamp));
+                        // Parse team (0=red, 1=blue, 2=green, 3=orange)
+                        int team = -1;
+                        if (teamCol >= 0 && parts.Length > teamCol)
+                        {
+                            string teamStr = parts[teamCol].Trim().ToLowerInvariant();
+                            if (teamStr.Contains("red")) team = 0;
+                            else if (teamStr.Contains("blue")) team = 1;
+                            else if (teamStr.Contains("green")) team = 2;
+                            else if (teamStr.Contains("orange")) team = 3;
+                        }
+
+                        playerPath.Add(new PlayerPathPoint(x, y, z, timestamp, team));
                         autoTimestamp += 0.1f;
                     }
                 }
@@ -6918,15 +6936,22 @@ namespace entity.Renderers
             if (playerPath.Count == 0)
                 return;
 
-            // Initialize player marker mesh if needed
+            // Get current team for color
+            int currentTeam = (pathCurrentIndex < playerPath.Count) ? playerPath[pathCurrentIndex].Team : -1;
+            Color teamColor = GetTeamColor(currentTeam);
+            Color trailColor = Color.FromArgb(128, teamColor); // Lighter trail
+
+            // Initialize player marker mesh if needed (cylinder shape for visibility)
             if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
             {
-                playerMarkerMesh = Mesh.Sphere(render.device, 0.15f, 12, 12);
-                PlayerMarkerMaterial = new Material();
-                PlayerMarkerMaterial.Diffuse = Color.Yellow;
-                PlayerMarkerMaterial.Ambient = Color.Yellow;
-                PlayerMarkerMaterial.Emissive = Color.Orange;
+                playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
             }
+
+            // Update material with team color
+            PlayerMarkerMaterial = new Material();
+            PlayerMarkerMaterial.Diffuse = teamColor;
+            PlayerMarkerMaterial.Ambient = teamColor;
+            PlayerMarkerMaterial.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
             // Draw path trail as lines
             if (showPathTrail && playerPath.Count >= 2)
@@ -6936,14 +6961,14 @@ namespace entity.Renderers
                 render.device.VertexFormat = CustomVertex.PositionColored.Format;
                 render.device.Transform.World = Matrix.Identity;
 
-                // Create line vertices
+                // Create line vertices with team colors
                 CustomVertex.PositionColored[] lineVerts = new CustomVertex.PositionColored[playerPath.Count];
                 for (int i = 0; i < playerPath.Count; i++)
                 {
-                    int colorValue = (i <= pathCurrentIndex) ? Color.Lime.ToArgb() : Color.Gray.ToArgb();
+                    Color ptColor = (i <= pathCurrentIndex) ? GetTeamColor(playerPath[i].Team) : Color.DarkGray;
                     lineVerts[i] = new CustomVertex.PositionColored(
                         playerPath[i].X, playerPath[i].Y, playerPath[i].Z,
-                        colorValue
+                        ptColor.ToArgb()
                     );
                 }
 
@@ -6951,13 +6976,29 @@ namespace entity.Renderers
                 render.device.RenderState.Lighting = true;
             }
 
-            // Draw current position marker
+            // Draw current position marker (rotated to stand upright)
             Vector3 currentPos = GetCurrentPathPosition();
-            render.device.Transform.World = Matrix.Translation(currentPos);
+            Matrix rotation = Matrix.RotationX((float)(Math.PI / 2)); // Stand cylinder upright
+            render.device.Transform.World = rotation * Matrix.Translation(currentPos.X, currentPos.Y, currentPos.Z + 0.35f);
             render.device.Material = PlayerMarkerMaterial;
             render.device.SetTexture(0, null);
             render.device.RenderState.FillMode = FillMode.Solid;
             playerMarkerMesh.DrawSubset(0);
+        }
+
+        /// <summary>
+        /// Gets the color for a team.
+        /// </summary>
+        private Color GetTeamColor(int team)
+        {
+            switch (team)
+            {
+                case 0: return Color.Red;
+                case 1: return Color.Blue;
+                case 2: return Color.Green;
+                case 3: return Color.Orange;
+                default: return Color.Yellow;
+            }
         }
 
         /// <summary>
