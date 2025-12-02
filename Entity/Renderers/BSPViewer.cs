@@ -7675,8 +7675,9 @@ namespace entity.Renderers
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Convert yaw degrees to radians (no pitch tilt)
-                    float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                    // Convert yaw degrees to radians
+                    // Add 90 degree offset because Halo bipeds face +X by default, but yaw 0 = facing +Y
+                    float yawRadians = (player.YawDeg - 90f) * (float)(Math.PI / 180.0);
                     Matrix rotation = Matrix.RotationZ(yawRadians);
 
                     // Position at player location
@@ -7744,7 +7745,8 @@ namespace entity.Renderers
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
             // Position circle flat at player's feet (no rotation needed - cylinder Z is up)
-            render.device.Transform.World = Matrix.Translation(x, y, z + 0.02f);
+            // Lower it so the disc sits at ground level
+            render.device.Transform.World = Matrix.Translation(x, y, z - 0.03f);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
