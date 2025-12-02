@@ -497,6 +497,16 @@ namespace entity.Renderers
         /// </summary>
         private HashSet<string> emblemLoadingSet = new HashSet<string>();
 
+        /// <summary>
+        /// Cached weapon textures by weapon name.
+        /// </summary>
+        private Dictionary<string, Texture> weaponTextureCache = new Dictionary<string, Texture>();
+
+        /// <summary>
+        /// Set of weapon names currently being loaded.
+        /// </summary>
+        private HashSet<string> weaponLoadingSet = new HashSet<string>();
+
         #endregion
 
         #endregion
@@ -7676,8 +7686,8 @@ namespace entity.Renderers
                 if (playerBipedModel != null)
                 {
                     // Convert yaw degrees to radians
-                    // Add 90 degree offset because Halo bipeds face +X by default, but yaw 0 = facing +Y
-                    float yawRadians = (player.YawDeg - 90f) * (float)(Math.PI / 180.0);
+                    // Add 180 degree offset to face correct direction
+                    float yawRadians = (player.YawDeg + 180f) * (float)(Math.PI / 180.0);
                     Matrix rotation = Matrix.RotationZ(yawRadians);
 
                     // Position at player location
@@ -7716,14 +7726,8 @@ namespace entity.Renderers
                     playerMarkerMesh.DrawSubset(0);
                 }
 
-                // Draw player name above head
+                // Draw player name above head (event colors handled by emblem border)
                 DrawPlayerName(player);
-
-                // Draw event indicator (weapon fire, melee, etc.)
-                if (!string.IsNullOrEmpty(player.Event))
-                {
-                    DrawEventIndicator(player, teamColor);
-                }
             }
         }
 
@@ -7736,7 +7740,8 @@ namespace entity.Renderers
             if (teamCircleMesh == null || teamCircleMesh.Disposed)
             {
                 // Create a flat cylinder (disc) - height is along Z axis by default
-                teamCircleMesh = Mesh.Cylinder(render.device, 0.5f, 0.5f, 0.05f, 24, 1);
+                // Radius 0.125 (4x smaller than original 0.5)
+                teamCircleMesh = Mesh.Cylinder(render.device, 0.125f, 0.125f, 0.02f, 24, 1);
             }
 
             Material circleMat = new Material();
@@ -7797,7 +7802,7 @@ namespace entity.Renderers
                 }
 
                 // Project 3D position to screen coordinates
-                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 1.2f); // Above head
+                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 0.6f); // Above head
                 Vector3 screenPos = Vector3.Project(worldPos,
                     render.device.Viewport,
                     render.device.Transform.Projection,
@@ -7830,7 +7835,7 @@ namespace entity.Renderers
                     string emblemKey = GetEmblemKey(player);
                     Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
 
-                    int emblemSize = 32;
+                    int emblemSize = 48;
                     int emblemX = centerX - emblemSize / 2;
                     int emblemY = topY - emblemSize - 8;
 
@@ -7858,9 +7863,24 @@ namespace entity.Renderers
                             DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
                     }
 
-                    // Draw player name below emblem
+                    // Draw weapon icon below emblem
+                    int weaponIconSize = 24;
+                    int weaponY = topY;
+                    Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
+                    if (weaponTexture != null && !weaponTexture.Disposed)
+                    {
+                        emblemSprite.Begin(SpriteFlags.AlphaBlend);
+                        emblemSprite.Draw2D(weaponTexture,
+                            new System.Drawing.Point(0, 0),
+                            0f,
+                            new System.Drawing.Point(centerX - weaponIconSize / 2, weaponY),
+                            Color.White);
+                        emblemSprite.End();
+                    }
+
+                    // Draw player name below weapon icon
                     playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 60, topY, 120, 20),
+                        new System.Drawing.Rectangle(centerX - 60, weaponY + weaponIconSize + 2, 120, 20),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
                 }
             }
@@ -7939,6 +7959,97 @@ namespace entity.Renderers
             }
 
             return null; // Not loaded yet
+        }
+
+        /// <summary>
+        /// Maps a weapon name from telemetry to a GitHub image filename.
+        /// </summary>
+        private string GetWeaponImageName(string weaponName)
+        {
+            if (string.IsNullOrEmpty(weaponName))
+                return null;
+
+            // Map common weapon names to image filenames
+            string name = weaponName.ToLowerInvariant().Trim();
+
+            if (name.Contains("battle") || name.Contains("br")) return "BattleRifle";
+            if (name.Contains("sniper")) return "SniperRifle";
+            if (name.Contains("rocket")) return "RocketLauncher";
+            if (name.Contains("shotgun")) return "Shotgun";
+            if (name.Contains("smg") || name.Contains("sub")) return "SmG";
+            if (name.Contains("magnum") || name.Contains("pistol") && !name.Contains("plasma")) return "Magnum";
+            if (name.Contains("sword") || name.Contains("energy")) return "EnergySword";
+            if (name.Contains("needler")) return "Needler";
+            if (name.Contains("carbine")) return "Carbine";
+            if (name.Contains("beam") && name.Contains("rifle")) return "BeamRifle";
+            if (name.Contains("brute") && name.Contains("shot")) return "BruteShot";
+            if (name.Contains("brute") && name.Contains("plasma")) return "BrutePlasmaRifle";
+            if (name.Contains("plasma") && name.Contains("pistol")) return "PlasmaPistol";
+            if (name.Contains("plasma") && name.Contains("rifle")) return "PlasmaRifle";
+            if (name.Contains("fuel") || name.Contains("rod")) return "FuelRod";
+            if (name.Contains("sentinel")) return "SentinelBeam";
+            if (name.Contains("flag")) return "Flag";
+            if (name.Contains("ball") || name.Contains("odd")) return "OddBall";
+            if (name.Contains("bomb")) return "AssaultBomb";
+            if (name.Contains("frag") || name.Contains("grenade")) return "H2-M9HEDPFragmentationGrenade";
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets or loads a weapon texture from GitHub.
+        /// </summary>
+        private Texture GetOrLoadWeaponTexture(string weaponName)
+        {
+            string imageName = GetWeaponImageName(weaponName);
+            if (imageName == null)
+                return null;
+
+            // Return cached texture if available
+            if (weaponTextureCache.ContainsKey(imageName))
+            {
+                return weaponTextureCache[imageName];
+            }
+
+            // Start async load if not already loading
+            if (!weaponLoadingSet.Contains(imageName))
+            {
+                weaponLoadingSet.Add(imageName);
+                string url = $"https://raw.githubusercontent.com/i2aMpAnT/CarnageReport.com/main/assets/weapons/{imageName}.png";
+
+                System.Threading.ThreadPool.QueueUserWorkItem(_ =>
+                {
+                    try
+                    {
+                        using (var webClient = new System.Net.WebClient())
+                        {
+                            byte[] imageData = webClient.DownloadData(url);
+                            this.BeginInvoke(new System.Action(() =>
+                            {
+                                try
+                                {
+                                    using (var ms = new System.IO.MemoryStream(imageData))
+                                    {
+                                        Texture tex = TextureLoader.FromStream(render.device, ms);
+                                        weaponTextureCache[imageName] = tex;
+                                    }
+                                }
+                                catch { }
+                                finally
+                                {
+                                    weaponLoadingSet.Remove(imageName);
+                                }
+                            }));
+                        }
+                    }
+                    catch
+                    {
+                        weaponLoadingSet.Remove(imageName);
+                    }
+                });
+            }
+
+            return null;
         }
 
         /// <summary>
