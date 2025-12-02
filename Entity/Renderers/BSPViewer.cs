@@ -7878,23 +7878,22 @@ namespace entity.Renderers
                         emblemSprite.End();
                     }
 
-                    // Draw player name
+                    // Draw player name with yaw angle for debugging rotation
                     int nameY = topY;
-                    playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
+                    string displayName = $"{player.PlayerName} ({player.YawDeg:F0}°)";
+                    playerNameFont.DrawText(null, displayName,
+                        new System.Drawing.Rectangle(centerX - 100, nameY, 200, 24),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
 
-                    // Draw weapon icon after player name (24px)
-                    int weaponIconSize = 24;
+                    // Draw weapon icon after player name (scaled to 16px)
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
+                        float scale = 0.25f; // Scale down weapon icons
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Draw2D(weaponTexture,
-                            new System.Drawing.Point(0, 0),
-                            0f,
-                            new System.Drawing.Point(centerX + 50, nameY - 6),
-                            Color.White);
+                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(centerX + 50, nameY - 4, 0);
+                        emblemSprite.Draw(weaponTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
+                        emblemSprite.Transform = Matrix.Identity; // Reset
                         emblemSprite.End();
                     }
 
