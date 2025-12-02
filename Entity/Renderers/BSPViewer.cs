@@ -6806,8 +6806,8 @@ namespace entity.Renderers
             else
             {
                 statusStrip.Items.Clear();
-                // Keep toolbar visible if player path is loaded
-                if (playerPath.Count == 0)
+                // Keep toolbar visible if player path is loaded or telemetry is active
+                if (playerPath.Count == 0 && !telemetryListenerRunning)
                 {
                     toolStrip.Visible = false;
                 }
