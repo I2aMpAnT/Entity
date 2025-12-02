@@ -7997,7 +7997,7 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
-            return $"https://h2emblem.carnagereport.workers.dev/P{player.ColorSecondary}-S{player.ColorPrimary}-EP0-ES1-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            return $"https://h2emblem.carnagereport.workers.dev/P{player.ColorPrimary}-S{player.ColorSecondary}-EP0-ES1-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
