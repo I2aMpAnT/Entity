@@ -7586,12 +7586,34 @@ namespace entity.Renderers
                 // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
 
+                // Calculate lean based on velocity (tilt in movement direction)
+                float leanX = 0f, leanY = 0f;
+                if (player.Speed > 0.5f)
+                {
+                    float leanAmount = Math.Min(player.Speed / 10f, 0.15f); // Max 0.15 radians lean
+                    leanX = player.VelY * leanAmount / Math.Max(player.Speed, 0.1f);
+                    leanY = -player.VelX * leanAmount / Math.Max(player.Speed, 0.1f);
+                }
+
+                // Draw ground shadow when airborne
+                if (player.IsAirborne && player.AirborneTicks > 5)
+                {
+                    DrawGroundShadow(player.PosX, player.PosY, player.PosZ, teamColor);
+                }
+
+                // Draw velocity trail when moving fast
+                if (player.Speed > 2f)
+                {
+                    DrawVelocityTrail(player, teamColor);
+                }
+
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Apply rotation based on yaw (in radians)
+                    // Apply rotation and lean based on yaw and velocity
                     Matrix rotation = Matrix.RotationZ(player.Yaw);
-                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
+                    Matrix lean = Matrix.RotationX(leanX) * Matrix.RotationY(leanY);
+                    render.device.Transform.World = lean * rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
 
                     Material teamMaterial = new Material();
                     teamMaterial.Diffuse = teamColor;
@@ -7615,19 +7637,144 @@ namespace entity.Renderers
                     mat.Ambient = teamColor;
                     mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-                    // Apply yaw rotation and position
+                    // Apply yaw rotation, lean, and position
                     Matrix yawRotation = Matrix.RotationZ(player.Yaw);
                     Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
-                    render.device.Transform.World = tiltRotation * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
+                    Matrix lean = Matrix.RotationX(leanX) * Matrix.RotationY(leanY);
+                    render.device.Transform.World = tiltRotation * lean * yawRotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + zOffset);
                     render.device.Material = mat;
                     render.device.SetTexture(0, null);
                     render.device.RenderState.FillMode = FillMode.Solid;
                     playerMarkerMesh.DrawSubset(0);
                 }
 
-                // Draw player name label
-                // (Text rendering would require additional setup, skipping for now)
+                // Draw event indicator (weapon fire, melee, etc.)
+                if (!string.IsNullOrEmpty(player.Event))
+                {
+                    DrawEventIndicator(player, teamColor);
+                }
             }
+        }
+
+        /// <summary>
+        /// Draws a ground shadow circle when player is airborne.
+        /// </summary>
+        private void DrawGroundShadow(float x, float y, float z, Color teamColor)
+        {
+            // Create a flat disc for shadow
+            Mesh shadowMesh = Mesh.Cylinder(render.device, 0.3f, 0.3f, 0.01f, 16, 1);
+
+            Material shadowMat = new Material();
+            shadowMat.Diffuse = Color.FromArgb(100, 0, 0, 0); // Semi-transparent black
+            shadowMat.Ambient = Color.FromArgb(100, 0, 0, 0);
+
+            // Position shadow on ground (assume Z=0 or find ground level)
+            render.device.Transform.World = Matrix.RotationX((float)(Math.PI / 2)) * Matrix.Translation(x, y, 0.01f);
+            render.device.Material = shadowMat;
+            render.device.SetTexture(0, null);
+            render.device.RenderState.AlphaBlendEnable = true;
+            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+            shadowMesh.DrawSubset(0);
+            render.device.RenderState.AlphaBlendEnable = false;
+            shadowMesh.Dispose();
+        }
+
+        /// <summary>
+        /// Draws a velocity trail behind moving players.
+        /// </summary>
+        private void DrawVelocityTrail(PlayerTelemetry player, Color teamColor)
+        {
+            // Draw a line from current position backwards along velocity
+            float trailLength = Math.Min(player.Speed * 0.3f, 2f);
+            float vx = player.VelX / Math.Max(player.Speed, 0.1f);
+            float vy = player.VelY / Math.Max(player.Speed, 0.1f);
+
+            // Create trail points
+            CustomVertex.PositionColored[] trailVerts = new CustomVertex.PositionColored[4];
+            Color trailColor = Color.FromArgb(150, teamColor.R, teamColor.G, teamColor.B);
+
+            // Trail start (behind player)
+            float startX = player.PosX - vx * trailLength;
+            float startY = player.PosY - vy * trailLength;
+
+            trailVerts[0] = new CustomVertex.PositionColored(startX - vy * 0.1f, startY + vx * 0.1f, player.PosZ + 0.3f, trailColor.ToArgb());
+            trailVerts[1] = new CustomVertex.PositionColored(startX + vy * 0.1f, startY - vx * 0.1f, player.PosZ + 0.3f, trailColor.ToArgb());
+            trailVerts[2] = new CustomVertex.PositionColored(player.PosX - vy * 0.05f, player.PosY + vx * 0.05f, player.PosZ + 0.3f, teamColor.ToArgb());
+            trailVerts[3] = new CustomVertex.PositionColored(player.PosX + vy * 0.05f, player.PosY - vx * 0.05f, player.PosZ + 0.3f, teamColor.ToArgb());
+
+            render.device.Transform.World = Matrix.Identity;
+            render.device.SetTexture(0, null);
+            render.device.VertexFormat = CustomVertex.PositionColored.Format;
+            render.device.RenderState.Lighting = false;
+            render.device.RenderState.AlphaBlendEnable = true;
+            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+            render.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, trailVerts);
+            render.device.RenderState.AlphaBlendEnable = false;
+            render.device.RenderState.Lighting = true;
+        }
+
+        /// <summary>
+        /// Draws an event indicator (weapon fire, melee, grenade, etc.)
+        /// </summary>
+        private void DrawEventIndicator(PlayerTelemetry player, Color teamColor)
+        {
+            string evt = player.Event.ToLowerInvariant();
+            Color eventColor = Color.White;
+            float size = 0.2f;
+
+            // Determine event type and color
+            if (evt.Contains("fire") || evt.Contains("shot"))
+            {
+                eventColor = Color.Yellow; // Muzzle flash
+                size = 0.3f;
+            }
+            else if (evt.Contains("melee"))
+            {
+                eventColor = Color.Orange;
+                size = 0.25f;
+            }
+            else if (evt.Contains("grenade") || evt.Contains("frag") || evt.Contains("plasma"))
+            {
+                eventColor = Color.Lime;
+                size = 0.35f;
+            }
+            else if (evt.Contains("damage") || evt.Contains("hit"))
+            {
+                eventColor = Color.Red;
+                size = 0.2f;
+            }
+            else if (evt.Contains("death") || evt.Contains("kill"))
+            {
+                eventColor = Color.DarkRed;
+                size = 0.5f;
+            }
+            else if (evt.Contains("reload"))
+            {
+                eventColor = Color.Cyan;
+                size = 0.15f;
+            }
+
+            // Draw a sphere at player position + offset in facing direction
+            Mesh eventMesh = Mesh.Sphere(render.device, size, 8, 8);
+
+            Material eventMat = new Material();
+            eventMat.Diffuse = eventColor;
+            eventMat.Ambient = eventColor;
+            eventMat.Emissive = eventColor; // Make it glow
+
+            // Position in front of player at weapon height
+            float offsetDist = 0.5f;
+            float fx = player.PosX + (float)Math.Cos(player.Yaw) * offsetDist;
+            float fy = player.PosY + (float)Math.Sin(player.Yaw) * offsetDist;
+
+            render.device.Transform.World = Matrix.Translation(fx, fy, player.PosZ + 0.5f);
+            render.device.Material = eventMat;
+            render.device.SetTexture(0, null);
+            render.device.RenderState.Lighting = true;
+            eventMesh.DrawSubset(0);
+            eventMesh.Dispose();
         }
 
         /// <summary>
