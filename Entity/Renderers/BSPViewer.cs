@@ -7660,11 +7660,17 @@ namespace entity.Renderers
                 // Use biped model if available
                 if (playerBipedModel != null)
                 {
-                    // Convert yaw degrees to radians and rotate
+                    // Convert yaw and pitch degrees to radians
                     float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
-                    Matrix rotation = Matrix.RotationZ(yawRadians);
-                    // Lower the model so feet are on ground (offset down by ~0.7 units)
-                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ - 0.7f + zOffset);
+                    float pitchRadians = player.PitchDeg * (float)(Math.PI / 180.0) * 0.3f; // Reduce pitch effect
+
+                    // Apply yaw (left/right turn) and pitch (looking up/down)
+                    Matrix yawRotation = Matrix.RotationZ(yawRadians);
+                    Matrix pitchRotation = Matrix.RotationY(-pitchRadians); // Tilt forward/back
+                    Matrix rotation = pitchRotation * yawRotation;
+
+                    // Position at player location (no Z offset - use raw position)
+                    render.device.Transform.World = rotation * Matrix.Translation(player.PosX, player.PosY, player.PosZ + zOffset);
 
                     Material teamMaterial = new Material();
                     teamMaterial.Diffuse = teamColor;
