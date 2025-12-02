@@ -7872,7 +7872,7 @@ namespace entity.Renderers
                     // Draw emblem texture if available (scale to fit emblemSize)
                     if (emblemTexture != null && !emblemTexture.Disposed)
                     {
-                        float emblemScale = emblemSize / 64.0f; // Assuming 64px source
+                        float emblemScale = emblemSize / 256.0f; // Scale to 25% of current
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
                         emblemSprite.Transform = Matrix.Scaling(emblemScale, emblemScale, 1f) * Matrix.Translation(emblemX, emblemY, 0);
                         emblemSprite.Draw(emblemTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
