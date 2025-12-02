@@ -6905,11 +6905,7 @@ namespace entity.Renderers
             else
             {
                 statusStrip.Items.Clear();
-                // Keep toolbar visible if player path is loaded or telemetry is active
-                if (playerPath.Count == 0 && !telemetryListenerRunning)
-                {
-                    toolStrip.Visible = false;
-                }
+                // Always keep toolbar visible for path/telemetry controls
             }
 
             // Add the camera position
