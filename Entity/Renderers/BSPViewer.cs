@@ -896,6 +896,9 @@ namespace entity.Renderers
             sb.AppendLine($"Show Live Telemetry: {showLiveTelemetry}");
             sb.AppendLine($"CSV Columns Parsed: {csvColumnIndices.Count}");
 
+            // Show parsed column names
+            sb.AppendLine("Columns: " + string.Join(", ", csvColumnIndices.Keys));
+
             lock (livePlayersLock)
             {
                 sb.AppendLine($"Live Players: {livePlayers.Count}");
@@ -7397,12 +7400,26 @@ namespace entity.Renderers
                     // Parse header row if we haven't yet
                     if (csvColumnIndices.Count == 0)
                     {
-                        for (int i = 0; i < parts.Length; i++)
+                        // Check if this looks like a header (first field should be "Timestamp" not a date)
+                        string firstField = parts[0].Trim().ToLowerInvariant();
+                        bool isHeader = firstField == "timestamp" || firstField == "playername" ||
+                                        !firstField.Contains("-"); // Dates contain dashes
+
+                        if (isHeader)
                         {
-                            csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
+                            for (int i = 0; i < parts.Length; i++)
+                            {
+                                csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
+                            }
+                            AddDebugLog($"[HEADER] Parsed {csvColumnIndices.Count} columns");
+                            continue;
                         }
-                        AddDebugLog($"[HEADER] Parsed {csvColumnIndices.Count} columns");
-                        continue;
+                        else
+                        {
+                            // No header received - use default column order matching user's format
+                            SetDefaultColumnOrder();
+                            AddDebugLog($"[AUTO] Using default column order ({csvColumnIndices.Count} columns)");
+                        }
                     }
 
                     // Parse data row
@@ -7441,6 +7458,32 @@ namespace entity.Renderers
                 {
                     telemetryDebugLog.RemoveAt(0);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sets up default column order matching the expected CSV format.
+        /// </summary>
+        private void SetDefaultColumnOrder()
+        {
+            csvColumnIndices.Clear();
+            // Matches: Timestamp, PlayerName, Team, XboxId, MachineId,
+            //          EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary,
+            //          PosX, PosY, PosZ, VelX, VelY, VelZ, Speed,
+            //          Yaw, Pitch, YawDeg, PitchDeg,
+            //          IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
+            //          WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades, Event
+            string[] columns = {
+                "timestamp", "playername", "team", "xboxid", "machineid",
+                "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
+                "posx", "posy", "posz", "velx", "vely", "velz", "speed",
+                "yaw", "pitch", "yawdeg", "pitchdeg",
+                "iscrouching", "crouchblend", "isairborne", "airborneticks",
+                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades", "event"
+            };
+            for (int i = 0; i < columns.Length; i++)
+            {
+                csvColumnIndices[columns[i]] = i;
             }
         }
 
