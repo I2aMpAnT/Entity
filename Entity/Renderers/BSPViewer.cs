@@ -7586,8 +7586,6 @@ namespace entity.Renderers
             }
         }
 
-        #endregion
-
         /// <summary>
         /// The ts combo box.
         /// </summary>
