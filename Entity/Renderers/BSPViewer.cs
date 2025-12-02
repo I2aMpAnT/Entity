@@ -7248,8 +7248,10 @@ namespace entity.Renderers
 
             try
             {
-                telemetryUdpClient = new UdpClient(2222);
+                // Create UDP client and set ReuseAddress BEFORE binding
+                telemetryUdpClient = new UdpClient();
                 telemetryUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                telemetryUdpClient.Client.Bind(new IPEndPoint(IPAddress.Any, 2222));
                 telemetryListenerRunning = true;
                 showLiveTelemetry = true;
 
