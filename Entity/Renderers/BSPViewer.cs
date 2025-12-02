@@ -7844,9 +7844,9 @@ namespace entity.Renderers
                     {
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
                         emblemSprite.Draw2D(emblemTexture,
-                            new System.Drawing.Rectangle(0, 0, 64, 64),
-                            new System.Drawing.SizeF(emblemSize, emblemSize),
-                            new System.Drawing.PointF(emblemX, emblemY),
+                            System.Drawing.Rectangle.Empty,
+                            emblemSize / 64.0f,
+                            new System.Drawing.Point(emblemX, emblemY),
                             Color.White);
                         emblemSprite.End();
                     }
@@ -7914,7 +7914,7 @@ namespace entity.Renderers
                             using (var ms = new System.IO.MemoryStream(imageData))
                             {
                                 // Must create texture on main thread, so store data for later
-                                this.BeginInvoke(new Action(() =>
+                                this.BeginInvoke(new System.Action(() =>
                                 {
                                     try
                                     {
