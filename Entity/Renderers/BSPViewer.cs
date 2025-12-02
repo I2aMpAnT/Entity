@@ -389,6 +389,11 @@ namespace entity.Renderers
             public int FragGrenades;
             public int PlasmaGrenades;
 
+            // K/D Stats
+            public int Kills;
+            public int Deaths;
+            public bool IsDead;
+
             // Events
             public string Event;
         }
@@ -988,6 +993,7 @@ namespace entity.Renderers
                     sb.AppendLine($"  - {p.PlayerName}: Pos=({p.PosX:F1}, {p.PosY:F1}, {p.PosZ:F1})");
                     sb.AppendLine($"    Team={p.Team} Spd={p.Speed:F1} Yaw={p.YawDeg:F0}° Crouch={p.IsCrouching} Air={p.IsAirborne}");
                     sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades} Event={p.Event ?? "none"}");
+                    sb.AppendLine($"    K/D: {p.Kills}/{p.Deaths} IsDead={p.IsDead}");
                 }
             }
 
@@ -7555,14 +7561,16 @@ namespace entity.Renderers
             //          PosX, PosY, PosZ, VelX, VelY, VelZ, Speed,
             //          Yaw, Pitch, YawDeg, PitchDeg,
             //          IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
-            //          WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades, Event
+            //          WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades,
+            //          Kills, Deaths, IsDead, Event
             string[] columns = {
                 "timestamp", "playername", "team", "xboxid", "machineid",
                 "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
                 "posx", "posy", "posz", "velx", "vely", "velz", "speed",
                 "yaw", "pitch", "yawdeg", "pitchdeg",
                 "iscrouching", "crouchblend", "isairborne", "airborneticks",
-                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades", "event"
+                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
+                "kills", "deaths", "isdead", "event"
             };
             for (int i = 0; i < columns.Length; i++)
             {
@@ -7674,6 +7682,11 @@ namespace entity.Renderers
                 t.FragGrenades = getInt("fraggrenades");
                 t.PlasmaGrenades = getInt("plasmagrenades");
 
+                // K/D Stats
+                t.Kills = getInt("kills");
+                t.Deaths = getInt("deaths");
+                t.IsDead = getBool("isdead");
+
                 // Events
                 t.Event = getStr("event");
 
@@ -7709,13 +7722,11 @@ namespace entity.Renderers
             {
                 Color teamColor = GetTeamColor(player.Team);
 
-                // Check if player is dead
-                bool isDead = !string.IsNullOrEmpty(player.Event) &&
-                    (player.Event.ToLowerInvariant().Contains("dead") ||
-                     player.Event.ToLowerInvariant().Contains("death"));
+                // Check if player is dead (using IsDead field from telemetry)
+                bool isDead = player.IsDead;
 
-                // Ground offset to align with floor (adjust as needed)
-                float groundOffset = -0.15f;
+                // Ground offset to align with floor (-0.2 world units)
+                float groundOffset = -0.2f;
 
                 // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
