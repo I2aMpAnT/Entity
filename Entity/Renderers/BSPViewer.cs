@@ -7879,9 +7879,16 @@ namespace entity.Renderers
                     }
 
                     // Draw player name below weapon icon
+                    int nameY = weaponY + weaponIconSize + 2;
                     playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 60, weaponY + weaponIconSize + 2, 120, 20),
+                        new System.Drawing.Rectangle(centerX - 60, nameY, 120, 20),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
+
+                    // Draw blue waypoint arrow below name pointing down at player
+                    int arrowY = nameY + 18;
+                    playerNameFont.DrawText(null, "▼",
+                        new System.Drawing.Rectangle(centerX - 20, arrowY, 40, 20),
+                        DrawTextFormat.Center | DrawTextFormat.NoClip, Color.CornflowerBlue);
                 }
             }
             catch
