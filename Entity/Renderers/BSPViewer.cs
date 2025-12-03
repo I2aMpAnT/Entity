@@ -8713,6 +8713,9 @@ namespace entity.Renderers
             if (multiPlayerPaths.Count == 0 && playerPath.Count == 0)
                 return;
 
+            // Reset transform to identity at start of player path rendering
+            render.device.Transform.World = Matrix.Identity;
+
             // Try to load biped model if not already attempted
             if (!playerBipedModelLoaded)
             {
@@ -8810,6 +8813,7 @@ namespace entity.Renderers
                     render.device.RenderState.Lighting = true;
                     render.device.Material = teamMaterial;
                     ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
+                    render.device.Transform.World = Matrix.Identity; // Reset transform
                 }
                 else
                 {
@@ -8832,6 +8836,7 @@ namespace entity.Renderers
                     render.device.SetTexture(0, null);
                     render.device.RenderState.FillMode = FillMode.Solid;
                     playerMarkerMesh.DrawSubset(0);
+                    render.device.Transform.World = Matrix.Identity; // Reset transform
                 }
 
                 // Draw player name above head (skip for POV player)
@@ -9689,6 +9694,9 @@ namespace entity.Renderers
             if (!showLiveTelemetry)
                 return;
 
+            // Reset transform to identity at start of player rendering
+            render.device.Transform.World = Matrix.Identity;
+
             // Try to load biped model if not already attempted
             if (!playerBipedModelLoaded)
             {
@@ -9770,6 +9778,7 @@ namespace entity.Renderers
                         render.device.RenderState.Lighting = true;
                         render.device.Material = teamMaterial;
                         ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
+                        render.device.Transform.World = Matrix.Identity; // Reset transform
                     }
                     else
                     {
@@ -9797,6 +9806,7 @@ namespace entity.Renderers
                         render.device.SetTexture(0, null);
                         render.device.RenderState.FillMode = FillMode.Solid;
                         playerMarkerMesh.DrawSubset(0);
+                        render.device.Transform.World = Matrix.Identity; // Reset transform
                     }
                 }
 
@@ -9873,6 +9883,7 @@ namespace entity.Renderers
             render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
             teamCircleMesh.DrawSubset(0);
             render.device.RenderState.AlphaBlendEnable = false;
+            render.device.Transform.World = Matrix.Identity; // Reset transform
         }
 
         /// <summary>
@@ -10776,6 +10787,7 @@ namespace entity.Renderers
             render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
             shadowMesh.DrawSubset(0);
             render.device.RenderState.AlphaBlendEnable = false;
+            render.device.Transform.World = Matrix.Identity; // Reset transform
             shadowMesh.Dispose();
         }
 
