@@ -1494,37 +1494,27 @@ namespace entity.Renderers
         /// </summary>
         private void EnableTelemetryViewOptions()
         {
-            // Enable RenderSky
-            if (RenderSky != null)
-                RenderSky.Checked = true;
-
-            // Enable spawn types that are useful for viewing: Scenery, Collection, Obstacle
-            string[] spawnTypesToEnable = { "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
-
-            if (checkedListBox1 != null)
+            try
             {
-                for (int i = 0; i < checkedListBox1.Items.Count; i++)
-                {
-                    string itemName = checkedListBox1.Items[i].ToString();
-                    foreach (string spawnType in spawnTypesToEnable)
-                    {
-                        if (itemName == spawnType)
-                        {
-                            checkedListBox1.SetItemChecked(i, true);
-                            setSpawnBox(itemName, CheckState.Checked);
-                            break;
-                        }
-                    }
-                }
+                // Enable RenderSky
+                if (RenderSky != null)
+                    RenderSky.Checked = true;
+
+                // Enable BSP textures if available
+                if (cbBSPTextures != null)
+                    cbBSPTextures.Checked = true;
+
+                // Enable BSP lighting if available
+                if (BSPLighting != null)
+                    BSPLighting.Checked = true;
+
+                // Skip spawn loading in theater mode - it can cause crashes
+                // and isn't needed for player visualization
             }
-
-            // Enable BSP textures if available
-            if (cbBSPTextures != null)
-                cbBSPTextures.Checked = true;
-
-            // Enable BSP lighting if available
-            if (BSPLighting != null)
-                BSPLighting.Checked = true;
+            catch (Exception ex)
+            {
+                AddDebugLog($"[WARN] EnableTelemetryViewOptions error: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -8128,6 +8118,23 @@ namespace entity.Renderers
                         }
                         if (cols.ContainsKey("gametimems"))
                             timestampDivisor = 1000.0f;
+
+                        // Add aliases for common column name variations
+                        Action<string, string> addAlias = (alias, canonical) => {
+                            if (!cols.ContainsKey(canonical) && cols.ContainsKey(alias))
+                                cols[canonical] = cols[alias];
+                        };
+                        addAlias("emblemforeground", "emblemfg");
+                        addAlias("emblembackground", "emblembg");
+                        addAlias("primarycolor", "colorprimary");
+                        addAlias("secondarycolor", "colorsecondary");
+                        addAlias("tertiarycolor", "colortertiary");
+                        addAlias("quaternarycolor", "colorquaternary");
+                        addAlias("facingdegrees", "yawdeg");
+                        addAlias("facingyaw", "yaw");
+                        addAlias("facingpitch", "pitch");
+                        addAlias("name", "playername");
+                        addAlias("player", "playername");
                     }
                     else
                     {
@@ -8992,6 +8999,24 @@ namespace entity.Renderers
                     {
                         csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
                     }
+
+                    // Add aliases for common column name variations
+                    Action<string, string> addAlias = (alias, canonical) => {
+                        if (!csvColumnIndices.ContainsKey(canonical) && csvColumnIndices.ContainsKey(alias))
+                            csvColumnIndices[canonical] = csvColumnIndices[alias];
+                    };
+                    addAlias("emblemforeground", "emblemfg");
+                    addAlias("emblembackground", "emblembg");
+                    addAlias("primarycolor", "colorprimary");
+                    addAlias("secondarycolor", "colorsecondary");
+                    addAlias("tertiarycolor", "colortertiary");
+                    addAlias("quaternarycolor", "colorquaternary");
+                    addAlias("facingdegrees", "yawdeg");
+                    addAlias("facingyaw", "yaw");
+                    addAlias("facingpitch", "pitch");
+                    addAlias("name", "playername");
+                    addAlias("player", "playername");
+
                     int posxIdx = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
                     int posyIdx = csvColumnIndices.ContainsKey("posy") ? csvColumnIndices["posy"] : -1;
                     int poszIdx = csvColumnIndices.ContainsKey("posz") ? csvColumnIndices["posz"] : -1;
@@ -9050,8 +9075,17 @@ namespace entity.Renderers
                     // This was already parsed in ParseTelemetryLine
                     bool telemetryIsDead = telemetry.IsDead;
 
-                    // Detect death transition: was alive, now dead
-                    if (!wasDeadBefore && telemetryIsDead)
+                    // PRIMARY: Detect death by death count increase (most reliable)
+                    if (telemetry.Deaths > prevDeaths && !wasDeadBefore)
+                    {
+                        // Death count increased - player just died
+                        playerDeadState[playerName] = true;
+                        playerDeathPosition[playerName] = currentPos;
+                        telemetry.IsDead = true;
+                        AddDebugLog($"[DEATH-COUNT] {playerName} DIED (deaths: {prevDeaths} -> {telemetry.Deaths}) at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
+                    }
+                    // FALLBACK: Detect death transition via isdead flag
+                    else if (!wasDeadBefore && telemetryIsDead)
                     {
                         // Player just died - store death position
                         playerDeadState[playerName] = true;
@@ -10105,7 +10139,13 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemKey(PlayerTelemetry player)
         {
-            return $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}_{player.ColorTertiary}_{player.ColorQuaternary}";
+            string key = $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}_{player.ColorTertiary}_{player.ColorQuaternary}";
+            // Log first time we generate a key for a player
+            if (!emblemTextureCache.ContainsKey(key) && !emblemLoadingSet.Contains(key))
+            {
+                AddDebugLog($"[EMBLEM-KEY] {player.PlayerName}: FG={player.EmblemFg} BG={player.EmblemBg} P={player.ColorPrimary} S={player.ColorSecondary} T={player.ColorTertiary} Q={player.ColorQuaternary}");
+            }
+            return key;
         }
 
         /// <summary>
