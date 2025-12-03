@@ -362,7 +362,7 @@ namespace entity.Renderers
         /// <summary>
         /// Playback speed multiplier.
         /// </summary>
-        private float pathPlaybackSpeed = 1.0f;
+        private float pathPlaybackSpeed = 0.25f;
 
         /// <summary>
         /// Time accumulator for animation.
@@ -989,7 +989,7 @@ namespace entity.Renderers
             // Speed dropdown
             ToolStripComboBox cboSpeed = new ToolStripComboBox();
             cboSpeed.Items.AddRange(new object[] { "0.25x", "0.5x", "1x", "2x", "4x", "10x" });
-            cboSpeed.SelectedIndex = 2; // Default 1x
+            cboSpeed.SelectedIndex = 0; // Default 0.25x
             cboSpeed.DropDownStyle = ComboBoxStyle.DropDownList;
             cboSpeed.Width = 60;
             cboSpeed.SelectedIndexChanged += (s, e) => {
