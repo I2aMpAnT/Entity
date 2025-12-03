@@ -1035,7 +1035,6 @@ namespace entity.Renderers
             pathPlayerDropdown = new ToolStripDropDownButton();
             pathPlayerDropdown.Text = "All Visible";
             pathPlayerDropdown.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            pathPlayerDropdown.AutoClose = false; // Keep open for multi-select
             toolStrip.Items.Add(pathPlayerDropdown);
 
             // POV mode dropdown - placed right next to Players
@@ -2943,7 +2942,7 @@ namespace entity.Renderers
                         SkipSeconds(5);
                         return true;
 
-                    case Keys.OemComma: // < key
+                    case Keys.Oemcomma: // < key
                         SkipTicks(-1);
                         return true;
 
