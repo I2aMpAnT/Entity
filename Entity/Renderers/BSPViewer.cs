@@ -334,6 +334,21 @@ namespace entity.Renderers
         private string povFollowPlayer = null;
 
         /// <summary>
+        /// Smoothed camera yaw for POV mode (radians).
+        /// </summary>
+        private float povSmoothedYaw = 0f;
+
+        /// <summary>
+        /// Smoothed camera pitch for POV mode (radians).
+        /// </summary>
+        private float povSmoothedPitch = 0f;
+
+        /// <summary>
+        /// POV camera smoothing factor (0 = instant, 1 = no movement). Lower = smoother.
+        /// </summary>
+        private const float POV_SMOOTH_FACTOR = 0.15f;
+
+        /// <summary>
         /// Minimum timestamp in path data (for timeline).
         /// </summary>
         private float pathMinTimestamp = 0;
@@ -8487,14 +8502,23 @@ namespace entity.Renderers
                     cam.Position.X = cam.x;
                     cam.Position.Y = cam.y;
                     cam.Position.Z = cam.z;
-                    // Use Yaw (radians) directly if available, otherwise convert YawDeg
-                    // Use IsNaN check instead of != 0 so yaw=0 (facing east) is handled correctly
-                    cam.radianh = !float.IsNaN(livePlayer.Yaw) ? livePlayer.Yaw : livePlayer.YawDeg * (float)(Math.PI / 180.0);
-                    // Use Pitch (radians) directly if available, otherwise convert PitchDeg
-                    // Handle NaN pitch gracefully by defaulting to 0 (level view)
-                    float pitchRad = !float.IsNaN(livePlayer.Pitch) ? livePlayer.Pitch :
-                                     (!float.IsNaN(livePlayer.PitchDeg) ? livePlayer.PitchDeg * (float)(Math.PI / 180.0) : 0f);
-                    cam.radianv = pitchRad;
+
+                    // Get target yaw and pitch
+                    float targetYaw = !float.IsNaN(livePlayer.Yaw) ? livePlayer.Yaw : livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    float targetPitch = !float.IsNaN(livePlayer.Pitch) ? livePlayer.Pitch :
+                                        (!float.IsNaN(livePlayer.PitchDeg) ? livePlayer.PitchDeg * (float)(Math.PI / 180.0) : 0f);
+
+                    // Smooth yaw (handle wraparound at -PI/PI)
+                    float yawDiff = targetYaw - povSmoothedYaw;
+                    if (yawDiff > Math.PI) yawDiff -= (float)(2 * Math.PI);
+                    if (yawDiff < -Math.PI) yawDiff += (float)(2 * Math.PI);
+                    povSmoothedYaw += yawDiff * POV_SMOOTH_FACTOR;
+
+                    // Smooth pitch (no wraparound needed)
+                    povSmoothedPitch += (targetPitch - povSmoothedPitch) * POV_SMOOTH_FACTOR;
+
+                    cam.radianh = povSmoothedYaw;
+                    cam.radianv = povSmoothedPitch;
                     cam.ComputePosition();
                     return;
                 }
@@ -8541,11 +8565,22 @@ namespace entity.Renderers
             cam.Position.Y = cam.y;
             cam.Position.Z = cam.z;
 
-            // Set camera yaw and pitch to player's facing direction
-            cam.radianh = point.FacingYaw * (float)(Math.PI / 180.0);
-            // Set pitch (handle NaN by defaulting to 0 for level view)
-            float playbackPitchRad = point.FacingPitch * (float)(Math.PI / 180.0);
-            cam.radianv = float.IsNaN(playbackPitchRad) ? 0f : playbackPitchRad;
+            // Get target yaw and pitch (convert from degrees to radians)
+            float targetYaw = point.FacingYaw * (float)(Math.PI / 180.0);
+            float targetPitch = point.FacingPitch * (float)(Math.PI / 180.0);
+            if (float.IsNaN(targetPitch)) targetPitch = 0f;
+
+            // Smooth yaw (handle wraparound at -PI/PI)
+            float yawDiff = targetYaw - povSmoothedYaw;
+            if (yawDiff > Math.PI) yawDiff -= (float)(2 * Math.PI);
+            if (yawDiff < -Math.PI) yawDiff += (float)(2 * Math.PI);
+            povSmoothedYaw += yawDiff * POV_SMOOTH_FACTOR;
+
+            // Smooth pitch (no wraparound needed)
+            povSmoothedPitch += (targetPitch - povSmoothedPitch) * POV_SMOOTH_FACTOR;
+
+            cam.radianh = povSmoothedYaw;
+            cam.radianv = povSmoothedPitch;
             cam.ComputePosition();
         }
 
