@@ -4740,7 +4740,11 @@ namespace entity.Renderers
 
             // Update camera for POV mode (live telemetry)
             if (showLiveTelemetry)
+            {
                 UpdatePOVCamera();
+                // Update timeline for live mode (shows cached time)
+                UpdateTimelineLabel();
+            }
 
             // Render live telemetry players
             RenderLivePlayers();
@@ -10468,12 +10472,40 @@ namespace entity.Renderers
         /// </summary>
         private void PathTimelineTrackBar_Scroll(object sender, EventArgs e)
         {
-            if (pathTimelineTrackBar == null || pathMaxTimestamp <= pathMinTimestamp)
+            if (pathTimelineTrackBar == null)
+                return;
+
+            // Handle live mode timeline (rewind through cache)
+            if (showLiveTelemetry)
+            {
+                double minTime, maxTime;
+                GetLiveCacheTimeRange(out minTime, out maxTime);
+                if (maxTime <= minTime) return;
+
+                float t = pathTimelineTrackBar.Value / 1000.0f;
+                double targetTime = minTime + t * (maxTime - minTime);
+
+                // If at the end (100%), return to live mode
+                if (pathTimelineTrackBar.Value >= 999)
+                {
+                    ResetToLiveTelemetry();
+                }
+                else
+                {
+                    EnterLiveReplayMode(targetTime);
+                }
+
+                UpdateTimelineLabel();
+                return;
+            }
+
+            // Standard playback mode
+            if (pathMaxTimestamp <= pathMinTimestamp)
                 return;
 
             // Calculate timestamp from trackbar position
-            float t = pathTimelineTrackBar.Value / 1000.0f;
-            pathCurrentTimestamp = pathMinTimestamp + t * (pathMaxTimestamp - pathMinTimestamp);
+            float pt = pathTimelineTrackBar.Value / 1000.0f;
+            pathCurrentTimestamp = pathMinTimestamp + pt * (pathMaxTimestamp - pathMinTimestamp);
             pathTimeAccumulator = pathCurrentTimestamp;
 
             // Update path index for legacy single-player path
@@ -10698,15 +10730,62 @@ namespace entity.Renderers
         {
             if (pathTimeLabel == null) return;
 
+            // Handle live telemetry mode
+            if (showLiveTelemetry)
+            {
+                double minTime, maxTime;
+                GetLiveCacheTimeRange(out minTime, out maxTime);
+                double totalSecs = maxTime - minTime;
+
+                if (totalSecs <= 0)
+                {
+                    pathTimeLabel.Text = "LIVE - 0:00";
+                    return;
+                }
+
+                if (liveReplayMode)
+                {
+                    // In replay mode - show current position and total
+                    double currentSecs = liveReplayTimestamp - minTime;
+                    int curMins = (int)(currentSecs / 60);
+                    int curSecsVal = (int)(currentSecs % 60);
+                    int totMins = (int)(totalSecs / 60);
+                    int totSecs = (int)(totalSecs % 60);
+                    pathTimeLabel.Text = $"⏪ {curMins}:{curSecsVal:D2} / {totMins}:{totSecs:D2}";
+
+                    // Update trackbar position
+                    if (pathTimelineTrackBar != null && !pathTimelineTrackBar.Focused)
+                    {
+                        float t = (float)((liveReplayTimestamp - minTime) / (maxTime - minTime));
+                        pathTimelineTrackBar.Value = Math.Max(0, Math.Min(1000, (int)(t * 1000)));
+                    }
+                }
+                else
+                {
+                    // Live mode - show total cached time, keep trackbar at end
+                    int totMins = (int)(totalSecs / 60);
+                    int totSecs = (int)(totalSecs % 60);
+                    pathTimeLabel.Text = $"🔴 LIVE - {totMins}:{totSecs:D2} cached";
+
+                    // Keep trackbar at the end in live mode
+                    if (pathTimelineTrackBar != null && !pathTimelineTrackBar.Focused)
+                    {
+                        pathTimelineTrackBar.Value = 1000;
+                    }
+                }
+                return;
+            }
+
+            // Standard playback mode
             float currentSecs = pathCurrentTimestamp - pathMinTimestamp;
-            float totalSecs = pathMaxTimestamp - pathMinTimestamp;
+            float totalSecsPlayback = pathMaxTimestamp - pathMinTimestamp;
 
-            int curMins = (int)(currentSecs / 60);
-            int curSecs = (int)(currentSecs % 60);
-            int totMins = (int)(totalSecs / 60);
-            int totSecs = (int)(totalSecs % 60);
+            int curMinsP = (int)(currentSecs / 60);
+            int curSecsP = (int)(currentSecs % 60);
+            int totMinsP = (int)(totalSecsPlayback / 60);
+            int totSecsP = (int)(totalSecsPlayback % 60);
 
-            pathTimeLabel.Text = $"{curMins}:{curSecs:D2} / {totMins}:{totSecs:D2}";
+            pathTimeLabel.Text = $"{curMinsP}:{curSecsP:D2} / {totMinsP}:{totSecsP:D2}";
 
             // Update trackbar position if not being dragged
             if (pathTimelineTrackBar != null && !pathTimelineTrackBar.Focused && pathMaxTimestamp > pathMinTimestamp)

@@ -1016,7 +1016,7 @@ namespace entity.Main
         }
 
         /// <summary>
-        /// Opens Theater Mode - prompts to load a map if none is open, then opens BSPViewer in theater mode.
+        /// Opens Theater Mode - auto-loads most recent map, or prompts if none available.
         /// </summary>
         private void TheaterModeMenuItem_Click(object sender, EventArgs e)
         {
@@ -1025,10 +1025,18 @@ namespace entity.Main
 
             if (activeMapForm == null)
             {
-                // No map open - try to find one from recent files or prompt user
-                string mapPath = FindMapFromRecentOrPrompt();
+                // No map open - auto-load the most recent valid map (no prompt)
+                string mapPath = FindFirstValidRecentMap();
+
                 if (string.IsNullOrEmpty(mapPath))
-                    return;
+                {
+                    // No recent maps found - prompt user to select one
+                    openmapdialog.InitialDirectory = Prefs.pathMapsFolder;
+                    openmapdialog.Title = "Select Map for Theater Mode";
+                    if (openmapdialog.ShowDialog() != DialogResult.OK)
+                        return;
+                    mapPath = openmapdialog.FileName;
+                }
 
                 // Load the map
                 activeMapForm = TryLoadMapForm(mapPath);
@@ -1041,43 +1049,17 @@ namespace entity.Main
         }
 
         /// <summary>
-        /// Finds a map from recent files or prompts user to select one.
+        /// Finds the first valid (existing) map from recent files.
         /// </summary>
-        private string FindMapFromRecentOrPrompt()
+        private string FindFirstValidRecentMap()
         {
-            // If we have recent maps, show a selection dialog
-            if (Prefs.RecentOpenedMaps.Count > 0)
+            foreach (var recentFile in Prefs.RecentOpenedMaps)
             {
-                // Check if any recent maps exist on disk
-                foreach (var recentFile in Prefs.RecentOpenedMaps)
+                if (System.IO.File.Exists(recentFile.Path))
                 {
-                    if (System.IO.File.Exists(recentFile.Path))
-                    {
-                        // Ask user if they want to use this map or select another
-                        var result = MessageBox.Show(
-                            $"Load recent map for Theater Mode?\n\n{recentFile.Path}\n\nClick Yes to use this map, No to select another.",
-                            "Theater Mode - Select Map",
-                            MessageBoxButtons.YesNoCancel,
-                            MessageBoxIcon.Question);
-
-                        if (result == DialogResult.Yes)
-                            return recentFile.Path;
-                        else if (result == DialogResult.Cancel)
-                            return null;
-                        else
-                            break; // User wants to select another
-                    }
+                    return recentFile.Path;
                 }
             }
-
-            // Prompt user to select a map
-            openmapdialog.InitialDirectory = Prefs.pathMapsFolder;
-            openmapdialog.Title = "Select Map for Theater Mode";
-            if (openmapdialog.ShowDialog() == DialogResult.OK)
-            {
-                return openmapdialog.FileName;
-            }
-
             return null;
         }
 
