@@ -2950,7 +2950,6 @@ namespace entity.Renderers
 
             for (int x = 0; x < pm.Display.Chunk.Count; x++)
             {
-                if (x != 0 && x != 0) continue;
                 int rawindex = pm.Display.Chunk[x];
                 for (int xx = 0; xx < pm.RawDataMetaChunks[rawindex].SubMeshInfo.Length; xx++)
                 {
@@ -7715,7 +7714,8 @@ namespace entity.Renderers
                     cam.Position.X = cam.x;
                     cam.Position.Y = cam.y;
                     cam.Position.Z = cam.z;
-                    cam.radianh = livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    // Use Yaw (radians) directly if available, otherwise convert YawDeg
+                    cam.radianh = livePlayer.Yaw != 0 ? livePlayer.Yaw : livePlayer.YawDeg * (float)(Math.PI / 180.0);
                     cam.ComputePosition();
                     return;
                 }
@@ -8485,8 +8485,8 @@ namespace entity.Renderers
                     // Use biped model if available
                     if (playerBipedModel != null)
                     {
-                        // Convert yaw degrees to radians for rotation
-                        float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                        // Use Yaw (radians) directly if available, otherwise convert YawDeg
+                        float yawRadians = player.Yaw != 0 ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
                         Matrix rotation = Matrix.RotationZ(yawRadians);
                         Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + modelZOffset);
 
@@ -8516,7 +8516,8 @@ namespace entity.Renderers
                         mat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
                         // Apply yaw rotation and position
-                        float yawRadians = player.YawDeg * (float)(Math.PI / 180.0);
+                        // Use Yaw (radians) directly if available, otherwise convert YawDeg
+                        float yawRadians = player.Yaw != 0 ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
                         Matrix yawRotation = Matrix.RotationZ(yawRadians);
                         Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
                         Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + modelZOffset);
