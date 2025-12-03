@@ -706,6 +706,60 @@ namespace entity.Renderers
 
         #endregion
 
+        #region Player Selection Wheel Fields
+
+        /// <summary>
+        /// Panel for player selection wheel (Price is Right style spinner).
+        /// </summary>
+        private Panel playerWheelPanel;
+
+        /// <summary>
+        /// Current spin offset for wheel animation (0-1 range per player slot).
+        /// </summary>
+        private float wheelSpinOffset = 0f;
+
+        /// <summary>
+        /// Target offset for spin animation.
+        /// </summary>
+        private float wheelTargetOffset = 0f;
+
+        /// <summary>
+        /// Whether wheel is currently spinning.
+        /// </summary>
+        private bool wheelIsSpinning = false;
+
+        /// <summary>
+        /// Spin velocity for deceleration animation.
+        /// </summary>
+        private float wheelSpinVelocity = 0f;
+
+        /// <summary>
+        /// Timer for wheel spin animation.
+        /// </summary>
+        private System.Windows.Forms.Timer wheelSpinTimer;
+
+        /// <summary>
+        /// Current selected index in player wheel.
+        /// </summary>
+        private int wheelSelectedIndex = 0;
+
+        /// <summary>
+        /// Cache of loaded emblem images for wheel display (GDI+ Bitmap).
+        /// </summary>
+        private Dictionary<string, System.Drawing.Image> wheelEmblemCache = new Dictionary<string, System.Drawing.Image>();
+
+        /// <summary>
+        /// Set of emblem keys currently being loaded for wheel.
+        /// </summary>
+        private HashSet<string> wheelEmblemLoadingSet = new HashSet<string>();
+
+        /// <summary>
+        /// Whether the game is a team game (affects background colors).
+        /// </summary>
+        private bool isTeamGame = true;
+
+        #endregion
+
         #endregion
 
         #region Constructors and Destructors
@@ -1323,6 +1377,9 @@ namespace entity.Renderers
             bookmarkButton.Location = new Point(this.ClientSize.Width - initialButtonAreaWidth + 5, 10);
             loopButton.Location = new Point(this.ClientSize.Width - initialButtonAreaWidth + 65, 10);
 
+            // Initialize player selection wheel (Price is Right style spinner)
+            InitializePlayerWheel();
+
             // Separator before live telemetry
             ToolStripSeparator separator2 = new ToolStripSeparator();
             toolStrip.Items.Add(separator2);
@@ -1359,6 +1416,485 @@ namespace entity.Renderers
 
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
+        }
+
+        /// <summary>
+        /// Initializes the player selection wheel UI (Price is Right style spinner).
+        /// </summary>
+        private void InitializePlayerWheel()
+        {
+            // Create the wheel panel - positioned on the right side of the form
+            playerWheelPanel = new Panel();
+            playerWheelPanel.Width = 140;
+            playerWheelPanel.Height = 280;
+            playerWheelPanel.BackColor = Color.FromArgb(15, 25, 35); // Dark blue-black matching timeline
+            playerWheelPanel.Anchor = AnchorStyles.Right | AnchorStyles.Bottom;
+
+            // Enable double buffering for smooth animation
+            typeof(Panel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null, playerWheelPanel, new object[] { true });
+
+            // Add subtle border and title
+            playerWheelPanel.Paint += (s, e) => {
+                // Draw Halo blue border
+                using (Pen borderPen = new Pen(Color.FromArgb(0, 120, 180), 2))
+                {
+                    e.Graphics.DrawRectangle(borderPen, 1, 1, playerWheelPanel.Width - 3, playerWheelPanel.Height - 3);
+                }
+
+                // Draw title at top
+                using (System.Drawing.Font titleFont = new System.Drawing.Font("Segoe UI", 9, FontStyle.Bold))
+                using (SolidBrush titleBrush = new SolidBrush(Color.FromArgb(0, 200, 255)))
+                {
+                    string title = "POV SELECT";
+                    SizeF titleSize = e.Graphics.MeasureString(title, titleFont);
+                    e.Graphics.DrawString(title, titleFont, titleBrush,
+                        (playerWheelPanel.Width - titleSize.Width) / 2, 5);
+                }
+            };
+
+            // Custom paint for the wheel
+            playerWheelPanel.Paint += PlayerWheelPanel_Paint;
+
+            // Click to spin
+            playerWheelPanel.MouseClick += PlayerWheelPanel_MouseClick;
+
+            // Mouse wheel to scroll through players
+            playerWheelPanel.MouseWheel += (s, e) => {
+                if (!wheelIsSpinning)
+                {
+                    List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+                    if (playerNames.Count > 0)
+                    {
+                        int delta = e.Delta > 0 ? -1 : 1;
+                        wheelSelectedIndex = (wheelSelectedIndex + delta + playerNames.Count + 1) % (playerNames.Count + 1);
+                        UpdatePOVFromWheel();
+                        playerWheelPanel.Invalidate();
+                    }
+                }
+            };
+
+            // Spin animation timer
+            wheelSpinTimer = new System.Windows.Forms.Timer();
+            wheelSpinTimer.Interval = 16; // ~60 FPS
+            wheelSpinTimer.Tick += WheelSpinTimer_Tick;
+
+            // Position the panel - right side, above timeline
+            this.Controls.Add(playerWheelPanel);
+            playerWheelPanel.BringToFront();
+            UpdatePlayerWheelPosition();
+
+            // Update position when form resizes
+            this.Resize += (s, e) => UpdatePlayerWheelPosition();
+        }
+
+        /// <summary>
+        /// Updates player wheel position based on form size.
+        /// </summary>
+        private void UpdatePlayerWheelPosition()
+        {
+            if (playerWheelPanel != null)
+            {
+                // Position on right side, above the timeline (timeline is 45px)
+                playerWheelPanel.Location = new Point(
+                    this.ClientSize.Width - playerWheelPanel.Width - 10,
+                    this.ClientSize.Height - playerWheelPanel.Height - 55
+                );
+            }
+        }
+
+        /// <summary>
+        /// Paints the player selection wheel with emblems and team colors.
+        /// </summary>
+        private void PlayerWheelPanel_Paint(object sender, PaintEventArgs e)
+        {
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+            if (playerNames.Count == 0)
+            {
+                // Draw "No Players" message
+                using (System.Drawing.Font font = new System.Drawing.Font("Segoe UI", 10, FontStyle.Bold))
+                using (SolidBrush brush = new SolidBrush(Color.FromArgb(0, 200, 255)))
+                {
+                    string msg = "No Players";
+                    SizeF sz = e.Graphics.MeasureString(msg, font);
+                    e.Graphics.DrawString(msg, font, brush,
+                        (playerWheelPanel.Width - sz.Width) / 2,
+                        (playerWheelPanel.Height - sz.Height) / 2);
+                }
+                return;
+            }
+
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+            int slotHeight = 50; // Height of each player slot
+            int emblemSize = 36;
+            int titleHeight = 25; // Space for title at top
+            int hintHeight = 20; // Space for hint at bottom
+            int centerY = titleHeight + (playerWheelPanel.Height - titleHeight - hintHeight) / 2;
+            int totalSlots = playerNames.Count + 1; // +1 for "Free Camera"
+
+            // Calculate visible slot range
+            float currentOffset = wheelSpinOffset + wheelSelectedIndex;
+            int visibleSlots = 5; // Show 5 slots
+
+            // Draw selection highlight in center
+            using (SolidBrush highlightBrush = new SolidBrush(Color.FromArgb(40, 0, 200, 255)))
+            {
+                e.Graphics.FillRectangle(highlightBrush,
+                    5, centerY - slotHeight / 2 - 2,
+                    playerWheelPanel.Width - 10, slotHeight + 4);
+            }
+            using (Pen highlightPen = new Pen(Color.FromArgb(0, 200, 255), 2))
+            {
+                e.Graphics.DrawRectangle(highlightPen,
+                    5, centerY - slotHeight / 2 - 2,
+                    playerWheelPanel.Width - 10, slotHeight + 4);
+            }
+
+            // Draw player slots with perspective effect
+            for (int visOffset = -visibleSlots / 2; visOffset <= visibleSlots / 2; visOffset++)
+            {
+                float slotIndex = currentOffset + visOffset - wheelSpinOffset;
+                int actualIndex = ((int)Math.Round(slotIndex) % totalSlots + totalSlots) % totalSlots;
+
+                // Calculate Y position with wheel curve effect
+                float offsetFromCenter = visOffset + (wheelSpinOffset % 1.0f);
+                float yPos = centerY + offsetFromCenter * slotHeight;
+
+                // Scale based on distance from center (perspective)
+                float distFromCenter = Math.Abs(offsetFromCenter);
+                float scale = 1.0f - (distFromCenter * 0.15f);
+                float alpha = 1.0f - (distFromCenter * 0.3f);
+
+                if (scale <= 0.3f || alpha <= 0.1f) continue;
+
+                // Get player info
+                string playerName;
+                Color bgColor;
+                PlayerTelemetry playerData = null;
+
+                if (actualIndex == 0)
+                {
+                    playerName = "Free Camera";
+                    bgColor = Color.FromArgb((int)(alpha * 255), 50, 60, 70);
+                }
+                else
+                {
+                    playerName = playerNames[actualIndex - 1];
+                    int team = GetPlayerTeam(playerName);
+
+                    // Get team background color (white for non-team games)
+                    if (!isTeamGame)
+                    {
+                        bgColor = Color.FromArgb((int)(alpha * 200), 240, 240, 240);
+                    }
+                    else
+                    {
+                        Color teamColor = GetTeamColor(team);
+                        bgColor = Color.FromArgb((int)(alpha * 200), teamColor.R, teamColor.G, teamColor.B);
+                    }
+
+                    // Get player telemetry data for emblem
+                    if (showLiveTelemetry)
+                    {
+                        lock (livePlayersLock)
+                        {
+                            if (livePlayers.ContainsKey(playerName))
+                                playerData = livePlayers[playerName];
+                        }
+                    }
+                    else
+                    {
+                        // Get emblem data from path player (replay mode)
+                        playerData = GetPathPlayerData(playerName);
+                    }
+                }
+
+                // Calculate scaled dimensions
+                int scaledHeight = (int)(slotHeight * scale);
+                int scaledEmblemSize = (int)(emblemSize * scale);
+                int slotY = (int)(yPos - scaledHeight / 2);
+                int slotX = 10;
+                int slotWidth = playerWheelPanel.Width - 20;
+
+                // Draw slot background with team color
+                using (SolidBrush bgBrush = new SolidBrush(bgColor))
+                {
+                    e.Graphics.FillRoundedRectangle(bgBrush, slotX, slotY, slotWidth, scaledHeight, 6);
+                }
+
+                // Draw emblem if player data available
+                int emblemX = slotX + 5;
+                int emblemY = slotY + (scaledHeight - scaledEmblemSize) / 2;
+
+                if (playerData != null && actualIndex > 0)
+                {
+                    string emblemKey = GetEmblemKeyForWheel(playerData);
+                    System.Drawing.Image emblemImg = GetOrLoadWheelEmblem(playerData, emblemKey);
+
+                    if (emblemImg != null)
+                    {
+                        e.Graphics.DrawImage(emblemImg, emblemX, emblemY, scaledEmblemSize, scaledEmblemSize);
+                    }
+                    else
+                    {
+                        // Draw placeholder circle
+                        using (SolidBrush placeholderBrush = new SolidBrush(Color.FromArgb((int)(alpha * 150), 100, 100, 100)))
+                        {
+                            e.Graphics.FillEllipse(placeholderBrush, emblemX, emblemY, scaledEmblemSize, scaledEmblemSize);
+                        }
+                    }
+                }
+                else if (actualIndex == 0)
+                {
+                    // Draw camera icon for Free Camera
+                    using (System.Drawing.Font iconFont = new System.Drawing.Font("Segoe UI Symbol", 16 * scale, FontStyle.Regular))
+                    using (SolidBrush iconBrush = new SolidBrush(Color.FromArgb((int)(alpha * 255), 0, 200, 255)))
+                    {
+                        e.Graphics.DrawString("📷", iconFont, iconBrush, emblemX, emblemY);
+                    }
+                }
+
+                // Draw player name
+                int textX = emblemX + scaledEmblemSize + 8;
+                int textY = slotY + (scaledHeight - (int)(14 * scale)) / 2;
+                Color textColor = actualIndex == 0 ?
+                    Color.FromArgb((int)(alpha * 255), 0, 200, 255) :
+                    Color.FromArgb((int)(alpha * 255), 255, 255, 255);
+
+                using (System.Drawing.Font nameFont = new System.Drawing.Font("Segoe UI", 9 * scale, FontStyle.Bold))
+                using (SolidBrush textBrush = new SolidBrush(textColor))
+                {
+                    // Truncate name if too long
+                    string displayName = playerName;
+                    SizeF textSize = e.Graphics.MeasureString(displayName, nameFont);
+                    int maxWidth = slotWidth - scaledEmblemSize - 20;
+                    while (textSize.Width > maxWidth && displayName.Length > 3)
+                    {
+                        displayName = displayName.Substring(0, displayName.Length - 1);
+                        textSize = e.Graphics.MeasureString(displayName + "...", nameFont);
+                    }
+                    if (displayName != playerName) displayName += "...";
+
+                    e.Graphics.DrawString(displayName, nameFont, textBrush, textX, textY);
+                }
+            }
+
+            // Draw spin instruction at bottom
+            using (System.Drawing.Font hintFont = new System.Drawing.Font("Segoe UI", 8, FontStyle.Regular))
+            using (SolidBrush hintBrush = new SolidBrush(Color.FromArgb(150, 0, 200, 255)))
+            {
+                string hint = "Click to spin";
+                SizeF hintSize = e.Graphics.MeasureString(hint, hintFont);
+                e.Graphics.DrawString(hint, hintFont, hintBrush,
+                    (playerWheelPanel.Width - hintSize.Width) / 2,
+                    playerWheelPanel.Height - hintSize.Height - 5);
+            }
+        }
+
+        /// <summary>
+        /// Handles click on player wheel to start spinning.
+        /// </summary>
+        private void PlayerWheelPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+            if (playerNames.Count == 0) return;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                if (!wheelIsSpinning)
+                {
+                    // Start spin animation with random velocity
+                    Random rnd = new Random();
+                    wheelSpinVelocity = 15f + (float)(rnd.NextDouble() * 10);
+                    wheelIsSpinning = true;
+                    wheelSpinTimer.Start();
+                }
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                // Right click selects immediately without spin
+                int slotHeight = 50;
+                int titleHeight = 25;
+                int hintHeight = 20;
+                int centerY = titleHeight + (playerWheelPanel.Height - titleHeight - hintHeight) / 2;
+                int clickedSlot = (int)Math.Round((e.Y - centerY) / (float)slotHeight);
+                int totalSlots = playerNames.Count + 1;
+                int newIndex = (wheelSelectedIndex + clickedSlot + totalSlots) % totalSlots;
+                wheelSelectedIndex = newIndex;
+                UpdatePOVFromWheel();
+                playerWheelPanel.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Timer tick for wheel spin animation.
+        /// </summary>
+        private void WheelSpinTimer_Tick(object sender, EventArgs e)
+        {
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+            int totalSlots = playerNames.Count + 1;
+
+            // Apply deceleration
+            wheelSpinVelocity *= 0.97f;
+            wheelSpinOffset += wheelSpinVelocity * 0.016f; // 16ms per tick
+
+            // Wrap offset
+            while (wheelSpinOffset >= totalSlots) wheelSpinOffset -= totalSlots;
+            while (wheelSpinOffset < 0) wheelSpinOffset += totalSlots;
+
+            // Stop when velocity is low enough
+            if (wheelSpinVelocity < 0.5f)
+            {
+                wheelSpinTimer.Stop();
+                wheelIsSpinning = false;
+
+                // Snap to nearest slot
+                wheelSelectedIndex = (int)Math.Round(wheelSpinOffset) % totalSlots;
+                wheelSpinOffset = 0;
+
+                UpdatePOVFromWheel();
+            }
+
+            playerWheelPanel.Invalidate();
+        }
+
+        /// <summary>
+        /// Updates POV mode based on wheel selection.
+        /// </summary>
+        private void UpdatePOVFromWheel()
+        {
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+
+            if (wheelSelectedIndex == 0)
+            {
+                // Free Camera
+                povModeEnabled = false;
+                povFollowPlayer = null;
+            }
+            else if (wheelSelectedIndex <= playerNames.Count)
+            {
+                // Follow selected player
+                povModeEnabled = true;
+                povFollowPlayer = playerNames[wheelSelectedIndex - 1];
+            }
+
+            // Sync with POV dropdown
+            if (povPlayerDropdown != null && povPlayerDropdown.Items.Count > wheelSelectedIndex)
+            {
+                povPlayerDropdown.SelectedIndex = wheelSelectedIndex;
+            }
+        }
+
+        /// <summary>
+        /// Gets emblem key for wheel display.
+        /// </summary>
+        private string GetEmblemKeyForWheel(PlayerTelemetry player)
+        {
+            return $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}";
+        }
+
+        /// <summary>
+        /// Gets or loads an emblem image for wheel display.
+        /// </summary>
+        private System.Drawing.Image GetOrLoadWheelEmblem(PlayerTelemetry player, string emblemKey)
+        {
+            // Return cached image if available
+            if (wheelEmblemCache.ContainsKey(emblemKey))
+            {
+                return wheelEmblemCache[emblemKey];
+            }
+
+            // Start async load if not already loading
+            if (!wheelEmblemLoadingSet.Contains(emblemKey))
+            {
+                wheelEmblemLoadingSet.Add(emblemKey);
+                string url = GetEmblemUrl(player);
+
+                System.Threading.ThreadPool.QueueUserWorkItem(_ =>
+                {
+                    try
+                    {
+                        using (var webClient = new System.Net.WebClient())
+                        {
+                            webClient.Headers.Add("User-Agent", "Entity-BSPViewer/1.0");
+                            byte[] imageData = webClient.DownloadData(url);
+
+                            this.BeginInvoke(new System.Action(() =>
+                            {
+                                try
+                                {
+                                    using (var ms = new System.IO.MemoryStream(imageData))
+                                    {
+                                        System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+                                        wheelEmblemCache[emblemKey] = img;
+                                        playerWheelPanel?.Invalidate();
+                                    }
+                                }
+                                catch { }
+                                finally
+                                {
+                                    wheelEmblemLoadingSet.Remove(emblemKey);
+                                }
+                            }));
+                        }
+                    }
+                    catch
+                    {
+                        wheelEmblemLoadingSet.Remove(emblemKey);
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Refreshes the player wheel when player list changes.
+        /// </summary>
+        private void RefreshPlayerWheel()
+        {
+            // Ensure selected index is valid
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+            int totalSlots = playerNames.Count + 1;
+            wheelSelectedIndex = Math.Min(wheelSelectedIndex, totalSlots - 1);
+            playerWheelPanel?.Invalidate();
+        }
+
+        /// <summary>
+        /// Gets player telemetry data from path data for emblem display in replay mode.
+        /// </summary>
+        private PlayerTelemetry GetPathPlayerData(string playerName)
+        {
+            if (!multiPlayerPaths.ContainsKey(playerName))
+                return null;
+
+            var segments = multiPlayerPaths[playerName];
+            if (segments.Count == 0)
+                return null;
+
+            // Find a point with emblem data (any point since emblem data doesn't change)
+            foreach (var segment in segments)
+            {
+                if (segment.Count > 0)
+                {
+                    var pt = segment[0];
+                    PlayerTelemetry data = new PlayerTelemetry();
+                    data.PlayerName = pt.PlayerName;
+                    data.Team = pt.Team;
+                    data.EmblemFg = pt.EmblemFg;
+                    data.EmblemBg = pt.EmblemBg;
+                    data.ColorPrimary = pt.ColorPrimary;
+                    data.ColorSecondary = pt.ColorSecondary;
+                    data.ColorTertiary = pt.ColorTertiary;
+                    data.ColorQuaternary = pt.ColorQuaternary;
+                    return data;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -1565,6 +2101,9 @@ namespace entity.Renderers
                 int povIdx = prevPovPlayer != null ? playerNames.IndexOf(prevPovPlayer) + 1 : 0;
                 povPlayerDropdown.SelectedIndex = Math.Max(0, Math.Min(povIdx, povPlayerDropdown.Items.Count - 1));
             }
+
+            // Refresh player wheel
+            RefreshPlayerWheel();
         }
 
         /// <summary>
@@ -9156,7 +9695,7 @@ namespace entity.Renderers
             // Create or reuse circle mesh - flat disc on XY plane
             if (teamCircleMesh == null || teamCircleMesh.Disposed)
             {
-                // Create a flat cylinder (disc) - height is along Z axis by default
+                // Create a flat cylinder (disc) - Mesh.Cylinder creates height along Y axis
                 // Radius 0.125 (4x smaller than original 0.5)
                 teamCircleMesh = Mesh.Cylinder(render.device, 0.125f, 0.125f, 0.02f, 24, 1);
             }
@@ -9166,9 +9705,11 @@ namespace entity.Renderers
             circleMat.Ambient = teamColor;
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-            // Position circle flat at player's feet (no rotation needed - cylinder Z is up)
-            // Lower it so the disc sits at ground level
-            render.device.Transform.World = Matrix.Translation(x, y, z - 0.15f);
+            // Rotate 90 degrees around X axis to lay flat on XY plane (disc faces up in Z)
+            // Then translate to player position
+            Matrix rotation = Matrix.RotationX((float)(Math.PI / 2.0));
+            Matrix translation = Matrix.Translation(x, y, z - 0.15f);
+            render.device.Transform.World = Matrix.Multiply(rotation, translation);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
@@ -10374,6 +10915,60 @@ namespace entity.Renderers
             }
 
             #endregion
+        }
+    }
+
+    /// <summary>
+    /// Extension methods for Graphics class.
+    /// </summary>
+    public static class GraphicsExtensions
+    {
+        /// <summary>
+        /// Fills a rounded rectangle.
+        /// </summary>
+        public static void FillRoundedRectangle(this Graphics g, Brush brush, int x, int y, int width, int height, int radius)
+        {
+            if (radius <= 0)
+            {
+                g.FillRectangle(brush, x, y, width, height);
+                return;
+            }
+
+            radius = Math.Min(radius, Math.Min(width, height) / 2);
+
+            using (System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath())
+            {
+                path.AddArc(x, y, radius * 2, radius * 2, 180, 90);
+                path.AddArc(x + width - radius * 2, y, radius * 2, radius * 2, 270, 90);
+                path.AddArc(x + width - radius * 2, y + height - radius * 2, radius * 2, radius * 2, 0, 90);
+                path.AddArc(x, y + height - radius * 2, radius * 2, radius * 2, 90, 90);
+                path.CloseFigure();
+                g.FillPath(brush, path);
+            }
+        }
+
+        /// <summary>
+        /// Draws a rounded rectangle outline.
+        /// </summary>
+        public static void DrawRoundedRectangle(this Graphics g, Pen pen, int x, int y, int width, int height, int radius)
+        {
+            if (radius <= 0)
+            {
+                g.DrawRectangle(pen, x, y, width, height);
+                return;
+            }
+
+            radius = Math.Min(radius, Math.Min(width, height) / 2);
+
+            using (System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath())
+            {
+                path.AddArc(x, y, radius * 2, radius * 2, 180, 90);
+                path.AddArc(x + width - radius * 2, y, radius * 2, radius * 2, 270, 90);
+                path.AddArc(x + width - radius * 2, y + height - radius * 2, radius * 2, radius * 2, 0, 90);
+                path.AddArc(x, y + height - radius * 2, radius * 2, radius * 2, 90, 90);
+                path.CloseFigure();
+                g.DrawPath(pen, path);
+            }
         }
     }
 }
