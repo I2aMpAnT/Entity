@@ -9199,10 +9199,11 @@ namespace entity.Renderers
                     // This triggers immediately when respawnTimer becomes non-zero or isDead becomes true
                     if (telemetryIsDead && !wasDeadBefore)
                     {
-                        // Player just died - store death position
+                        // Player just died - use PREVIOUS position (current may already be at spawn point)
                         playerDeadState[playerName] = true;
-                        playerDeathPosition[playerName] = currentPos;
-                        AddDebugLog($"[DEATH] {playerName} DIED at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
+                        Vector3 deathPos = playerPrevPosition.ContainsKey(playerName) ? playerPrevPosition[playerName] : currentPos;
+                        playerDeathPosition[playerName] = deathPos;
+                        AddDebugLog($"[DEATH] {playerName} DIED at ({deathPos.X:F1}, {deathPos.Y:F1}, {deathPos.Z:F1})");
                     }
                     // Detect respawn transition (!isDead && wasDeadBefore)
                     // This triggers when respawnTimer goes back to zero
