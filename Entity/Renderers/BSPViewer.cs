@@ -392,6 +392,7 @@ namespace entity.Renderers
             // K/D Stats
             public int Kills;
             public int Deaths;
+            public int RespawnTimer;
             public bool IsDead;
 
             // Events
@@ -7535,57 +7536,10 @@ namespace entity.Renderers
                         {
                             lock (livePlayersLock)
                             {
-                                string pName = telemetry.PlayerName;
-                                Vector3 newPos = new Vector3(telemetry.PosX, telemetry.PosY, telemetry.PosZ);
-
-                                // Track death by watching Deaths counter increase
-                                if (!playerPrevDeaths.ContainsKey(pName))
-                                {
-                                    // First time seeing player
-                                    playerPrevDeaths[pName] = telemetry.Deaths;
-                                    playerDeadState[pName] = false;
-                                    playerPrevPosition[pName] = newPos;
-                                }
-                                else
-                                {
-                                    int prevDeaths = playerPrevDeaths[pName];
-                                    bool justDied = false;
-
-                                    // Deaths increased = player died
-                                    if (telemetry.Deaths > prevDeaths)
-                                    {
-                                        playerDeadState[pName] = true;
-                                        justDied = true;
-                                        // Store death position - don't update while dead
-                                        playerPrevPosition[pName] = newPos;
-                                        AddDebugLog($"[DEATH] {pName} died! Deaths: {prevDeaths} -> {telemetry.Deaths}");
-                                    }
-
-                                    // Check for respawn: if dead and position changed AT ALL from death spot
-                                    if (!justDied && playerDeadState[pName])
-                                    {
-                                        Vector3 deathPos = playerPrevPosition[pName];
-                                        float dist = (newPos - deathPos).Length();
-                                        if (dist > 0.1f)  // Any movement = respawned
-                                        {
-                                            playerDeadState[pName] = false;
-                                            AddDebugLog($"[RESPAWN] {pName} respawned! Moved {dist:F1} units");
-                                        }
-                                    }
-
-                                    playerPrevDeaths[pName] = telemetry.Deaths;
-                                    // Only update position when alive
-                                    if (!playerDeadState[pName])
-                                    {
-                                        playerPrevPosition[pName] = newPos;
-                                    }
-                                }
-
-                                // Set IsDead based on our tracking
-                                telemetry.IsDead = playerDeadState[pName];
-                                livePlayers[pName] = telemetry;
+                                // IsDead is already set from RespawnTimer in ParseTelemetryLine
+                                livePlayers[telemetry.PlayerName] = telemetry;
                             }
-                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} Deaths={telemetry.Deaths} Dead={telemetry.IsDead}");
+                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} Deaths={telemetry.Deaths} RespawnTimer={telemetry.RespawnTimer} Dead={telemetry.IsDead}");
                         }
                     }
                 }
@@ -7751,7 +7705,9 @@ namespace entity.Renderers
                 // K/D Stats
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
-                // IsDead is computed from death count changes in listener loop
+                t.RespawnTimer = getInt("respawntimer");
+                // IsDead = true when RespawnTimer > 0 (player is dead and waiting to respawn)
+                t.IsDead = t.RespawnTimer > 0;
 
                 // Events
                 t.Event = getStr("event");
