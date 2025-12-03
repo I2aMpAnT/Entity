@@ -8566,18 +8566,18 @@ namespace entity.Renderers
             cam.Position.Z = cam.z;
 
             // Get target yaw and pitch (convert from degrees to radians)
-            float targetYaw = point.FacingYaw * (float)(Math.PI / 180.0);
-            float targetPitch = point.FacingPitch * (float)(Math.PI / 180.0);
-            if (float.IsNaN(targetPitch)) targetPitch = 0f;
+            float pbTargetYaw = point.FacingYaw * (float)(Math.PI / 180.0);
+            float pbTargetPitch = point.FacingPitch * (float)(Math.PI / 180.0);
+            if (float.IsNaN(pbTargetPitch)) pbTargetPitch = 0f;
 
             // Smooth yaw (handle wraparound at -PI/PI)
-            float yawDiff = targetYaw - povSmoothedYaw;
-            if (yawDiff > Math.PI) yawDiff -= (float)(2 * Math.PI);
-            if (yawDiff < -Math.PI) yawDiff += (float)(2 * Math.PI);
-            povSmoothedYaw += yawDiff * POV_SMOOTH_FACTOR;
+            float pbYawDiff = pbTargetYaw - povSmoothedYaw;
+            if (pbYawDiff > Math.PI) pbYawDiff -= (float)(2 * Math.PI);
+            if (pbYawDiff < -Math.PI) pbYawDiff += (float)(2 * Math.PI);
+            povSmoothedYaw += pbYawDiff * POV_SMOOTH_FACTOR;
 
             // Smooth pitch (no wraparound needed)
-            povSmoothedPitch += (targetPitch - povSmoothedPitch) * POV_SMOOTH_FACTOR;
+            povSmoothedPitch += (pbTargetPitch - povSmoothedPitch) * POV_SMOOTH_FACTOR;
 
             cam.radianh = povSmoothedYaw;
             cam.radianv = povSmoothedPitch;
