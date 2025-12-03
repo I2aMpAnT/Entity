@@ -1330,10 +1330,10 @@ namespace entity.Renderers
                 return;
             }
 
-            // Create live debug window
+            // Create debug window
             debugForm = new Form();
-            debugForm.Text = "Live Telemetry Debug";
-            debugForm.Size = new System.Drawing.Size(500, 400);
+            debugForm.Text = showLiveTelemetry ? "Live Telemetry Debug" : "Replay Data Debug";
+            debugForm.Size = new System.Drawing.Size(600, 500);
             debugForm.StartPosition = FormStartPosition.CenterParent;
 
             debugTextBox = new TextBox();
@@ -1365,39 +1365,98 @@ namespace entity.Renderers
             if (debugTextBox == null || debugTextBox.IsDisposed) return;
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("=== LIVE TELEMETRY DEBUG (updates every 100ms) ===\n");
 
-            sb.AppendLine($"Listener Running: {telemetryListenerRunning}");
-            sb.AppendLine($"Show Live Telemetry: {showLiveTelemetry}");
-            sb.AppendLine($"CSV Columns Parsed: {csvColumnIndices.Count}");
-
-            // Show parsed column names
-            sb.AppendLine("Columns: " + string.Join(", ", csvColumnIndices.Keys));
-
-            lock (livePlayersLock)
+            if (showLiveTelemetry)
             {
-                sb.AppendLine($"Live Players: {livePlayers.Count}");
-                foreach (var kvp in livePlayers)
+                // Live telemetry mode
+                sb.AppendLine("=== LIVE TELEMETRY DEBUG (updates every 100ms) ===\n");
+
+                sb.AppendLine($"Listener Running: {telemetryListenerRunning}");
+                sb.AppendLine($"Show Live Telemetry: {showLiveTelemetry}");
+                sb.AppendLine($"CSV Columns Parsed: {csvColumnIndices.Count}");
+
+                // Show parsed column names
+                sb.AppendLine("Columns: " + string.Join(", ", csvColumnIndices.Keys));
+
+                lock (livePlayersLock)
                 {
-                    var p = kvp.Value;
-                    sb.AppendLine($"  - {p.PlayerName}: Pos=({p.PosX:F1}, {p.PosY:F1}, {p.PosZ:F1})");
-                    sb.AppendLine($"    Team={p.Team} Spd={p.Speed:F1} Yaw={p.YawDeg:F0}° Crouch={p.IsCrouching} Air={p.IsAirborne}");
-                    sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades} Event={p.Event ?? "none"}");
-                    sb.AppendLine($"    K/D: {p.Kills}/{p.Deaths} RespawnTimer={p.RespawnTimer} IsDead={p.IsDead}");
+                    sb.AppendLine($"Live Players: {livePlayers.Count}");
+                    foreach (var kvp in livePlayers)
+                    {
+                        var p = kvp.Value;
+                        sb.AppendLine($"  - {p.PlayerName}: Pos=({p.PosX:F1}, {p.PosY:F1}, {p.PosZ:F1})");
+                        sb.AppendLine($"    Team={p.Team} Spd={p.Speed:F1} Yaw={p.Yaw:F2} YawDeg={p.YawDeg:F0}°");
+                        sb.AppendLine($"    Crouch={p.IsCrouching} Air={p.IsAirborne}");
+                        sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades}");
+                        sb.AppendLine($"    K/D: {p.Kills}/{p.Deaths} RespawnTimer={p.RespawnTimer} IsDead={p.IsDead}");
+                        sb.AppendLine($"    Emblem: FG={p.EmblemFg} BG={p.EmblemBg} Colors={p.ColorPrimary},{p.ColorSecondary},{p.ColorTertiary},{p.ColorQuaternary}");
+                    }
+                }
+
+                sb.AppendLine("\n=== RECENT LOG ===\n");
+                lock (telemetryDebugLogLock)
+                {
+                    foreach (var entry in telemetryDebugLog)
+                    {
+                        sb.AppendLine(entry);
+                    }
+                    if (telemetryDebugLog.Count == 0)
+                    {
+                        sb.AppendLine("(no data received yet)");
+                    }
                 }
             }
-
-            sb.AppendLine("\n=== RECENT LOG ===\n");
-            lock (telemetryDebugLogLock)
+            else
             {
-                foreach (var entry in telemetryDebugLog)
+                // Replay mode - show path data
+                sb.AppendLine("=== REPLAY DATA DEBUG ===\n");
+
+                sb.AppendLine($"Path Points: {playerPath.Count}");
+                sb.AppendLine($"Players: {pathPlayerNames.Count} - {string.Join(", ", pathPlayerNames)}");
+                sb.AppendLine($"Kill Events: {killEvents.Count}");
+                sb.AppendLine($"Timeline: {pathMinTimestamp:F1} to {pathMaxTimestamp:F1} (current: {pathCurrentTimestamp:F1})");
+                sb.AppendLine($"Playing: {pathIsPlaying} Speed: {pathPlaybackSpeed}x");
+                sb.AppendLine($"Hidden: {string.Join(", ", hiddenPlayers)}");
+
+                // Show current player data at current timestamp
+                sb.AppendLine("\n=== PLAYERS AT CURRENT TIME ===\n");
+
+                foreach (var kvp in multiPlayerPaths)
                 {
-                    sb.AppendLine(entry);
+                    string playerName = kvp.Key;
+                    PlayerPathPoint? currentPt = null;
+
+                    foreach (var segment in kvp.Value)
+                    {
+                        foreach (var pt in segment)
+                        {
+                            if (pt.Timestamp <= pathCurrentTimestamp)
+                                currentPt = pt;
+                            else
+                                break;
+                        }
+                    }
+
+                    if (currentPt.HasValue)
+                    {
+                        var p = currentPt.Value;
+                        sb.AppendLine($"  - {p.PlayerName}: Pos=({p.X:F1}, {p.Y:F1}, {p.Z:F1}) T={p.Timestamp:F1}");
+                        sb.AppendLine($"    Team={p.Team} Yaw={p.FacingYaw:F1}° Dead={p.IsDead}");
+                        sb.AppendLine($"    Weapon={p.CurrentWeapon} Crouch={p.IsCrouching} Air={p.IsAirborne}");
+                        sb.AppendLine($"    Emblem: FG={p.EmblemFg} BG={p.EmblemBg} Colors={p.ColorPrimary},{p.ColorSecondary},{p.ColorTertiary},{p.ColorQuaternary}");
+                    }
                 }
-                if (telemetryDebugLog.Count == 0)
+
+                // Show recent kills
+                sb.AppendLine("\n=== KILL EVENTS ===\n");
+                var recentKills = killEvents.Where(k => k.Timestamp <= pathCurrentTimestamp).TakeLast(10);
+                foreach (var kill in recentKills)
                 {
-                    sb.AppendLine("(no data received yet)");
+                    string teamName = kill.Team == 0 ? "Red" : kill.Team == 1 ? "Blue" : kill.Team == 2 ? "Green" : kill.Team == 3 ? "Orange" : "FFA";
+                    sb.AppendLine($"  T={kill.Timestamp:F1}: {kill.PlayerName} ({teamName}) - {kill.Weapon}");
                 }
+                if (!recentKills.Any())
+                    sb.AppendLine("  (no kills yet)");
             }
 
             debugTextBox.Text = sb.ToString();
