@@ -1100,6 +1100,7 @@ namespace entity.Renderers
                     StartTelemetryListener();
                     btnListen.Text = "🔴 Stop";
                     showLiveTelemetry = true;
+                    EnableTelemetryViewOptions();
                 }
             };
             toolStrip.Items.Add(btnListen);
@@ -1115,6 +1116,44 @@ namespace entity.Renderers
 
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
+        }
+
+        /// <summary>
+        /// Enables recommended view options for replay/live telemetry mode.
+        /// </summary>
+        private void EnableTelemetryViewOptions()
+        {
+            // Enable RenderSky
+            if (RenderSky != null)
+                RenderSky.Checked = true;
+
+            // Enable spawn types that are useful for viewing: Scenery, Collection, Obstacle
+            string[] spawnTypesToEnable = { "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
+
+            if (checkedListBox1 != null)
+            {
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    string itemName = checkedListBox1.Items[i].ToString();
+                    foreach (string spawnType in spawnTypesToEnable)
+                    {
+                        if (itemName == spawnType)
+                        {
+                            checkedListBox1.SetItemChecked(i, true);
+                            setSpawnBox(itemName, CheckState.Checked);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Enable BSP textures if available
+            if (cbBSPTextures != null)
+                cbBSPTextures.Checked = true;
+
+            // Enable BSP lighting if available
+            if (BSPLighting != null)
+                BSPLighting.Checked = true;
         }
 
         /// <summary>
@@ -7722,6 +7761,7 @@ namespace entity.Renderers
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     LoadPlayerPath(ofd.FileName);
+                    EnableTelemetryViewOptions();
                 }
             }
         }
