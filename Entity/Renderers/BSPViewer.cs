@@ -9396,12 +9396,17 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Emblem service base URL - change this to your own server if needed.
+        /// </summary>
+        private string emblemServiceUrl = "http://104.207.143.249:3001";
+
+        /// <summary>
         /// Gets the Carnage Report emblem URL for a player.
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
             // P=primary armor, S=secondary armor, EP=emblem primary (tertiary), ES=emblem secondary (quaternary)
-            return $"https://h2emblem.carnagereport.workers.dev/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            return $"{emblemServiceUrl}/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
