@@ -368,7 +368,7 @@ namespace entity.Renderers
         /// <summary>
         /// Playback speed multiplier.
         /// </summary>
-        private float pathPlaybackSpeed = 0.25f;
+        private float pathPlaybackSpeed = 1.0f;
 
         /// <summary>
         /// Time accumulator for animation.
@@ -383,7 +383,7 @@ namespace entity.Renderers
         /// <summary>
         /// Bookmark timestamp for loop playback.
         /// </summary>
-        private float bookmarkTimestamp = -1;
+        // Replaced by bookmarkStartTimestamp and bookmarkEndTimestamp for A-B loop
 
         /// <summary>
         /// Whether bookmark loop mode is enabled.
@@ -426,7 +426,37 @@ namespace entity.Renderers
         /// <summary>
         /// Whether to show the path trail.
         /// </summary>
-        private bool showPathTrail = true;
+        private bool showPathTrail = false;
+
+        /// <summary>
+        /// Field of view in degrees for theater mode camera.
+        /// </summary>
+        private float theaterFOV = 78f;
+
+        /// <summary>
+        /// Bookmark start timestamp for loop playback (A-B loop start).
+        /// </summary>
+        private float bookmarkStartTimestamp = -1;
+
+        /// <summary>
+        /// Bookmark end timestamp for loop playback (A-B loop end).
+        /// </summary>
+        private float bookmarkEndTimestamp = -1;
+
+        /// <summary>
+        /// Timeline zoom level (1.0 = full timeline visible).
+        /// </summary>
+        private float timelineZoom = 1.0f;
+
+        /// <summary>
+        /// Timeline view offset for panning when zoomed.
+        /// </summary>
+        private float timelineOffset = 0f;
+
+        /// <summary>
+        /// Whether crates should be rendered.
+        /// </summary>
+        private bool showCrates = true;
 
         /// <summary>
         /// Parsed biped model for rendering player on path.
@@ -1005,63 +1035,10 @@ namespace entity.Renderers
             pathPlayerDropdown = new ToolStripDropDownButton();
             pathPlayerDropdown.Text = "All Visible";
             pathPlayerDropdown.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            pathPlayerDropdown.AutoClose = false; // Keep open for multi-select
             toolStrip.Items.Add(pathPlayerDropdown);
 
-            // Play/Pause button
-            pathPlayPauseButton = new ToolStripButton();
-            pathPlayPauseButton.Text = "▶ Play";
-            pathPlayPauseButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            pathPlayPauseButton.Click += (s, e) => {
-                TogglePathPlayback();
-                pathPlayPauseButton.Text = pathIsPlaying ? "⏸ Pause" : "▶ Play";
-            };
-            toolStrip.Items.Add(pathPlayPauseButton);
-
-            // Reset button
-            ToolStripButton btnReset = new ToolStripButton();
-            btnReset.Text = "⏹ Reset";
-            btnReset.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnReset.Click += (s, e) => {
-                ResetPathAnimation();
-                pathPlayPauseButton.Text = "▶ Play";
-            };
-            toolStrip.Items.Add(btnReset);
-
-            // Speed label
-            ToolStripLabel lblSpeed = new ToolStripLabel();
-            lblSpeed.Text = "Speed:";
-            toolStrip.Items.Add(lblSpeed);
-
-            // Speed dropdown
-            ToolStripComboBox cboSpeed = new ToolStripComboBox();
-            cboSpeed.Items.AddRange(new object[] { "0.25x", "0.5x", "1x", "2x", "4x", "10x" });
-            cboSpeed.SelectedIndex = 0; // Default 0.25x
-            cboSpeed.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboSpeed.Width = 60;
-            cboSpeed.SelectedIndexChanged += (s, e) => {
-                switch (cboSpeed.SelectedIndex)
-                {
-                    case 0: pathPlaybackSpeed = 0.25f; break;
-                    case 1: pathPlaybackSpeed = 0.5f; break;
-                    case 2: pathPlaybackSpeed = 1.0f; break;
-                    case 3: pathPlaybackSpeed = 2.0f; break;
-                    case 4: pathPlaybackSpeed = 4.0f; break;
-                    case 5: pathPlaybackSpeed = 10.0f; break;
-                }
-            };
-            toolStrip.Items.Add(cboSpeed);
-
-            // Show Trail checkbox
-            ToolStripButton btnTrail = new ToolStripButton();
-            btnTrail.Text = "Trail: ON";
-            btnTrail.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnTrail.Click += (s, e) => {
-                showPathTrail = !showPathTrail;
-                btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
-            };
-            toolStrip.Items.Add(btnTrail);
-
-            // POV mode dropdown
+            // POV mode dropdown - placed right next to Players
             ToolStripLabel lblPOV = new ToolStripLabel();
             lblPOV.Text = "POV:";
             toolStrip.Items.Add(lblPOV);
@@ -1085,6 +1062,114 @@ namespace entity.Renderers
                 }
             };
             toolStrip.Items.Add(povPlayerDropdown);
+
+            toolStrip.Items.Add(new ToolStripSeparator());
+
+            // Play/Pause button
+            pathPlayPauseButton = new ToolStripButton();
+            pathPlayPauseButton.Text = "> Play";
+            pathPlayPauseButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            pathPlayPauseButton.Click += (s, e) => {
+                TogglePathPlayback();
+                pathPlayPauseButton.Text = pathIsPlaying ? "|| Pause" : "> Play";
+            };
+            toolStrip.Items.Add(pathPlayPauseButton);
+
+            // Reset button
+            ToolStripButton btnReset = new ToolStripButton();
+            btnReset.Text = "[] Reset";
+            btnReset.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnReset.Click += (s, e) => {
+                ResetPathAnimation();
+                pathPlayPauseButton.Text = "> Play";
+            };
+            toolStrip.Items.Add(btnReset);
+
+            // Playback Speed label and dropdown
+            ToolStripLabel lblPlaySpeed = new ToolStripLabel();
+            lblPlaySpeed.Text = "Play:";
+            toolStrip.Items.Add(lblPlaySpeed);
+
+            ToolStripComboBox cboPlaySpeed = new ToolStripComboBox();
+            cboPlaySpeed.Items.AddRange(new object[] { "0.25x", "0.5x", "1x", "2x", "4x", "10x" });
+            cboPlaySpeed.SelectedIndex = 2; // Default 1x
+            cboPlaySpeed.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboPlaySpeed.Width = 55;
+            cboPlaySpeed.SelectedIndexChanged += (s, e) => {
+                switch (cboPlaySpeed.SelectedIndex)
+                {
+                    case 0: pathPlaybackSpeed = 0.25f; break;
+                    case 1: pathPlaybackSpeed = 0.5f; break;
+                    case 2: pathPlaybackSpeed = 1.0f; break;
+                    case 3: pathPlaybackSpeed = 2.0f; break;
+                    case 4: pathPlaybackSpeed = 4.0f; break;
+                    case 5: pathPlaybackSpeed = 10.0f; break;
+                }
+            };
+            pathPlaybackSpeed = 1.0f; // Default 1x playback
+            toolStrip.Items.Add(cboPlaySpeed);
+
+            // Camera Speed label and dropdown
+            ToolStripLabel lblCamSpeed = new ToolStripLabel();
+            lblCamSpeed.Text = "Cam:";
+            toolStrip.Items.Add(lblCamSpeed);
+
+            ToolStripComboBox cboCamSpeed = new ToolStripComboBox();
+            cboCamSpeed.Items.AddRange(new object[] { "0.1", "0.25", "0.5", "1.0", "2.0", "5.0" });
+            cboCamSpeed.SelectedIndex = 1; // Default 0.25
+            cboCamSpeed.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboCamSpeed.Width = 50;
+            cboCamSpeed.SelectedIndexChanged += (s, e) => {
+                switch (cboCamSpeed.SelectedIndex)
+                {
+                    case 0: cam.speed = 0.1f; break;
+                    case 1: cam.speed = 0.25f; break;
+                    case 2: cam.speed = 0.5f; break;
+                    case 3: cam.speed = 1.0f; break;
+                    case 4: cam.speed = 2.0f; break;
+                    case 5: cam.speed = 5.0f; break;
+                }
+            };
+            if (cam != null) cam.speed = 0.25f; // Default 0.25 camera speed
+            toolStrip.Items.Add(cboCamSpeed);
+
+            toolStrip.Items.Add(new ToolStripSeparator());
+
+            // Show Trail checkbox
+            ToolStripButton btnTrail = new ToolStripButton();
+            btnTrail.Text = "Trail: OFF";
+            btnTrail.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnTrail.Click += (s, e) => {
+                showPathTrail = !showPathTrail;
+                btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
+            };
+            toolStrip.Items.Add(btnTrail);
+
+            // Show Crates checkbox
+            ToolStripButton btnCrates = new ToolStripButton();
+            btnCrates.Text = "Crates: ON";
+            btnCrates.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnCrates.Click += (s, e) => {
+                showCrates = !showCrates;
+                btnCrates.Text = showCrates ? "Crates: ON" : "Crates: OFF";
+            };
+            toolStrip.Items.Add(btnCrates);
+
+            // FOV control
+            ToolStripLabel lblFOV = new ToolStripLabel();
+            lblFOV.Text = "FOV:";
+            toolStrip.Items.Add(lblFOV);
+
+            ToolStripTextBox txtFOV = new ToolStripTextBox();
+            txtFOV.Text = "78";
+            txtFOV.Width = 40;
+            txtFOV.TextChanged += (s, e) => {
+                if (float.TryParse(txtFOV.Text, out float fov))
+                {
+                    theaterFOV = Math.Max(30, Math.Min(120, fov));
+                }
+            };
+            toolStrip.Items.Add(txtFOV);
 
             // Create timeline panel at bottom of form - Halo theater style
             Panel timelinePanel = new Panel();
@@ -1123,22 +1208,59 @@ namespace entity.Renderers
                     pathPlayPauseButton.Text = "▶ Play";
                 }
             };
-            // Right-click to set bookmark at clicked position
+            // Right-click to set bookmark marker at clicked position
             pathTimelineTrackBar.MouseUp += (s, e) => {
                 if (e.Button == MouseButtons.Right && pathMaxTimestamp > pathMinTimestamp)
                 {
                     float clickRatio = (float)e.X / pathTimelineTrackBar.Width;
                     clickRatio = Math.Max(0, Math.Min(1, clickRatio));
-                    bookmarkTimestamp = pathMinTimestamp + clickRatio * (pathMaxTimestamp - pathMinTimestamp);
+                    float clickedTimestamp = pathMinTimestamp + clickRatio * (pathMaxTimestamp - pathMinTimestamp);
+                    // Set the appropriate marker
+                    if (bookmarkStartTimestamp < 0)
+                        bookmarkStartTimestamp = clickedTimestamp;
+                    else if (bookmarkEndTimestamp < 0)
+                    {
+                        bookmarkEndTimestamp = clickedTimestamp;
+                        if (bookmarkEndTimestamp < bookmarkStartTimestamp)
+                        {
+                            float temp = bookmarkStartTimestamp;
+                            bookmarkStartTimestamp = bookmarkEndTimestamp;
+                            bookmarkEndTimestamp = temp;
+                        }
+                    }
+                    else
+                    {
+                        // Reset and set new start
+                        bookmarkStartTimestamp = clickedTimestamp;
+                        bookmarkEndTimestamp = -1;
+                        bookmarkLoopEnabled = false;
+                    }
                     UpdateBookmarkButton();
+                    UpdateLoopButton();
                     timelinePanelRef?.Invalidate();
                 }
             };
+
+            // Mouse wheel zoom on timeline
+            pathTimelineTrackBar.MouseWheel += (s, e) => {
+                if (pathMaxTimestamp > pathMinTimestamp)
+                {
+                    float zoomFactor = e.Delta > 0 ? 0.9f : 1.1f;
+                    timelineZoom = Math.Max(0.1f, Math.Min(1.0f, timelineZoom * zoomFactor));
+                    // Calculate offset to zoom at mouse position
+                    float mouseRatio = (float)e.X / pathTimelineTrackBar.Width;
+                    float centerTime = pathMinTimestamp + (pathMaxTimestamp - pathMinTimestamp) * mouseRatio;
+                    timelineOffset = centerTime - (pathMaxTimestamp - pathMinTimestamp) * timelineZoom * 0.5f;
+                    timelineOffset = Math.Max(pathMinTimestamp, Math.Min(pathMaxTimestamp - (pathMaxTimestamp - pathMinTimestamp) * timelineZoom, timelineOffset));
+                    timelinePanelRef?.Invalidate();
+                }
+            };
+
             timelinePanel.Controls.Add(pathTimelineTrackBar);
 
-            // Bookmark button - sets bookmark at current position
+            // Bookmark button - sets A-B markers at current position
             bookmarkButton = new System.Windows.Forms.Button();
-            bookmarkButton.Text = "🔖 Set";
+            bookmarkButton.Text = "[A] Set";
             bookmarkButton.FlatStyle = FlatStyle.Flat;
             bookmarkButton.FlatAppearance.BorderColor = Color.FromArgb(0, 120, 180);
             bookmarkButton.BackColor = Color.FromArgb(30, 45, 60);
@@ -1147,24 +1269,13 @@ namespace entity.Renderers
             bookmarkButton.Size = new Size(55, 25);
             bookmarkButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             bookmarkButton.Click += (s, e) => {
-                if (bookmarkTimestamp < 0)
-                {
-                    bookmarkTimestamp = pathCurrentTimestamp;
-                }
-                else
-                {
-                    bookmarkTimestamp = -1;
-                    bookmarkLoopEnabled = false;
-                    UpdateLoopButton();
-                }
-                UpdateBookmarkButton();
-                timelinePanelRef?.Invalidate();
+                SetBookmarkMarker();
             };
             timelinePanel.Controls.Add(bookmarkButton);
 
-            // Loop button - toggles loop mode
+            // Loop button - toggles loop mode between A-B markers
             loopButton = new System.Windows.Forms.Button();
-            loopButton.Text = "🔁 Loop";
+            loopButton.Text = "Loop";
             loopButton.FlatStyle = FlatStyle.Flat;
             loopButton.FlatAppearance.BorderColor = Color.FromArgb(0, 120, 180);
             loopButton.BackColor = Color.FromArgb(30, 45, 60);
@@ -1173,7 +1284,7 @@ namespace entity.Renderers
             loopButton.Size = new Size(60, 25);
             loopButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             loopButton.Click += (s, e) => {
-                if (bookmarkTimestamp >= 0)
+                if (bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0)
                 {
                     bookmarkLoopEnabled = !bookmarkLoopEnabled;
                     UpdateLoopButton();
@@ -2757,30 +2868,26 @@ namespace entity.Renderers
                     break;
             }
 
-            // Theater mode bookmark shortcuts
+            // Theater mode shortcuts
             if (theaterMode)
             {
                 char key = char.ToLower(e.KeyChar);
                 switch (key)
                 {
-                    case 'b':
-                        if (bookmarkTimestamp < 0)
-                        {
-                            bookmarkTimestamp = pathCurrentTimestamp;
-                        }
-                        else
-                        {
-                            bookmarkTimestamp = -1;
-                            bookmarkLoopEnabled = false;
-                            UpdateLoopButton();
-                        }
-                        UpdateBookmarkButton();
-                        timelinePanelRef?.Invalidate();
+                    case ' ': // Spacebar - play/pause
+                        TogglePathPlayback();
+                        if (pathPlayPauseButton != null)
+                            pathPlayPauseButton.Text = pathIsPlaying ? "|| Pause" : "> Play";
                         e.Handled = true;
                         break;
 
-                    case 'l':
-                        if (bookmarkTimestamp >= 0)
+                    case 'b': // Set bookmark
+                        SetBookmarkMarker();
+                        e.Handled = true;
+                        break;
+
+                    case 'l': // Toggle loop
+                        if (bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0)
                         {
                             bookmarkLoopEnabled = !bookmarkLoopEnabled;
                             UpdateLoopButton();
@@ -2789,15 +2896,164 @@ namespace entity.Renderers
                         e.Handled = true;
                         break;
 
-                    case 'g':
-                        if (bookmarkTimestamp >= 0)
+                    case 'g': // Go to bookmark start
+                        if (bookmarkStartTimestamp >= 0)
                         {
                             JumpToBookmark();
                             timelinePanelRef?.Invalidate();
                         }
                         e.Handled = true;
                         break;
+
+                    case ',': // < key - previous tick
+                    case '<':
+                        SkipTicks(-1);
+                        e.Handled = true;
+                        break;
+
+                    case '.': // > key - next tick
+                    case '>':
+                        SkipTicks(1);
+                        e.Handled = true;
+                        break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Process command keys for arrow key handling in theater mode.
+        /// </summary>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (theaterMode)
+            {
+                switch (keyData)
+                {
+                    case Keys.Space:
+                        TogglePathPlayback();
+                        if (pathPlayPauseButton != null)
+                            pathPlayPauseButton.Text = pathIsPlaying ? "|| Pause" : "> Play";
+                        return true;
+
+                    case Keys.Left:
+                        SkipSeconds(-5);
+                        return true;
+
+                    case Keys.Right:
+                        SkipSeconds(5);
+                        return true;
+
+                    case Keys.OemComma: // < key
+                        SkipTicks(-1);
+                        return true;
+
+                    case Keys.OemPeriod: // > key
+                        SkipTicks(1);
+                        return true;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        /// <summary>
+        /// Skips playback by specified number of seconds.
+        /// </summary>
+        private void SkipSeconds(float seconds)
+        {
+            if (playerPath.Count == 0) return;
+
+            pathCurrentTimestamp = Math.Max(pathMinTimestamp,
+                Math.Min(pathMaxTimestamp, pathCurrentTimestamp + seconds));
+            pathTimeAccumulator = pathCurrentTimestamp;
+
+            // Find the index for the new timestamp
+            for (int i = 0; i < playerPath.Count - 1; i++)
+            {
+                if (playerPath[i].Timestamp <= pathCurrentTimestamp &&
+                    playerPath[i + 1].Timestamp > pathCurrentTimestamp)
+                {
+                    pathCurrentIndex = i;
+                    break;
+                }
+            }
+
+            UpdateTimelineLabel();
+            UpdateTrackBarFromTimestamp();
+            timelinePanelRef?.Invalidate();
+        }
+
+        /// <summary>
+        /// Skips playback by specified number of data ticks.
+        /// </summary>
+        private void SkipTicks(int ticks)
+        {
+            if (playerPath.Count == 0) return;
+
+            // Find current index based on timestamp
+            int currentIdx = 0;
+            for (int i = 0; i < playerPath.Count - 1; i++)
+            {
+                if (playerPath[i].Timestamp <= pathCurrentTimestamp)
+                    currentIdx = i;
+                else
+                    break;
+            }
+
+            currentIdx = Math.Max(0, Math.Min(playerPath.Count - 1, currentIdx + ticks));
+            pathCurrentIndex = currentIdx;
+            pathCurrentTimestamp = playerPath[currentIdx].Timestamp;
+            pathTimeAccumulator = pathCurrentTimestamp;
+
+            UpdateTimelineLabel();
+            UpdateTrackBarFromTimestamp();
+            timelinePanelRef?.Invalidate();
+        }
+
+        /// <summary>
+        /// Sets bookmark markers (A-B loop). First press sets start, second sets end.
+        /// </summary>
+        private void SetBookmarkMarker()
+        {
+            if (bookmarkStartTimestamp < 0)
+            {
+                // Set start marker
+                bookmarkStartTimestamp = pathCurrentTimestamp;
+                bookmarkEndTimestamp = -1;
+                bookmarkLoopEnabled = false;
+            }
+            else if (bookmarkEndTimestamp < 0)
+            {
+                // Set end marker
+                bookmarkEndTimestamp = pathCurrentTimestamp;
+                // Ensure start < end
+                if (bookmarkEndTimestamp < bookmarkStartTimestamp)
+                {
+                    float temp = bookmarkStartTimestamp;
+                    bookmarkStartTimestamp = bookmarkEndTimestamp;
+                    bookmarkEndTimestamp = temp;
+                }
+            }
+            else
+            {
+                // Clear both markers
+                bookmarkStartTimestamp = -1;
+                bookmarkEndTimestamp = -1;
+                bookmarkLoopEnabled = false;
+            }
+            UpdateBookmarkButton();
+            UpdateLoopButton();
+            timelinePanelRef?.Invalidate();
+        }
+
+        /// <summary>
+        /// Updates trackbar position from current timestamp.
+        /// </summary>
+        private void UpdateTrackBarFromTimestamp()
+        {
+            if (pathTimelineTrackBar != null && pathMaxTimestamp > pathMinTimestamp)
+            {
+                float ratio = (pathCurrentTimestamp - pathMinTimestamp) / (pathMaxTimestamp - pathMinTimestamp);
+                pathTimelineTrackBar.Value = (int)(ratio * pathTimelineTrackBar.Maximum);
             }
         }
 
@@ -4556,7 +4812,9 @@ namespace entity.Renderers
 
             // Matrix.RotationAxis(new Vector3((float)Math.Cos(Environment.TickCount / 250.0f), 1, (float)Math.Sin(Environment.TickCount / 250.0f)), Environment.TickCount / 1000.0f);
             render.device.Transform.View = Matrix.LookAtRH(cam.Position, cam.LookAt, cam.UpVector);
-            render.device.Transform.Projection = Matrix.PerspectiveFovRH(0.785f, aspect, 0.2f, 1000.0f);
+            // Use theater FOV if in theater mode, otherwise default 45 degrees (0.785 radians)
+            float fovRadians = theaterMode ? (theaterFOV * (float)Math.PI / 180f) : 0.785f;
+            render.device.Transform.Projection = Matrix.PerspectiveFovRH(fovRadians, aspect, 0.2f, 1000.0f);
 
             // cam.BuildViewFrustum(ref render.device);
         }
@@ -7903,25 +8161,20 @@ namespace entity.Renderers
                 pathCurrentTimestamp = pathMinTimestamp;
                 UpdateTimelineLabel();
 
+                // Silent load - no prompts
                 if (playerPath.Count > 0)
                 {
-                    string msg = $"Loaded {playerPath.Count} path points for {pathPlayerNames.Count} player(s).";
+                    // Log to debug instead of showing dialog
+                    AddDebugLog($"Loaded {playerPath.Count} path points for {pathPlayerNames.Count} player(s).");
                     int totalSegments = 0;
                     foreach (var kvp in multiPlayerPaths) totalSegments += kvp.Value.Count;
-                    msg += $"\n{totalSegments} path segments (respawns detected).";
-                    if (skippedLines > 0)
-                        msg += $"\n({skippedLines} lines skipped due to invalid format)";
-                    MessageBox.Show(msg, "Path Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("No valid path points found in file.\nExpected format: CSV with X,Y,Z columns or x,y,z[,timestamp]",
-                        "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    AddDebugLog($"{totalSegments} path segments (respawns detected).");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading path file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Log error silently
+                AddDebugLog($"[ERROR] Loading path file: {ex.Message}");
             }
         }
 
@@ -7951,7 +8204,7 @@ namespace entity.Renderers
         {
             if (playerPath.Count == 0)
             {
-                MessageBox.Show("No path data loaded. Please load a path file first.", "No Path Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // No path data - silent return
                 return;
             }
 
@@ -8006,19 +8259,20 @@ namespace entity.Renderers
             // Update camera for POV mode
             UpdatePOVCamera();
 
-            // Handle end of playback
-            if (pathCurrentTimestamp >= pathMaxTimestamp || pathCurrentIndex >= playerPath.Count - 1)
+            // Handle A-B loop - loop back to A when reaching B
+            if (bookmarkLoopEnabled && bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0)
             {
-                if (bookmarkLoopEnabled && bookmarkTimestamp >= 0)
+                if (pathCurrentTimestamp >= bookmarkEndTimestamp)
                 {
-                    JumpToBookmark();
+                    JumpToBookmark(); // Jump back to A
                 }
-                else
-                {
-                    pathIsPlaying = false;
-                    if (pathPlayPauseButton != null)
-                        pathPlayPauseButton.Text = "▶ Play";
-                }
+            }
+            // Handle end of playback (when not looping)
+            else if (pathCurrentTimestamp >= pathMaxTimestamp || pathCurrentIndex >= playerPath.Count - 1)
+            {
+                pathIsPlaying = false;
+                if (pathPlayPauseButton != null)
+                    pathPlayPauseButton.Text = "> Play";
             }
         }
 
@@ -9069,10 +9323,10 @@ namespace entity.Renderers
                 fpsLastUpdate = DateTime.Now;
             }
 
-            // Create font if needed
+            // Create font if needed - use smaller size for better fit
             if (fpsFont == null || fpsFont.Disposed)
             {
-                fpsFont = new Microsoft.DirectX.Direct3D.Font(render.device, new System.Drawing.Font("Segoe UI", 14, FontStyle.Bold));
+                fpsFont = new Microsoft.DirectX.Direct3D.Font(render.device, new System.Drawing.Font("Segoe UI", 11, FontStyle.Bold));
             }
 
             // Halo blue color scheme
@@ -9082,37 +9336,44 @@ namespace entity.Renderers
             int screenWidth = render.device.Viewport.Width;
             int screenHeight = render.device.Viewport.Height;
 
-            // Draw FPS in top right
+            // Ensure FPS stays within bounds with padding
+            int padding = 10;
+            int fpsWidth = 80;
+
+            // Draw FPS in top right - clamp to visible area
             string fpsText = $"{currentFps:F0} FPS";
-            Rectangle fpsRect = new Rectangle(screenWidth - 120, 10, 110, 30);
+            int fpsX = Math.Max(padding, screenWidth - fpsWidth - padding);
+            Rectangle fpsRect = new Rectangle(fpsX, padding, fpsWidth, 24);
             fpsFont.DrawText(null, fpsText, fpsRect, DrawTextFormat.Right | DrawTextFormat.Top, haloBlue);
 
             // Draw mode indicator in top left
-            string modeText = showLiveTelemetry ? "● LIVE" : (playerPath.Count > 0 ? "▶ REPLAY" : "");
+            string modeText = showLiveTelemetry ? "* LIVE" : (playerPath.Count > 0 ? "> REPLAY" : "");
             if (!string.IsNullOrEmpty(modeText))
             {
-                Rectangle modeRect = new Rectangle(10, 10, 150, 30);
+                Rectangle modeRect = new Rectangle(padding, padding, 100, 24);
                 Color modeColor = showLiveTelemetry ? Color.FromArgb(255, 80, 80) : haloCyan;
                 fpsFont.DrawText(null, modeText, modeRect, DrawTextFormat.Left | DrawTextFormat.Top, modeColor);
             }
 
-            // Draw playback info when in replay mode
+            // Draw playback info when in replay mode - position above timeline
             if (!showLiveTelemetry && playerPath.Count > 0)
             {
                 string timeText = FormatTime(pathCurrentTimestamp - pathMinTimestamp) + " / " + FormatTime(pathMaxTimestamp - pathMinTimestamp);
                 string speedText = $"{pathPlaybackSpeed:F2}x";
-                Rectangle timeRect = new Rectangle(10, screenHeight - 60, 200, 25);
-                Rectangle speedRect = new Rectangle(screenWidth - 80, screenHeight - 60, 70, 25);
+                int bottomY = Math.Max(60, screenHeight - 70);
+                Rectangle timeRect = new Rectangle(padding, bottomY, 150, 20);
+                Rectangle speedRect = new Rectangle(Math.Max(padding, screenWidth - 60 - padding), bottomY, 60, 20);
                 fpsFont.DrawText(null, timeText, timeRect, DrawTextFormat.Left, haloCyan);
                 fpsFont.DrawText(null, speedText, speedRect, DrawTextFormat.Right, haloBlue);
             }
 
-            // Draw player count
+            // Draw player count below FPS
             int playerCount = showLiveTelemetry ? livePlayerNames.Count : pathPlayerNames.Count;
             if (playerCount > 0)
             {
-                string playerText = $"👥 {playerCount}";
-                Rectangle playerRect = new Rectangle(screenWidth - 80, 40, 70, 25);
+                string playerText = $"[{playerCount}]";
+                int playerX = Math.Max(padding, screenWidth - 50 - padding);
+                Rectangle playerRect = new Rectangle(playerX, padding + 24, 50, 20);
                 fpsFont.DrawText(null, playerText, playerRect, DrawTextFormat.Right, haloCyan);
             }
         }
@@ -9565,67 +9826,93 @@ namespace entity.Renderers
                 }
             }
 
-            // Draw bookmark marker if set
-            if (bookmarkTimestamp >= 0 && pathMaxTimestamp > pathMinTimestamp)
+            // Draw A-B bookmark markers if set
+            if (pathMaxTimestamp > pathMinTimestamp)
             {
-                float t = (bookmarkTimestamp - pathMinTimestamp) / timeRange;
-                int bx = trackLeft + (int)(t * trackWidth);
+                Color markerAColor = Color.FromArgb(0, 200, 255);
+                Color markerBColor = Color.FromArgb(255, 180, 0);
+                Color loopColor = Color.FromArgb(255, 215, 0);
 
-                Color bookmarkColor = bookmarkLoopEnabled
-                    ? Color.FromArgb(255, 215, 0)
-                    : Color.FromArgb(255, 255, 100);
+                // Draw shaded region between A and B if both set
+                if (bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0)
+                {
+                    float tA = (bookmarkStartTimestamp - pathMinTimestamp) / timeRange;
+                    float tB = (bookmarkEndTimestamp - pathMinTimestamp) / timeRange;
+                    int xA = trackLeft + (int)(tA * trackWidth);
+                    int xB = trackLeft + (int)(tB * trackWidth);
 
-                using (Pen glowPen = new Pen(Color.FromArgb(100, bookmarkColor), 6))
-                {
-                    e.Graphics.DrawLine(glowPen, bx, 2, bx, 40);
-                }
-                using (Pen pen = new Pen(bookmarkColor, 2))
-                {
-                    e.Graphics.DrawLine(pen, bx, 2, bx, 40);
-                }
-
-                Point[] flag = {
-                    new Point(bx, 2),
-                    new Point(bx + 10, 7),
-                    new Point(bx, 12),
-                    new Point(bx, 2)
-                };
-                using (SolidBrush brush = new SolidBrush(bookmarkColor))
-                {
-                    e.Graphics.FillPolygon(brush, flag);
-                }
-                using (Pen outlinePen = new Pen(Color.FromArgb(200, 0, 0, 0), 1))
-                {
-                    e.Graphics.DrawPolygon(outlinePen, flag);
-                }
-
-                if (bookmarkLoopEnabled)
-                {
-                    using (System.Drawing.Font font = new System.Drawing.Font("Segoe UI", 7, FontStyle.Bold))
-                    using (SolidBrush textBrush = new SolidBrush(Color.Black))
+                    Color fillColor = bookmarkLoopEnabled
+                        ? Color.FromArgb(60, 255, 215, 0)
+                        : Color.FromArgb(40, 0, 200, 255);
+                    using (SolidBrush brush = new SolidBrush(fillColor))
                     {
-                        e.Graphics.DrawString("↺", font, textBrush, bx - 4, 24);
+                        e.Graphics.FillRectangle(brush, xA, 5, xB - xA, 35);
+                    }
+                }
+
+                // Draw marker A (start)
+                if (bookmarkStartTimestamp >= 0)
+                {
+                    float t = (bookmarkStartTimestamp - pathMinTimestamp) / timeRange;
+                    int bx = trackLeft + (int)(t * trackWidth);
+                    Color color = bookmarkLoopEnabled ? loopColor : markerAColor;
+
+                    using (Pen pen = new Pen(color, 2))
+                    {
+                        e.Graphics.DrawLine(pen, bx, 2, bx, 40);
+                    }
+                    using (System.Drawing.Font font = new System.Drawing.Font("Segoe UI", 7, FontStyle.Bold))
+                    using (SolidBrush textBrush = new SolidBrush(color))
+                    {
+                        e.Graphics.DrawString("A", font, textBrush, bx - 4, 2);
+                    }
+                }
+
+                // Draw marker B (end)
+                if (bookmarkEndTimestamp >= 0)
+                {
+                    float t = (bookmarkEndTimestamp - pathMinTimestamp) / timeRange;
+                    int bx = trackLeft + (int)(t * trackWidth);
+                    Color color = bookmarkLoopEnabled ? loopColor : markerBColor;
+
+                    using (Pen pen = new Pen(color, 2))
+                    {
+                        e.Graphics.DrawLine(pen, bx, 2, bx, 40);
+                    }
+                    using (System.Drawing.Font font = new System.Drawing.Font("Segoe UI", 7, FontStyle.Bold))
+                    using (SolidBrush textBrush = new SolidBrush(color))
+                    {
+                        e.Graphics.DrawString("B", font, textBrush, bx - 4, 2);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Updates the bookmark button appearance.
+        /// Updates the bookmark button appearance based on A-B marker state.
         /// </summary>
         private void UpdateBookmarkButton()
         {
             if (bookmarkButton == null) return;
 
-            if (bookmarkTimestamp >= 0)
+            if (bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0)
             {
-                bookmarkButton.Text = "🔖 Clear";
+                // Both markers set - click will clear
+                bookmarkButton.Text = "[Clear]";
                 bookmarkButton.BackColor = Color.FromArgb(60, 80, 40);
                 bookmarkButton.ForeColor = Color.FromArgb(255, 215, 0);
             }
+            else if (bookmarkStartTimestamp >= 0)
+            {
+                // Only A set - waiting for B
+                bookmarkButton.Text = "[B] Set";
+                bookmarkButton.BackColor = Color.FromArgb(50, 70, 90);
+                bookmarkButton.ForeColor = Color.FromArgb(255, 180, 0);
+            }
             else
             {
-                bookmarkButton.Text = "🔖 Set";
+                // Neither set - waiting for A
+                bookmarkButton.Text = "[A] Set";
                 bookmarkButton.BackColor = Color.FromArgb(30, 45, 60);
                 bookmarkButton.ForeColor = Color.FromArgb(0, 200, 255);
             }
@@ -9638,7 +9925,9 @@ namespace entity.Renderers
         {
             if (loopButton == null) return;
 
-            if (bookmarkLoopEnabled && bookmarkTimestamp >= 0)
+            bool hasValidLoop = bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0;
+
+            if (bookmarkLoopEnabled && hasValidLoop)
             {
                 loopButton.BackColor = Color.FromArgb(60, 80, 40);
                 loopButton.ForeColor = Color.FromArgb(255, 215, 0);
@@ -9646,19 +9935,19 @@ namespace entity.Renderers
             else
             {
                 loopButton.BackColor = Color.FromArgb(30, 45, 60);
-                loopButton.ForeColor = bookmarkTimestamp >= 0 ? Color.FromArgb(0, 200, 255) : Color.Gray;
+                loopButton.ForeColor = hasValidLoop ? Color.FromArgb(0, 200, 255) : Color.Gray;
             }
         }
 
         /// <summary>
-        /// Jumps playback to the bookmark position.
+        /// Jumps playback to the bookmark start position.
         /// </summary>
         private void JumpToBookmark()
         {
-            if (bookmarkTimestamp < 0 || pathMaxTimestamp <= pathMinTimestamp) return;
+            if (bookmarkStartTimestamp < 0 || pathMaxTimestamp <= pathMinTimestamp) return;
 
-            pathCurrentTimestamp = bookmarkTimestamp;
-            pathTimeAccumulator = bookmarkTimestamp;
+            pathCurrentTimestamp = bookmarkStartTimestamp;
+            pathTimeAccumulator = bookmarkStartTimestamp;
 
             for (int i = 0; i < playerPath.Count - 1; i++)
             {
@@ -9670,6 +9959,7 @@ namespace entity.Renderers
             }
 
             UpdateTimelineLabel();
+            UpdateTrackBarFromTimestamp();
         }
 
         /// <summary>
