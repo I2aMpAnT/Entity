@@ -1,9 +1,10 @@
 const http = require('http');
 const url = require('url');
+const zlib = require('zlib');
 
 const PORT = process.env.PORT || 3001;
 
-// Halo 2 emblem generation service
+// Halo 2 emblem generation service - PNG output
 // URL format: /P{primary}-S{secondary}-EP{tertiary}-ES{quaternary}-EF{fg}-EB{bg}-ET{toggle}.png
 
 const server = http.createServer(async (req, res) => {
@@ -35,7 +36,6 @@ const server = http.createServer(async (req, res) => {
     }
 
     // Parse the emblem URL format: /P{pri}-S{sec}-EP{ter}-ES{qua}-EF{fg}-EB{bg}-ET{toggle}.png
-    // Example: /Pred-Sblue-EPwhite-ESblack-EF1-EB2-ET0.png
     const emblemMatch = pathname.match(/^\/P([^-]+)-S([^-]+)-EP([^-]+)-ES([^-]+)-EF(\d+)-EB(\d+)-ET(\d+)\.png$/i);
 
     if (!emblemMatch) {
@@ -53,21 +53,21 @@ const server = http.createServer(async (req, res) => {
     const [, primaryColor, secondaryColor, tertiaryColor, quaternaryColor, fg, bg, toggle] = emblemMatch;
 
     try {
-        const emblemSvg = generateEmblemSvg({
+        const pngData = generateEmblemPng({
             foreground: parseInt(fg) || 0,
             background: parseInt(bg) || 0,
             toggle: parseInt(toggle) || 0,
-            primaryColor: primaryColor,      // Armor primary (background fill)
-            secondaryColor: secondaryColor,  // Armor secondary
-            tertiaryColor: tertiaryColor,    // Emblem primary (foreground)
-            quaternaryColor: quaternaryColor // Emblem secondary (background shape)
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            tertiaryColor: tertiaryColor,
+            quaternaryColor: quaternaryColor
         });
 
         res.writeHead(200, {
-            'Content-Type': 'image/svg+xml',
+            'Content-Type': 'image/png',
             'Cache-Control': 'public, max-age=86400'
         });
-        res.end(emblemSvg);
+        res.end(pngData);
     } catch (error) {
         console.error('Error generating emblem:', error);
         res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -79,7 +79,7 @@ function handleQueryFormat(query, res) {
     const { fg, bg, emblem, toggle, pri, sec, ter, qua } = query;
 
     try {
-        const emblemSvg = generateEmblemSvg({
+        const pngData = generateEmblemPng({
             foreground: parseInt(fg || emblem) || 0,
             background: parseInt(bg) || 0,
             toggle: parseInt(toggle) || 0,
@@ -90,10 +90,10 @@ function handleQueryFormat(query, res) {
         });
 
         res.writeHead(200, {
-            'Content-Type': 'image/svg+xml',
+            'Content-Type': 'image/png',
             'Cache-Control': 'public, max-age=86400'
         });
-        res.end(emblemSvg);
+        res.end(pngData);
     } catch (error) {
         console.error('Error generating emblem:', error);
         res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -101,157 +101,437 @@ function handleQueryFormat(query, res) {
     }
 }
 
-// Halo 2 color palette (by index and name)
+// Halo 2 color palette (by index)
 const H2_COLORS_BY_INDEX = [
-    '#6E6E6E', // 0 - Steel
-    '#C0C0C0', // 1 - Silver
-    '#FFFFFF', // 2 - White
-    '#B22222', // 3 - Red
-    '#8B4789', // 4 - Mauve
-    '#FA8072', // 5 - Salmon
-    '#FF8C00', // 6 - Orange
-    '#FF7F50', // 7 - Coral
-    '#FFDAB9', // 8 - Peach
-    '#FFD700', // 9 - Gold
-    '#FFFF00', // 10 - Yellow
-    '#FFFFE0', // 11 - Pale
-    '#9ACD32', // 12 - Sage
-    '#228B22', // 13 - Green
-    '#6B8E23', // 14 - Olive
-    '#008080', // 15 - Teal
-    '#00CED1', // 16 - Aqua
-    '#00FFFF', // 17 - Cyan
-    '#0000CD', // 18 - Blue
-    '#0047AB', // 19 - Cobalt
-    '#082567', // 20 - Sapphire
-    '#8A2BE2', // 21 - Violet
-    '#DA70D6', // 22 - Orchid
-    '#E6E6FA', // 23 - Lavender
-    '#8B4513', // 24 - Brown
-    '#D2B48C', // 25 - Tan
-    '#F0E68C', // 26 - Khaki
-    '#000000', // 27 - Black
+    [110, 110, 110], // 0 - Steel
+    [192, 192, 192], // 1 - Silver
+    [255, 255, 255], // 2 - White
+    [178, 34, 34],   // 3 - Red
+    [139, 71, 137],  // 4 - Mauve
+    [250, 128, 114], // 5 - Salmon
+    [255, 140, 0],   // 6 - Orange
+    [255, 127, 80],  // 7 - Coral
+    [255, 218, 185], // 8 - Peach
+    [255, 215, 0],   // 9 - Gold
+    [255, 255, 0],   // 10 - Yellow
+    [255, 255, 224], // 11 - Pale
+    [154, 205, 50],  // 12 - Sage
+    [34, 139, 34],   // 13 - Green
+    [107, 142, 35],  // 14 - Olive
+    [0, 128, 128],   // 15 - Teal
+    [0, 206, 209],   // 16 - Aqua
+    [0, 255, 255],   // 17 - Cyan
+    [0, 0, 205],     // 18 - Blue
+    [0, 71, 171],    // 19 - Cobalt
+    [8, 37, 103],    // 20 - Sapphire
+    [138, 43, 226],  // 21 - Violet
+    [218, 112, 214], // 22 - Orchid
+    [230, 230, 250], // 23 - Lavender
+    [139, 69, 19],   // 24 - Brown
+    [210, 180, 140], // 25 - Tan
+    [240, 230, 140], // 26 - Khaki
+    [0, 0, 0],       // 27 - Black
 ];
 
 const H2_COLORS_BY_NAME = {
-    'steel': '#6E6E6E',
-    'silver': '#C0C0C0',
-    'white': '#FFFFFF',
-    'red': '#B22222',
-    'mauve': '#8B4789',
-    'salmon': '#FA8072',
-    'orange': '#FF8C00',
-    'coral': '#FF7F50',
-    'peach': '#FFDAB9',
-    'gold': '#FFD700',
-    'yellow': '#FFFF00',
-    'pale': '#FFFFE0',
-    'sage': '#9ACD32',
-    'green': '#228B22',
-    'olive': '#6B8E23',
-    'teal': '#008080',
-    'aqua': '#00CED1',
-    'cyan': '#00FFFF',
-    'blue': '#0000CD',
-    'cobalt': '#0047AB',
-    'sapphire': '#082567',
-    'violet': '#8A2BE2',
-    'orchid': '#DA70D6',
-    'lavender': '#E6E6FA',
-    'brown': '#8B4513',
-    'tan': '#D2B48C',
-    'khaki': '#F0E68C',
-    'black': '#000000'
+    'steel': [110, 110, 110],
+    'silver': [192, 192, 192],
+    'white': [255, 255, 255],
+    'red': [178, 34, 34],
+    'mauve': [139, 71, 137],
+    'salmon': [250, 128, 114],
+    'orange': [255, 140, 0],
+    'coral': [255, 127, 80],
+    'peach': [255, 218, 185],
+    'gold': [255, 215, 0],
+    'yellow': [255, 255, 0],
+    'pale': [255, 255, 224],
+    'sage': [154, 205, 50],
+    'green': [34, 139, 34],
+    'olive': [107, 142, 35],
+    'teal': [0, 128, 128],
+    'aqua': [0, 206, 209],
+    'cyan': [0, 255, 255],
+    'blue': [0, 0, 205],
+    'cobalt': [0, 71, 171],
+    'sapphire': [8, 37, 103],
+    'violet': [138, 43, 226],
+    'orchid': [218, 112, 214],
+    'lavender': [230, 230, 250],
+    'brown': [139, 69, 19],
+    'tan': [210, 180, 140],
+    'khaki': [240, 230, 140],
+    'black': [0, 0, 0]
 };
 
 function getColor(colorValue) {
-    if (!colorValue) return '#808080';
+    if (!colorValue) return [128, 128, 128];
 
-    // Check if it's a number (index)
     const index = parseInt(colorValue);
     if (!isNaN(index) && index >= 0 && index < H2_COLORS_BY_INDEX.length) {
         return H2_COLORS_BY_INDEX[index];
     }
 
-    // Check if it's a color name
     const lower = String(colorValue).toLowerCase();
     if (H2_COLORS_BY_NAME[lower]) {
         return H2_COLORS_BY_NAME[lower];
     }
 
-    // Return as-is if it looks like a hex color
-    if (colorValue.startsWith('#')) {
-        return colorValue;
-    }
-
-    return '#808080'; // Default gray
+    return [128, 128, 128];
 }
 
-function generateEmblemSvg(params) {
+const WIDTH = 256;
+const HEIGHT = 256;
+
+function generateEmblemPng(params) {
     const {
         foreground,
         background,
-        toggle,
-        primaryColor,    // Armor primary
-        secondaryColor,  // Armor secondary
-        tertiaryColor,   // Emblem primary (foreground color)
-        quaternaryColor  // Emblem secondary (background shape color)
+        primaryColor,
+        secondaryColor,
+        tertiaryColor,
+        quaternaryColor
     } = params;
 
-    // Get actual colors
-    const emblemFgColor = getColor(tertiaryColor);   // Foreground shape color
-    const emblemBgColor = getColor(quaternaryColor); // Background shape color
+    const emblemFgColor = getColor(tertiaryColor);
+    const emblemBgColor = getColor(quaternaryColor);
     const armorPrimary = getColor(primaryColor);
-    const armorSecondary = getColor(secondaryColor);
 
-    // Background shapes (EB parameter)
-    const bgShapes = [
-        '', // 0 - none
-        `<circle cx="32" cy="32" r="28" fill="${emblemBgColor}"/>`, // 1 - circle
-        `<rect x="4" y="4" width="56" height="56" fill="${emblemBgColor}"/>`, // 2 - square
-        `<polygon points="32,4 60,60 4,60" fill="${emblemBgColor}"/>`, // 3 - triangle up
-        `<polygon points="32,60 60,4 4,4" fill="${emblemBgColor}"/>`, // 4 - triangle down
-        `<polygon points="32,4 60,32 32,60 4,32" fill="${emblemBgColor}"/>`, // 5 - diamond
-        `<polygon points="32,4 42,26 60,26 46,40 52,60 32,48 12,60 18,40 4,26 22,26" fill="${emblemBgColor}"/>`, // 6 - star
-        `<ellipse cx="32" cy="32" rx="28" ry="18" fill="${emblemBgColor}"/>`, // 7 - oval horizontal
-        `<ellipse cx="32" cy="32" rx="18" ry="28" fill="${emblemBgColor}"/>`, // 8 - oval vertical
-        `<rect x="4" y="12" width="56" height="40" rx="6" fill="${emblemBgColor}"/>`, // 9 - rounded rect
-        `<path d="M32 4 L56 16 L56 48 L32 60 L8 48 L8 16 Z" fill="${emblemBgColor}"/>`, // 10 - hexagon
-        `<path d="M32 4 Q60 4 60 32 Q60 60 32 60 Q4 60 4 32 Q4 4 32 4" fill="${emblemBgColor}"/>`, // 11 - rounded square
-    ];
+    // Create RGBA pixel buffer
+    const pixels = Buffer.alloc(WIDTH * HEIGHT * 4);
 
-    // Foreground shapes (EF parameter)
-    const fgShapes = [
-        '', // 0 - none
-        `<polygon points="32,8 42,28 60,28 46,40 52,58 32,46 12,58 18,40 4,28 22,28" fill="${emblemFgColor}"/>`, // 1 - 5-point star
-        `<circle cx="32" cy="32" r="18" fill="${emblemFgColor}"/>`, // 2 - circle
-        `<rect x="14" y="14" width="36" height="36" fill="${emblemFgColor}"/>`, // 3 - square
-        `<polygon points="32,10 54,54 10,54" fill="${emblemFgColor}"/>`, // 4 - triangle up
-        `<polygon points="32,54 54,10 10,10" fill="${emblemFgColor}"/>`, // 5 - triangle down
-        `<polygon points="32,8 56,32 32,56 8,32" fill="${emblemFgColor}"/>`, // 6 - diamond
-        `<path d="M32 8 C52 8 56 32 56 32 C56 32 52 56 32 56 C12 56 8 32 8 32 C8 32 12 8 32 8" fill="${emblemFgColor}"/>`, // 7 - shield
-        `<path d="M32 10 L42 18 L50 32 L42 46 L32 54 L22 46 L14 32 L22 18 Z" fill="${emblemFgColor}"/>`, // 8 - octagon
-        `<path d="M26 14 L38 14 L38 26 L50 26 L50 38 L38 38 L38 50 L26 50 L26 38 L14 38 L14 26 L26 26 Z" fill="${emblemFgColor}"/>`, // 9 - cross/plus
-        `<polygon points="32,6 36,22 52,22 40,32 44,48 32,40 20,48 24,32 12,22 28,22" fill="${emblemFgColor}"/>`, // 10 - star outline
-        `<path d="M20 20 L44 20 L44 28 L36 28 L36 44 L28 44 L28 28 L20 28 Z" fill="${emblemFgColor}"/>`, // 11 - T shape
-        `<text x="32" y="44" font-size="36" text-anchor="middle" fill="${emblemFgColor}" font-family="Arial Black" font-weight="bold">7</text>`, // 12 - number 7
-        `<text x="32" y="44" font-size="36" text-anchor="middle" fill="${emblemFgColor}" font-family="Arial Black" font-weight="bold">X</text>`, // 13 - X
-        `<path d="M16 16 L48 48 M48 16 L16 48" stroke="${emblemFgColor}" stroke-width="8" fill="none"/>`, // 14 - X lines
-        `<path d="M32 12 L32 52 M12 32 L52 32" stroke="${emblemFgColor}" stroke-width="6" fill="none"/>`, // 15 - crosshairs
-    ];
+    // Fill with armor primary color (background plate)
+    for (let i = 0; i < WIDTH * HEIGHT; i++) {
+        pixels[i * 4] = armorPrimary[0];
+        pixels[i * 4 + 1] = armorPrimary[1];
+        pixels[i * 4 + 2] = armorPrimary[2];
+        pixels[i * 4 + 3] = 255;
+    }
 
-    const bgIndex = Math.min(Math.max(0, background), bgShapes.length - 1);
-    const fgIndex = Math.min(Math.max(0, foreground), fgShapes.length - 1);
+    // Draw background shape
+    drawBackgroundShape(pixels, background, emblemBgColor);
 
-    // Background plate color (using armor primary as the plate background)
-    const plateColor = armorPrimary;
+    // Draw foreground shape
+    drawForegroundShape(pixels, foreground, emblemFgColor);
 
-    return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="${plateColor}" rx="4"/>
-  ${bgShapes[bgIndex]}
-  ${fgShapes[fgIndex]}
-</svg>`;
+    // Encode as PNG
+    return encodePng(pixels, WIDTH, HEIGHT);
+}
+
+function setPixel(pixels, x, y, color) {
+    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return;
+    const i = (y * WIDTH + x) * 4;
+    pixels[i] = color[0];
+    pixels[i + 1] = color[1];
+    pixels[i + 2] = color[2];
+    pixels[i + 3] = 255;
+}
+
+function fillCircle(pixels, cx, cy, r, color) {
+    for (let y = cy - r; y <= cy + r; y++) {
+        for (let x = cx - r; x <= cx + r; x++) {
+            const dx = x - cx;
+            const dy = y - cy;
+            if (dx * dx + dy * dy <= r * r) {
+                setPixel(pixels, Math.round(x), Math.round(y), color);
+            }
+        }
+    }
+}
+
+function fillRect(pixels, x1, y1, x2, y2, color) {
+    for (let y = Math.round(y1); y <= Math.round(y2); y++) {
+        for (let x = Math.round(x1); x <= Math.round(x2); x++) {
+            setPixel(pixels, x, y, color);
+        }
+    }
+}
+
+function fillTriangle(pixels, x1, y1, x2, y2, x3, y3, color) {
+    const minX = Math.floor(Math.min(x1, x2, x3));
+    const maxX = Math.ceil(Math.max(x1, x2, x3));
+    const minY = Math.floor(Math.min(y1, y2, y3));
+    const maxY = Math.ceil(Math.max(y1, y2, y3));
+
+    for (let y = minY; y <= maxY; y++) {
+        for (let x = minX; x <= maxX; x++) {
+            if (pointInTriangle(x, y, x1, y1, x2, y2, x3, y3)) {
+                setPixel(pixels, x, y, color);
+            }
+        }
+    }
+}
+
+function pointInTriangle(px, py, x1, y1, x2, y2, x3, y3) {
+    const d1 = sign(px, py, x1, y1, x2, y2);
+    const d2 = sign(px, py, x2, y2, x3, y3);
+    const d3 = sign(px, py, x3, y3, x1, y1);
+    const hasNeg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    const hasPos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+    return !(hasNeg && hasPos);
+}
+
+function sign(px, py, x1, y1, x2, y2) {
+    return (px - x2) * (y1 - y2) - (x1 - x2) * (py - y2);
+}
+
+function fillDiamond(pixels, cx, cy, size, color) {
+    for (let y = cy - size; y <= cy + size; y++) {
+        for (let x = cx - size; x <= cx + size; x++) {
+            if (Math.abs(x - cx) + Math.abs(y - cy) <= size) {
+                setPixel(pixels, Math.round(x), Math.round(y), color);
+            }
+        }
+    }
+}
+
+function fillStar(pixels, cx, cy, outerR, innerR, points, color) {
+    const angleStep = Math.PI / points;
+    const starPoints = [];
+
+    for (let i = 0; i < points * 2; i++) {
+        const r = i % 2 === 0 ? outerR : innerR;
+        const angle = i * angleStep - Math.PI / 2;
+        starPoints.push({
+            x: cx + r * Math.cos(angle),
+            y: cy + r * Math.sin(angle)
+        });
+    }
+
+    // Fill star using triangles from center
+    for (let i = 0; i < starPoints.length; i++) {
+        const p1 = starPoints[i];
+        const p2 = starPoints[(i + 1) % starPoints.length];
+        fillTriangle(pixels, cx, cy, p1.x, p1.y, p2.x, p2.y, color);
+    }
+}
+
+function fillEllipse(pixels, cx, cy, rx, ry, color) {
+    for (let y = cy - ry; y <= cy + ry; y++) {
+        for (let x = cx - rx; x <= cx + rx; x++) {
+            const dx = (x - cx) / rx;
+            const dy = (y - cy) / ry;
+            if (dx * dx + dy * dy <= 1) {
+                setPixel(pixels, Math.round(x), Math.round(y), color);
+            }
+        }
+    }
+}
+
+function fillHexagon(pixels, cx, cy, size, color) {
+    const points = [];
+    for (let i = 0; i < 6; i++) {
+        const angle = i * Math.PI / 3 - Math.PI / 2;
+        points.push({
+            x: cx + size * Math.cos(angle),
+            y: cy + size * Math.sin(angle)
+        });
+    }
+
+    for (let i = 0; i < 6; i++) {
+        const p1 = points[i];
+        const p2 = points[(i + 1) % 6];
+        fillTriangle(pixels, cx, cy, p1.x, p1.y, p2.x, p2.y, color);
+    }
+}
+
+function drawBackgroundShape(pixels, bgIndex, color) {
+    const cx = WIDTH / 2;
+    const cy = HEIGHT / 2;
+    const scale = WIDTH / 64; // Scale from 64x64 to 256x256
+
+    switch (bgIndex) {
+        case 0: // None
+            break;
+        case 1: // Circle
+            fillCircle(pixels, cx, cy, 28 * scale, color);
+            break;
+        case 2: // Square
+            fillRect(pixels, 4 * scale, 4 * scale, 60 * scale, 60 * scale, color);
+            break;
+        case 3: // Triangle up
+            fillTriangle(pixels, cx, 4 * scale, 60 * scale, 60 * scale, 4 * scale, 60 * scale, color);
+            break;
+        case 4: // Triangle down
+            fillTriangle(pixels, cx, 60 * scale, 60 * scale, 4 * scale, 4 * scale, 4 * scale, color);
+            break;
+        case 5: // Diamond
+            fillDiamond(pixels, cx, cy, 28 * scale, color);
+            break;
+        case 6: // Star
+            fillStar(pixels, cx, cy, 28 * scale, 14 * scale, 5, color);
+            break;
+        case 7: // Oval horizontal
+            fillEllipse(pixels, cx, cy, 28 * scale, 18 * scale, color);
+            break;
+        case 8: // Oval vertical
+            fillEllipse(pixels, cx, cy, 18 * scale, 28 * scale, color);
+            break;
+        case 9: // Rounded rect (just use regular rect)
+            fillRect(pixels, 4 * scale, 12 * scale, 60 * scale, 52 * scale, color);
+            break;
+        case 10: // Hexagon
+            fillHexagon(pixels, cx, cy, 28 * scale, color);
+            break;
+        default:
+            fillCircle(pixels, cx, cy, 28 * scale, color);
+            break;
+    }
+}
+
+function drawForegroundShape(pixels, fgIndex, color) {
+    const cx = WIDTH / 2;
+    const cy = HEIGHT / 2;
+    const scale = WIDTH / 64;
+
+    switch (fgIndex) {
+        case 0: // None
+            break;
+        case 1: // 5-point star
+            fillStar(pixels, cx, cy, 25 * scale, 10 * scale, 5, color);
+            break;
+        case 2: // Circle
+            fillCircle(pixels, cx, cy, 18 * scale, color);
+            break;
+        case 3: // Square
+            fillRect(pixels, 14 * scale, 14 * scale, 50 * scale, 50 * scale, color);
+            break;
+        case 4: // Triangle up
+            fillTriangle(pixels, cx, 10 * scale, 54 * scale, 54 * scale, 10 * scale, 54 * scale, color);
+            break;
+        case 5: // Triangle down
+            fillTriangle(pixels, cx, 54 * scale, 54 * scale, 10 * scale, 10 * scale, 10 * scale, color);
+            break;
+        case 6: // Diamond
+            fillDiamond(pixels, cx, cy, 24 * scale, color);
+            break;
+        case 7: // Shield
+            fillEllipse(pixels, cx, cy, 22 * scale, 24 * scale, color);
+            break;
+        case 8: // Octagon
+            fillHexagon(pixels, cx, cy, 22 * scale, color);
+            break;
+        case 9: // Cross/plus
+            fillRect(pixels, cx - 6 * scale, 14 * scale, cx + 6 * scale, 50 * scale, color);
+            fillRect(pixels, 14 * scale, cy - 6 * scale, 50 * scale, cy + 6 * scale, color);
+            break;
+        case 10: // Star outline (smaller star)
+            fillStar(pixels, cx, cy, 20 * scale, 8 * scale, 5, color);
+            break;
+        case 11: // T shape
+            fillRect(pixels, 20 * scale, 20 * scale, 44 * scale, 28 * scale, color);
+            fillRect(pixels, 28 * scale, 28 * scale, 36 * scale, 44 * scale, color);
+            break;
+        case 12: // Number 7
+            fillRect(pixels, 16 * scale, 16 * scale, 48 * scale, 24 * scale, color);
+            fillRect(pixels, 36 * scale, 24 * scale, 44 * scale, 48 * scale, color);
+            break;
+        case 13: // X
+        case 14: // X lines
+            // Draw X shape
+            for (let i = 0; i < 28 * scale; i++) {
+                fillRect(pixels, 16 * scale + i - 3 * scale, 16 * scale + i - 3 * scale,
+                         16 * scale + i + 3 * scale, 16 * scale + i + 3 * scale, color);
+                fillRect(pixels, 48 * scale - i - 3 * scale, 16 * scale + i - 3 * scale,
+                         48 * scale - i + 3 * scale, 16 * scale + i + 3 * scale, color);
+            }
+            break;
+        case 15: // Crosshairs
+            fillRect(pixels, cx - 2 * scale, 12 * scale, cx + 2 * scale, 52 * scale, color);
+            fillRect(pixels, 12 * scale, cy - 2 * scale, 52 * scale, cy + 2 * scale, color);
+            break;
+        default:
+            if (fgIndex > 0) {
+                // Default to star for unknown shapes
+                fillStar(pixels, cx, cy, 25 * scale, 10 * scale, 5, color);
+            }
+            break;
+    }
+}
+
+// PNG encoding using zlib
+function encodePng(pixels, width, height) {
+    // Build raw image data with filter bytes
+    const rawData = Buffer.alloc(height * (1 + width * 4));
+
+    for (let y = 0; y < height; y++) {
+        const rowOffset = y * (1 + width * 4);
+        rawData[rowOffset] = 0; // Filter type: None
+
+        for (let x = 0; x < width; x++) {
+            const srcOffset = (y * width + x) * 4;
+            const dstOffset = rowOffset + 1 + x * 4;
+            rawData[dstOffset] = pixels[srcOffset];     // R
+            rawData[dstOffset + 1] = pixels[srcOffset + 1]; // G
+            rawData[dstOffset + 2] = pixels[srcOffset + 2]; // B
+            rawData[dstOffset + 3] = pixels[srcOffset + 3]; // A
+        }
+    }
+
+    // Compress with zlib
+    const compressed = zlib.deflateSync(rawData, { level: 6 });
+
+    // Build PNG file
+    const chunks = [];
+
+    // PNG signature
+    chunks.push(Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]));
+
+    // IHDR chunk
+    const ihdr = Buffer.alloc(13);
+    ihdr.writeUInt32BE(width, 0);
+    ihdr.writeUInt32BE(height, 4);
+    ihdr[8] = 8;  // Bit depth
+    ihdr[9] = 6;  // Color type: RGBA
+    ihdr[10] = 0; // Compression
+    ihdr[11] = 0; // Filter
+    ihdr[12] = 0; // Interlace
+    chunks.push(createChunk('IHDR', ihdr));
+
+    // IDAT chunk(s)
+    chunks.push(createChunk('IDAT', compressed));
+
+    // IEND chunk
+    chunks.push(createChunk('IEND', Buffer.alloc(0)));
+
+    return Buffer.concat(chunks);
+}
+
+function createChunk(type, data) {
+    const typeBuffer = Buffer.from(type, 'ascii');
+    const length = Buffer.alloc(4);
+    length.writeUInt32BE(data.length, 0);
+
+    const crcData = Buffer.concat([typeBuffer, data]);
+    const crc = Buffer.alloc(4);
+    crc.writeUInt32BE(crc32(crcData), 0);
+
+    return Buffer.concat([length, typeBuffer, data, crc]);
+}
+
+// CRC32 calculation for PNG chunks
+const crcTable = (function() {
+    const table = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+        let c = n;
+        for (let k = 0; k < 8; k++) {
+            if (c & 1) {
+                c = 0xEDB88320 ^ (c >>> 1);
+            } else {
+                c = c >>> 1;
+            }
+        }
+        table[n] = c;
+    }
+    return table;
+})();
+
+function crc32(data) {
+    let crc = 0xFFFFFFFF;
+    for (let i = 0; i < data.length; i++) {
+        crc = crcTable[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xFFFFFFFF) >>> 0;
 }
 
 server.listen(PORT, '0.0.0.0', () => {
