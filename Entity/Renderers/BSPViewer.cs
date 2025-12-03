@@ -346,6 +346,17 @@ namespace entity.Renderers
         private List<KillEvent> killEvents = new List<KillEvent>();
 
         /// <summary>
+        /// Snapshot of live telemetry data at a point in time.
+        /// </summary>
+        private class LiveTelemetrySnapshot
+        {
+            public DateTime Timestamp;
+            public double SecondsFromStart; // Seconds from first snapshot for timeline scrubbing
+            public Dictionary<string, PlayerTelemetry> Players;
+            public List<KillEvent> KillEvents;
+        }
+
+        /// <summary>
         /// Tracks previous kill count per player to detect new kills.
         /// </summary>
         private Dictionary<string, int> playerPrevKills = new Dictionary<string, int>();
@@ -641,6 +652,52 @@ namespace entity.Renderers
         /// Whether to show the killfeed overlay.
         /// </summary>
         private bool showKillfeed = false;
+
+        /// <summary>
+        /// Cache of live telemetry snapshots for instant replay.
+        /// Each entry contains a timestamp and a snapshot of all player states.
+        /// </summary>
+        private List<LiveTelemetrySnapshot> liveTelemetryCache = new List<LiveTelemetrySnapshot>();
+
+        /// <summary>
+        /// Lock object for thread-safe access to live telemetry cache.
+        /// </summary>
+        private object liveTelemetryCacheLock = new object();
+
+        /// <summary>
+        /// Maximum number of cached snapshots (roughly 10 minutes at 10Hz).
+        /// </summary>
+        private const int MaxLiveCacheSnapshots = 6000;
+
+        /// <summary>
+        /// Whether we're in live replay mode (viewing cached data instead of live).
+        /// </summary>
+        private bool liveReplayMode = false;
+
+        /// <summary>
+        /// Current replay timestamp when in live replay mode.
+        /// </summary>
+        private float liveReplayTimestamp = 0;
+
+        /// <summary>
+        /// Reference to the Reset to Live button for updating its text.
+        /// </summary>
+        private ToolStripButton btnResetToLive = null;
+
+        /// <summary>
+        /// Last time a telemetry cache snapshot was taken.
+        /// </summary>
+        private DateTime lastCacheSnapshotTime = DateTime.MinValue;
+
+        /// <summary>
+        /// Start time of the current live telemetry session (for timeline calculation).
+        /// </summary>
+        private DateTime liveCacheStartTime = DateTime.MinValue;
+
+        /// <summary>
+        /// Interval between cache snapshots in milliseconds.
+        /// </summary>
+        private const int CacheSnapshotIntervalMs = 100;
 
         /// <summary>
         /// Font for scoreboard text.
@@ -1357,6 +1414,16 @@ namespace entity.Renderers
             };
             toolStrip.Items.Add(btnDebug);
 
+            // Reset to Live button - returns to live telemetry from cached replay
+            btnResetToLive = new ToolStripButton();
+            btnResetToLive.Text = "⏮ Live";
+            btnResetToLive.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnResetToLive.ToolTipText = "Reset to live telemetry (exit replay mode)";
+            btnResetToLive.Click += (s, e) => {
+                ResetToLiveTelemetry();
+            };
+            toolStrip.Items.Add(btnResetToLive);
+
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
         }
@@ -1617,6 +1684,8 @@ namespace entity.Renderers
             debugForm.Text = showLiveTelemetry ? "Live Telemetry Debug" : "Replay Data Debug";
             debugForm.Size = new System.Drawing.Size(600, 500);
             debugForm.StartPosition = FormStartPosition.CenterParent;
+            // Keep debug window on top of the main application window
+            debugForm.TopMost = true;
 
             debugTextBox = new TextBox();
             debugTextBox.Multiline = true;
@@ -8727,6 +8796,15 @@ namespace entity.Renderers
             }
             livePlayerNames.Clear();
 
+            // Clear live telemetry cache and reset replay mode
+            lock (liveTelemetryCacheLock)
+            {
+                liveTelemetryCache.Clear();
+            }
+            liveReplayMode = false;
+            liveReplayTimestamp = 0;
+            liveCacheStartTime = DateTime.MinValue;
+
             // Restore playback player dropdowns
             RefreshPlayerDropdowns();
         }
@@ -8862,6 +8940,13 @@ namespace entity.Renderers
                 }
                 // Update dropdowns if player list changed
                 UpdateLivePlayerDropdowns();
+
+                // Cache snapshot periodically for instant replay
+                if (!liveReplayMode && (DateTime.Now - lastCacheSnapshotTime).TotalMilliseconds >= CacheSnapshotIntervalMs)
+                {
+                    lastCacheSnapshotTime = DateTime.Now;
+                    CacheLiveTelemetrySnapshot();
+                }
             }
         }
 
@@ -8874,6 +8959,189 @@ namespace entity.Renderers
                 {
                     telemetryDebugLog.RemoveAt(0);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Caches a snapshot of the current live telemetry state.
+        /// Called periodically to enable instant replay.
+        /// </summary>
+        private void CacheLiveTelemetrySnapshot()
+        {
+            if (!telemetryListenerRunning || liveReplayMode) return;
+
+            lock (liveTelemetryCacheLock)
+            {
+                lock (livePlayersLock)
+                {
+                    if (livePlayers.Count == 0) return;
+
+                    DateTime now = DateTime.Now;
+
+                    // Initialize start time on first snapshot
+                    if (liveCacheStartTime == DateTime.MinValue)
+                    {
+                        liveCacheStartTime = now;
+                    }
+
+                    double secondsFromStart = (now - liveCacheStartTime).TotalSeconds;
+
+                    // Create snapshot with deep copy of player data
+                    var snapshot = new LiveTelemetrySnapshot
+                    {
+                        Timestamp = now,
+                        SecondsFromStart = secondsFromStart,
+                        Players = new Dictionary<string, PlayerTelemetry>(),
+                        KillEvents = new List<KillEvent>(killEvents)
+                    };
+
+                    foreach (var kvp in livePlayers)
+                    {
+                        // Clone the player telemetry
+                        var p = kvp.Value;
+                        snapshot.Players[kvp.Key] = new PlayerTelemetry
+                        {
+                            PlayerName = p.PlayerName,
+                            Team = p.Team,
+                            PosX = p.PosX,
+                            PosY = p.PosY,
+                            PosZ = p.PosZ,
+                            VelX = p.VelX,
+                            VelY = p.VelY,
+                            VelZ = p.VelZ,
+                            Speed = p.Speed,
+                            Yaw = p.Yaw,
+                            Pitch = p.Pitch,
+                            YawDeg = p.YawDeg,
+                            PitchDeg = p.PitchDeg,
+                            IsDead = p.IsDead,
+                            RespawnTimer = p.RespawnTimer,
+                            IsCrouching = p.IsCrouching,
+                            CrouchBlend = p.CrouchBlend,
+                            IsAirborne = p.IsAirborne,
+                            AirborneTicks = p.AirborneTicks,
+                            CurrentWeapon = p.CurrentWeapon,
+                            FragGrenades = p.FragGrenades,
+                            PlasmaGrenades = p.PlasmaGrenades,
+                            Kills = p.Kills,
+                            Deaths = p.Deaths,
+                            Assists = p.Assists,
+                            EmblemFg = p.EmblemFg,
+                            EmblemBg = p.EmblemBg,
+                            ColorPrimary = p.ColorPrimary,
+                            ColorSecondary = p.ColorSecondary,
+                            ColorTertiary = p.ColorTertiary,
+                            ColorQuaternary = p.ColorQuaternary,
+                            Timestamp = p.Timestamp
+                        };
+                    }
+
+                    liveTelemetryCache.Add(snapshot);
+
+                    // Limit cache size
+                    while (liveTelemetryCache.Count > MaxLiveCacheSnapshots)
+                    {
+                        liveTelemetryCache.RemoveAt(0);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets to live telemetry mode, exiting replay mode.
+        /// </summary>
+        private void ResetToLiveTelemetry()
+        {
+            liveReplayMode = false;
+            liveReplayTimestamp = 0;
+
+            if (btnResetToLive != null)
+            {
+                btnResetToLive.Text = "⏮ Live";
+            }
+
+            AddDebugLog("[LIVE] Reset to live telemetry");
+        }
+
+        /// <summary>
+        /// Enters live replay mode at the specified time offset (seconds from start).
+        /// </summary>
+        private void EnterLiveReplayMode(double secondsFromStart)
+        {
+            lock (liveTelemetryCacheLock)
+            {
+                if (liveTelemetryCache.Count == 0) return;
+
+                liveReplayMode = true;
+                liveReplayTimestamp = (float)secondsFromStart;
+
+                // Find the snapshot closest to the requested time
+                var snapshot = GetCachedSnapshotAtTime(secondsFromStart);
+                if (snapshot != null)
+                {
+                    // Apply the cached snapshot to the display
+                    lock (livePlayersLock)
+                    {
+                        livePlayers.Clear();
+                        foreach (var kvp in snapshot.Players)
+                        {
+                            livePlayers[kvp.Key] = kvp.Value;
+                        }
+                    }
+                }
+
+                if (btnResetToLive != null)
+                {
+                    btnResetToLive.Text = "⏮ LIVE";
+                }
+
+                AddDebugLog($"[REPLAY] Entered live replay mode at t={secondsFromStart:F2}s");
+            }
+        }
+
+        /// <summary>
+        /// Gets the cached snapshot closest to the specified time offset (seconds from start).
+        /// </summary>
+        private LiveTelemetrySnapshot GetCachedSnapshotAtTime(double secondsFromStart)
+        {
+            lock (liveTelemetryCacheLock)
+            {
+                if (liveTelemetryCache.Count == 0) return null;
+
+                // Find the snapshot with SecondsFromStart <= requested time
+                LiveTelemetrySnapshot closest = null;
+                foreach (var snapshot in liveTelemetryCache)
+                {
+                    if (snapshot.SecondsFromStart <= secondsFromStart)
+                    {
+                        closest = snapshot;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                return closest ?? liveTelemetryCache[0];
+            }
+        }
+
+        /// <summary>
+        /// Gets the min and max time offsets from the live telemetry cache (seconds from start).
+        /// </summary>
+        private void GetLiveCacheTimeRange(out double minTime, out double maxTime)
+        {
+            lock (liveTelemetryCacheLock)
+            {
+                if (liveTelemetryCache.Count == 0)
+                {
+                    minTime = 0;
+                    maxTime = 0;
+                    return;
+                }
+
+                minTime = liveTelemetryCache[0].SecondsFromStart;
+                maxTime = liveTelemetryCache[liveTelemetryCache.Count - 1].SecondsFromStart;
             }
         }
 
