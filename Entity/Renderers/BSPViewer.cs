@@ -454,11 +454,6 @@ namespace entity.Renderers
         private float timelineOffset = 0f;
 
         /// <summary>
-        /// Whether crates should be rendered.
-        /// </summary>
-        private bool showCrates = true;
-
-        /// <summary>
         /// Parsed biped model for rendering player on path.
         /// </summary>
         private ParsedModel playerBipedModel;
@@ -1143,16 +1138,6 @@ namespace entity.Renderers
                 btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
             };
             toolStrip.Items.Add(btnTrail);
-
-            // Show Crates checkbox
-            ToolStripButton btnCrates = new ToolStripButton();
-            btnCrates.Text = "Crates: ON";
-            btnCrates.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnCrates.Click += (s, e) => {
-                showCrates = !showCrates;
-                btnCrates.Text = showCrates ? "Crates: ON" : "Crates: OFF";
-            };
-            toolStrip.Items.Add(btnCrates);
 
             // FOV control
             ToolStripLabel lblFOV = new ToolStripLabel();
