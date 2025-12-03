@@ -286,9 +286,40 @@ namespace entity.Renderers
         #region Player Path Animation Fields
 
         /// <summary>
-        /// List of player path coordinates with timestamps.
+        /// List of player path coordinates with timestamps (legacy single-player).
         /// </summary>
         private List<PlayerPathPoint> playerPath = new List<PlayerPathPoint>();
+
+        /// <summary>
+        /// Multi-player paths: Dictionary of player name -> list of path segments.
+        /// Each segment is a list of points (segments break on respawn).
+        /// </summary>
+        private Dictionary<string, List<List<PlayerPathPoint>>> multiPlayerPaths = new Dictionary<string, List<List<PlayerPathPoint>>>();
+
+        /// <summary>
+        /// List of all unique player names in the loaded path data.
+        /// </summary>
+        private List<string> pathPlayerNames = new List<string>();
+
+        /// <summary>
+        /// Currently selected player for playback (null = all players).
+        /// </summary>
+        private string selectedPathPlayer = null;
+
+        /// <summary>
+        /// Minimum timestamp in path data (for timeline).
+        /// </summary>
+        private float pathMinTimestamp = 0;
+
+        /// <summary>
+        /// Maximum timestamp in path data (for timeline).
+        /// </summary>
+        private float pathMaxTimestamp = 0;
+
+        /// <summary>
+        /// Current playback timestamp.
+        /// </summary>
+        private float pathCurrentTimestamp = 0;
 
         /// <summary>
         /// Current index in the player path animation.
@@ -414,10 +445,21 @@ namespace entity.Renderers
             public string CurrentWeapon;
             public bool IsCrouching;
             public bool IsAirborne;
+            public bool IsDead;
+
+            // Emblem & Colors (same as PlayerTelemetry)
+            public int EmblemFg;
+            public int EmblemBg;
+            public int ColorPrimary;
+            public int ColorSecondary;
+            public int ColorTertiary;
+            public int ColorQuaternary;
 
             public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1,
                 float facingYaw = 0, string playerName = "", string weapon = "",
-                bool crouching = false, bool airborne = false)
+                bool crouching = false, bool airborne = false, bool isDead = false,
+                int emblemFg = 0, int emblemBg = 0, int colorPrimary = 0, int colorSecondary = 0,
+                int colorTertiary = 0, int colorQuaternary = 0)
             {
                 X = x;
                 Y = y;
@@ -429,6 +471,13 @@ namespace entity.Renderers
                 CurrentWeapon = weapon;
                 IsCrouching = crouching;
                 IsAirborne = airborne;
+                IsDead = isDead;
+                EmblemFg = emblemFg;
+                EmblemBg = emblemBg;
+                ColorPrimary = colorPrimary;
+                ColorSecondary = colorSecondary;
+                ColorTertiary = colorTertiary;
+                ColorQuaternary = colorQuaternary;
             }
         }
 
@@ -846,6 +895,12 @@ namespace entity.Renderers
             }
         }
 
+        // UI controls that need to be updated when path is loaded
+        private ToolStripComboBox pathPlayerDropdown;
+        private TrackBar pathTimelineTrackBar;
+        private Label pathTimeLabel;
+        private ToolStripButton pathPlayPauseButton;
+
         /// <summary>
         /// Initializes the player path playback UI controls.
         /// </summary>
@@ -862,15 +917,33 @@ namespace entity.Renderers
             btnLoadPath.Click += btnLoadPath_Click;
             toolStrip.Items.Add(btnLoadPath);
 
-            // Play/Pause button
-            ToolStripButton btnPlayPause = new ToolStripButton();
-            btnPlayPause.Text = "▶ Play";
-            btnPlayPause.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnPlayPause.Click += (s, e) => {
-                TogglePathPlayback();
-                btnPlayPause.Text = pathIsPlaying ? "⏸ Pause" : "▶ Play";
+            // Player dropdown
+            ToolStripLabel lblPlayer = new ToolStripLabel();
+            lblPlayer.Text = "Player:";
+            toolStrip.Items.Add(lblPlayer);
+
+            pathPlayerDropdown = new ToolStripComboBox();
+            pathPlayerDropdown.Items.Add("All Players");
+            pathPlayerDropdown.SelectedIndex = 0;
+            pathPlayerDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            pathPlayerDropdown.Width = 100;
+            pathPlayerDropdown.SelectedIndexChanged += (s, e) => {
+                if (pathPlayerDropdown.SelectedIndex == 0)
+                    selectedPathPlayer = null;
+                else if (pathPlayerDropdown.SelectedIndex <= pathPlayerNames.Count)
+                    selectedPathPlayer = pathPlayerNames[pathPlayerDropdown.SelectedIndex - 1];
             };
-            toolStrip.Items.Add(btnPlayPause);
+            toolStrip.Items.Add(pathPlayerDropdown);
+
+            // Play/Pause button
+            pathPlayPauseButton = new ToolStripButton();
+            pathPlayPauseButton.Text = "▶ Play";
+            pathPlayPauseButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            pathPlayPauseButton.Click += (s, e) => {
+                TogglePathPlayback();
+                pathPlayPauseButton.Text = pathIsPlaying ? "⏸ Pause" : "▶ Play";
+            };
+            toolStrip.Items.Add(pathPlayPauseButton);
 
             // Reset button
             ToolStripButton btnReset = new ToolStripButton();
@@ -878,7 +951,7 @@ namespace entity.Renderers
             btnReset.DisplayStyle = ToolStripItemDisplayStyle.Text;
             btnReset.Click += (s, e) => {
                 ResetPathAnimation();
-                btnPlayPause.Text = "▶ Play";
+                pathPlayPauseButton.Text = "▶ Play";
             };
             toolStrip.Items.Add(btnReset);
 
@@ -915,6 +988,33 @@ namespace entity.Renderers
                 btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
             };
             toolStrip.Items.Add(btnTrail);
+
+            // Create timeline panel at bottom of form
+            Panel timelinePanel = new Panel();
+            timelinePanel.Dock = DockStyle.Bottom;
+            timelinePanel.Height = 40;
+            timelinePanel.BackColor = Color.FromArgb(40, 40, 40);
+
+            pathTimeLabel = new Label();
+            pathTimeLabel.Text = "0:00 / 0:00";
+            pathTimeLabel.ForeColor = Color.White;
+            pathTimeLabel.AutoSize = true;
+            pathTimeLabel.Location = new Point(10, 12);
+            timelinePanel.Controls.Add(pathTimeLabel);
+
+            pathTimelineTrackBar = new TrackBar();
+            pathTimelineTrackBar.Minimum = 0;
+            pathTimelineTrackBar.Maximum = 1000;
+            pathTimelineTrackBar.Value = 0;
+            pathTimelineTrackBar.TickStyle = TickStyle.None;
+            pathTimelineTrackBar.Location = new Point(100, 5);
+            pathTimelineTrackBar.Width = 400;
+            pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
+            pathTimelineTrackBar.MouseDown += (s, e) => { pathIsPlaying = false; pathPlayPauseButton.Text = "▶ Play"; };
+            timelinePanel.Controls.Add(pathTimelineTrackBar);
+
+            this.Controls.Add(timelinePanel);
+            timelinePanel.BringToFront();
 
             // Separator before live telemetry
             ToolStripSeparator separator2 = new ToolStripSeparator();
@@ -7033,8 +7133,12 @@ namespace entity.Renderers
         public void LoadPlayerPath(string filePath)
         {
             playerPath.Clear();
+            multiPlayerPaths.Clear();
+            pathPlayerNames.Clear();
             pathCurrentIndex = 0;
             pathTimeAccumulator = 0;
+            pathMinTimestamp = float.MaxValue;
+            pathMaxTimestamp = float.MinValue;
 
             try
             {
@@ -7042,33 +7146,65 @@ namespace entity.Renderers
                 float autoTimestamp = 0;
                 int skippedLines = 0;
 
-                // Column indices (default for simple x,y,z format)
-                int xCol = 0, yCol = 1, zCol = 2, timestampCol = 3, teamCol = -1;
+                // Column indices - support full 36-column format
+                Dictionary<string, int> cols = new Dictionary<string, int>();
                 bool hasHeader = false;
-                float timestampDivisor = 1.0f; // For converting ms to seconds
+                float timestampDivisor = 1.0f;
 
                 // Check for header row and detect column layout
                 if (lines.Length > 0)
                 {
                     string[] headerParts = lines[0].Split(',');
-                    for (int i = 0; i < headerParts.Length; i++)
+                    string firstCol = headerParts[0].Trim().ToLowerInvariant();
+                    hasHeader = firstCol == "timestamp" || firstCol == "playername" ||
+                                firstCol == "x" || firstCol == "posx" || !firstCol.Contains("-");
+
+                    if (hasHeader)
                     {
-                        string col = headerParts[i].Trim().ToLowerInvariant();
-                        if (col == "x") { xCol = i; hasHeader = true; }
-                        else if (col == "y") { yCol = i; hasHeader = true; }
-                        else if (col == "z") { zCol = i; hasHeader = true; }
-                        else if (col == "team") { teamCol = i; hasHeader = true; }
-                        else if (col == "gametimems" || col == "timestamp")
+                        for (int i = 0; i < headerParts.Length; i++)
                         {
-                            timestampCol = i;
-                            hasHeader = true;
-                            if (col == "gametimems") timestampDivisor = 1000.0f; // Convert ms to seconds
+                            cols[headerParts[i].Trim().ToLowerInvariant()] = i;
                         }
+                        if (cols.ContainsKey("gametimems"))
+                            timestampDivisor = 1000.0f;
+                    }
+                    else
+                    {
+                        // Default simple format: x,y,z[,timestamp]
+                        cols["x"] = 0; cols["y"] = 1; cols["z"] = 2; cols["timestamp"] = 3;
                     }
                 }
 
+                // Helper to get column value
+                Func<string[], string, string> getStr = (parts, col) => {
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        return parts[cols[col]].Trim();
+                    return null;
+                };
+                Func<string[], string, float> getFloat = (parts, col) => {
+                    float val = 0;
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        float.TryParse(parts[cols[col]].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out val);
+                    return val;
+                };
+                Func<string[], string, int> getInt = (parts, col) => {
+                    int val = 0;
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                        int.TryParse(parts[cols[col]].Trim(), out val);
+                    return val;
+                };
+                Func<string[], string, bool> getBool = (parts, col) => {
+                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                    {
+                        string val = parts[cols[col]].Trim().ToLowerInvariant();
+                        return val == "true" || val == "1" || val == "yes";
+                    }
+                    return false;
+                };
+
                 int startLine = hasHeader ? 1 : 0;
-                int minColumns = Math.Max(Math.Max(xCol, yCol), Math.Max(zCol, timestampCol)) + 1;
+                Dictionary<string, PlayerPathPoint> lastPoints = new Dictionary<string, PlayerPathPoint>();
 
                 for (int lineIdx = startLine; lineIdx < lines.Length; lineIdx++)
                 {
@@ -7077,58 +7213,142 @@ namespace entity.Renderers
                         continue;
 
                     string[] parts = line.Split(',');
-                    if (parts.Length >= minColumns || parts.Length >= 3)
+                    if (parts.Length < 3)
                     {
-                        float x, y, z, timestamp;
-
-                        // Adjust column indices if file has fewer columns than expected
-                        int actualXCol = parts.Length > xCol ? xCol : 0;
-                        int actualYCol = parts.Length > yCol ? yCol : 1;
-                        int actualZCol = parts.Length > zCol ? zCol : 2;
-
-                        // Use InvariantCulture and TryParse for robust parsing
-                        if (!float.TryParse(parts[actualXCol].Trim(), System.Globalization.NumberStyles.Float,
-                            System.Globalization.CultureInfo.InvariantCulture, out x) ||
-                            !float.TryParse(parts[actualYCol].Trim(), System.Globalization.NumberStyles.Float,
-                            System.Globalization.CultureInfo.InvariantCulture, out y) ||
-                            !float.TryParse(parts[actualZCol].Trim(), System.Globalization.NumberStyles.Float,
-                            System.Globalization.CultureInfo.InvariantCulture, out z))
-                        {
-                            skippedLines++;
-                            continue;
-                        }
-
-                        // Try to get timestamp
-                        if (parts.Length > timestampCol &&
-                            float.TryParse(parts[timestampCol].Trim(), System.Globalization.NumberStyles.Float,
-                            System.Globalization.CultureInfo.InvariantCulture, out timestamp))
-                        {
-                            timestamp = timestamp / timestampDivisor; // Convert to seconds if needed
-                        }
-                        else
-                        {
-                            timestamp = autoTimestamp;
-                        }
-
-                        // Parse team (0=red, 1=blue, 2=green, 3=orange)
-                        int team = -1;
-                        if (teamCol >= 0 && parts.Length > teamCol)
-                        {
-                            string teamStr = parts[teamCol].Trim().ToLowerInvariant();
-                            if (teamStr.Contains("red")) team = 0;
-                            else if (teamStr.Contains("blue")) team = 1;
-                            else if (teamStr.Contains("green")) team = 2;
-                            else if (teamStr.Contains("orange")) team = 3;
-                        }
-
-                        playerPath.Add(new PlayerPathPoint(x, y, z, timestamp, team));
-                        autoTimestamp += 0.1f;
+                        skippedLines++;
+                        continue;
                     }
+
+                    // Parse position (try both x/y/z and posx/posy/posz)
+                    float x = getFloat(parts, "posx");
+                    float y = getFloat(parts, "posy");
+                    float z = getFloat(parts, "posz");
+                    if (x == 0 && y == 0 && z == 0)
+                    {
+                        x = getFloat(parts, "x");
+                        y = getFloat(parts, "y");
+                        z = getFloat(parts, "z");
+                    }
+                    if (x == 0 && y == 0 && z == 0 && parts.Length >= 3)
+                    {
+                        // Fall back to first 3 columns as x,y,z
+                        float.TryParse(parts[0].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out x);
+                        float.TryParse(parts[1].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out y);
+                        float.TryParse(parts[2].Trim(), System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out z);
+                    }
+
+                    if (x == 0 && y == 0 && z == 0)
+                    {
+                        skippedLines++;
+                        continue;
+                    }
+
+                    // Parse timestamp
+                    float timestamp = getFloat(parts, "timestamp");
+                    if (timestamp == 0) timestamp = getFloat(parts, "gametimems") / timestampDivisor;
+                    if (timestamp == 0) timestamp = autoTimestamp;
+                    autoTimestamp += 0.1f;
+
+                    // Track min/max timestamps
+                    if (timestamp < pathMinTimestamp) pathMinTimestamp = timestamp;
+                    if (timestamp > pathMaxTimestamp) pathMaxTimestamp = timestamp;
+
+                    // Parse player name
+                    string playerName = getStr(parts, "playername") ?? "Player";
+
+                    // Parse team
+                    int team = -1;
+                    string teamStr = getStr(parts, "team");
+                    if (!string.IsNullOrEmpty(teamStr))
+                    {
+                        teamStr = teamStr.ToLowerInvariant();
+                        if (teamStr.Contains("red") || teamStr == "0") team = 0;
+                        else if (teamStr.Contains("blue") || teamStr == "1") team = 1;
+                        else if (teamStr.Contains("green") || teamStr == "2") team = 2;
+                        else if (teamStr.Contains("orange") || teamStr == "3") team = 3;
+                        else int.TryParse(teamStr, out team);
+                    }
+
+                    // Parse all other fields
+                    float yaw = getFloat(parts, "yawdeg");
+                    if (yaw == 0) yaw = getFloat(parts, "yaw") * (180f / (float)Math.PI);
+                    string weapon = getStr(parts, "currentweapon");
+                    bool crouching = getBool(parts, "iscrouching");
+                    bool airborne = getBool(parts, "isairborne");
+                    bool isDead = getBool(parts, "isdead") || getInt(parts, "respawntimer") > 0;
+                    int emblemFg = getInt(parts, "emblemfg");
+                    int emblemBg = getInt(parts, "emblembg");
+                    int colorPrimary = getInt(parts, "colorprimary");
+                    int colorSecondary = getInt(parts, "colorsecondary");
+                    int colorTertiary = getInt(parts, "colortertiary");
+                    int colorQuaternary = getInt(parts, "colorquaternary");
+
+                    PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, playerName, weapon,
+                        crouching, airborne, isDead, emblemFg, emblemBg, colorPrimary, colorSecondary, colorTertiary, colorQuaternary);
+
+                    // Add to legacy single list
+                    playerPath.Add(point);
+
+                    // Add to multi-player structure with respawn detection
+                    if (!multiPlayerPaths.ContainsKey(playerName))
+                    {
+                        multiPlayerPaths[playerName] = new List<List<PlayerPathPoint>>();
+                        multiPlayerPaths[playerName].Add(new List<PlayerPathPoint>());
+                        pathPlayerNames.Add(playerName);
+                    }
+
+                    // Detect respawn: position jump > 10 units or was dead and now alive
+                    bool isRespawn = false;
+                    if (lastPoints.ContainsKey(playerName))
+                    {
+                        var last = lastPoints[playerName];
+                        float dist = (float)Math.Sqrt((x - last.X) * (x - last.X) + (y - last.Y) * (y - last.Y) + (z - last.Z) * (z - last.Z));
+                        if (dist > 10.0f || (last.IsDead && !isDead))
+                        {
+                            isRespawn = true;
+                        }
+                    }
+
+                    if (isRespawn)
+                    {
+                        // Start new segment
+                        multiPlayerPaths[playerName].Add(new List<PlayerPathPoint>());
+                    }
+
+                    // Add point to current segment
+                    var currentSegment = multiPlayerPaths[playerName][multiPlayerPaths[playerName].Count - 1];
+                    currentSegment.Add(point);
+                    lastPoints[playerName] = point;
                 }
+
+                // Update player dropdown
+                if (pathPlayerDropdown != null)
+                {
+                    pathPlayerDropdown.Items.Clear();
+                    pathPlayerDropdown.Items.Add("All Players");
+                    foreach (string name in pathPlayerNames)
+                    {
+                        pathPlayerDropdown.Items.Add(name);
+                    }
+                    pathPlayerDropdown.SelectedIndex = 0;
+                    selectedPathPlayer = null;
+                }
+
+                // Initialize timeline
+                if (pathMinTimestamp == float.MaxValue) pathMinTimestamp = 0;
+                if (pathMaxTimestamp == float.MinValue) pathMaxTimestamp = 0;
+                pathCurrentTimestamp = pathMinTimestamp;
+                UpdateTimelineLabel();
 
                 if (playerPath.Count > 0)
                 {
-                    string msg = $"Loaded {playerPath.Count} path points.";
+                    string msg = $"Loaded {playerPath.Count} path points for {pathPlayerNames.Count} player(s).";
+                    int totalSegments = 0;
+                    foreach (var kvp in multiPlayerPaths) totalSegments += kvp.Value.Count;
+                    msg += $"\n{totalSegments} path segments (respawns detected).";
                     if (skippedLines > 0)
                         msg += $"\n({skippedLines} lines skipped due to invalid format)";
                     MessageBox.Show(msg, "Path Loaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -7192,7 +7412,9 @@ namespace entity.Renderers
         {
             pathCurrentIndex = 0;
             pathTimeAccumulator = 0;
+            pathCurrentTimestamp = pathMinTimestamp;
             pathIsPlaying = false;
+            UpdateTimelineLabel();
         }
 
         /// <summary>
@@ -7208,6 +7430,7 @@ namespace entity.Renderers
             pathLastFrameTime = now;
 
             pathTimeAccumulator += deltaTime * pathPlaybackSpeed;
+            pathCurrentTimestamp = pathTimeAccumulator;
 
             // Find current position based on time
             while (pathCurrentIndex < playerPath.Count - 1 &&
@@ -7216,10 +7439,15 @@ namespace entity.Renderers
                 pathCurrentIndex++;
             }
 
+            // Update timeline
+            UpdateTimelineLabel();
+
             // Stop at end
-            if (pathCurrentIndex >= playerPath.Count - 1)
+            if (pathCurrentTimestamp >= pathMaxTimestamp || pathCurrentIndex >= playerPath.Count - 1)
             {
                 pathIsPlaying = false;
+                if (pathPlayPauseButton != null)
+                    pathPlayPauseButton.Text = "▶ Play";
             }
         }
 
@@ -7261,7 +7489,7 @@ namespace entity.Renderers
         /// </summary>
         private void RenderPlayerPath()
         {
-            if (playerPath.Count == 0)
+            if (multiPlayerPaths.Count == 0 && playerPath.Count == 0)
                 return;
 
             // Try to load biped model if not already attempted
@@ -7270,72 +7498,134 @@ namespace entity.Renderers
                 LoadPlayerBipedModel();
             }
 
-            // Get current team for color
-            int currentTeam = (pathCurrentIndex < playerPath.Count) ? playerPath[pathCurrentIndex].Team : -1;
-            Color teamColor = GetTeamColor(currentTeam);
-
-            // Draw path trail as lines
-            if (showPathTrail && playerPath.Count >= 2)
+            // Draw path trails as separate segments (not connected across respawns)
+            if (showPathTrail)
             {
                 render.device.SetTexture(0, null);
                 render.device.RenderState.Lighting = false;
                 render.device.VertexFormat = CustomVertex.PositionColored.Format;
                 render.device.Transform.World = Matrix.Identity;
 
-                // Create line vertices with team colors
-                CustomVertex.PositionColored[] lineVerts = new CustomVertex.PositionColored[playerPath.Count];
-                for (int i = 0; i < playerPath.Count; i++)
+                foreach (var kvp in multiPlayerPaths)
                 {
-                    Color ptColor = (i <= pathCurrentIndex) ? GetTeamColor(playerPath[i].Team) : Color.DarkGray;
-                    lineVerts[i] = new CustomVertex.PositionColored(
-                        playerPath[i].X, playerPath[i].Y, playerPath[i].Z,
-                        ptColor.ToArgb()
-                    );
-                }
+                    string playerName = kvp.Key;
+                    if (selectedPathPlayer != null && playerName != selectedPathPlayer)
+                        continue;
 
-                render.device.DrawUserPrimitives(PrimitiveType.LineStrip, lineVerts.Length - 1, lineVerts);
+                    foreach (var segment in kvp.Value)
+                    {
+                        if (segment.Count < 2) continue;
+
+                        // Only draw points up to current timestamp
+                        List<CustomVertex.PositionColored> verts = new List<CustomVertex.PositionColored>();
+                        foreach (var pt in segment)
+                        {
+                            if (pt.Timestamp > pathCurrentTimestamp) break;
+                            Color ptColor = pt.Team >= 0 ? GetTeamColor(pt.Team) : Color.White;
+                            verts.Add(new CustomVertex.PositionColored(pt.X, pt.Y, pt.Z, ptColor.ToArgb()));
+                        }
+
+                        if (verts.Count >= 2)
+                        {
+                            render.device.DrawUserPrimitives(PrimitiveType.LineStrip, verts.Count - 1, verts.ToArray());
+                        }
+                    }
+                }
                 render.device.RenderState.Lighting = true;
             }
 
-            // Draw current position marker
-            Vector3 currentPos = GetCurrentPathPosition();
-
-            // Use biped model if available, otherwise fall back to cylinder
-            if (playerBipedModel != null)
+            // Find and render each player at their current position
+            foreach (var kvp in multiPlayerPaths)
             {
-                // Set up transform for biped model
-                render.device.Transform.World = Matrix.Translation(currentPos.X, currentPos.Y, currentPos.Z);
+                string playerName = kvp.Key;
+                if (selectedPathPlayer != null && playerName != selectedPathPlayer)
+                    continue;
 
-                // Apply team color tint by modifying material before drawing
-                Material teamMaterial = new Material();
-                teamMaterial.Diffuse = teamColor;
-                teamMaterial.Ambient = teamColor;
-                teamMaterial.Emissive = Color.FromArgb(teamColor.R / 3, teamColor.G / 3, teamColor.B / 3);
+                // Find the point for this player at current timestamp
+                PlayerPathPoint? currentPoint = null;
+                PlayerPathPoint? prevPoint = null;
 
-                // Draw the biped model with team color
-                render.device.RenderState.Lighting = true;
-                render.device.Material = teamMaterial;
-                ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
-            }
-            else
-            {
-                // Fall back to cylinder marker
-                if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+                foreach (var segment in kvp.Value)
                 {
-                    playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
+                    for (int i = 0; i < segment.Count; i++)
+                    {
+                        if (segment[i].Timestamp <= pathCurrentTimestamp)
+                        {
+                            prevPoint = currentPoint;
+                            currentPoint = segment[i];
+                        }
+                        else break;
+                    }
                 }
 
-                PlayerMarkerMaterial = new Material();
-                PlayerMarkerMaterial.Diffuse = teamColor;
-                PlayerMarkerMaterial.Ambient = teamColor;
-                PlayerMarkerMaterial.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+                if (!currentPoint.HasValue) continue;
+                var pt = currentPoint.Value;
 
-                Matrix rotation = Matrix.RotationX((float)(Math.PI / 2));
-                render.device.Transform.World = rotation * Matrix.Translation(currentPos.X, currentPos.Y, currentPos.Z + 0.35f);
-                render.device.Material = PlayerMarkerMaterial;
-                render.device.SetTexture(0, null);
-                render.device.RenderState.FillMode = FillMode.Solid;
-                playerMarkerMesh.DrawSubset(0);
+                // Skip if dead
+                if (pt.IsDead) continue;
+
+                Color teamColor = pt.Team >= 0 ? GetTeamColor(pt.Team) : Color.White;
+                float groundOffset = -0.2f;
+
+                // Draw team color circle at ground level
+                DrawTeamCircle(pt.X, pt.Y, pt.Z + groundOffset, teamColor);
+
+                // Use biped model if available, otherwise fall back to cylinder
+                if (playerBipedModel != null)
+                {
+                    float yawRadians = pt.FacingYaw * (float)(Math.PI / 180.0);
+                    Matrix rotation = Matrix.RotationZ(yawRadians);
+                    Matrix translation = Matrix.Translation(pt.X, pt.Y, pt.Z + groundOffset);
+                    render.device.Transform.World = Matrix.Multiply(rotation, translation);
+
+                    Material teamMaterial = new Material();
+                    teamMaterial.Diffuse = teamColor;
+                    teamMaterial.Ambient = teamColor;
+                    teamMaterial.Emissive = Color.FromArgb(teamColor.R / 3, teamColor.G / 3, teamColor.B / 3);
+
+                    render.device.RenderState.Lighting = true;
+                    render.device.Material = teamMaterial;
+                    ParsedModel.DisplayedInfo.Draw(ref render.device, playerBipedModel);
+                }
+                else
+                {
+                    if (playerMarkerMesh == null || playerMarkerMesh.Disposed)
+                    {
+                        playerMarkerMesh = Mesh.Cylinder(render.device, 0.2f, 0.1f, 0.7f, 8, 1);
+                    }
+
+                    PlayerMarkerMaterial = new Material();
+                    PlayerMarkerMaterial.Diffuse = teamColor;
+                    PlayerMarkerMaterial.Ambient = teamColor;
+                    PlayerMarkerMaterial.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
+
+                    float yawRadians = pt.FacingYaw * (float)(Math.PI / 180.0);
+                    Matrix yawRotation = Matrix.RotationZ(yawRadians);
+                    Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
+                    Matrix translation = Matrix.Translation(pt.X, pt.Y, pt.Z + 0.35f + groundOffset);
+                    render.device.Transform.World = Matrix.Multiply(Matrix.Multiply(tiltRotation, yawRotation), translation);
+                    render.device.Material = PlayerMarkerMaterial;
+                    render.device.SetTexture(0, null);
+                    render.device.RenderState.FillMode = FillMode.Solid;
+                    playerMarkerMesh.DrawSubset(0);
+                }
+
+                // Draw player name above head (create temporary telemetry object for DrawPlayerName)
+                PlayerTelemetry tempTelemetry = new PlayerTelemetry();
+                tempTelemetry.PlayerName = pt.PlayerName;
+                tempTelemetry.Team = pt.Team;
+                tempTelemetry.PosX = pt.X;
+                tempTelemetry.PosY = pt.Y;
+                tempTelemetry.PosZ = pt.Z;
+                tempTelemetry.CurrentWeapon = pt.CurrentWeapon;
+                tempTelemetry.EmblemFg = pt.EmblemFg;
+                tempTelemetry.EmblemBg = pt.EmblemBg;
+                tempTelemetry.ColorPrimary = pt.ColorPrimary;
+                tempTelemetry.ColorSecondary = pt.ColorSecondary;
+                tempTelemetry.ColorTertiary = pt.ColorTertiary;
+                tempTelemetry.ColorQuaternary = pt.ColorQuaternary;
+                tempTelemetry.IsDead = pt.IsDead;
+                DrawPlayerName(tempTelemetry, pt.IsDead);
             }
         }
 
@@ -8430,6 +8720,59 @@ namespace entity.Renderers
             if (sender is TrackBar tb)
             {
                 pathPlaybackSpeed = tb.Value / 10.0f; // 0.1x to 5.0x speed
+            }
+        }
+
+        /// <summary>
+        /// Event handler for timeline trackbar scroll.
+        /// </summary>
+        private void PathTimelineTrackBar_Scroll(object sender, EventArgs e)
+        {
+            if (pathTimelineTrackBar == null || pathMaxTimestamp <= pathMinTimestamp)
+                return;
+
+            // Calculate timestamp from trackbar position
+            float t = pathTimelineTrackBar.Value / 1000.0f;
+            pathCurrentTimestamp = pathMinTimestamp + t * (pathMaxTimestamp - pathMinTimestamp);
+            pathTimeAccumulator = pathCurrentTimestamp;
+
+            // Update path index for legacy single-player path
+            if (playerPath.Count > 0)
+            {
+                pathCurrentIndex = 0;
+                for (int i = 0; i < playerPath.Count - 1; i++)
+                {
+                    if (playerPath[i + 1].Timestamp > pathCurrentTimestamp)
+                        break;
+                    pathCurrentIndex = i + 1;
+                }
+            }
+
+            UpdateTimelineLabel();
+        }
+
+        /// <summary>
+        /// Updates the timeline label with current/total time.
+        /// </summary>
+        private void UpdateTimelineLabel()
+        {
+            if (pathTimeLabel == null) return;
+
+            float currentSecs = pathCurrentTimestamp - pathMinTimestamp;
+            float totalSecs = pathMaxTimestamp - pathMinTimestamp;
+
+            int curMins = (int)(currentSecs / 60);
+            int curSecs = (int)(currentSecs % 60);
+            int totMins = (int)(totalSecs / 60);
+            int totSecs = (int)(totalSecs % 60);
+
+            pathTimeLabel.Text = $"{curMins}:{curSecs:D2} / {totMins}:{totSecs:D2}";
+
+            // Update trackbar position if not being dragged
+            if (pathTimelineTrackBar != null && !pathTimelineTrackBar.Focused && pathMaxTimestamp > pathMinTimestamp)
+            {
+                float t = (pathCurrentTimestamp - pathMinTimestamp) / (pathMaxTimestamp - pathMinTimestamp);
+                pathTimelineTrackBar.Value = Math.Max(0, Math.Min(1000, (int)(t * 1000)));
             }
         }
 
