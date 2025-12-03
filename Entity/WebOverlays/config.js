@@ -10,8 +10,8 @@ window.config = {
     // WebSocket port - default HaloCaster port is 3333
     port: '3333',
 
-    // Emblem service URL
-    emblemServiceUrl: 'https://h2emblem.carnagereport.workers.dev',
+    // Emblem service URL (VPS)
+    emblemServiceUrl: 'http://104.207.143.249:3001',
 
     // Weapon icons base URL
     weaponIconsUrl: 'https://raw.githubusercontent.com/i2aMpAnT/CarnageReport.com/main/assets/weapons'
