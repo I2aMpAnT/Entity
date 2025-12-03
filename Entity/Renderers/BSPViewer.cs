@@ -1009,7 +1009,7 @@ namespace entity.Renderers
                     sb.AppendLine($"  - {p.PlayerName}: Pos=({p.PosX:F1}, {p.PosY:F1}, {p.PosZ:F1})");
                     sb.AppendLine($"    Team={p.Team} Spd={p.Speed:F1} Yaw={p.YawDeg:F0}° Crouch={p.IsCrouching} Air={p.IsAirborne}");
                     sb.AppendLine($"    Weapon={p.CurrentWeapon} Frags={p.FragGrenades} Plasma={p.PlasmaGrenades} Event={p.Event ?? "none"}");
-                    sb.AppendLine($"    K/D: {p.Kills}/{p.Deaths} IsDead={p.IsDead}");
+                    sb.AppendLine($"    K/D: {p.Kills}/{p.Deaths} RespawnTimer={p.RespawnTimer} IsDead={p.IsDead}");
                 }
             }
 
