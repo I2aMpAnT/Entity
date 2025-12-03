@@ -8179,9 +8179,9 @@ namespace entity.Renderers
                     float pitch = getFloat(parts, "pitchdeg");
                     if (pitch == 0)
                     {
-                        float pitchRad = getFloat(parts, "pitch");
-                        // Only convert if not NaN (NaN check: NaN != NaN is true)
-                        if (pitchRad == pitchRad) pitch = pitchRad * (180f / (float)Math.PI);
+                        float pitchRadValue = getFloat(parts, "pitch");
+                        // Only convert if not NaN
+                        if (!float.IsNaN(pitchRadValue)) pitch = pitchRadValue * (180f / (float)Math.PI);
                     }
                     string weapon = getStr(parts, "currentweapon");
                     bool crouching = getBool(parts, "iscrouching");
@@ -8465,8 +8465,8 @@ namespace entity.Renderers
             // Set camera yaw and pitch to player's facing direction
             cam.radianh = point.FacingYaw * (float)(Math.PI / 180.0);
             // Set pitch (handle NaN by defaulting to 0 for level view)
-            float pitchRad = point.FacingPitch * (float)(Math.PI / 180.0);
-            cam.radianv = float.IsNaN(pitchRad) ? 0f : pitchRad;
+            float playbackPitchRad = point.FacingPitch * (float)(Math.PI / 180.0);
+            cam.radianv = float.IsNaN(playbackPitchRad) ? 0f : playbackPitchRad;
             cam.ComputePosition();
         }
 
@@ -9046,7 +9046,6 @@ namespace entity.Renderers
                             PlasmaGrenades = p.PlasmaGrenades,
                             Kills = p.Kills,
                             Deaths = p.Deaths,
-                            Assists = p.Assists,
                             EmblemFg = p.EmblemFg,
                             EmblemBg = p.EmblemBg,
                             ColorPrimary = p.ColorPrimary,
