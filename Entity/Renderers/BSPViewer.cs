@@ -9118,6 +9118,12 @@ namespace entity.Renderers
                     // This was already parsed in ParseTelemetryLine
                     bool telemetryIsDead = telemetry.IsDead;
 
+                    // Debug: Log state changes for death detection
+                    if (telemetryIsDead != wasDeadBefore)
+                    {
+                        AddDebugLog($"[DEATH-DEBUG] {playerName}: IsDead={telemetry.IsDead}, RespawnTimer={telemetry.RespawnTimer}, WasDead={wasDeadBefore}");
+                    }
+
                     // PRIMARY: Detect death transition (isDead && !wasDeadBefore)
                     // This triggers immediately when respawnTimer becomes non-zero or isDead becomes true
                     if (telemetryIsDead && !wasDeadBefore)
