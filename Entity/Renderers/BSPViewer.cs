@@ -636,6 +636,21 @@ namespace entity.Renderers
         private Dictionary<string, Vector3> playerPrevPosition = new Dictionary<string, Vector3>();
 
         /// <summary>
+        /// Tracks death position per player (where they died) to detect respawn.
+        /// </summary>
+        private Dictionary<string, Vector3> playerDeathPosition = new Dictionary<string, Vector3>();
+
+        /// <summary>
+        /// Tracks last update time per player for stale player cleanup.
+        /// </summary>
+        private Dictionary<string, DateTime> playerLastUpdateTime = new Dictionary<string, DateTime>();
+
+        /// <summary>
+        /// How long before a player is considered stale (no data received).
+        /// </summary>
+        private const double StalePlayerTimeoutSeconds = 10.0;
+
+        /// <summary>
         /// Lock object for thread-safe access to live player data.
         /// </summary>
         private object livePlayersLock = new object();
@@ -8950,20 +8965,95 @@ namespace entity.Renderers
                 }
             }
 
-            // Debug: show first columns and total count to detect offset issues
-            if (parts.Length > 3)
-            {
-                AddDebugLog($"[ROW] [0]={parts[0]} [1]={parts[1]} [2]={parts[2]} total={parts.Length}");
-            }
-
             // Parse data row
             PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
             if (telemetry != null)
             {
+                string playerName = telemetry.PlayerName;
+                DateTime now = DateTime.Now;
+                Vector3 currentPos = new Vector3(telemetry.PosX, telemetry.PosY, telemetry.PosZ);
+
                 lock (livePlayersLock)
                 {
-                    livePlayers[telemetry.PlayerName] = telemetry;
+                    // Track last update time for stale player detection
+                    playerLastUpdateTime[playerName] = now;
+
+                    // Death/Respawn detection based on position changes
+                    bool wasDeadBefore = playerDeadState.ContainsKey(playerName) && playerDeadState[playerName];
+                    int prevDeaths = playerPrevDeaths.ContainsKey(playerName) ? playerPrevDeaths[playerName] : 0;
+
+                    // Check for new death (death count increased)
+                    if (telemetry.Deaths > prevDeaths)
+                    {
+                        // Player just died - mark as dead and store death position
+                        playerDeadState[playerName] = true;
+                        playerDeathPosition[playerName] = currentPos;
+                        telemetry.IsDead = true;
+                        AddDebugLog($"[DEATH] {playerName} died at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
+                    }
+                    else if (wasDeadBefore)
+                    {
+                        // Check for respawn - position changed significantly from death location
+                        if (playerDeathPosition.ContainsKey(playerName))
+                        {
+                            Vector3 deathPos = playerDeathPosition[playerName];
+                            float distFromDeath = (float)Math.Sqrt(
+                                (currentPos.X - deathPos.X) * (currentPos.X - deathPos.X) +
+                                (currentPos.Y - deathPos.Y) * (currentPos.Y - deathPos.Y) +
+                                (currentPos.Z - deathPos.Z) * (currentPos.Z - deathPos.Z));
+
+                            // If moved more than 1 unit from death position, they've respawned
+                            if (distFromDeath > 1.0f)
+                            {
+                                playerDeadState[playerName] = false;
+                                telemetry.IsDead = false;
+                                AddDebugLog($"[RESPAWN] {playerName} respawned at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1}) - moved {distFromDeath:F1} from death");
+                            }
+                            else
+                            {
+                                // Still at death location
+                                telemetry.IsDead = true;
+                            }
+                        }
+                        else
+                        {
+                            telemetry.IsDead = true;
+                        }
+                    }
+                    else
+                    {
+                        // Not dead
+                        telemetry.IsDead = false;
+                    }
+
+                    // Update tracking
+                    playerPrevDeaths[playerName] = telemetry.Deaths;
+                    playerPrevPosition[playerName] = currentPos;
+
+                    // Store telemetry
+                    livePlayers[playerName] = telemetry;
+
+                    // Clean up stale players (no data for StalePlayerTimeoutSeconds)
+                    var staleKeys = new List<string>();
+                    foreach (var kvp in playerLastUpdateTime)
+                    {
+                        if ((now - kvp.Value).TotalSeconds > StalePlayerTimeoutSeconds && kvp.Key != playerName)
+                        {
+                            staleKeys.Add(kvp.Key);
+                        }
+                    }
+                    foreach (var key in staleKeys)
+                    {
+                        livePlayers.Remove(key);
+                        playerLastUpdateTime.Remove(key);
+                        playerDeadState.Remove(key);
+                        playerPrevDeaths.Remove(key);
+                        playerPrevPosition.Remove(key);
+                        playerDeathPosition.Remove(key);
+                        AddDebugLog($"[STALE] Removed stale player: {key}");
+                    }
                 }
+
                 // Update dropdowns if player list changed
                 UpdateLivePlayerDropdowns();
 
@@ -9974,7 +10064,7 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemKey(PlayerTelemetry player)
         {
-            return $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}";
+            return $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}_{player.ColorTertiary}_{player.ColorQuaternary}";
         }
 
         /// <summary>
