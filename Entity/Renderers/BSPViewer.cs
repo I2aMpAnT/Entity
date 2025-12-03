@@ -7534,12 +7534,19 @@ namespace entity.Renderers
                         PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
                         if (telemetry != null)
                         {
+                            // Debug: show raw position columns
+                            int posxIdx = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
+                            string rawPosX = (posxIdx >= 0 && parts.Length > posxIdx) ? parts[posxIdx] : "N/A";
+                            if (telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0)
+                            {
+                                AddDebugLog($"[RAW] {telemetry.PlayerName} posx[{posxIdx}]='{rawPosX}' total_cols={parts.Length}");
+                            }
+
                             lock (livePlayersLock)
                             {
                                 // IsDead is already set from RespawnTimer in ParseTelemetryLine
                                 livePlayers[telemetry.PlayerName] = telemetry;
                             }
-                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} Deaths={telemetry.Deaths} RespawnTimer={telemetry.RespawnTimer} Dead={telemetry.IsDead}");
                         }
                     }
                 }
