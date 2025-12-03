@@ -1616,7 +1616,8 @@ namespace entity.Renderers
 
                 // Show recent kills
                 sb.AppendLine("\n=== KILL EVENTS ===\n");
-                var recentKills = killEvents.Where(k => k.Timestamp <= pathCurrentTimestamp).TakeLast(10);
+                var filteredKills = killEvents.Where(k => k.Timestamp <= pathCurrentTimestamp).ToList();
+                var recentKills = filteredKills.Skip(Math.Max(0, filteredKills.Count - 10)).ToList();
                 foreach (var kill in recentKills)
                 {
                     string teamName = kill.Team == 0 ? "Red" : kill.Team == 1 ? "Blue" : kill.Team == 2 ? "Green" : kill.Team == 3 ? "Orange" : "FFA";
