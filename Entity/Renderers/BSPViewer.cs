@@ -7582,14 +7582,22 @@ namespace entity.Renderers
         private void SetDefaultColumnOrder()
         {
             csvColumnIndices.Clear();
-            // Matches actual telemetry sender format (20 columns):
-            // PlayerName, XboxIdentifier, MachineIdentifier, Team,
-            // EmblemForeground, EmblemBackground, PrimaryColor, SecondaryColor, TertiaryColor, QuaternaryColor,
-            // Timestamp, GameTimeMs, X, Y, Z, FacingYaw, FacingPitch, IsCrouching, IsAirborne, CurrentWeapon
+            // Matches actual telemetry sender format (36 columns):
+            // 1-5: Timestamp, PlayerName, Team, XboxId, MachineId
+            // 6-11: EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary
+            // 12-18: PosX, PosY, PosZ, VelX, VelY, VelZ, Speed
+            // 19-22: Yaw, Pitch, YawDeg, PitchDeg
+            // 23-28: IsDead, RespawnTimer, IsCrouching, CrouchBlend, IsAirborne, AirborneTicks
+            // 29-32: WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades
+            // 33-36: Kills, Deaths, Assists, Event
             string[] columns = {
-                "playername", "xboxidentifier", "machineidentifier", "team",
-                "emblemforeground", "emblembackground", "primarycolor", "secondarycolor", "tertiarycolor", "quaternarycolor",
-                "timestamp", "gametimems", "x", "y", "z", "facingyaw", "facingpitch", "iscrouching", "isairborne", "currentweapon"
+                "timestamp", "playername", "team", "xboxid", "machineid",
+                "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
+                "posx", "posy", "posz", "velx", "vely", "velz", "speed",
+                "yaw", "pitch", "yawdeg", "pitchdeg",
+                "isdead", "respawntimer", "iscrouching", "crouchblend", "isairborne", "airborneticks",
+                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
+                "kills", "deaths", "assists", "event"
             };
             for (int i = 0; i < columns.Length; i++)
             {
@@ -7645,9 +7653,9 @@ namespace entity.Renderers
                 if (string.IsNullOrEmpty(t.PlayerName))
                     return null;
 
-                // Identity (try both old and new column names)
-                t.XboxId = getStr("xboxidentifier") ?? getStr("xboxid");
-                t.MachineId = getStr("machineidentifier") ?? getStr("machineid");
+                // Identity
+                t.XboxId = getStr("xboxid");
+                t.MachineId = getStr("machineid");
 
                 // Team - handle both string names and numeric values
                 string teamStr = getStr("team");
@@ -7661,35 +7669,35 @@ namespace entity.Renderers
                     else int.TryParse(teamStr, out t.Team);
                 }
 
-                // Emblem & Colors (try both old and new column names)
-                t.EmblemFg = getInt("emblemforeground") != 0 ? getInt("emblemforeground") : getInt("emblemfg");
-                t.EmblemBg = getInt("emblembackground") != 0 ? getInt("emblembackground") : getInt("emblembg");
-                t.ColorPrimary = getInt("primarycolor") != 0 ? getInt("primarycolor") : getInt("colorprimary");
-                t.ColorSecondary = getInt("secondarycolor") != 0 ? getInt("secondarycolor") : getInt("colorsecondary");
-                t.ColorTertiary = getInt("tertiarycolor") != 0 ? getInt("tertiarycolor") : getInt("colortertiary");
-                t.ColorQuaternary = getInt("quaternarycolor") != 0 ? getInt("quaternarycolor") : getInt("colorquaternary");
+                // Emblem & Colors
+                t.EmblemFg = getInt("emblemfg");
+                t.EmblemBg = getInt("emblembg");
+                t.ColorPrimary = getInt("colorprimary");
+                t.ColorSecondary = getInt("colorsecondary");
+                t.ColorTertiary = getInt("colortertiary");
+                t.ColorQuaternary = getInt("colorquaternary");
 
                 // Timestamp
                 string tsStr = getStr("timestamp");
                 if (!string.IsNullOrEmpty(tsStr))
                     DateTime.TryParse(tsStr, out t.Timestamp);
 
-                // Position (try both x/y/z and posx/posy/posz)
-                t.PosX = getFloat("x") != 0 ? getFloat("x") : getFloat("posx");
-                t.PosY = getFloat("y") != 0 ? getFloat("y") : getFloat("posy");
-                t.PosZ = getFloat("z") != 0 ? getFloat("z") : getFloat("posz");
+                // Position
+                t.PosX = getFloat("posx");
+                t.PosY = getFloat("posy");
+                t.PosZ = getFloat("posz");
 
                 // Velocity (may not be present in all formats)
                 t.VelX = getFloat("velx");
                 t.VelY = getFloat("vely");
                 t.VelZ = getFloat("velz");
-                t.Speed = getFloat("speed") != 0 ? getFloat("speed") : getFloat("gametimems"); // Use gametimems as fallback display
+                t.Speed = getFloat("speed");
 
-                // Orientation (try both facingyaw/facingpitch and yaw/pitch)
-                t.Yaw = getFloat("facingyaw") != 0 ? getFloat("facingyaw") : getFloat("yaw");
-                t.Pitch = getFloat("facingpitch") != 0 ? getFloat("facingpitch") : getFloat("pitch");
-                t.YawDeg = t.Yaw * (180.0f / (float)Math.PI); // Convert radians to degrees
-                t.PitchDeg = t.Pitch * (180.0f / (float)Math.PI);
+                // Orientation (yaw/pitch in radians, yawdeg/pitchdeg in degrees)
+                t.Yaw = getFloat("yaw");
+                t.Pitch = getFloat("pitch");
+                t.YawDeg = getFloat("yawdeg");
+                t.PitchDeg = getFloat("pitchdeg");
 
                 // Movement State
                 t.IsCrouching = getBool("iscrouching");
