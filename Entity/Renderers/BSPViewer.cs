@@ -309,6 +309,16 @@ namespace entity.Renderers
         private List<string> pathPlayerNames = new List<string>();
 
         /// <summary>
+        /// Map name from telemetry data (replay or live).
+        /// </summary>
+        private string telemetryMapName = null;
+
+        /// <summary>
+        /// Game type from telemetry data (replay or live).
+        /// </summary>
+        private string telemetryGameType = null;
+
+        /// <summary>
         /// Set of players to hide during playback/live view.
         /// </summary>
         private HashSet<string> hiddenPlayers = new HashSet<string>();
@@ -485,6 +495,10 @@ namespace entity.Renderers
             public string MachineId;
             public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
 
+            // Map Info
+            public string MapName;
+            public string GameType;
+
             // Emblem & Colors
             public int EmblemFg;
             public int EmblemBg;
@@ -511,6 +525,10 @@ namespace entity.Renderers
             public float YawDeg;
             public float PitchDeg;
 
+            // Health & Shield
+            public float Health;   // 0.0 = dead, 1.0 = full
+            public float Shield;   // 0.0 = none, >1.0 = overshield
+
             // Movement State
             public bool IsCrouching;
             public float CrouchBlend;
@@ -523,9 +541,10 @@ namespace entity.Renderers
             public int FragGrenades;
             public int PlasmaGrenades;
 
-            // K/D Stats
+            // K/D/A Stats
             public int Kills;
             public int Deaths;
+            public int Assists;
             public int RespawnTimer;
             public bool IsDead;
 
@@ -8135,6 +8154,12 @@ namespace entity.Renderers
                         addAlias("facingpitch", "pitch");
                         addAlias("name", "playername");
                         addAlias("player", "playername");
+
+                        // Debug: log column detection
+                        AddDebugLog($"[REPLAY] Detected {cols.Count} columns in header");
+                        bool hasEmblem = cols.ContainsKey("emblemfg") && cols.ContainsKey("emblembg");
+                        bool hasColors = cols.ContainsKey("colorprimary");
+                        AddDebugLog($"[REPLAY] Emblem columns: {(hasEmblem ? "YES" : "NO")}, Color columns: {(hasColors ? "YES" : "NO")}");
                     }
                     else
                     {
@@ -8173,6 +8198,7 @@ namespace entity.Renderers
 
                 int startLine = hasHeader ? 1 : 0;
                 Dictionary<string, PlayerPathPoint> lastPoints = new Dictionary<string, PlayerPathPoint>();
+                bool extractedMapInfo = false;
 
                 for (int lineIdx = startLine; lineIdx < lines.Length; lineIdx++)
                 {
@@ -8212,6 +8238,20 @@ namespace entity.Renderers
                     {
                         skippedLines++;
                         continue;
+                    }
+
+                    // Extract map name and game type from first valid row
+                    if (!extractedMapInfo)
+                    {
+                        string mapName = getStr(parts, "mapname");
+                        string gameType = getStr(parts, "gametype");
+                        if (!string.IsNullOrEmpty(mapName))
+                        {
+                            telemetryMapName = mapName;
+                            telemetryGameType = gameType;
+                            AddDebugLog($"[REPLAY] Map: {mapName}, GameType: {gameType ?? "N/A"}");
+                        }
+                        extractedMapInfo = true;
                     }
 
                     // Parse timestamp
@@ -8293,6 +8333,8 @@ namespace entity.Renderers
                         multiPlayerPaths[playerName] = new List<List<PlayerPathPoint>>();
                         multiPlayerPaths[playerName].Add(new List<PlayerPathPoint>());
                         pathPlayerNames.Add(playerName);
+                        // Log first player's emblem data for debugging
+                        AddDebugLog($"[REPLAY] Player {playerName}: Team={team}, EmblemFG={emblemFg}, EmblemBG={emblemBg}, Colors={colorPrimary},{colorSecondary},{colorTertiary},{colorQuaternary}");
                     }
 
                     // Detect respawn: position jump > 10 units or was dead and now alive
@@ -9127,6 +9169,14 @@ namespace entity.Renderers
 
                     // Store telemetry
                     livePlayers[playerName] = telemetry;
+
+                    // Store map name and game type from first valid telemetry packet
+                    if (!string.IsNullOrEmpty(telemetry.MapName) && telemetryMapName != telemetry.MapName)
+                    {
+                        telemetryMapName = telemetry.MapName;
+                        telemetryGameType = telemetry.GameType;
+                        AddDebugLog($"[LIVE] Map: {telemetryMapName}, GameType: {telemetryGameType ?? "N/A"}");
+                    }
                 }
 
                 // Update dropdowns if player list changed
@@ -9336,19 +9386,25 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Sets up default column order matching the expected CSV format.
+        /// Sets up default column order matching the expected CSV format (40 columns).
         /// </summary>
         private void SetDefaultColumnOrder()
         {
             csvColumnIndices.Clear();
-            // Matches actual telemetry sender format (20 columns):
-            // PlayerName, XboxIdentifier, MachineIdentifier, Team, EmblemForeground, EmblemBackground,
-            // PrimaryColor, SecondaryColor, TertiaryColor, QuaternaryColor, Timestamp, GameTimeMs,
-            // X, Y, Z, FacingYaw (radians), FacingPitch (radians), IsCrouching, IsAirborne, CurrentWeapon
+            // Matches actual telemetry sender format (40 columns):
+            // Timestamp,MapName,GameType,PlayerName,Team,XboxId,MachineId,EmblemFg,EmblemBg,
+            // ColorPrimary,ColorSecondary,ColorTertiary,ColorQuaternary,PosX,PosY,PosZ,
+            // VelX,VelY,VelZ,Speed,Yaw,Pitch,YawDeg,PitchDeg,Health,Shield,IsDead,RespawnTimer,
+            // IsCrouching,CrouchBlend,IsAirborne,AirborneTicks,WeaponSlot,CurrentWeapon,
+            // FragGrenades,PlasmaGrenades,Kills,Deaths,Assists,Event
             string[] columns = {
-                "playername", "xboxid", "machineid", "team", "emblemfg", "emblembg",
-                "colorprimary", "colorsecondary", "colortertiary", "colorquaternary", "timestamp", "gametimems",
-                "posx", "posy", "posz", "yaw", "pitch", "iscrouching", "isairborne", "currentweapon"
+                "timestamp", "mapname", "gametype", "playername", "team", "xboxid", "machineid",
+                "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
+                "posx", "posy", "posz", "velx", "vely", "velz", "speed",
+                "yaw", "pitch", "yawdeg", "pitchdeg", "health", "shield",
+                "isdead", "respawntimer", "iscrouching", "crouchblend", "isairborne", "airborneticks",
+                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
+                "kills", "deaths", "assists", "event"
             };
             for (int i = 0; i < columns.Length; i++)
             {
@@ -9408,6 +9464,10 @@ namespace entity.Renderers
                 t.XboxId = getStr("xboxid");
                 t.MachineId = getStr("machineid");
 
+                // Map Info
+                t.MapName = getStr("mapname");
+                t.GameType = getStr("gametype");
+
                 // Team - handle both string names and numeric values
                 string teamStr = getStr("team");
                 if (!string.IsNullOrEmpty(teamStr))
@@ -9450,6 +9510,10 @@ namespace entity.Renderers
                 t.YawDeg = getFloat("yawdeg");
                 t.PitchDeg = getFloat("pitchdeg");
 
+                // Health & Shield
+                t.Health = getFloat("health");
+                t.Shield = getFloat("shield");
+
                 // Movement State
                 t.IsCrouching = getBool("iscrouching");
                 t.CrouchBlend = getFloat("crouchblend");
@@ -9462,9 +9526,10 @@ namespace entity.Renderers
                 t.FragGrenades = getInt("fraggrenades");
                 t.PlasmaGrenades = getInt("plasmagrenades");
 
-                // K/D Stats
+                // K/D/A Stats
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
+                t.Assists = getInt("assists");
                 t.RespawnTimer = getInt("respawntimer");
                 // Use both IsDead field and RespawnTimer for robust death detection
                 t.IsDead = getBool("isdead") || t.RespawnTimer > 0;
