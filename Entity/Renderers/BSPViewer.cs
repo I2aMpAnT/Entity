@@ -1468,22 +1468,25 @@ namespace entity.Renderers
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
 
-            // Handle pending replay file or start live listener
-            if (!string.IsNullOrEmpty(pendingReplayFile))
-            {
-                // Load replay file
-                LoadPlayerPath(pendingReplayFile);
-                EnableTelemetryViewOptions();
-            }
-            else
-            {
-                // Start live telemetry listener automatically
-                StartTelemetryListener();
-                btnLiveListener.Text = "⏹ STOP";
-                btnLiveListener.ForeColor = Color.Black;
-                showLiveTelemetry = true;
-                EnableTelemetryViewOptions();
-            }
+            // Defer loading replay file or starting listener until form is shown
+            // This prevents null reference issues during initialization
+            this.Shown += (s, e) => {
+                if (!string.IsNullOrEmpty(pendingReplayFile))
+                {
+                    // Load replay file
+                    LoadPlayerPath(pendingReplayFile);
+                    EnableTelemetryViewOptions();
+                }
+                else
+                {
+                    // Start live telemetry listener automatically
+                    StartTelemetryListener();
+                    btnLiveListener.Text = "⏹ STOP";
+                    btnLiveListener.ForeColor = Color.Black;
+                    showLiveTelemetry = true;
+                    EnableTelemetryViewOptions();
+                }
+            };
         }
 
         /// <summary>
