@@ -7534,22 +7534,16 @@ namespace entity.Renderers
                             }
                         }
 
+                        // Debug: show first columns and total count to detect offset issues
+                        if (parts.Length > 3)
+                        {
+                            AddDebugLog($"[ROW] [0]={parts[0]} [1]={parts[1]} [2]={parts[2]} total={parts.Length}");
+                        }
+
                         // Parse data row
                         PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
                         if (telemetry != null)
                         {
-                            // Debug: log raw data when position is zero
-                            if (telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0 && parts.Length > 13)
-                            {
-                                // Show actual position column values
-                                int xi = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
-                                int yi = csvColumnIndices.ContainsKey("posy") ? csvColumnIndices["posy"] : -1;
-                                int zi = csvColumnIndices.ContainsKey("posz") ? csvColumnIndices["posz"] : -1;
-                                string xv = xi >= 0 && xi < parts.Length ? parts[xi] : "N/A";
-                                string yv = yi >= 0 && yi < parts.Length ? parts[yi] : "N/A";
-                                string zv = zi >= 0 && zi < parts.Length ? parts[zi] : "N/A";
-                                AddDebugLog($"[POS0] idx={xi},{yi},{zi} val={xv},{yv},{zv} parts={parts.Length}");
-                            }
 
                             lock (livePlayersLock)
                             {
