@@ -145,7 +145,10 @@ const H2_COLORS_BY_NAME = {
 };
 
 function getColor(colorValue) {
-    if (!colorValue) return [128, 128, 128];
+    // Handle undefined/null/empty string but NOT 0 (which is a valid color index for White)
+    if (colorValue === undefined || colorValue === null || colorValue === '') {
+        return [128, 128, 128];
+    }
 
     const index = parseInt(colorValue);
     if (!isNaN(index) && index >= 0 && index < H2_COLORS_BY_INDEX.length) {

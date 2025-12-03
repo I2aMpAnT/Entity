@@ -458,14 +458,25 @@
                 setTimeout(init, 3000);
             }
 
+            // Team color constants for inline styles (fallback if CSS doesn't load)
+            const TEAM_COLORS = {
+                red: '#C54245',
+                blue: '#4169A8'
+            };
+
             function handleTeamScoreboard(response) {
                 console.log('Received team scoreboard:', response);
-                const teamIndex = parseInt(response.team_index);
+                // Handle team_index as number or string, default to -1 if invalid
+                const teamIndex = typeof response.team_index === 'number'
+                    ? response.team_index
+                    : parseInt(response.team_index);
 
                 if (teamIndex === 0) {
                     redTeamData = response;
                 } else if (teamIndex === 1) {
                     blueTeamData = response;
+                } else {
+                    console.warn('Invalid team_index:', response.team_index);
                 }
 
                 renderScoreboard();
@@ -518,8 +529,35 @@
                 }
 
                 // Show/hide team headers based on whether they have players
-                redHeader.style.display = hasRedPlayers ? 'flex' : 'none';
-                blueHeader.style.display = hasBluePlayers ? 'flex' : 'none';
+                // Apply inline styles as fallback in case CSS doesn't load
+                if (hasRedPlayers) {
+                    redHeader.style.display = 'flex';
+                    redHeader.style.backgroundColor = TEAM_COLORS.red;
+                    redHeader.style.justifyContent = 'space-between';
+                    redHeader.style.alignItems = 'center';
+                    redHeader.style.padding = '4px 10px';
+                    redHeader.style.fontSize = '18px';
+                    redHeader.style.fontWeight = '600';
+                    redHeader.style.color = 'white';
+                    redHeader.style.textShadow = '1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black';
+                } else {
+                    redHeader.style.display = 'none';
+                }
+
+                if (hasBluePlayers) {
+                    blueHeader.style.display = 'flex';
+                    blueHeader.style.backgroundColor = TEAM_COLORS.blue;
+                    blueHeader.style.justifyContent = 'space-between';
+                    blueHeader.style.alignItems = 'center';
+                    blueHeader.style.padding = '4px 10px';
+                    blueHeader.style.fontSize = '18px';
+                    blueHeader.style.fontWeight = '600';
+                    blueHeader.style.color = 'white';
+                    blueHeader.style.textShadow = '1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black';
+                } else {
+                    blueHeader.style.display = 'none';
+                }
+
                 teamGap.style.display = (hasRedPlayers || hasBluePlayers) ? 'block' : 'none';
 
                 // Update team headers
@@ -649,6 +687,14 @@
                 const row = document.createElement('div');
                 row.className = `player-row ${teamColor}`;
                 row.id = `player-row-${id}`;
+                // Apply inline style as fallback in case CSS doesn't load
+                row.style.backgroundColor = TEAM_COLORS[teamColor] || TEAM_COLORS.red;
+                row.style.display = 'flex';
+                row.style.alignItems = 'center';
+                row.style.padding = '2px 6px';
+                row.style.fontSize = '14px';
+                row.style.color = 'white';
+                row.style.textShadow = '1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black';
 
                 // Emblem container
                 const emblemDiv = document.createElement('div');
