@@ -1424,7 +1424,7 @@ namespace entity.Renderers
             // Live telemetry listener button
             btnLiveListener = new ToolStripButton();
             btnLiveListener.Text = "🔴 LIVE";
-            btnLiveListener.Font = new Font(btnLiveListener.Font, FontStyle.Bold);
+            btnLiveListener.Font = new System.Drawing.Font(btnLiveListener.Font, FontStyle.Bold);
             btnLiveListener.ForeColor = Color.DarkRed;
             btnLiveListener.DisplayStyle = ToolStripItemDisplayStyle.Text;
             btnLiveListener.Click += (s, e) => {
@@ -1472,7 +1472,7 @@ namespace entity.Renderers
             if (!string.IsNullOrEmpty(pendingReplayFile))
             {
                 // Load replay file
-                LoadCSVTelemetryPath(pendingReplayFile);
+                LoadPlayerPath(pendingReplayFile);
                 EnableTelemetryViewOptions();
             }
             else
@@ -10779,9 +10779,9 @@ namespace entity.Renderers
                 if (liveReplayMode)
                 {
                     // In replay mode - show current position and total
-                    double currentSecs = liveReplayTimestamp - minTime;
-                    int curMins = (int)(currentSecs / 60);
-                    int curSecsVal = (int)(currentSecs % 60);
+                    double liveCurrentSecs = liveReplayTimestamp - minTime;
+                    int curMins = (int)(liveCurrentSecs / 60);
+                    int curSecsVal = (int)(liveCurrentSecs % 60);
                     int totMins = (int)(totalSecs / 60);
                     int totSecs = (int)(totalSecs % 60);
                     pathTimeLabel.Text = $"⏪ {curMins}:{curSecsVal:D2} / {totMins}:{totSecs:D2}";

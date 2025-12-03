@@ -131,6 +131,9 @@
     <Compile Include="Main\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\TheaterModeLauncher.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Main\MainMenuEdit.cs">
       <SubType>Form</SubType>
     </Compile>
