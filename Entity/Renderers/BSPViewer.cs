@@ -7587,17 +7587,17 @@ namespace entity.Renderers
             //          EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary,
             //          PosX, PosY, PosZ, VelX, VelY, VelZ, Speed,
             //          Yaw, Pitch, YawDeg, PitchDeg,
-            //          IsDead, RespawnTimer, IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
+            //          IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
             //          WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades,
-            //          Kills, Deaths, Assists, Event
+            //          Event, Kills, Deaths, Assists, IsDead, RespawnTimer
             string[] columns = {
                 "timestamp", "playername", "team", "xboxid", "machineid",
                 "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
                 "posx", "posy", "posz", "velx", "vely", "velz", "speed",
                 "yaw", "pitch", "yawdeg", "pitchdeg",
-                "isdead", "respawntimer", "iscrouching", "crouchblend", "isairborne", "airborneticks",
+                "iscrouching", "crouchblend", "isairborne", "airborneticks",
                 "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
-                "kills", "deaths", "assists", "event"
+                "event", "kills", "deaths", "assists", "isdead", "respawntimer"
             };
             for (int i = 0; i < columns.Length; i++)
             {
