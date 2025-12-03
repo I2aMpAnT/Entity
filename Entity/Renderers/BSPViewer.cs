@@ -7628,12 +7628,14 @@ namespace entity.Renderers
                     return val;
                 };
 
-                // Helper to get bool value
+                // Helper to get bool value (handles True/False, 0/1, yes/no)
                 Func<string, bool> getBool = (col) => {
-                    bool val = false;
                     if (cols.ContainsKey(col) && parts.Length > cols[col])
-                        bool.TryParse(parts[cols[col]].Trim(), out val);
-                    return val;
+                    {
+                        string val = parts[cols[col]].Trim().ToLowerInvariant();
+                        return val == "true" || val == "1" || val == "yes";
+                    }
+                    return false;
                 };
 
                 // Required: PlayerName
