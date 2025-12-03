@@ -349,6 +349,26 @@ namespace entity.Renderers
         private const float POV_SMOOTH_FACTOR = 0.15f;
 
         /// <summary>
+        /// Whether to show sight lines for players (where they're looking).
+        /// </summary>
+        private bool showSightLines = false;
+
+        /// <summary>
+        /// Whether to show FOV cones for players (78-degree field of view).
+        /// </summary>
+        private bool showFOVCones = false;
+
+        /// <summary>
+        /// Length of sight lines in world units.
+        /// </summary>
+        private const float SIGHT_LINE_LENGTH = 20f;
+
+        /// <summary>
+        /// FOV angle in degrees for player view cones.
+        /// </summary>
+        private const float PLAYER_FOV_DEGREES = 78f;
+
+        /// <summary>
         /// Minimum timestamp in path data (for timeline).
         /// </summary>
         private float pathMinTimestamp = 0;
@@ -593,11 +613,18 @@ namespace entity.Renderers
             public int ColorTertiary;
             public int ColorQuaternary;
 
+            // Stats
+            public int Kills;
+            public int Deaths;
+            public int Assists;
+            public int RespawnTimer;
+
             public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1,
                 float facingYaw = 0, float facingPitch = 0, string playerName = "", string weapon = "",
                 bool crouching = false, bool airborne = false, bool isDead = false,
                 int emblemFg = 0, int emblemBg = 0, int colorPrimary = 0, int colorSecondary = 0,
-                int colorTertiary = 0, int colorQuaternary = 0)
+                int colorTertiary = 0, int colorQuaternary = 0,
+                int kills = 0, int deaths = 0, int assists = 0, int respawnTimer = 0)
             {
                 X = x;
                 Y = y;
@@ -617,6 +644,10 @@ namespace entity.Renderers
                 ColorSecondary = colorSecondary;
                 ColorTertiary = colorTertiary;
                 ColorQuaternary = colorQuaternary;
+                Kills = kills;
+                Deaths = deaths;
+                Assists = assists;
+                RespawnTimer = respawnTimer;
             }
         }
 
@@ -1279,6 +1310,26 @@ namespace entity.Renderers
                 btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
             };
             toolStrip.Items.Add(btnTrail);
+
+            // Sight Line toggle
+            ToolStripButton btnSightLine = new ToolStripButton();
+            btnSightLine.Text = "Sight: OFF";
+            btnSightLine.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnSightLine.Click += (s, e) => {
+                showSightLines = !showSightLines;
+                btnSightLine.Text = showSightLines ? "Sight: ON" : "Sight: OFF";
+            };
+            toolStrip.Items.Add(btnSightLine);
+
+            // FOV Cone toggle
+            ToolStripButton btnFOVCone = new ToolStripButton();
+            btnFOVCone.Text = "FOV Cone: OFF";
+            btnFOVCone.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnFOVCone.Click += (s, e) => {
+                showFOVCones = !showFOVCones;
+                btnFOVCone.Text = showFOVCones ? "FOV Cone: ON" : "FOV Cone: OFF";
+            };
+            toolStrip.Items.Add(btnFOVCone);
 
             // FOV control
             ToolStripLabel lblFOV = new ToolStripLabel();
@@ -8286,6 +8337,9 @@ namespace entity.Renderers
                     int colorTertiary = getInt(parts, "colortertiary");
                     int colorQuaternary = getInt(parts, "colorquaternary");
                     int kills = getInt(parts, "kills");
+                    int deaths = getInt(parts, "deaths");
+                    int assists = getInt(parts, "assists");
+                    int respawnTimer = getInt(parts, "respawntimer");
 
                     // Track kill events
                     if (!playerPrevKills.ContainsKey(playerName))
@@ -8307,7 +8361,8 @@ namespace entity.Renderers
                     }
 
                     PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, pitch, playerName, weapon,
-                        crouching, airborne, isDead, emblemFg, emblemBg, colorPrimary, colorSecondary, colorTertiary, colorQuaternary);
+                        crouching, airborne, isDead, emblemFg, emblemBg, colorPrimary, colorSecondary, colorTertiary, colorQuaternary,
+                        kills, deaths, assists, respawnTimer);
 
                     // Add to legacy single list
                     playerPath.Add(point);
@@ -8674,6 +8729,9 @@ namespace entity.Renderers
                 if (hiddenPlayers.Contains(playerName))
                     continue;
 
+                // Check if this is the POV player
+                bool isPOVPlayer = povModeEnabled && playerName == povFollowPlayer;
+
                 // Find the point for this player at current timestamp
                 PlayerPathPoint? currentPoint = null;
                 PlayerPathPoint? prevPoint = null;
@@ -8743,22 +8801,35 @@ namespace entity.Renderers
                     playerMarkerMesh.DrawSubset(0);
                 }
 
-                // Draw player name above head (create temporary telemetry object for DrawPlayerName)
-                PlayerTelemetry tempTelemetry = new PlayerTelemetry();
-                tempTelemetry.PlayerName = pt.PlayerName;
-                tempTelemetry.Team = pt.Team;
-                tempTelemetry.PosX = pt.X;
-                tempTelemetry.PosY = pt.Y;
-                tempTelemetry.PosZ = pt.Z;
-                tempTelemetry.CurrentWeapon = pt.CurrentWeapon;
-                tempTelemetry.EmblemFg = pt.EmblemFg;
-                tempTelemetry.EmblemBg = pt.EmblemBg;
-                tempTelemetry.ColorPrimary = pt.ColorPrimary;
-                tempTelemetry.ColorSecondary = pt.ColorSecondary;
-                tempTelemetry.ColorTertiary = pt.ColorTertiary;
-                tempTelemetry.ColorQuaternary = pt.ColorQuaternary;
-                tempTelemetry.IsDead = pt.IsDead;
-                DrawPlayerName(tempTelemetry, pt.IsDead);
+                // Draw player name above head (skip for POV player)
+                if (!isPOVPlayer)
+                {
+                    PlayerTelemetry tempTelemetry = new PlayerTelemetry();
+                    tempTelemetry.PlayerName = pt.PlayerName;
+                    tempTelemetry.Team = pt.Team;
+                    tempTelemetry.PosX = pt.X;
+                    tempTelemetry.PosY = pt.Y;
+                    tempTelemetry.PosZ = pt.Z;
+                    tempTelemetry.CurrentWeapon = pt.CurrentWeapon;
+                    tempTelemetry.EmblemFg = pt.EmblemFg;
+                    tempTelemetry.EmblemBg = pt.EmblemBg;
+                    tempTelemetry.ColorPrimary = pt.ColorPrimary;
+                    tempTelemetry.ColorSecondary = pt.ColorSecondary;
+                    tempTelemetry.ColorTertiary = pt.ColorTertiary;
+                    tempTelemetry.ColorQuaternary = pt.ColorQuaternary;
+                    tempTelemetry.IsDead = pt.IsDead;
+                    DrawPlayerName(tempTelemetry, pt.IsDead);
+                }
+
+                // Draw sight line and FOV cone (skip for POV player)
+                if (!isPOVPlayer)
+                {
+                    float yawRad = pt.FacingYaw * (float)(Math.PI / 180.0);
+                    float pitchRad = pt.FacingPitch * (float)(Math.PI / 180.0);
+                    Color sightColor = pt.Team >= 0 ? GetTeamColor(pt.Team) : Color.White;
+                    DrawSightLine(pt.X, pt.Y, pt.Z, yawRad, pitchRad, sightColor);
+                    DrawFOVCone(pt.X, pt.Y, pt.Z, yawRad, pitchRad, sightColor);
+                }
             }
         }
 
@@ -9247,6 +9318,7 @@ namespace entity.Renderers
                             PlasmaGrenades = p.PlasmaGrenades,
                             Kills = p.Kills,
                             Deaths = p.Deaths,
+                            Assists = p.Assists,
                             EmblemFg = p.EmblemFg,
                             EmblemBg = p.EmblemBg,
                             ColorPrimary = p.ColorPrimary,
@@ -9552,7 +9624,12 @@ namespace entity.Renderers
                 if (hiddenPlayers.Contains(player.PlayerName))
                     continue;
 
+                // Check if this is the POV player
+                bool isPOVPlayer = povModeEnabled && player.PlayerName == povFollowPlayer;
+
                 Color teamColor = GetTeamColor(player.Team);
+                // Use white for sight lines in non-team games
+                Color sightColor = player.Team >= 0 ? teamColor : Color.White;
 
                 // Check if player is dead (using IsDead field from telemetry)
                 bool isDead = player.IsDead;
@@ -9647,8 +9724,22 @@ namespace entity.Renderers
                     }
                 }
 
-                // Draw player name/emblem above head (passes isDead to show X when dead)
-                DrawPlayerName(player, isDead);
+                // Draw sight line and FOV cone (skip for POV player - they shouldn't see their own)
+                if (!isPOVPlayer && !isDead)
+                {
+                    float yawRad = !float.IsNaN(player.Yaw) ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
+                    float pitchRad = !float.IsNaN(player.Pitch) ? player.Pitch : player.PitchDeg * (float)(Math.PI / 180.0);
+                    if (float.IsNaN(pitchRad)) pitchRad = 0f;
+
+                    DrawSightLine(player.PosX, player.PosY, player.PosZ, yawRad, pitchRad, sightColor);
+                    DrawFOVCone(player.PosX, player.PosY, player.PosZ, yawRad, pitchRad, sightColor);
+                }
+
+                // Draw player name/emblem above head (skip for POV player)
+                if (!isPOVPlayer)
+                {
+                    DrawPlayerName(player, isDead);
+                }
             }
         }
 
@@ -9681,6 +9772,123 @@ namespace entity.Renderers
             render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
             teamCircleMesh.DrawSubset(0);
             render.device.RenderState.AlphaBlendEnable = false;
+        }
+
+        /// <summary>
+        /// Draws a sight line showing where a player is looking.
+        /// </summary>
+        private void DrawSightLine(float x, float y, float z, float yawRad, float pitchRad, Color color)
+        {
+            if (!showSightLines) return;
+
+            // Calculate end point based on yaw and pitch
+            float eyeHeight = 0.6f;
+            float startX = x;
+            float startY = y;
+            float startZ = z + eyeHeight;
+
+            // Direction from yaw (horizontal) and pitch (vertical)
+            float cosYaw = (float)Math.Cos(yawRad);
+            float sinYaw = (float)Math.Sin(yawRad);
+            float cosPitch = (float)Math.Cos(pitchRad);
+            float sinPitch = (float)Math.Sin(pitchRad);
+
+            float endX = startX + SIGHT_LINE_LENGTH * cosYaw * cosPitch;
+            float endY = startY + SIGHT_LINE_LENGTH * sinYaw * cosPitch;
+            float endZ = startZ + SIGHT_LINE_LENGTH * sinPitch;
+
+            // Draw line
+            render.device.SetTexture(0, null);
+            render.device.RenderState.Lighting = false;
+            render.device.VertexFormat = CustomVertex.PositionColored.Format;
+            render.device.Transform.World = Matrix.Identity;
+
+            CustomVertex.PositionColored[] lineVerts = new CustomVertex.PositionColored[2];
+            lineVerts[0] = new CustomVertex.PositionColored(startX, startY, startZ, color.ToArgb());
+            lineVerts[1] = new CustomVertex.PositionColored(endX, endY, endZ, color.ToArgb());
+
+            render.device.DrawUserPrimitives(PrimitiveType.LineList, 1, lineVerts);
+            render.device.RenderState.Lighting = true;
+        }
+
+        /// <summary>
+        /// Draws a FOV cone showing the player's 78-degree field of view.
+        /// </summary>
+        private void DrawFOVCone(float x, float y, float z, float yawRad, float pitchRad, Color color)
+        {
+            if (!showFOVCones) return;
+
+            float eyeHeight = 0.6f;
+            float startX = x;
+            float startY = y;
+            float startZ = z + eyeHeight;
+
+            float halfFOV = PLAYER_FOV_DEGREES * 0.5f * (float)(Math.PI / 180.0);
+            float coneLength = SIGHT_LINE_LENGTH * 0.75f; // Slightly shorter than sight line
+
+            // Calculate cone edges (left, right, top, bottom)
+            float cosYaw = (float)Math.Cos(yawRad);
+            float sinYaw = (float)Math.Sin(yawRad);
+            float cosPitch = (float)Math.Cos(pitchRad);
+            float sinPitch = (float)Math.Sin(pitchRad);
+
+            // Semi-transparent color for cone
+            Color coneColor = Color.FromArgb(60, color.R, color.G, color.B);
+
+            render.device.SetTexture(0, null);
+            render.device.RenderState.Lighting = false;
+            render.device.RenderState.AlphaBlendEnable = true;
+            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+            render.device.VertexFormat = CustomVertex.PositionColored.Format;
+            render.device.Transform.World = Matrix.Identity;
+
+            // Draw 4 edge lines of the FOV cone
+            float[] yawOffsets = { -halfFOV, halfFOV, 0, 0 };
+            float[] pitchOffsets = { 0, 0, -halfFOV, halfFOV };
+
+            CustomVertex.PositionColored[] edgeVerts = new CustomVertex.PositionColored[8];
+            for (int i = 0; i < 4; i++)
+            {
+                float edgeYaw = yawRad + yawOffsets[i];
+                float edgePitch = pitchRad + pitchOffsets[i];
+
+                float edgeCosYaw = (float)Math.Cos(edgeYaw);
+                float edgeSinYaw = (float)Math.Sin(edgeYaw);
+                float edgeCosPitch = (float)Math.Cos(edgePitch);
+                float edgeSinPitch = (float)Math.Sin(edgePitch);
+
+                float endX = startX + coneLength * edgeCosYaw * edgeCosPitch;
+                float endY = startY + coneLength * edgeSinYaw * edgeCosPitch;
+                float endZ = startZ + coneLength * edgeSinPitch;
+
+                edgeVerts[i * 2] = new CustomVertex.PositionColored(startX, startY, startZ, coneColor.ToArgb());
+                edgeVerts[i * 2 + 1] = new CustomVertex.PositionColored(endX, endY, endZ, coneColor.ToArgb());
+            }
+            render.device.DrawUserPrimitives(PrimitiveType.LineList, 4, edgeVerts);
+
+            // Draw connecting rectangle at far end
+            CustomVertex.PositionColored[] rectVerts = new CustomVertex.PositionColored[8];
+            Vector3[] corners = new Vector3[4];
+            for (int i = 0; i < 4; i++)
+            {
+                float edgeYaw = yawRad + yawOffsets[i];
+                float edgePitch = pitchRad + pitchOffsets[i];
+                corners[i] = new Vector3(
+                    startX + coneLength * (float)Math.Cos(edgeYaw) * (float)Math.Cos(edgePitch),
+                    startY + coneLength * (float)Math.Sin(edgeYaw) * (float)Math.Cos(edgePitch),
+                    startZ + coneLength * (float)Math.Sin(edgePitch));
+            }
+            // Connect: left-top, top-right, right-bottom, bottom-left
+            int[] indices = { 0, 2, 2, 1, 1, 3, 3, 0 };
+            for (int i = 0; i < 8; i++)
+            {
+                rectVerts[i] = new CustomVertex.PositionColored(corners[indices[i]].X, corners[indices[i]].Y, corners[indices[i]].Z, coneColor.ToArgb());
+            }
+            render.device.DrawUserPrimitives(PrimitiveType.LineList, 4, rectVerts);
+
+            render.device.RenderState.AlphaBlendEnable = false;
+            render.device.RenderState.Lighting = true;
         }
 
         /// <summary>
@@ -9968,7 +10176,11 @@ namespace entity.Renderers
                                     ColorPrimary = latest.ColorPrimary,
                                     ColorSecondary = latest.ColorSecondary,
                                     ColorTertiary = latest.ColorTertiary,
-                                    ColorQuaternary = latest.ColorQuaternary
+                                    ColorQuaternary = latest.ColorQuaternary,
+                                    Kills = latest.Kills,
+                                    Deaths = latest.Deaths,
+                                    Assists = latest.Assists,
+                                    RespawnTimer = latest.RespawnTimer
                                 };
                             }
                         }
