@@ -3080,7 +3080,8 @@ namespace entity.MapForms
         /// Opens Theater Mode for this map, using the first BSP.
         /// Called from the main menu Theater Mode option.
         /// </summary>
-        public void OpenTheaterMode()
+        /// <param name="replayFilePath">Optional replay file to load, or null for live mode.</param>
+        public void OpenTheaterMode(string replayFilePath = null)
         {
             if (map.BSP.sbsp == null || map.BSP.sbsp.Length == 0)
             {
@@ -3092,7 +3093,7 @@ namespace entity.MapForms
             int BSPId = map.Functions.ForMeta.FindMetaByID(map.BSP.sbsp[0].ident);
             if (BSPId != -1)
             {
-                loadTheater(BSPId);
+                loadTheater(BSPId, replayFilePath);
             }
             else
             {
@@ -3104,8 +3105,8 @@ namespace entity.MapForms
         /// Loads the Theater viewer for the given BSP.
         /// </summary>
         /// <param name="BSPId">The BSP id.</param>
-        /// <remarks></remarks>
-        private void loadTheater(int BSPId)
+        /// <param name="replayFilePath">Optional replay file to load.</param>
+        private void loadTheater(int BSPId, string replayFilePath = null)
         {
             this.Cursor = Cursors.WaitCursor;
             Meta meta = new Meta(map);
@@ -3115,7 +3116,7 @@ namespace entity.MapForms
             this.Cursor = Cursors.Arrow;
             if (bsp.BspNumber != -1)
             {
-                BSPViewer bv = new BSPViewer(bsp, map, theaterMode: true);
+                BSPViewer bv = new BSPViewer(bsp, map, theaterMode: true, replayFile: replayFilePath);
                 bv.Dispose();
                 bv = null;
             }

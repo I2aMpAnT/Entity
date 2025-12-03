@@ -717,6 +717,16 @@ namespace entity.Renderers
         private const int CacheSnapshotIntervalMs = 100;
 
         /// <summary>
+        /// Pending replay file to load on form shown.
+        /// </summary>
+        private string pendingReplayFile = null;
+
+        /// <summary>
+        /// Reference to the Live listener button for updating its appearance.
+        /// </summary>
+        private ToolStripButton btnLiveListener = null;
+
+        /// <summary>
         /// Font for scoreboard text.
         /// </summary>
         private Microsoft.DirectX.Direct3D.Font scoreboardFont;
@@ -795,10 +805,12 @@ namespace entity.Renderers
         /// <param name="tempbsp">The tempbsp.</param>
         /// <param name="map">The map.</param>
         /// <param name="theaterMode">If true, opens in Theater Mode with full playback features.</param>
+        /// <param name="replayFile">Optional replay file to load on startup.</param>
         /// <remarks></remarks>
-        public BSPViewer(BSPModel tempbsp, Map map, bool theaterMode = false)
+        public BSPViewer(BSPModel tempbsp, Map map, bool theaterMode = false, string replayFile = null)
         {
             this.theaterMode = theaterMode;
+            this.pendingReplayFile = replayFile;
 
             // InitializeComponent
             InitializeComponent();
@@ -1410,25 +1422,29 @@ namespace entity.Renderers
             toolStrip.Items.Add(separator2);
 
             // Live telemetry listener button
-            ToolStripButton btnListen = new ToolStripButton();
-            btnListen.Text = "📡 Listen";
-            btnListen.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnListen.Click += (s, e) => {
+            btnLiveListener = new ToolStripButton();
+            btnLiveListener.Text = "🔴 LIVE";
+            btnLiveListener.Font = new Font(btnLiveListener.Font, FontStyle.Bold);
+            btnLiveListener.ForeColor = Color.DarkRed;
+            btnLiveListener.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnLiveListener.Click += (s, e) => {
                 if (telemetryListenerRunning)
                 {
                     StopTelemetryListener();
-                    btnListen.Text = "📡 Listen";
+                    btnLiveListener.Text = "🔴 LIVE";
+                    btnLiveListener.ForeColor = Color.DarkRed;
                     showLiveTelemetry = false;
                 }
                 else
                 {
                     StartTelemetryListener();
-                    btnListen.Text = "🔴 Stop";
+                    btnLiveListener.Text = "⏹ STOP";
+                    btnLiveListener.ForeColor = Color.Black;
                     showLiveTelemetry = true;
                     EnableTelemetryViewOptions();
                 }
             };
-            toolStrip.Items.Add(btnListen);
+            toolStrip.Items.Add(btnLiveListener);
 
             // Debug button to show incoming telemetry data
             ToolStripButton btnDebug = new ToolStripButton();
@@ -1451,6 +1467,23 @@ namespace entity.Renderers
 
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
+
+            // Handle pending replay file or start live listener
+            if (!string.IsNullOrEmpty(pendingReplayFile))
+            {
+                // Load replay file
+                LoadCSVTelemetryPath(pendingReplayFile);
+                EnableTelemetryViewOptions();
+            }
+            else
+            {
+                // Start live telemetry listener automatically
+                StartTelemetryListener();
+                btnLiveListener.Text = "⏹ STOP";
+                btnLiveListener.ForeColor = Color.Black;
+                showLiveTelemetry = true;
+                EnableTelemetryViewOptions();
+            }
         }
 
         /// <summary>

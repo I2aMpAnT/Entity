@@ -1016,51 +1016,13 @@ namespace entity.Main
         }
 
         /// <summary>
-        /// Opens Theater Mode - auto-loads most recent map, or prompts if none available.
+        /// Opens Theater Mode launcher - waits for live data or replay file.
         /// </summary>
         private void TheaterModeMenuItem_Click(object sender, EventArgs e)
         {
-            // Check if any map is already open
-            MapForm activeMapForm = this.ActiveMdiChild as MapForm;
-
-            if (activeMapForm == null)
-            {
-                // No map open - auto-load the most recent valid map (no prompt)
-                string mapPath = FindFirstValidRecentMap();
-
-                if (string.IsNullOrEmpty(mapPath))
-                {
-                    // No recent maps found - prompt user to select one
-                    openmapdialog.InitialDirectory = Prefs.pathMapsFolder;
-                    openmapdialog.Title = "Select Map for Theater Mode";
-                    if (openmapdialog.ShowDialog() != DialogResult.OK)
-                        return;
-                    mapPath = openmapdialog.FileName;
-                }
-
-                // Load the map
-                activeMapForm = TryLoadMapForm(mapPath);
-                if (activeMapForm == null)
-                    return;
-            }
-
-            // Open BSPViewer in Theater Mode
-            activeMapForm.OpenTheaterMode();
-        }
-
-        /// <summary>
-        /// Finds the first valid (existing) map from recent files.
-        /// </summary>
-        private string FindFirstValidRecentMap()
-        {
-            foreach (var recentFile in Prefs.RecentOpenedMaps)
-            {
-                if (System.IO.File.Exists(recentFile.Path))
-                {
-                    return recentFile.Path;
-                }
-            }
-            return null;
+            // Open the Theater Mode launcher
+            TheaterModeLauncher launcher = new TheaterModeLauncher(this);
+            launcher.ShowDialog();
         }
 
         /// <summary>
