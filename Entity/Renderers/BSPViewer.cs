@@ -9087,51 +9087,25 @@ namespace entity.Renderers
                     // This was already parsed in ParseTelemetryLine
                     bool telemetryIsDead = telemetry.IsDead;
 
-                    // PRIMARY: Detect death by death count increase (most reliable)
-                    if (telemetry.Deaths > prevDeaths && !wasDeadBefore)
-                    {
-                        // Death count increased - player just died
-                        playerDeadState[playerName] = true;
-                        playerDeathPosition[playerName] = currentPos;
-                        telemetry.IsDead = true;
-                        AddDebugLog($"[DEATH-COUNT] {playerName} DIED (deaths: {prevDeaths} -> {telemetry.Deaths}) at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
-                    }
-                    // SECONDARY: Detect death transition via isdead flag or respawntimer
-                    else if (!wasDeadBefore && telemetryIsDead)
+                    // PRIMARY: Detect death transition (isDead && !wasDeadBefore)
+                    // This triggers immediately when respawnTimer becomes non-zero or isDead becomes true
+                    if (telemetryIsDead && !wasDeadBefore)
                     {
                         // Player just died - store death position
                         playerDeadState[playerName] = true;
                         playerDeathPosition[playerName] = currentPos;
                         AddDebugLog($"[DEATH] {playerName} DIED at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
                     }
-                    // Detect respawn transition: was dead, now alive
-                    else if (wasDeadBefore && !telemetryIsDead)
+                    // Detect respawn transition (!isDead && wasDeadBefore)
+                    // This triggers when respawnTimer goes back to zero
+                    else if (!telemetryIsDead && wasDeadBefore)
                     {
                         playerDeadState[playerName] = false;
                         AddDebugLog($"[RESPAWN] {playerName} respawned at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
                     }
-                    // Also check for respawn by position change (fallback if telemetry doesn't update isdead flag)
-                    else if (wasDeadBefore && playerDeathPosition.ContainsKey(playerName))
-                    {
-                        Vector3 deathPos = playerDeathPosition[playerName];
-                        float distFromDeath = (float)Math.Sqrt(
-                            (currentPos.X - deathPos.X) * (currentPos.X - deathPos.X) +
-                            (currentPos.Y - deathPos.Y) * (currentPos.Y - deathPos.Y) +
-                            (currentPos.Z - deathPos.Z) * (currentPos.Z - deathPos.Z));
 
-                        // If moved more than 2 units from death position, they've respawned
-                        if (distFromDeath > 2.0f)
-                        {
-                            playerDeadState[playerName] = false;
-                            telemetry.IsDead = false;
-                            AddDebugLog($"[RESPAWN-POS] {playerName} respawned (moved {distFromDeath:F1} from death pos)");
-                        }
-                    }
-                    else
-                    {
-                        // Update dead state from telemetry
-                        playerDeadState[playerName] = telemetryIsDead;
-                    }
+                    // Always update the dead state at end of cycle
+                    playerDeadState[playerName] = telemetryIsDead;
 
                     // Update tracking
                     playerPrevDeaths[playerName] = telemetry.Deaths;
