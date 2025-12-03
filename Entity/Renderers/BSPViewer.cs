@@ -633,6 +633,26 @@ namespace entity.Renderers
         private bool showLiveTelemetry = false;
 
         /// <summary>
+        /// Whether to show the scoreboard overlay.
+        /// </summary>
+        private bool showScoreboard = false;
+
+        /// <summary>
+        /// Whether to show the killfeed overlay.
+        /// </summary>
+        private bool showKillfeed = false;
+
+        /// <summary>
+        /// Font for scoreboard text.
+        /// </summary>
+        private Microsoft.DirectX.Direct3D.Font scoreboardFont;
+
+        /// <summary>
+        /// Font for scoreboard header.
+        /// </summary>
+        private Microsoft.DirectX.Direct3D.Font scoreboardHeaderFont;
+
+        /// <summary>
         /// List of live player names for dropdown population.
         /// </summary>
         private List<string> livePlayerNames = new List<string>();
@@ -2934,6 +2954,14 @@ namespace entity.Renderers
                     case Keys.OemPeriod: // > key
                         SkipTicks(1);
                         return true;
+
+                    case Keys.Tab: // Toggle scoreboard
+                        showScoreboard = !showScoreboard;
+                        return true;
+
+                    case Keys.K: // Toggle killfeed
+                        showKillfeed = !showKillfeed;
+                        return true;
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -4627,6 +4655,18 @@ namespace entity.Renderers
             if (theaterMode)
             {
                 DrawHUD();
+
+                // Draw scoreboard overlay (Tab to toggle)
+                if (showScoreboard)
+                {
+                    DrawScoreboard();
+                }
+
+                // Draw killfeed overlay (K to toggle)
+                if (showKillfeed)
+                {
+                    DrawKillfeed();
+                }
             }
 
             #endregion
@@ -9359,6 +9399,243 @@ namespace entity.Renderers
                 int playerX = Math.Max(padding, screenWidth - 50 - padding);
                 Rectangle playerRect = new Rectangle(playerX, padding + 24, 50, 20);
                 fpsFont.DrawText(null, playerText, playerRect, DrawTextFormat.Right, haloCyan);
+            }
+        }
+
+        /// <summary>
+        /// Draws the scoreboard overlay matching HTML style.
+        /// </summary>
+        private void DrawScoreboard()
+        {
+            try
+            {
+                // Create fonts if needed
+                if (scoreboardFont == null || scoreboardFont.Disposed)
+                {
+                    scoreboardFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                        new System.Drawing.Font("Overpass", 12, FontStyle.Regular));
+                }
+                if (scoreboardHeaderFont == null || scoreboardHeaderFont.Disposed)
+                {
+                    scoreboardHeaderFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                        new System.Drawing.Font("Overpass", 14, FontStyle.Bold));
+                }
+
+                int screenWidth = render.device.Viewport.Width;
+                int screenHeight = render.device.Viewport.Height;
+
+                // Scoreboard position (top-left with padding)
+                int sbX = 20;
+                int sbY = 60;
+                int sbWidth = 340;
+                int rowHeight = 24;
+                int headerHeight = 28;
+
+                // Team colors matching HTML
+                Color redTeamBg = Color.FromArgb(200, 197, 66, 69);    // #C54245 with alpha
+                Color blueTeamBg = Color.FromArgb(200, 65, 105, 168);  // #4169A8 with alpha
+                Color textColor = Color.White;
+
+                // Get player data
+                Dictionary<string, PlayerTelemetry> players;
+                lock (livePlayersLock)
+                {
+                    players = showLiveTelemetry
+                        ? new Dictionary<string, PlayerTelemetry>(livePlayerData)
+                        : pathPlayerData.ToDictionary(kvp => kvp.Key, kvp => new PlayerTelemetry
+                        {
+                            PlayerName = kvp.Value.Count > 0 ? kvp.Value[0].PlayerName : kvp.Key,
+                            Team = kvp.Value.Count > 0 ? kvp.Value[0].Team : -1,
+                            Kills = kvp.Value.Count > 0 ? kvp.Value[0].Kills : 0,
+                            Deaths = kvp.Value.Count > 0 ? kvp.Value[0].Deaths : 0,
+                            IsDead = kvp.Value.Count > 0 ? kvp.Value[0].IsDead : false,
+                            CurrentWeapon = kvp.Value.Count > 0 ? kvp.Value[0].CurrentWeapon : "",
+                            EmblemFg = kvp.Value.Count > 0 ? kvp.Value[0].EmblemFg : 0,
+                            EmblemBg = kvp.Value.Count > 0 ? kvp.Value[0].EmblemBg : 0,
+                            ColorPrimary = kvp.Value.Count > 0 ? kvp.Value[0].ColorPrimary : 0,
+                            ColorSecondary = kvp.Value.Count > 0 ? kvp.Value[0].ColorSecondary : 0,
+                            ColorTertiary = kvp.Value.Count > 0 ? kvp.Value[0].ColorTertiary : 0,
+                            ColorQuaternary = kvp.Value.Count > 0 ? kvp.Value[0].ColorQuaternary : 0
+                        });
+                }
+
+                // Separate by team
+                var redPlayers = players.Values.Where(p => p.Team == 0).OrderByDescending(p => p.Kills).ToList();
+                var bluePlayers = players.Values.Where(p => p.Team == 1).OrderByDescending(p => p.Kills).ToList();
+
+                int currentY = sbY;
+
+                // Calculate team scores (sum of kills for slayer)
+                int redScore = redPlayers.Sum(p => p.Kills);
+                int blueScore = bluePlayers.Sum(p => p.Kills);
+
+                // Draw Red Team Header
+                if (redPlayers.Count > 0)
+                {
+                    DrawFilledRect(sbX, currentY, sbWidth, headerHeight, redTeamBg);
+                    scoreboardHeaderFont.DrawText(null, "Red Team",
+                        new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
+                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
+                    scoreboardHeaderFont.DrawText(null, redScore.ToString(),
+                        new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
+                        DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
+                    currentY += headerHeight;
+                }
+
+                // Draw Blue Team Header
+                if (bluePlayers.Count > 0)
+                {
+                    DrawFilledRect(sbX, currentY, sbWidth, headerHeight, blueTeamBg);
+                    scoreboardHeaderFont.DrawText(null, "Blue Team",
+                        new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
+                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
+                    scoreboardHeaderFont.DrawText(null, blueScore.ToString(),
+                        new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
+                        DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
+                    currentY += headerHeight;
+                }
+
+                // Gap between headers and players
+                currentY += 6;
+
+                // Draw Red Team Players
+                foreach (var player in redPlayers)
+                {
+                    DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, redTeamBg);
+                    currentY += rowHeight + 2;
+                }
+
+                // Draw Blue Team Players
+                foreach (var player in bluePlayers)
+                {
+                    DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, blueTeamBg);
+                    currentY += rowHeight + 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                AddDebugLog($"[SCOREBOARD] Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Draws a single player row in the scoreboard.
+        /// </summary>
+        private void DrawPlayerRow(int x, int y, int width, int height, PlayerTelemetry player, Color bgColor)
+        {
+            // Draw background
+            DrawFilledRect(x, y, width, height, bgColor);
+
+            int currentX = x + 4;
+
+            // Draw emblem or dead X (22x22)
+            int emblemSize = 22;
+            if (player.IsDead)
+            {
+                scoreboardFont.DrawText(null, "X",
+                    new Rectangle(currentX, y, emblemSize, height),
+                    DrawTextFormat.Center | DrawTextFormat.VerticalCenter, Color.Red);
+            }
+            else
+            {
+                // Draw emblem texture if available
+                string emblemKey = $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}_{player.ColorTertiary}_{player.ColorQuaternary}";
+                if (emblemTextureCache.TryGetValue(emblemKey, out Texture emblemTex) && emblemTex != null && !emblemTex.Disposed)
+                {
+                    if (emblemSprite == null || emblemSprite.Disposed)
+                    {
+                        emblemSprite = new Sprite(render.device);
+                    }
+                    float scale = emblemSize / 256.0f;
+                    emblemSprite.Begin(SpriteFlags.AlphaBlend);
+                    emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(currentX, y + 1, 0);
+                    emblemSprite.Draw(emblemTex, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
+                    emblemSprite.Transform = Matrix.Identity;
+                    emblemSprite.End();
+                }
+            }
+            currentX += emblemSize + 4;
+
+            // Draw player name
+            int nameWidth = 180;
+            scoreboardFont.DrawText(null, player.PlayerName ?? "Unknown",
+                new Rectangle(currentX, y, nameWidth, height),
+                DrawTextFormat.Left | DrawTextFormat.VerticalCenter | DrawTextFormat.NoClip, Color.White);
+            currentX += nameWidth;
+
+            // Draw K/D/A stats
+            string stats = $"K {player.Kills}  D {player.Deaths}";
+            scoreboardFont.DrawText(null, stats,
+                new Rectangle(currentX, y, width - currentX - 4, height),
+                DrawTextFormat.Right | DrawTextFormat.VerticalCenter, Color.White);
+        }
+
+        /// <summary>
+        /// Draws a filled rectangle for UI backgrounds.
+        /// </summary>
+        private void DrawFilledRect(int x, int y, int width, int height, Color color)
+        {
+            // Use a simple line-based approach since we don't have a rectangle mesh
+            // This is less efficient but works without additional setup
+            CustomVertex.TransformedColored[] verts = new CustomVertex.TransformedColored[4];
+            verts[0] = new CustomVertex.TransformedColored(x, y, 0, 1, color.ToArgb());
+            verts[1] = new CustomVertex.TransformedColored(x + width, y, 0, 1, color.ToArgb());
+            verts[2] = new CustomVertex.TransformedColored(x, y + height, 0, 1, color.ToArgb());
+            verts[3] = new CustomVertex.TransformedColored(x + width, y + height, 0, 1, color.ToArgb());
+
+            render.device.VertexFormat = CustomVertex.TransformedColored.Format;
+            render.device.SetTexture(0, null);
+            render.device.RenderState.AlphaBlendEnable = true;
+            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+            render.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, verts);
+        }
+
+        /// <summary>
+        /// Draws the killfeed overlay.
+        /// </summary>
+        private void DrawKillfeed()
+        {
+            try
+            {
+                if (scoreboardFont == null || scoreboardFont.Disposed)
+                {
+                    scoreboardFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                        new System.Drawing.Font("Overpass", 12, FontStyle.Regular));
+                }
+
+                int screenWidth = render.device.Viewport.Width;
+                int kfX = screenWidth - 320;
+                int kfY = 60;
+                int rowHeight = 22;
+
+                // Get recent kills from killEvents
+                var recentKills = killEvents
+                    .Where(k => showLiveTelemetry || k.Timestamp <= pathCurrentTimestamp)
+                    .OrderByDescending(k => k.Timestamp)
+                    .Take(8)
+                    .Reverse()
+                    .ToList();
+
+                int currentY = kfY;
+                foreach (var kill in recentKills)
+                {
+                    // Draw killfeed entry: "Killer [weapon] Victim"
+                    Color killerColor = kill.Team == 0 ? Color.FromArgb(197, 66, 69) : Color.FromArgb(65, 105, 168);
+                    Color victimColor = Color.Gray;
+
+                    string entry = $"{kill.Killer}  ▶  {kill.Victim}";
+                    DrawFilledRect(kfX, currentY, 300, rowHeight, Color.FromArgb(150, 0, 0, 0));
+                    scoreboardFont.DrawText(null, entry,
+                        new Rectangle(kfX + 8, currentY, 290, rowHeight),
+                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, Color.White);
+
+                    currentY += rowHeight + 2;
+                }
+            }
+            catch (Exception ex)
+            {
+                AddDebugLog($"[KILLFEED] Error: {ex.Message}");
             }
         }
 
