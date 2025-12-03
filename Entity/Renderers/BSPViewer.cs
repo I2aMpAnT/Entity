@@ -1302,8 +1302,11 @@ namespace entity.Renderers
                 }
             };
 
-            // Mouse wheel zoom on timeline
+            // Mouse wheel zoom on timeline (suppress default TrackBar seek behavior)
             pathTimelineTrackBar.MouseWheel += (s, e) => {
+                // Suppress default TrackBar mouse wheel behavior (seeking)
+                ((HandledMouseEventArgs)e).Handled = true;
+
                 if (pathMaxTimestamp > pathMinTimestamp)
                 {
                     float zoomFactor = e.Delta > 0 ? 0.9f : 1.1f;
@@ -9151,22 +9154,14 @@ namespace entity.Renderers
         private void SetDefaultColumnOrder()
         {
             csvColumnIndices.Clear();
-            // Matches actual telemetry sender format (36 columns):
-            // 1-5: Timestamp, PlayerName, Team, XboxId, MachineId
-            // 6-11: EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary
-            // 12-18: PosX, PosY, PosZ, VelX, VelY, VelZ, Speed
-            // 19-22: Yaw, Pitch, YawDeg, PitchDeg
-            // 23-28: IsDead, RespawnTimer, IsCrouching, CrouchBlend, IsAirborne, AirborneTicks
-            // 29-32: WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades
-            // 33-36: Kills, Deaths, Assists, Event
+            // Matches actual telemetry sender format (20 columns):
+            // PlayerName, XboxIdentifier, MachineIdentifier, Team, EmblemForeground, EmblemBackground,
+            // PrimaryColor, SecondaryColor, TertiaryColor, QuaternaryColor, Timestamp, GameTimeMs,
+            // X, Y, Z, FacingYaw (radians), FacingPitch (radians), IsCrouching, IsAirborne, CurrentWeapon
             string[] columns = {
-                "timestamp", "playername", "team", "xboxid", "machineid",
-                "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
-                "posx", "posy", "posz", "velx", "vely", "velz", "speed",
-                "yaw", "pitch", "yawdeg", "pitchdeg",
-                "isdead", "respawntimer", "iscrouching", "crouchblend", "isairborne", "airborneticks",
-                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
-                "kills", "deaths", "assists", "event"
+                "playername", "xboxid", "machineid", "team", "emblemfg", "emblembg",
+                "colorprimary", "colorsecondary", "colortertiary", "colorquaternary", "timestamp", "gametimems",
+                "posx", "posy", "posz", "yaw", "pitch", "iscrouching", "isairborne", "currentweapon"
             };
             for (int i = 0; i < columns.Length; i++)
             {
