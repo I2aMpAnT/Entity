@@ -7519,7 +7519,11 @@ namespace entity.Renderers
                                 {
                                     csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
                                 }
-                                AddDebugLog($"[HEADER] Parsed {csvColumnIndices.Count} columns");
+                                // Log position column indices
+                                int posxIdx = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
+                                int posyIdx = csvColumnIndices.ContainsKey("posy") ? csvColumnIndices["posy"] : -1;
+                                int poszIdx = csvColumnIndices.ContainsKey("posz") ? csvColumnIndices["posz"] : -1;
+                                AddDebugLog($"[HEADER] {csvColumnIndices.Count} cols, posx={posxIdx} posy={posyIdx} posz={poszIdx}");
                                 continue;
                             }
                             else
@@ -7535,13 +7539,16 @@ namespace entity.Renderers
                         if (telemetry != null)
                         {
                             // Debug: log raw data when position is zero
-                            if (telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0 && parts.Length > 15)
+                            if (telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0 && parts.Length > 13)
                             {
-                                // Show columns 10-15 (where position should be)
-                                string rawData = "";
-                                for (int i = 10; i < 16 && i < parts.Length; i++)
-                                    rawData += $"[{i}]={parts[i]} ";
-                                AddDebugLog($"[RAW] {rawData}");
+                                // Show actual position column values
+                                int xi = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
+                                int yi = csvColumnIndices.ContainsKey("posy") ? csvColumnIndices["posy"] : -1;
+                                int zi = csvColumnIndices.ContainsKey("posz") ? csvColumnIndices["posz"] : -1;
+                                string xv = xi >= 0 && xi < parts.Length ? parts[xi] : "N/A";
+                                string yv = yi >= 0 && yi < parts.Length ? parts[yi] : "N/A";
+                                string zv = zi >= 0 && zi < parts.Length ? parts[zi] : "N/A";
+                                AddDebugLog($"[POS0] idx={xi},{yi},{zi} val={xv},{yv},{zv} parts={parts.Length}");
                             }
 
                             lock (livePlayersLock)
