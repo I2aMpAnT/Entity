@@ -1042,32 +1042,11 @@ namespace entity.Renderers
             pathTimelineTrackBar.Value = 0;
             pathTimelineTrackBar.TickStyle = TickStyle.None;
             pathTimelineTrackBar.Location = new Point(100, 5);
-            pathTimelineTrackBar.Width = 400;
+            pathTimelineTrackBar.Width = this.Width - 120; // Full width minus margins
+            pathTimelineTrackBar.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
             pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
             pathTimelineTrackBar.MouseDown += (s, e) => { pathIsPlaying = false; pathPlayPauseButton.Text = "▶ Play"; };
             timelinePanel.Controls.Add(pathTimelineTrackBar);
-
-            // Zoom buttons for timeline
-            System.Windows.Forms.Button btnZoomIn = new System.Windows.Forms.Button();
-            btnZoomIn.Text = "+";
-            btnZoomIn.Size = new Size(25, 25);
-            btnZoomIn.Location = new Point(510, 7);
-            btnZoomIn.Click += (s, e) => {
-                // Zoom in: increase trackbar resolution around current position
-                if (pathTimelineTrackBar.Width < 2000)
-                    pathTimelineTrackBar.Width += 200;
-            };
-            timelinePanel.Controls.Add(btnZoomIn);
-
-            System.Windows.Forms.Button btnZoomOut = new System.Windows.Forms.Button();
-            btnZoomOut.Text = "-";
-            btnZoomOut.Size = new Size(25, 25);
-            btnZoomOut.Location = new Point(540, 7);
-            btnZoomOut.Click += (s, e) => {
-                if (pathTimelineTrackBar.Width > 200)
-                    pathTimelineTrackBar.Width -= 200;
-            };
-            timelinePanel.Controls.Add(btnZoomOut);
 
             this.Controls.Add(timelinePanel);
             timelinePanel.BringToFront();
@@ -7747,22 +7726,33 @@ namespace entity.Renderers
                 return;
 
             // Find the point for the followed player at current timestamp
+            // Skip dead points to find the most recent alive position
             PlayerPathPoint? currentPoint = null;
+            PlayerPathPoint? lastAlivePoint = null;
             foreach (var segment in multiPlayerPaths[povFollowPlayer])
             {
                 foreach (var pt in segment)
                 {
                     if (pt.Timestamp <= pathCurrentTimestamp)
+                    {
                         currentPoint = pt;
+                        if (!pt.IsDead)
+                            lastAlivePoint = pt;
+                    }
                     else
                         break;
                 }
             }
 
-            if (!currentPoint.HasValue)
+            // Prefer alive point, fallback to any point
+            if (!lastAlivePoint.HasValue && !currentPoint.HasValue)
                 return;
 
-            var point = currentPoint.Value;
+            var point = lastAlivePoint.HasValue ? lastAlivePoint.Value : currentPoint.Value;
+
+            // Skip if player is dead at current timestamp
+            if (point.IsDead)
+                return;
 
             // Set camera position at player's eye level
             cam.x = point.X;
