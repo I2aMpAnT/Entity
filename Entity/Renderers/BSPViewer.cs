@@ -390,6 +390,14 @@ namespace entity.Renderers
         }
         private List<KillEvent> killEvents = new List<KillEvent>();
 
+        private struct DeathEvent
+        {
+            public float Timestamp;
+            public string PlayerName;
+            public int Team;
+        }
+        private List<DeathEvent> deathEvents = new List<DeathEvent>();
+
         /// <summary>
         /// Snapshot of live telemetry data at a point in time.
         /// </summary>
@@ -709,6 +717,26 @@ namespace entity.Renderers
         /// Tracks last update time per player for stale player cleanup.
         /// </summary>
         private Dictionary<string, DateTime> playerLastUpdateTime = new Dictionary<string, DateTime>();
+
+        /// <summary>
+        /// Tracks previous health per player to detect damage.
+        /// </summary>
+        private Dictionary<string, float> playerPrevHealth = new Dictionary<string, float>();
+
+        /// <summary>
+        /// Tracks previous shield per player to detect damage.
+        /// </summary>
+        private Dictionary<string, float> playerPrevShield = new Dictionary<string, float>();
+
+        /// <summary>
+        /// Tracks when player last took damage (for red border flash).
+        /// </summary>
+        private Dictionary<string, DateTime> playerLastDamageTime = new Dictionary<string, DateTime>();
+
+        /// <summary>
+        /// How long to show damage indicator (in milliseconds).
+        /// </summary>
+        private const double DamageFlashDurationMs = 500.0;
 
         /// <summary>
         /// How long before a player is considered stale (no data received).
@@ -9206,6 +9234,19 @@ namespace entity.Renderers
                         playerDeadState[playerName] = true;
                         Vector3 deathPos = playerPrevPosition.ContainsKey(playerName) ? playerPrevPosition[playerName] : currentPos;
                         playerDeathPosition[playerName] = deathPos;
+
+                        // Add death event for timeline
+                        double cacheTimestamp = liveTelemetryCache.Count > 0
+                            ? liveTelemetryCache[liveTelemetryCache.Count - 1].SecondsFromStart
+                            : (DateTime.Now - liveCacheStartTime).TotalSeconds;
+                        deathEvents.Add(new DeathEvent
+                        {
+                            Timestamp = (float)cacheTimestamp,
+                            PlayerName = playerName,
+                            Team = telemetry.Team
+                        });
+                        timelinePanelRef?.Invalidate();
+
                         AddDebugLog($"[DEATH] {playerName} DIED at ({deathPos.X:F1}, {deathPos.Y:F1}, {deathPos.Z:F1})");
                     }
                     // Detect respawn transition (!isDead && wasDeadBefore)
@@ -9219,9 +9260,42 @@ namespace entity.Renderers
                     // Always update the dead state at end of cycle
                     playerDeadState[playerName] = telemetryIsDead;
 
+                    // Detect damage (health or shield decreased)
+                    float prevHealth = playerPrevHealth.ContainsKey(playerName) ? playerPrevHealth[playerName] : 1f;
+                    float prevShield = playerPrevShield.ContainsKey(playerName) ? playerPrevShield[playerName] : 1f;
+                    if (telemetry.Health < prevHealth || telemetry.Shield < prevShield)
+                    {
+                        playerLastDamageTime[playerName] = DateTime.Now;
+                    }
+
+                    // Track kills for timeline markers (live mode)
+                    int prevKills = playerPrevKills.ContainsKey(playerName) ? playerPrevKills[playerName] : 0;
+                    if (telemetry.Kills > prevKills)
+                    {
+                        // New kill detected - add kill event with cache timestamp
+                        double cacheTimestamp = liveTelemetryCache.Count > 0
+                            ? liveTelemetryCache[liveTelemetryCache.Count - 1].SecondsFromStart
+                            : (DateTime.Now - liveCacheStartTime).TotalSeconds;
+
+                        for (int k = 0; k < telemetry.Kills - prevKills; k++)
+                        {
+                            killEvents.Add(new KillEvent
+                            {
+                                Timestamp = (float)cacheTimestamp,
+                                PlayerName = playerName,
+                                Team = telemetry.Team,
+                                Weapon = telemetry.CurrentWeapon
+                            });
+                        }
+                        playerPrevKills[playerName] = telemetry.Kills;
+                        timelinePanelRef?.Invalidate(); // Refresh timeline to show new kill
+                    }
+
                     // Update tracking
                     playerPrevDeaths[playerName] = telemetry.Deaths;
                     playerPrevPosition[playerName] = currentPos;
+                    playerPrevHealth[playerName] = telemetry.Health;
+                    playerPrevShield[playerName] = telemetry.Shield;
 
                     // Store telemetry
                     livePlayers[playerName] = telemetry;
@@ -9967,8 +10041,20 @@ namespace entity.Renderers
                     int centerX = (int)screenPos.X;
                     int topY = (int)screenPos.Y;
 
-                    // Determine border color based on events
+                    // Determine border color based on events and damage state
                     Color borderColor = Color.White; // Default
+
+                    // Check for recent damage (red flash)
+                    if (playerLastDamageTime.ContainsKey(player.PlayerName))
+                    {
+                        double msSinceDamage = (DateTime.Now - playerLastDamageTime[player.PlayerName]).TotalMilliseconds;
+                        if (msSinceDamage < DamageFlashDurationMs)
+                        {
+                            borderColor = Color.Red; // Taking damage
+                        }
+                    }
+
+                    // Check Event field for shooting (overrides damage if shooting)
                     if (!string.IsNullOrEmpty(player.Event))
                     {
                         string evt = player.Event.ToLowerInvariant();
@@ -9978,7 +10064,7 @@ namespace entity.Renderers
                         }
                         else if (evt.Contains("damage") || evt.Contains("hit") || evt.Contains("hurt"))
                         {
-                            borderColor = Color.Red; // Taking damage
+                            borderColor = Color.Red; // Taking damage (from event)
                         }
                     }
 
@@ -10035,19 +10121,34 @@ namespace entity.Renderers
                         }
                     }
 
-                    // Draw player name
+                    // Draw player name and weapon icon centered together
                     int nameY = topY;
-                    playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
-                        DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
 
-                    // Draw weapon icon after player name (scaled to 16px)
+                    // Measure name width
+                    System.Drawing.Rectangle measureRect = new System.Drawing.Rectangle(0, 0, 400, 24);
+                    playerNameFont.MeasureString(null, player.PlayerName, ref measureRect, DrawTextFormat.Left);
+                    int nameWidth = measureRect.Width;
+
+                    // Get weapon icon info
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
+                    int weaponIconWidth = 16; // Scaled size
+                    int spacing = 4; // Gap between name and icon
+                    int totalWidth = nameWidth + (weaponTexture != null ? spacing + weaponIconWidth : 0);
+                    int startX = centerX - totalWidth / 2;
+
+                    // Draw player name (left-aligned from calculated start)
+                    playerNameFont.DrawText(null, player.PlayerName,
+                        new System.Drawing.Rectangle(startX, nameY, nameWidth + 10, 24),
+                        DrawTextFormat.Left | DrawTextFormat.NoClip, teamColor);
+
+                    // Draw weapon icon after player name (vertically centered with text)
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
-                        float scale = 0.25f; // Scale down weapon icons
+                        float scale = 0.25f; // Scale down weapon icons (64px -> 16px)
+                        int iconX = startX + nameWidth + spacing;
+                        int iconY = nameY + 4; // Center with text
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(centerX + 50, nameY - 4, 0);
+                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(iconX, iconY, 0);
                         emblemSprite.Draw(weaponTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
                         emblemSprite.Transform = Matrix.Identity; // Reset
                         emblemSprite.End();
@@ -10865,7 +10966,29 @@ namespace entity.Renderers
             if (pathTimelineTrackBar == null)
                 return;
 
-            float timeRange = pathMaxTimestamp - pathMinTimestamp;
+            // Determine time range based on mode
+            float minTime, maxTime;
+            List<KillEvent> kills;
+
+            if (showLiveTelemetry)
+            {
+                // Live mode - use cache time range
+                double liveMin, liveMax;
+                GetLiveCacheTimeRange(out liveMin, out liveMax);
+                minTime = (float)liveMin;
+                maxTime = (float)liveMax;
+                // Get kills from the cache (use current killEvents which are updated during live)
+                kills = killEvents.ToList();
+            }
+            else
+            {
+                // Replay mode
+                minTime = pathMinTimestamp;
+                maxTime = pathMaxTimestamp;
+                kills = killEvents;
+            }
+
+            float timeRange = maxTime - minTime;
             if (timeRange <= 0) return;
 
             // Get trackbar bounds for positioning markers
@@ -10876,53 +10999,101 @@ namespace entity.Renderers
 
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            // Draw kill markers
-            foreach (var kill in killEvents)
+            // Get selected player for filtering (use POV player if set)
+            string selectedPlayer = povModeEnabled ? povFollowPlayer : null;
+
+            // Draw kill markers (filter by selected player if any)
+            foreach (var kill in kills)
             {
+                // Skip if filtering and not this player's kill
+                if (!string.IsNullOrEmpty(selectedPlayer) && kill.PlayerName != selectedPlayer)
+                    continue;
+
                 // Calculate X position based on timestamp
-                float t = (kill.Timestamp - pathMinTimestamp) / timeRange;
+                float t = (kill.Timestamp - minTime) / timeRange;
+                if (t < 0 || t > 1) continue; // Skip out-of-range kills
                 int x = trackLeft + (int)(t * trackWidth);
 
-                // Halo-style team colors (brighter, more saturated)
-                Color teamColor;
-                switch (kill.Team)
-                {
-                    case 0: teamColor = Color.FromArgb(255, 60, 60); break;    // Red team
-                    case 1: teamColor = Color.FromArgb(60, 140, 255); break;   // Blue team
-                    case 2: teamColor = Color.FromArgb(60, 255, 120); break;   // Green team
-                    case 3: teamColor = Color.FromArgb(255, 180, 60); break;   // Orange team
-                    default: teamColor = Color.FromArgb(0, 200, 255); break;   // FFA - cyan
-                }
+                // Gold/yellow for kills (medal-like)
+                Color markerColor = Color.FromArgb(255, 215, 0);
 
                 // Draw glowing marker line
-                using (Pen glowPen = new Pen(Color.FromArgb(80, teamColor), 4))
+                using (Pen glowPen = new Pen(Color.FromArgb(80, markerColor), 4))
                 {
                     e.Graphics.DrawLine(glowPen, x, markerY, x, markerY + markerHeight);
                 }
-                using (Pen pen = new Pen(teamColor, 2))
+                using (Pen pen = new Pen(markerColor, 2))
                 {
                     e.Graphics.DrawLine(pen, x, markerY, x, markerY + markerHeight);
                 }
 
-                // Draw diamond marker
-                Point[] diamond = {
+                // Draw star/medal marker for kills
+                Point[] star = {
                     new Point(x, markerY - 2),
-                    new Point(x + 4, markerY + 3),
-                    new Point(x, markerY + 8),
-                    new Point(x - 4, markerY + 3)
+                    new Point(x + 3, markerY + 3),
+                    new Point(x + 6, markerY + 3),
+                    new Point(x + 4, markerY + 6),
+                    new Point(x + 5, markerY + 10),
+                    new Point(x, markerY + 7),
+                    new Point(x - 5, markerY + 10),
+                    new Point(x - 4, markerY + 6),
+                    new Point(x - 6, markerY + 3),
+                    new Point(x - 3, markerY + 3)
                 };
-                using (SolidBrush brush = new SolidBrush(teamColor))
+                using (SolidBrush brush = new SolidBrush(markerColor))
                 {
-                    e.Graphics.FillPolygon(brush, diamond);
+                    e.Graphics.FillPolygon(brush, star);
                 }
-                using (Pen outlinePen = new Pen(Color.FromArgb(180, 255, 255, 255), 1))
+            }
+
+            // Draw death markers (red X) - filter by selected player if any
+            var deaths = deathEvents.ToList();
+            foreach (var death in deaths)
+            {
+                // Skip if filtering and not this player's death
+                if (!string.IsNullOrEmpty(selectedPlayer) && death.PlayerName != selectedPlayer)
+                    continue;
+
+                float t = (death.Timestamp - minTime) / timeRange;
+                if (t < 0 || t > 1) continue;
+                int x = trackLeft + (int)(t * trackWidth);
+
+                // Red X for deaths
+                using (Pen xPen = new Pen(Color.FromArgb(255, 60, 60), 2))
                 {
-                    e.Graphics.DrawPolygon(outlinePen, diamond);
+                    e.Graphics.DrawLine(xPen, x - 4, markerY, x + 4, markerY + 8);
+                    e.Graphics.DrawLine(xPen, x + 4, markerY, x - 4, markerY + 8);
+                }
+            }
+
+            // Draw original team-colored markers when no player selected (for context)
+            if (string.IsNullOrEmpty(selectedPlayer))
+            {
+                foreach (var kill in kills)
+                {
+                    float t = (kill.Timestamp - minTime) / timeRange;
+                    if (t < 0 || t > 1) continue;
+                    int x = trackLeft + (int)(t * trackWidth);
+
+                    // Small team color dot below the main markers
+                    Color teamColor;
+                    switch (kill.Team)
+                    {
+                        case 0: teamColor = Color.FromArgb(255, 60, 60); break;
+                        case 1: teamColor = Color.FromArgb(60, 140, 255); break;
+                        case 2: teamColor = Color.FromArgb(60, 255, 120); break;
+                        case 3: teamColor = Color.FromArgb(255, 180, 60); break;
+                        default: teamColor = Color.FromArgb(0, 200, 255); break;
+                    }
+                    using (SolidBrush brush = new SolidBrush(teamColor))
+                    {
+                        e.Graphics.FillEllipse(brush, x - 2, markerY + markerHeight + 2, 4, 4);
+                    }
                 }
             }
 
             // Draw A-B bookmark markers if set
-            if (pathMaxTimestamp > pathMinTimestamp)
+            if (timeRange > 0)
             {
                 Color markerAColor = Color.FromArgb(0, 200, 255);
                 Color markerBColor = Color.FromArgb(255, 180, 0);
@@ -10931,8 +11102,8 @@ namespace entity.Renderers
                 // Draw shaded region between A and B if both set
                 if (bookmarkStartTimestamp >= 0 && bookmarkEndTimestamp >= 0)
                 {
-                    float tA = (bookmarkStartTimestamp - pathMinTimestamp) / timeRange;
-                    float tB = (bookmarkEndTimestamp - pathMinTimestamp) / timeRange;
+                    float tA = (bookmarkStartTimestamp - minTime) / timeRange;
+                    float tB = (bookmarkEndTimestamp - minTime) / timeRange;
                     int xA = trackLeft + (int)(tA * trackWidth);
                     int xB = trackLeft + (int)(tB * trackWidth);
 
