@@ -9871,10 +9871,10 @@ namespace entity.Renderers
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
             // Position circle flat at player's feet
-            // Cylinder is created along Y axis, rotate to lie flat on XY plane
-            Matrix rotation = Matrix.RotationX((float)(Math.PI / 2));
+            // Cylinder is created along Y axis - no rotation needed for XY plane
+            // Just translate to position
             Matrix translation = Matrix.Translation(x, y, z);
-            render.device.Transform.World = Matrix.Multiply(rotation, translation);
+            render.device.Transform.World = translation;
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
@@ -10777,7 +10777,7 @@ namespace entity.Renderers
             shadowMat.Ambient = Color.FromArgb(100, 0, 0, 0);
 
             // Position shadow on ground (assume Z=0 or find ground level)
-            render.device.Transform.World = Matrix.RotationX((float)(Math.PI / 2)) * Matrix.Translation(x, y, 0.01f);
+            render.device.Transform.World = Matrix.Translation(x, y, 0.01f);
             render.device.Material = shadowMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.AlphaBlendEnable = true;
