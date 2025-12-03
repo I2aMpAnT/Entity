@@ -9762,8 +9762,7 @@ namespace entity.Renderers
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
             // Position circle flat at player's feet (no rotation needed - cylinder Z is up)
-            // Lower it so the disc sits at ground level
-            render.device.Transform.World = Matrix.Translation(x, y, z - 0.15f);
+            render.device.Transform.World = Matrix.Translation(x, y, z);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
