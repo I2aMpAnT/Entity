@@ -9738,7 +9738,30 @@ namespace entity.Renderers
                 // Draw player name/emblem above head (skip for POV player)
                 if (!isPOVPlayer)
                 {
-                    DrawPlayerName(player, isDead);
+                    // When dead, use death position for the marker
+                    if (isDead && playerDeathPosition.ContainsKey(player.PlayerName))
+                    {
+                        Vector3 deathPos = playerDeathPosition[player.PlayerName];
+                        PlayerTelemetry deadPlayer = new PlayerTelemetry
+                        {
+                            PlayerName = player.PlayerName,
+                            Team = player.Team,
+                            PosX = deathPos.X,
+                            PosY = deathPos.Y,
+                            PosZ = deathPos.Z,
+                            EmblemFg = player.EmblemFg,
+                            EmblemBg = player.EmblemBg,
+                            ColorPrimary = player.ColorPrimary,
+                            ColorSecondary = player.ColorSecondary,
+                            ColorTertiary = player.ColorTertiary,
+                            ColorQuaternary = player.ColorQuaternary
+                        };
+                        DrawPlayerName(deadPlayer, true);
+                    }
+                    else
+                    {
+                        DrawPlayerName(player, isDead);
+                    }
                 }
             }
         }
