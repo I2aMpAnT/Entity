@@ -66,7 +66,7 @@ namespace Globals
         /// <summary>
         /// The maximum # of recently used maps allowed in out list
         /// </summary>
-        public const int MaxRecentFiles = 4;
+        public const int MaxRecentFiles = 5;
 
         /// <summary>
         /// The path mainmenu.

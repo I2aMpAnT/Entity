@@ -442,9 +442,19 @@ namespace entity.Renderers
         private UdpClient telemetryUdpClient;
 
         /// <summary>
-        /// Thread for handling incoming telemetry data.
+        /// TCP listener for receiving live player telemetry.
+        /// </summary>
+        private TcpListener telemetryTcpListener;
+
+        /// <summary>
+        /// Thread for handling incoming UDP telemetry data.
         /// </summary>
         private Thread telemetryListenerThread;
+
+        /// <summary>
+        /// Thread for handling incoming TCP telemetry data.
+        /// </summary>
+        private Thread telemetryTcpListenerThread;
 
         /// <summary>
         /// Whether the telemetry listener is running.
@@ -7435,27 +7445,35 @@ namespace entity.Renderers
 
             try
             {
-                // Create UDP client and set ReuseAddress BEFORE binding
-                telemetryUdpClient = new UdpClient();
-                telemetryUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-                telemetryUdpClient.Client.Bind(new IPEndPoint(IPAddress.Any, 2222));
                 telemetryListenerRunning = true;
                 showLiveTelemetry = true;
 
                 // Reset header parsing state
                 csvColumnIndices.Clear();
 
+                // Start UDP listener
+                telemetryUdpClient = new UdpClient();
+                telemetryUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                telemetryUdpClient.Client.Bind(new IPEndPoint(IPAddress.Any, 2222));
+
                 telemetryListenerThread = new Thread(TelemetryListenerLoop);
                 telemetryListenerThread.IsBackground = true;
                 telemetryListenerThread.Start();
 
-                MessageBox.Show("UDP telemetry listener started on port 2222.\nSend CSV lines (header first, then data).",
-                    "Listener Started", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Start TCP listener
+                telemetryTcpListener = new TcpListener(IPAddress.Any, 2222);
+                telemetryTcpListener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                telemetryTcpListener.Start();
+
+                telemetryTcpListenerThread = new Thread(TelemetryTcpListenerLoop);
+                telemetryTcpListenerThread.IsBackground = true;
+                telemetryTcpListenerThread.Start();
+
+                AddDebugLog("Telemetry listeners started on port 2222 (UDP + TCP)");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to start telemetry listener: {ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddDebugLog($"Failed to start telemetry listener: {ex.Message}");
             }
         }
 
@@ -7470,7 +7488,9 @@ namespace entity.Renderers
             try
             {
                 telemetryUdpClient?.Close();
+                telemetryTcpListener?.Stop();
                 telemetryListenerThread?.Join(1000);
+                telemetryTcpListenerThread?.Join(1000);
             }
             catch { }
 
@@ -7487,7 +7507,7 @@ namespace entity.Renderers
         {
             IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
 
-            AddDebugLog("Telemetry listener started, waiting for UDP data on port 2222...");
+            AddDebugLog("UDP listener started, waiting for data on port 2222...");
 
             while (telemetryListenerRunning)
             {
@@ -7502,55 +7522,7 @@ namespace entity.Renderers
                     foreach (string line in lines)
                     {
                         if (string.IsNullOrWhiteSpace(line)) continue;
-
-                        string[] parts = line.Split(',');
-
-                        // Parse header row if we haven't yet
-                        if (csvColumnIndices.Count == 0)
-                        {
-                            // Check if this looks like a header (first field should be "Timestamp" not a date)
-                            string firstField = parts[0].Trim().ToLowerInvariant();
-                            bool isHeader = firstField == "timestamp" || firstField == "playername" ||
-                                            !firstField.Contains("-"); // Dates contain dashes
-
-                            if (isHeader)
-                            {
-                                for (int i = 0; i < parts.Length; i++)
-                                {
-                                    csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
-                                }
-                                // Log position column indices
-                                int posxIdx = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
-                                int posyIdx = csvColumnIndices.ContainsKey("posy") ? csvColumnIndices["posy"] : -1;
-                                int poszIdx = csvColumnIndices.ContainsKey("posz") ? csvColumnIndices["posz"] : -1;
-                                AddDebugLog($"[HEADER] {csvColumnIndices.Count} cols, posx={posxIdx} posy={posyIdx} posz={poszIdx}");
-                                continue;
-                            }
-                            else
-                            {
-                                // No header received - use default column order matching user's format
-                                SetDefaultColumnOrder();
-                                AddDebugLog($"[AUTO] Using default column order ({csvColumnIndices.Count} columns)");
-                            }
-                        }
-
-                        // Debug: show first columns and total count to detect offset issues
-                        if (parts.Length > 3)
-                        {
-                            AddDebugLog($"[ROW] [0]={parts[0]} [1]={parts[1]} [2]={parts[2]} total={parts.Length}");
-                        }
-
-                        // Parse data row
-                        PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
-                        if (telemetry != null)
-                        {
-
-                            lock (livePlayersLock)
-                            {
-                                // IsDead is already set from RespawnTimer in ParseTelemetryLine
-                                livePlayers[telemetry.PlayerName] = telemetry;
-                            }
-                        }
+                        ProcessTelemetryLine(line);
                     }
                 }
                 catch (SocketException)
@@ -7560,7 +7532,102 @@ namespace entity.Renderers
                 }
                 catch (Exception ex)
                 {
-                    AddDebugLog($"[ERROR] {ex.Message}");
+                    AddDebugLog($"[UDP ERROR] {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Main loop for receiving TCP telemetry data.
+        /// </summary>
+        private void TelemetryTcpListenerLoop()
+        {
+            AddDebugLog("TCP listener started, waiting for connections on port 2222...");
+
+            while (telemetryListenerRunning)
+            {
+                try
+                {
+                    // Accept a TCP client
+                    if (!telemetryTcpListener.Pending())
+                    {
+                        Thread.Sleep(100);
+                        continue;
+                    }
+
+                    using (TcpClient client = telemetryTcpListener.AcceptTcpClient())
+                    using (NetworkStream stream = client.GetStream())
+                    using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        AddDebugLog($"[TCP] Client connected from {client.Client.RemoteEndPoint}");
+
+                        while (telemetryListenerRunning && client.Connected)
+                        {
+                            string line = reader.ReadLine();
+                            if (line == null) break;
+                            if (string.IsNullOrWhiteSpace(line)) continue;
+
+                            ProcessTelemetryLine(line);
+                        }
+                    }
+                }
+                catch (SocketException)
+                {
+                    if (!telemetryListenerRunning) break;
+                }
+                catch (Exception ex)
+                {
+                    AddDebugLog($"[TCP ERROR] {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Process a single telemetry line (shared by UDP and TCP).
+        /// </summary>
+        private void ProcessTelemetryLine(string line)
+        {
+            string[] parts = line.Split(',');
+
+            // Parse header row if we haven't yet
+            if (csvColumnIndices.Count == 0)
+            {
+                string firstField = parts[0].Trim().ToLowerInvariant();
+                bool isHeader = firstField == "timestamp" || firstField == "playername" ||
+                                !firstField.Contains("-");
+
+                if (isHeader)
+                {
+                    for (int i = 0; i < parts.Length; i++)
+                    {
+                        csvColumnIndices[parts[i].Trim().ToLowerInvariant()] = i;
+                    }
+                    int posxIdx = csvColumnIndices.ContainsKey("posx") ? csvColumnIndices["posx"] : -1;
+                    int posyIdx = csvColumnIndices.ContainsKey("posy") ? csvColumnIndices["posy"] : -1;
+                    int poszIdx = csvColumnIndices.ContainsKey("posz") ? csvColumnIndices["posz"] : -1;
+                    AddDebugLog($"[HEADER] {csvColumnIndices.Count} cols, posx={posxIdx} posy={posyIdx} posz={poszIdx}");
+                    return;
+                }
+                else
+                {
+                    SetDefaultColumnOrder();
+                    AddDebugLog($"[AUTO] Using default column order ({csvColumnIndices.Count} columns)");
+                }
+            }
+
+            // Debug: show first columns and total count to detect offset issues
+            if (parts.Length > 3)
+            {
+                AddDebugLog($"[ROW] [0]={parts[0]} [1]={parts[1]} [2]={parts[2]} total={parts.Length}");
+            }
+
+            // Parse data row
+            PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
+            if (telemetry != null)
+            {
+                lock (livePlayersLock)
+                {
+                    livePlayers[telemetry.PlayerName] = telemetry;
                 }
             }
         }
