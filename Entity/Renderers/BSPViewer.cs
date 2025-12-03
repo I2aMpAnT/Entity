@@ -9381,12 +9381,12 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Gets the emblem URL for a player using halo2pc.com service.
+        /// Gets the emblem URL for a player.
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
             // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EF=foreground, EB=background, ET=toggle
-            return $"https://www.halo2pc.com/test-pages/CartoStat/Emblem/emblem.php?P={player.ColorPrimary}&S={player.ColorSecondary}&EP={player.ColorTertiary}&ES={player.ColorQuaternary}&EF={player.EmblemFg}&EB={player.EmblemBg}&ET=0";
+            return $"http://104.207.143.249:3001/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
