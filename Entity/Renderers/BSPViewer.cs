@@ -3547,7 +3547,7 @@ namespace entity.Renderers
                         render.device.TextureState[1].TextureCoordinateIndex = 2;
                     }
                     */
-                    render.device.RenderState.FillMode = FillMode.WireFrame;
+                    render.device.RenderState.FillMode = FillMode.Solid;
 
                     // render.device.SetTexture(0, meshtextures[i]);
                     pm.Display.meshes[x].DrawSubset(xx);
