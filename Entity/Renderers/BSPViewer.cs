@@ -544,6 +544,7 @@ namespace entity.Renderers
             public float Timestamp; // In seconds from start
             public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
             public float FacingYaw;
+            public float FacingPitch; // Added for POV mode look up/down
             public string PlayerName;
             public string CurrentWeapon;
             public bool IsCrouching;
@@ -559,7 +560,7 @@ namespace entity.Renderers
             public int ColorQuaternary;
 
             public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1,
-                float facingYaw = 0, string playerName = "", string weapon = "",
+                float facingYaw = 0, float facingPitch = 0, string playerName = "", string weapon = "",
                 bool crouching = false, bool airborne = false, bool isDead = false,
                 int emblemFg = 0, int emblemBg = 0, int colorPrimary = 0, int colorSecondary = 0,
                 int colorTertiary = 0, int colorQuaternary = 0)
@@ -570,6 +571,7 @@ namespace entity.Renderers
                 Timestamp = timestamp;
                 Team = team;
                 FacingYaw = facingYaw;
+                FacingPitch = facingPitch;
                 PlayerName = playerName;
                 CurrentWeapon = weapon;
                 IsCrouching = crouching;
@@ -8174,6 +8176,13 @@ namespace entity.Renderers
                     // Parse all other fields
                     float yaw = getFloat(parts, "yawdeg");
                     if (yaw == 0) yaw = getFloat(parts, "yaw") * (180f / (float)Math.PI);
+                    float pitch = getFloat(parts, "pitchdeg");
+                    if (pitch == 0)
+                    {
+                        float pitchRad = getFloat(parts, "pitch");
+                        // Only convert if not NaN (NaN check: NaN != NaN is true)
+                        if (pitchRad == pitchRad) pitch = pitchRad * (180f / (float)Math.PI);
+                    }
                     string weapon = getStr(parts, "currentweapon");
                     bool crouching = getBool(parts, "iscrouching");
                     bool airborne = getBool(parts, "isairborne");
@@ -8205,7 +8214,7 @@ namespace entity.Renderers
                         playerPrevKills[playerName] = kills;
                     }
 
-                    PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, playerName, weapon,
+                    PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, pitch, playerName, weapon,
                         crouching, airborne, isDead, emblemFg, emblemBg, colorPrimary, colorSecondary, colorTertiary, colorQuaternary);
 
                     // Add to legacy single list
@@ -8400,7 +8409,13 @@ namespace entity.Renderers
                     cam.Position.Y = cam.y;
                     cam.Position.Z = cam.z;
                     // Use Yaw (radians) directly if available, otherwise convert YawDeg
-                    cam.radianh = livePlayer.Yaw != 0 ? livePlayer.Yaw : livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    // Use IsNaN check instead of != 0 so yaw=0 (facing east) is handled correctly
+                    cam.radianh = !float.IsNaN(livePlayer.Yaw) ? livePlayer.Yaw : livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    // Use Pitch (radians) directly if available, otherwise convert PitchDeg
+                    // Handle NaN pitch gracefully by defaulting to 0 (level view)
+                    float pitchRad = !float.IsNaN(livePlayer.Pitch) ? livePlayer.Pitch :
+                                     (!float.IsNaN(livePlayer.PitchDeg) ? livePlayer.PitchDeg * (float)(Math.PI / 180.0) : 0f);
+                    cam.radianv = pitchRad;
                     cam.ComputePosition();
                     return;
                 }
@@ -8447,8 +8462,11 @@ namespace entity.Renderers
             cam.Position.Y = cam.y;
             cam.Position.Z = cam.z;
 
-            // Set camera yaw to player's facing direction
+            // Set camera yaw and pitch to player's facing direction
             cam.radianh = point.FacingYaw * (float)(Math.PI / 180.0);
+            // Set pitch (handle NaN by defaulting to 0 for level view)
+            float pitchRad = point.FacingPitch * (float)(Math.PI / 180.0);
+            cam.radianv = float.IsNaN(pitchRad) ? 0f : pitchRad;
             cam.ComputePosition();
         }
 
@@ -9362,7 +9380,8 @@ namespace entity.Renderers
                     if (playerBipedModel != null)
                     {
                         // Use Yaw (radians) directly if available, otherwise convert YawDeg
-                        float yawRadians = player.Yaw != 0 ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
+                        // Use IsNaN check instead of != 0 so yaw=0 (facing east) is handled correctly
+                        float yawRadians = !float.IsNaN(player.Yaw) ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
                         Matrix rotation = Matrix.RotationZ(yawRadians);
                         Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + modelZOffset);
 
@@ -9393,7 +9412,8 @@ namespace entity.Renderers
 
                         // Apply yaw rotation and position
                         // Use Yaw (radians) directly if available, otherwise convert YawDeg
-                        float yawRadians = player.Yaw != 0 ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
+                        // Use IsNaN check instead of != 0 so yaw=0 (facing east) is handled correctly
+                        float yawRadians = !float.IsNaN(player.Yaw) ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
                         Matrix yawRotation = Matrix.RotationZ(yawRadians);
                         Matrix tiltRotation = Matrix.RotationX((float)(Math.PI / 2));
                         Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + 0.35f + modelZOffset);
