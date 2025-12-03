@@ -556,6 +556,11 @@ namespace entity.Renderers
         private bool showLiveTelemetry = false;
 
         /// <summary>
+        /// List of live player names for dropdown population.
+        /// </summary>
+        private List<string> livePlayerNames = new List<string>();
+
+        /// <summary>
         /// Font for drawing player names.
         /// </summary>
         private Microsoft.DirectX.Direct3D.Font playerNameFont;
@@ -944,10 +949,11 @@ namespace entity.Renderers
             pathPlayerDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             pathPlayerDropdown.Width = 100;
             pathPlayerDropdown.SelectedIndexChanged += (s, e) => {
+                List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
                 if (pathPlayerDropdown.SelectedIndex == 0)
                     selectedPathPlayer = null;
-                else if (pathPlayerDropdown.SelectedIndex <= pathPlayerNames.Count)
-                    selectedPathPlayer = pathPlayerNames[pathPlayerDropdown.SelectedIndex - 1];
+                else if (pathPlayerDropdown.SelectedIndex <= playerNames.Count)
+                    selectedPathPlayer = playerNames[pathPlayerDropdown.SelectedIndex - 1];
             };
             toolStrip.Items.Add(pathPlayerDropdown);
 
@@ -1016,15 +1022,16 @@ namespace entity.Renderers
             povPlayerDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             povPlayerDropdown.Width = 100;
             povPlayerDropdown.SelectedIndexChanged += (s, e) => {
+                List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
                 if (povPlayerDropdown.SelectedIndex == 0)
                 {
                     povModeEnabled = false;
                     povFollowPlayer = null;
                 }
-                else if (povPlayerDropdown.SelectedIndex <= pathPlayerNames.Count)
+                else if (povPlayerDropdown.SelectedIndex <= playerNames.Count)
                 {
                     povModeEnabled = true;
-                    povFollowPlayer = pathPlayerNames[povPlayerDropdown.SelectedIndex - 1];
+                    povFollowPlayer = playerNames[povPlayerDropdown.SelectedIndex - 1];
                 }
             };
             toolStrip.Items.Add(povPlayerDropdown);
@@ -1136,6 +1143,138 @@ namespace entity.Renderers
 
             // Make toolbar visible so path controls are accessible
             toolStrip.Visible = true;
+        }
+
+        /// <summary>
+        /// Updates player dropdowns with live player names when in live telemetry mode.
+        /// </summary>
+        private void UpdateLivePlayerDropdowns()
+        {
+            if (!showLiveTelemetry)
+                return;
+
+            List<string> currentPlayers;
+            lock (livePlayersLock)
+            {
+                currentPlayers = new List<string>(livePlayers.Keys);
+            }
+
+            // Check if player list changed
+            bool changed = currentPlayers.Count != livePlayerNames.Count;
+            if (!changed)
+            {
+                foreach (string name in currentPlayers)
+                {
+                    if (!livePlayerNames.Contains(name))
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!changed)
+                return;
+
+            livePlayerNames = currentPlayers;
+
+            // Update dropdowns on UI thread
+            if (pathPlayerDropdown != null && pathPlayerDropdown.GetCurrentParent() != null)
+            {
+                try
+                {
+                    if (pathPlayerDropdown.GetCurrentParent().InvokeRequired)
+                    {
+                        pathPlayerDropdown.GetCurrentParent().BeginInvoke(new Action(() => RefreshPlayerDropdowns()));
+                    }
+                    else
+                    {
+                        RefreshPlayerDropdowns();
+                    }
+                }
+                catch { }
+            }
+        }
+
+        /// <summary>
+        /// Gets a team color indicator prefix for display in dropdowns.
+        /// </summary>
+        private string GetTeamColorPrefix(int team)
+        {
+            switch (team)
+            {
+                case 0: return "🔴 "; // Red
+                case 1: return "🔵 "; // Blue
+                case 2: return "🟢 "; // Green
+                case 3: return "🟠 "; // Orange
+                default: return "⚪ "; // Unknown/FFA (white)
+            }
+        }
+
+        /// <summary>
+        /// Gets the team for a player name.
+        /// </summary>
+        private int GetPlayerTeam(string playerName)
+        {
+            if (showLiveTelemetry)
+            {
+                lock (livePlayersLock)
+                {
+                    if (livePlayers.ContainsKey(playerName))
+                        return livePlayers[playerName].Team;
+                }
+            }
+            else
+            {
+                // Check playback path data
+                if (multiPlayerPaths.ContainsKey(playerName) && multiPlayerPaths[playerName].Count > 0)
+                {
+                    var firstSegment = multiPlayerPaths[playerName][0];
+                    if (firstSegment.Count > 0)
+                        return firstSegment[0].Team;
+                }
+            }
+            return -1; // Unknown
+        }
+
+        /// <summary>
+        /// Refreshes the player and POV dropdowns with current player names.
+        /// </summary>
+        private void RefreshPlayerDropdowns()
+        {
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+            string prevSelectedPlayer = selectedPathPlayer;
+            string prevPovPlayer = povFollowPlayer;
+
+            if (pathPlayerDropdown != null)
+            {
+                pathPlayerDropdown.Items.Clear();
+                pathPlayerDropdown.Items.Add("All Players");
+                foreach (string name in playerNames)
+                {
+                    int team = GetPlayerTeam(name);
+                    string prefix = GetTeamColorPrefix(team);
+                    pathPlayerDropdown.Items.Add(prefix + name);
+                }
+                // Try to restore selection
+                int selIdx = prevSelectedPlayer != null ? playerNames.IndexOf(prevSelectedPlayer) + 1 : 0;
+                pathPlayerDropdown.SelectedIndex = Math.Max(0, Math.Min(selIdx, pathPlayerDropdown.Items.Count - 1));
+            }
+
+            if (povPlayerDropdown != null)
+            {
+                povPlayerDropdown.Items.Clear();
+                povPlayerDropdown.Items.Add("Free Camera");
+                foreach (string name in playerNames)
+                {
+                    int team = GetPlayerTeam(name);
+                    string prefix = GetTeamColorPrefix(team);
+                    povPlayerDropdown.Items.Add(prefix + name);
+                }
+                // Try to restore selection
+                int povIdx = prevPovPlayer != null ? playerNames.IndexOf(prevPovPlayer) + 1 : 0;
+                povPlayerDropdown.SelectedIndex = Math.Max(0, Math.Min(povIdx, povPlayerDropdown.Items.Count - 1));
+            }
         }
 
         private Form debugForm = null;
@@ -3927,6 +4066,10 @@ namespace entity.Renderers
             // Update and render player path animation
             UpdatePathAnimation();
             RenderPlayerPath();
+
+            // Update camera for POV mode (live telemetry)
+            if (showLiveTelemetry)
+                UpdatePOVCamera();
 
             // Render live telemetry players
             RenderLivePlayers();
@@ -7409,35 +7552,14 @@ namespace entity.Renderers
                     lastPoints[playerName] = point;
                 }
 
-                // Update player dropdown
-                if (pathPlayerDropdown != null)
-                {
-                    pathPlayerDropdown.Items.Clear();
-                    pathPlayerDropdown.Items.Add("All Players");
-                    foreach (string name in pathPlayerNames)
-                    {
-                        pathPlayerDropdown.Items.Add(name);
-                    }
-                    pathPlayerDropdown.SelectedIndex = 0;
-                    selectedPathPlayer = null;
-                }
-
-                // Update POV dropdown
-                if (povPlayerDropdown != null)
-                {
-                    povPlayerDropdown.Items.Clear();
-                    povPlayerDropdown.Items.Add("Free Camera");
-                    foreach (string name in pathPlayerNames)
-                    {
-                        povPlayerDropdown.Items.Add(name);
-                    }
-                    povPlayerDropdown.SelectedIndex = 0;
-                    povModeEnabled = false;
-                    povFollowPlayer = null;
-                }
-
                 // Clear hidden players when loading new path
                 hiddenPlayers.Clear();
+                selectedPathPlayer = null;
+                povModeEnabled = false;
+                povFollowPlayer = null;
+
+                // Update player and POV dropdowns with team colors
+                RefreshPlayerDropdowns();
 
                 // Initialize timeline
                 if (pathMinTimestamp == float.MaxValue) pathMinTimestamp = 0;
@@ -7558,12 +7680,34 @@ namespace entity.Renderers
 
         /// <summary>
         /// Updates the camera to follow the selected player in POV mode.
+        /// Works for both playback and live telemetry.
         /// </summary>
         private void UpdatePOVCamera()
         {
             if (!povModeEnabled || string.IsNullOrEmpty(povFollowPlayer))
                 return;
 
+            // Try live telemetry first
+            if (showLiveTelemetry)
+            {
+                PlayerTelemetry livePlayer = null;
+                lock (livePlayersLock)
+                {
+                    if (livePlayers.ContainsKey(povFollowPlayer))
+                        livePlayer = livePlayers[povFollowPlayer];
+                }
+
+                if (livePlayer != null && !livePlayer.IsDead)
+                {
+                    cam.x = livePlayer.PosX;
+                    cam.y = livePlayer.PosY;
+                    cam.z = livePlayer.PosZ + 0.6f; // Eye height offset
+                    cam.yaw = livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    return;
+                }
+            }
+
+            // Fall back to playback path data
             if (!multiPlayerPaths.ContainsKey(povFollowPlayer))
                 return;
 
@@ -7591,7 +7735,7 @@ namespace entity.Renderers
             cam.z = point.Z + 0.6f; // Eye height offset
 
             // Set camera yaw to player's facing direction
-            cam.yaw = point.FacingYaw * (float)(Math.PI / 180.0); // Convert to radians if needed
+            cam.yaw = point.FacingYaw * (float)(Math.PI / 180.0);
         }
 
         /// <summary>
@@ -7888,6 +8032,14 @@ namespace entity.Renderers
                 // Reset header parsing state
                 csvColumnIndices.Clear();
 
+                // Clear live player data for fresh start
+                lock (livePlayersLock)
+                {
+                    livePlayers.Clear();
+                }
+                livePlayerNames.Clear();
+                RefreshPlayerDropdowns();
+
                 // Start UDP listener
                 telemetryUdpClient = new UdpClient();
                 telemetryUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
@@ -7935,6 +8087,10 @@ namespace entity.Renderers
             {
                 livePlayers.Clear();
             }
+            livePlayerNames.Clear();
+
+            // Restore playback player dropdowns
+            RefreshPlayerDropdowns();
         }
 
         /// <summary>
@@ -8066,6 +8222,8 @@ namespace entity.Renderers
                 {
                     livePlayers[telemetry.PlayerName] = telemetry;
                 }
+                // Update dropdowns if player list changed
+                UpdateLivePlayerDropdowns();
             }
         }
 
@@ -8256,6 +8414,10 @@ namespace entity.Renderers
 
             foreach (PlayerTelemetry player in players)
             {
+                // Skip hidden players
+                if (hiddenPlayers.Contains(player.PlayerName))
+                    continue;
+
                 Color teamColor = GetTeamColor(player.Team);
 
                 // Check if player is dead (using IsDead field from telemetry)
