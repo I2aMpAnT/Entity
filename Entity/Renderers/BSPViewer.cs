@@ -9642,13 +9642,12 @@ namespace entity.Renderers
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
                 float modelZOffset = zOffset + groundOffset;
 
-                // Calculate circle Z - stays on ground even when jumping
-                // When airborne, estimate ground level by subtracting jump height
-                float circleZ = player.PosZ + groundOffset;
+                // Calculate circle Z - at player's feet
+                float circleZ = player.PosZ;
                 if (player.IsAirborne)
                 {
                     // Keep circle lower when jumping (approximate ground level)
-                    circleZ = player.PosZ + groundOffset - (player.AirborneTicks * 0.02f);
+                    circleZ = player.PosZ - (player.AirborneTicks * 0.02f);
                 }
 
                 // Only draw model and circle if alive
