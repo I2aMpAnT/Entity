@@ -10140,10 +10140,8 @@ namespace entity.Renderers
                     // Draw player name and weapon icon centered together
                     int nameY = topY;
 
-                    // Measure name width
-                    System.Drawing.Rectangle measureRect = new System.Drawing.Rectangle(0, 0, 400, 24);
-                    playerNameFont.MeasureString(null, player.PlayerName, ref measureRect, DrawTextFormat.Left);
-                    int nameWidth = measureRect.Width;
+                    // Estimate name width (approximately 8 pixels per character for this font size)
+                    int nameWidth = (player.PlayerName?.Length ?? 0) * 8;
 
                     // Get weapon icon info
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
