@@ -8970,26 +8970,50 @@ namespace entity.Renderers
             if (telemetry != null)
             {
                 string playerName = telemetry.PlayerName;
-                DateTime now = DateTime.Now;
                 Vector3 currentPos = new Vector3(telemetry.PosX, telemetry.PosY, telemetry.PosZ);
+
+                // Filter out placeholder/default entries entirely
+                // These are invalid packets with default values that should be ignored
+                bool isPlaceholder = playerName == "PlayerName" &&
+                                     telemetry.CurrentWeapon == "currentweapon" &&
+                                     telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0;
+
+                if (isPlaceholder)
+                {
+                    // Remove this placeholder if it somehow got added before
+                    lock (livePlayersLock)
+                    {
+                        if (livePlayers.ContainsKey(playerName))
+                        {
+                            livePlayers.Remove(playerName);
+                            playerDeadState.Remove(playerName);
+                            playerPrevDeaths.Remove(playerName);
+                            playerPrevPosition.Remove(playerName);
+                            playerDeathPosition.Remove(playerName);
+                            playerLastUpdateTime.Remove(playerName);
+                            AddDebugLog($"[FILTER] Removed placeholder player entry");
+                        }
+                    }
+                    return; // Skip this packet entirely
+                }
 
                 lock (livePlayersLock)
                 {
-                    // Track last update time for stale player detection
-                    playerLastUpdateTime[playerName] = now;
+                    // Track last update time
+                    playerLastUpdateTime[playerName] = DateTime.Now;
 
                     // Death/Respawn detection based on position changes
                     bool wasDeadBefore = playerDeadState.ContainsKey(playerName) && playerDeadState[playerName];
                     int prevDeaths = playerPrevDeaths.ContainsKey(playerName) ? playerPrevDeaths[playerName] : 0;
 
-                    // Check for new death (death count increased)
+                    // Check for new death (death count increased) - log immediately
                     if (telemetry.Deaths > prevDeaths)
                     {
                         // Player just died - mark as dead and store death position
                         playerDeadState[playerName] = true;
                         playerDeathPosition[playerName] = currentPos;
                         telemetry.IsDead = true;
-                        AddDebugLog($"[DEATH] {playerName} died at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
+                        AddDebugLog($"[DEATH] {playerName} DIED! Deaths: {prevDeaths} -> {telemetry.Deaths} at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
                     }
                     else if (wasDeadBefore)
                     {
@@ -9032,26 +9056,6 @@ namespace entity.Renderers
 
                     // Store telemetry
                     livePlayers[playerName] = telemetry;
-
-                    // Clean up stale players (no data for StalePlayerTimeoutSeconds)
-                    var staleKeys = new List<string>();
-                    foreach (var kvp in playerLastUpdateTime)
-                    {
-                        if ((now - kvp.Value).TotalSeconds > StalePlayerTimeoutSeconds && kvp.Key != playerName)
-                        {
-                            staleKeys.Add(kvp.Key);
-                        }
-                    }
-                    foreach (var key in staleKeys)
-                    {
-                        livePlayers.Remove(key);
-                        playerLastUpdateTime.Remove(key);
-                        playerDeadState.Remove(key);
-                        playerPrevDeaths.Remove(key);
-                        playerPrevPosition.Remove(key);
-                        playerDeathPosition.Remove(key);
-                        AddDebugLog($"[STALE] Removed stale player: {key}");
-                    }
                 }
 
                 // Update dropdowns if player list changed
