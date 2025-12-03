@@ -9179,7 +9179,7 @@ namespace entity.Renderers
                 }
 
                 // Project 3D position to screen coordinates
-                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 0.6f); // Above head
+                Vector3 worldPos = new Vector3(player.PosX, player.PosY, player.PosZ + 1.5f); // Above head
                 Vector3 screenPos = Vector3.Project(worldPos,
                     render.device.Viewport,
                     render.device.Transform.Projection,
