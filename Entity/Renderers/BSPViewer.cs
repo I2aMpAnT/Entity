@@ -878,6 +878,11 @@ namespace entity.Renderers
         private Dictionary<string, Texture> weaponTextureCache = new Dictionary<string, Texture>();
 
         /// <summary>
+        /// Cached weapon images for GDI+ timeline drawing.
+        /// </summary>
+        private Dictionary<string, System.Drawing.Image> weaponImageCache = new Dictionary<string, System.Drawing.Image>();
+
+        /// <summary>
         /// Set of weapon names currently being loaded.
         /// </summary>
         private HashSet<string> weaponLoadingSet = new HashSet<string>();
@@ -10720,10 +10725,16 @@ namespace entity.Renderers
                             {
                                 try
                                 {
+                                    // Cache as DirectX texture
                                     using (var ms = new System.IO.MemoryStream(imageData))
                                     {
                                         Texture tex = TextureLoader.FromStream(render.device, ms);
                                         weaponTextureCache[imageName] = tex;
+                                    }
+                                    // Also cache as GDI+ image for timeline
+                                    using (var ms = new System.IO.MemoryStream(imageData))
+                                    {
+                                        weaponImageCache[imageName] = System.Drawing.Image.FromStream(ms);
                                     }
                                 }
                                 catch { }
@@ -11014,35 +11025,33 @@ namespace entity.Renderers
                 if (t < 0 || t > 1) continue; // Skip out-of-range kills
                 int x = trackLeft + (int)(t * trackWidth);
 
-                // Gold/yellow for kills (medal-like)
-                Color markerColor = Color.FromArgb(255, 215, 0);
-
-                // Draw glowing marker line
-                using (Pen glowPen = new Pen(Color.FromArgb(80, markerColor), 4))
+                // Try to get weapon image
+                string weaponImageName = GetWeaponImageName(kill.Weapon);
+                System.Drawing.Image weaponImg = null;
+                if (weaponImageName != null && weaponImageCache.ContainsKey(weaponImageName))
                 {
-                    e.Graphics.DrawLine(glowPen, x, markerY, x, markerY + markerHeight);
+                    weaponImg = weaponImageCache[weaponImageName];
                 }
-                using (Pen pen = new Pen(markerColor, 2))
+                else if (weaponImageName != null)
                 {
-                    e.Graphics.DrawLine(pen, x, markerY, x, markerY + markerHeight);
+                    // Trigger load if not yet loaded
+                    GetOrLoadWeaponTexture(kill.Weapon);
                 }
 
-                // Draw star/medal marker for kills
-                Point[] star = {
-                    new Point(x, markerY - 2),
-                    new Point(x + 3, markerY + 3),
-                    new Point(x + 6, markerY + 3),
-                    new Point(x + 4, markerY + 6),
-                    new Point(x + 5, markerY + 10),
-                    new Point(x, markerY + 7),
-                    new Point(x - 5, markerY + 10),
-                    new Point(x - 4, markerY + 6),
-                    new Point(x - 6, markerY + 3),
-                    new Point(x - 3, markerY + 3)
-                };
-                using (SolidBrush brush = new SolidBrush(markerColor))
+                if (weaponImg != null)
                 {
-                    e.Graphics.FillPolygon(brush, star);
+                    // Draw weapon icon (scaled to 16x16)
+                    int iconSize = 16;
+                    e.Graphics.DrawImage(weaponImg, x - iconSize / 2, markerY - 2, iconSize, iconSize);
+                }
+                else
+                {
+                    // Fallback: draw gold circle if weapon image not loaded
+                    Color markerColor = Color.FromArgb(255, 215, 0);
+                    using (SolidBrush brush = new SolidBrush(markerColor))
+                    {
+                        e.Graphics.FillEllipse(brush, x - 4, markerY, 8, 8);
+                    }
                 }
             }
 
