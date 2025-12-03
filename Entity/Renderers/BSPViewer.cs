@@ -7549,16 +7549,18 @@ namespace entity.Renderers
                                 else
                                 {
                                     int prevDeaths = playerPrevDeaths[pName];
+                                    bool justDied = false;
 
                                     // Deaths increased = player died
                                     if (telemetry.Deaths > prevDeaths)
                                     {
                                         playerDeadState[pName] = true;
+                                        justDied = true;
                                         AddDebugLog($"[DEATH] {pName} died! Deaths: {prevDeaths} -> {telemetry.Deaths}");
                                     }
 
-                                    // If dead and position changed significantly = respawned
-                                    if (playerDeadState[pName])
+                                    // Only check for respawn if we didn't just die this frame
+                                    if (!justDied && playerDeadState[pName])
                                     {
                                         Vector3 prevPos = playerPrevPosition[pName];
                                         float dist = (newPos - prevPos).Length();
