@@ -1084,7 +1084,7 @@ namespace entity.Renderers
             timelinePanel.Controls.Add(pathTimelineTrackBar);
 
             // Zoom buttons for timeline
-            Button btnZoomIn = new Button();
+            System.Windows.Forms.Button btnZoomIn = new System.Windows.Forms.Button();
             btnZoomIn.Text = "+";
             btnZoomIn.Size = new Size(25, 25);
             btnZoomIn.Location = new Point(510, 7);
@@ -1095,7 +1095,7 @@ namespace entity.Renderers
             };
             timelinePanel.Controls.Add(btnZoomIn);
 
-            Button btnZoomOut = new Button();
+            System.Windows.Forms.Button btnZoomOut = new System.Windows.Forms.Button();
             btnZoomOut.Text = "-";
             btnZoomOut.Size = new Size(25, 25);
             btnZoomOut.Location = new Point(540, 7);
@@ -1185,7 +1185,7 @@ namespace entity.Renderers
                 {
                     if (pathPlayerDropdown.GetCurrentParent().InvokeRequired)
                     {
-                        pathPlayerDropdown.GetCurrentParent().BeginInvoke(new Action(() => RefreshPlayerDropdowns()));
+                        pathPlayerDropdown.GetCurrentParent().BeginInvoke(new System.Action(() => RefreshPlayerDropdowns()));
                     }
                     else
                     {
@@ -7702,7 +7702,11 @@ namespace entity.Renderers
                     cam.x = livePlayer.PosX;
                     cam.y = livePlayer.PosY;
                     cam.z = livePlayer.PosZ + 0.6f; // Eye height offset
-                    cam.yaw = livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    cam.Position.X = cam.x;
+                    cam.Position.Y = cam.y;
+                    cam.Position.Z = cam.z;
+                    cam.radianh = livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    cam.ComputePosition();
                     return;
                 }
             }
@@ -7733,9 +7737,13 @@ namespace entity.Renderers
             cam.x = point.X;
             cam.y = point.Y;
             cam.z = point.Z + 0.6f; // Eye height offset
+            cam.Position.X = cam.x;
+            cam.Position.Y = cam.y;
+            cam.Position.Z = cam.z;
 
             // Set camera yaw to player's facing direction
-            cam.yaw = point.FacingYaw * (float)(Math.PI / 180.0);
+            cam.radianh = point.FacingYaw * (float)(Math.PI / 180.0);
+            cam.ComputePosition();
         }
 
         /// <summary>
