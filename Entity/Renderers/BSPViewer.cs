@@ -7707,7 +7707,7 @@ namespace entity.Renderers
                 int isdeadIdx = cols.ContainsKey("isdead") ? cols["isdead"] : -1;
                 string isdeadRaw = (isdeadIdx >= 0 && parts.Length > isdeadIdx) ? parts[isdeadIdx].Trim() : "N/A";
                 t.IsDead = getBool("isdead");
-                AddTelemetryDebugLog($"IsDead DEBUG: idx={isdeadIdx} raw='{isdeadRaw}' parsed={t.IsDead}");
+                AddDebugLog($"IsDead DEBUG: idx={isdeadIdx} raw='{isdeadRaw}' parsed={t.IsDead}");
 
                 // Events
                 t.Event = getStr("event");
