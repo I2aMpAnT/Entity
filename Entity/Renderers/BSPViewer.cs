@@ -375,6 +375,14 @@ namespace entity.Renderers
         private DateTime pathLastFrameTime = DateTime.Now;
 
         /// <summary>
+        /// FPS counter fields.
+        /// </summary>
+        private int fpsFrameCount = 0;
+        private DateTime fpsLastUpdate = DateTime.Now;
+        private float currentFps = 0;
+        private Microsoft.DirectX.Direct3D.Font fpsFont = null;
+
+        /// <summary>
         /// Mesh for rendering the player marker.
         /// </summary>
         private Mesh playerMarkerMesh;
@@ -1040,17 +1048,26 @@ namespace entity.Renderers
             };
             toolStrip.Items.Add(povPlayerDropdown);
 
-            // Create timeline panel at bottom of form
+            // Create timeline panel at bottom of form - Halo theater style
             Panel timelinePanel = new Panel();
             timelinePanel.Dock = DockStyle.Bottom;
-            timelinePanel.Height = 40;
-            timelinePanel.BackColor = Color.FromArgb(40, 40, 40);
+            timelinePanel.Height = 45;
+            timelinePanel.BackColor = Color.FromArgb(15, 25, 35); // Dark blue-black
+
+            // Add subtle top border
+            Panel borderPanel = new Panel();
+            borderPanel.Dock = DockStyle.Top;
+            borderPanel.Height = 2;
+            borderPanel.BackColor = Color.FromArgb(0, 120, 180); // Halo blue accent
+            timelinePanel.Controls.Add(borderPanel);
 
             pathTimeLabel = new Label();
             pathTimeLabel.Text = "0:00 / 0:00";
-            pathTimeLabel.ForeColor = Color.White;
+            pathTimeLabel.ForeColor = Color.FromArgb(0, 200, 255); // Cyan
+            pathTimeLabel.Font = new System.Drawing.Font("Segoe UI", 10, FontStyle.Bold);
             pathTimeLabel.AutoSize = true;
-            pathTimeLabel.Location = new Point(10, 12);
+            pathTimeLabel.Location = new Point(10, 14);
+            pathTimeLabel.BackColor = Color.Transparent;
             timelinePanel.Controls.Add(pathTimeLabel);
 
             pathTimelineTrackBar = new TrackBar();
@@ -4210,6 +4227,9 @@ namespace entity.Renderers
 
             // Render live telemetry players
             RenderLivePlayers();
+
+            // Draw HUD overlay (FPS, etc.)
+            DrawHUD();
 
             #endregion
 
@@ -8870,6 +8890,79 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Draws HUD overlay elements (FPS counter, mode indicator, etc.)
+        /// </summary>
+        private void DrawHUD()
+        {
+            // Update FPS counter
+            fpsFrameCount++;
+            double elapsed = (DateTime.Now - fpsLastUpdate).TotalSeconds;
+            if (elapsed >= 1.0)
+            {
+                currentFps = (float)(fpsFrameCount / elapsed);
+                fpsFrameCount = 0;
+                fpsLastUpdate = DateTime.Now;
+            }
+
+            // Create font if needed
+            if (fpsFont == null || fpsFont.Disposed)
+            {
+                fpsFont = new Microsoft.DirectX.Direct3D.Font(render.device, new System.Drawing.Font("Segoe UI", 14, FontStyle.Bold));
+            }
+
+            // Halo blue color scheme
+            Color haloBlue = Color.FromArgb(0, 170, 255);
+            Color haloCyan = Color.FromArgb(0, 220, 255);
+
+            int screenWidth = render.device.Viewport.Width;
+            int screenHeight = render.device.Viewport.Height;
+
+            // Draw FPS in top right
+            string fpsText = $"{currentFps:F0} FPS";
+            Rectangle fpsRect = new Rectangle(screenWidth - 120, 10, 110, 30);
+            fpsFont.DrawText(null, fpsText, fpsRect, DrawTextFormat.Right | DrawTextFormat.Top, haloBlue);
+
+            // Draw mode indicator in top left
+            string modeText = showLiveTelemetry ? "● LIVE" : (playerPath.Count > 0 ? "▶ REPLAY" : "");
+            if (!string.IsNullOrEmpty(modeText))
+            {
+                Rectangle modeRect = new Rectangle(10, 10, 150, 30);
+                Color modeColor = showLiveTelemetry ? Color.FromArgb(255, 80, 80) : haloCyan;
+                fpsFont.DrawText(null, modeText, modeRect, DrawTextFormat.Left | DrawTextFormat.Top, modeColor);
+            }
+
+            // Draw playback info when in replay mode
+            if (!showLiveTelemetry && playerPath.Count > 0)
+            {
+                string timeText = FormatTime(pathCurrentTimestamp - pathMinTimestamp) + " / " + FormatTime(pathMaxTimestamp - pathMinTimestamp);
+                string speedText = $"{pathPlaybackSpeed:F2}x";
+                Rectangle timeRect = new Rectangle(10, screenHeight - 60, 200, 25);
+                Rectangle speedRect = new Rectangle(screenWidth - 80, screenHeight - 60, 70, 25);
+                fpsFont.DrawText(null, timeText, timeRect, DrawTextFormat.Left, haloCyan);
+                fpsFont.DrawText(null, speedText, speedRect, DrawTextFormat.Right, haloBlue);
+            }
+
+            // Draw player count
+            int playerCount = showLiveTelemetry ? livePlayerNames.Count : pathPlayerNames.Count;
+            if (playerCount > 0)
+            {
+                string playerText = $"👥 {playerCount}";
+                Rectangle playerRect = new Rectangle(screenWidth - 80, 40, 70, 25);
+                fpsFont.DrawText(null, playerText, playerRect, DrawTextFormat.Right, haloCyan);
+            }
+        }
+
+        /// <summary>
+        /// Formats a timestamp as MM:SS.
+        /// </summary>
+        private string FormatTime(float seconds)
+        {
+            int mins = (int)(seconds / 60);
+            int secs = (int)(seconds % 60);
+            return $"{mins}:{secs:D2}";
+        }
+
+        /// <summary>
         /// Gets a unique key for an emblem based on player colors.
         /// </summary>
         private string GetEmblemKey(PlayerTelemetry player)
@@ -9255,46 +9348,54 @@ namespace entity.Renderers
             if (timeRange <= 0) return;
 
             // Get trackbar bounds for positioning markers
-            int trackLeft = pathTimelineTrackBar.Left + 10; // Account for trackbar padding
+            int trackLeft = pathTimelineTrackBar.Left + 10;
             int trackWidth = pathTimelineTrackBar.Width - 20;
-            int markerY = 2; // Top of panel
-            int markerHeight = 8;
+            int markerY = 4;
+            int markerHeight = 12;
 
-            using (Graphics g = e.Graphics)
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            foreach (var kill in killEvents)
             {
-                foreach (var kill in killEvents)
+                // Calculate X position based on timestamp
+                float t = (kill.Timestamp - pathMinTimestamp) / timeRange;
+                int x = trackLeft + (int)(t * trackWidth);
+
+                // Halo-style team colors (brighter, more saturated)
+                Color teamColor;
+                switch (kill.Team)
                 {
-                    // Calculate X position based on timestamp
-                    float t = (kill.Timestamp - pathMinTimestamp) / timeRange;
-                    int x = trackLeft + (int)(t * trackWidth);
+                    case 0: teamColor = Color.FromArgb(255, 60, 60); break;    // Red team
+                    case 1: teamColor = Color.FromArgb(60, 140, 255); break;   // Blue team
+                    case 2: teamColor = Color.FromArgb(60, 255, 120); break;   // Green team
+                    case 3: teamColor = Color.FromArgb(255, 180, 60); break;   // Orange team
+                    default: teamColor = Color.FromArgb(0, 200, 255); break;   // FFA - cyan
+                }
 
-                    // Get team color
-                    Color teamColor;
-                    switch (kill.Team)
-                    {
-                        case 0: teamColor = Color.Red; break;
-                        case 1: teamColor = Color.DodgerBlue; break;
-                        case 2: teamColor = Color.LimeGreen; break;
-                        case 3: teamColor = Color.Orange; break;
-                        default: teamColor = Color.White; break;
-                    }
+                // Draw glowing marker line
+                using (Pen glowPen = new Pen(Color.FromArgb(80, teamColor), 4))
+                {
+                    e.Graphics.DrawLine(glowPen, x, markerY, x, markerY + markerHeight);
+                }
+                using (Pen pen = new Pen(teamColor, 2))
+                {
+                    e.Graphics.DrawLine(pen, x, markerY, x, markerY + markerHeight);
+                }
 
-                    // Draw marker line
-                    using (Pen pen = new Pen(teamColor, 2))
-                    {
-                        g.DrawLine(pen, x, markerY, x, markerY + markerHeight);
-                    }
-
-                    // Draw small triangle at top
-                    using (SolidBrush brush = new SolidBrush(teamColor))
-                    {
-                        Point[] triangle = {
-                            new Point(x - 3, markerY),
-                            new Point(x + 3, markerY),
-                            new Point(x, markerY + 4)
-                        };
-                        g.FillPolygon(brush, triangle);
-                    }
+                // Draw diamond marker
+                Point[] diamond = {
+                    new Point(x, markerY - 2),
+                    new Point(x + 4, markerY + 3),
+                    new Point(x, markerY + 8),
+                    new Point(x - 4, markerY + 3)
+                };
+                using (SolidBrush brush = new SolidBrush(teamColor))
+                {
+                    e.Graphics.FillPolygon(brush, diamond);
+                }
+                using (Pen outlinePen = new Pen(Color.FromArgb(180, 255, 255, 255), 1))
+                {
+                    e.Graphics.DrawPolygon(outlinePen, diamond);
                 }
             }
         }
