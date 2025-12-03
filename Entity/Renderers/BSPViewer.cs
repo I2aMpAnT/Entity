@@ -740,10 +740,6 @@ namespace entity.Renderers
         /// </summary>
         private string pendingReplayFile = null;
 
-        /// <summary>
-        /// Reference to the Live listener button for updating its appearance.
-        /// </summary>
-        private ToolStripButton btnLiveListener = null;
 
         /// <summary>
         /// Font for scoreboard text.
@@ -1440,31 +1436,6 @@ namespace entity.Renderers
             ToolStripSeparator separator2 = new ToolStripSeparator();
             toolStrip.Items.Add(separator2);
 
-            // Live telemetry listener button
-            btnLiveListener = new ToolStripButton();
-            btnLiveListener.Text = "🔴 LIVE";
-            btnLiveListener.Font = new System.Drawing.Font(btnLiveListener.Font, FontStyle.Bold);
-            btnLiveListener.ForeColor = Color.DarkRed;
-            btnLiveListener.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnLiveListener.Click += (s, e) => {
-                if (telemetryListenerRunning)
-                {
-                    StopTelemetryListener();
-                    btnLiveListener.Text = "🔴 LIVE";
-                    btnLiveListener.ForeColor = Color.DarkRed;
-                    showLiveTelemetry = false;
-                }
-                else
-                {
-                    StartTelemetryListener();
-                    btnLiveListener.Text = "⏹ STOP";
-                    btnLiveListener.ForeColor = Color.Black;
-                    showLiveTelemetry = true;
-                    EnableTelemetryViewOptions();
-                }
-            };
-            toolStrip.Items.Add(btnLiveListener);
-
             // Debug button to show incoming telemetry data
             ToolStripButton btnDebug = new ToolStripButton();
             btnDebug.Text = "🔍 Debug";
@@ -1500,8 +1471,6 @@ namespace entity.Renderers
                 {
                     // Start live telemetry listener automatically
                     StartTelemetryListener();
-                    btnLiveListener.Text = "⏹ STOP";
-                    btnLiveListener.ForeColor = Color.Black;
                     showLiveTelemetry = true;
                     EnableTelemetryViewOptions();
                 }
@@ -8293,6 +8262,7 @@ namespace entity.Renderers
                     string weapon = getStr(parts, "currentweapon");
                     bool crouching = getBool(parts, "iscrouching");
                     bool airborne = getBool(parts, "isairborne");
+                    // Use IsDead field or RespawnTimer > 0 for death detection
                     bool isDead = getBool(parts, "isdead") || getInt(parts, "respawntimer") > 0;
                     int emblemFg = getInt(parts, "emblemfg");
                     int emblemBg = getInt(parts, "emblembg");
@@ -9126,7 +9096,7 @@ namespace entity.Renderers
                         telemetry.IsDead = true;
                         AddDebugLog($"[DEATH-COUNT] {playerName} DIED (deaths: {prevDeaths} -> {telemetry.Deaths}) at ({currentPos.X:F1}, {currentPos.Y:F1}, {currentPos.Z:F1})");
                     }
-                    // FALLBACK: Detect death transition via isdead flag
+                    // SECONDARY: Detect death transition via isdead flag or respawntimer
                     else if (!wasDeadBefore && telemetryIsDead)
                     {
                         // Player just died - store death position
@@ -9531,7 +9501,7 @@ namespace entity.Renderers
                 t.Deaths = getInt("deaths");
                 t.Assists = getInt("assists");
                 t.RespawnTimer = getInt("respawntimer");
-                // Use both IsDead field and RespawnTimer for robust death detection
+                // Use IsDead field or RespawnTimer > 0 for death detection
                 t.IsDead = getBool("isdead") || t.RespawnTimer > 0;
 
                 // Events
@@ -10218,8 +10188,8 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
-            // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EF=foreground, EB=background, ET=toggle
-            return $"http://104.207.143.249:3001/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            // p=primary, s=secondary, ep=emblem primary, es=emblem secondary, eb=emblem background, ef=emblem foreground, et=toggle
+            return $"http://104.207.143.249:3001/p{player.ColorPrimary}-s{player.ColorSecondary}-ep{player.ColorTertiary}-es{player.ColorQuaternary}-eb{player.EmblemBg}-ef{player.EmblemFg}-et0.png";
         }
 
         /// <summary>
@@ -10547,25 +10517,6 @@ namespace entity.Renderers
             render.device.RenderState.Lighting = true;
             eventMesh.DrawSubset(0);
             eventMesh.Dispose();
-        }
-
-        /// <summary>
-        /// Event handler for Listen button click.
-        /// </summary>
-        private void btnListen_Click(object sender, EventArgs e)
-        {
-            if (telemetryListenerRunning)
-            {
-                StopTelemetryListener();
-                if (sender is ToolStripButton btn)
-                    btn.Text = "Listen";
-            }
-            else
-            {
-                StartTelemetryListener();
-                if (sender is ToolStripButton btn)
-                    btn.Text = "Stop";
-            }
         }
 
         #endregion
