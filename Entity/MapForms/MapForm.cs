@@ -3091,9 +3091,9 @@ namespace entity.MapForms
             this.Cursor = Cursors.Arrow;
             if (bsp.BspNumber != -1)
             {
-                entity.Renderers.TheaterViewer tv = new entity.Renderers.TheaterViewer(bsp, map);
-                tv.Dispose();
-                tv = null;
+                BSPViewer bv = new BSPViewer(bsp, map, theaterMode: true);
+                bv.Dispose();
+                bv = null;
             }
 
             meta.Dispose();
