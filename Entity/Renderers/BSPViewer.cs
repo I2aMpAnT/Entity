@@ -14,6 +14,7 @@ namespace entity.Renderers
     using System.ComponentModel;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -302,12 +303,7 @@ namespace entity.Renderers
         private List<string> pathPlayerNames = new List<string>();
 
         /// <summary>
-        /// Currently selected player for playback (null = all players).
-        /// </summary>
-        private string selectedPathPlayer = null;
-
-        /// <summary>
-        /// Set of players to hide during playback.
+        /// Set of players to hide during playback/live view.
         /// </summary>
         private HashSet<string> hiddenPlayers = new HashSet<string>();
 
@@ -916,7 +912,7 @@ namespace entity.Renderers
         }
 
         // UI controls that need to be updated when path is loaded
-        private ToolStripComboBox pathPlayerDropdown;
+        private ToolStripDropDownButton pathPlayerDropdown;
         private ToolStripComboBox povPlayerDropdown;
         private TrackBar pathTimelineTrackBar;
         private Label pathTimeLabel;
@@ -938,23 +934,14 @@ namespace entity.Renderers
             btnLoadPath.Click += btnLoadPath_Click;
             toolStrip.Items.Add(btnLoadPath);
 
-            // Player dropdown
+            // Player dropdown with checkmarks for visibility
             ToolStripLabel lblPlayer = new ToolStripLabel();
-            lblPlayer.Text = "Player:";
+            lblPlayer.Text = "Players:";
             toolStrip.Items.Add(lblPlayer);
 
-            pathPlayerDropdown = new ToolStripComboBox();
-            pathPlayerDropdown.Items.Add("All Players");
-            pathPlayerDropdown.SelectedIndex = 0;
-            pathPlayerDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
-            pathPlayerDropdown.Width = 100;
-            pathPlayerDropdown.SelectedIndexChanged += (s, e) => {
-                List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
-                if (pathPlayerDropdown.SelectedIndex == 0)
-                    selectedPathPlayer = null;
-                else if (pathPlayerDropdown.SelectedIndex <= playerNames.Count)
-                    selectedPathPlayer = playerNames[pathPlayerDropdown.SelectedIndex - 1];
-            };
+            pathPlayerDropdown = new ToolStripDropDownButton();
+            pathPlayerDropdown.Text = "All Visible";
+            pathPlayerDropdown.DisplayStyle = ToolStripItemDisplayStyle.Text;
             toolStrip.Items.Add(pathPlayerDropdown);
 
             // Play/Pause button
@@ -1035,29 +1022,6 @@ namespace entity.Renderers
                 }
             };
             toolStrip.Items.Add(povPlayerDropdown);
-
-            // Hide player button (toggles visibility of selected player)
-            ToolStripButton btnHide = new ToolStripButton();
-            btnHide.Text = "Hide";
-            btnHide.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnHide.Click += (s, e) => {
-                if (selectedPathPlayer == null)
-                {
-                    MessageBox.Show("Select a specific player from the dropdown first.", "Hide Player", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                if (hiddenPlayers.Contains(selectedPathPlayer))
-                {
-                    hiddenPlayers.Remove(selectedPathPlayer);
-                    btnHide.Text = "Hide";
-                }
-                else
-                {
-                    hiddenPlayers.Add(selectedPathPlayer);
-                    btnHide.Text = "Show";
-                }
-            };
-            toolStrip.Items.Add(btnHide);
 
             // Create timeline panel at bottom of form
             Panel timelinePanel = new Panel();
@@ -1243,24 +1207,60 @@ namespace entity.Renderers
         private void RefreshPlayerDropdowns()
         {
             List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
-            string prevSelectedPlayer = selectedPathPlayer;
             string prevPovPlayer = povFollowPlayer;
 
+            // Update player visibility dropdown (checkable menu)
             if (pathPlayerDropdown != null)
             {
-                pathPlayerDropdown.Items.Clear();
-                pathPlayerDropdown.Items.Add("All Players");
+                pathPlayerDropdown.DropDownItems.Clear();
+
+                // Show All option
+                ToolStripMenuItem showAllItem = new ToolStripMenuItem("✓ Show All");
+                showAllItem.Click += (s, e) => {
+                    hiddenPlayers.Clear();
+                    UpdatePlayerDropdownChecks();
+                };
+                pathPlayerDropdown.DropDownItems.Add(showAllItem);
+
+                // Hide All option
+                ToolStripMenuItem hideAllItem = new ToolStripMenuItem("✗ Hide All");
+                hideAllItem.Click += (s, e) => {
+                    List<string> names = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+                    foreach (string name in names)
+                        hiddenPlayers.Add(name);
+                    UpdatePlayerDropdownChecks();
+                };
+                pathPlayerDropdown.DropDownItems.Add(hideAllItem);
+
+                pathPlayerDropdown.DropDownItems.Add(new ToolStripSeparator());
+
+                // Add checkable item for each player
                 foreach (string name in playerNames)
                 {
                     int team = GetPlayerTeam(name);
                     string prefix = GetTeamColorPrefix(team);
-                    pathPlayerDropdown.Items.Add(prefix + name);
+                    bool isVisible = !hiddenPlayers.Contains(name);
+
+                    ToolStripMenuItem playerItem = new ToolStripMenuItem(prefix + name);
+                    playerItem.Checked = isVisible;
+                    playerItem.CheckOnClick = true;
+                    playerItem.Tag = name; // Store actual name without prefix
+                    playerItem.CheckedChanged += (s, e) => {
+                        ToolStripMenuItem item = (ToolStripMenuItem)s;
+                        string playerName = (string)item.Tag;
+                        if (item.Checked)
+                            hiddenPlayers.Remove(playerName);
+                        else
+                            hiddenPlayers.Add(playerName);
+                        UpdatePlayerDropdownText();
+                    };
+                    pathPlayerDropdown.DropDownItems.Add(playerItem);
                 }
-                // Try to restore selection
-                int selIdx = prevSelectedPlayer != null ? playerNames.IndexOf(prevSelectedPlayer) + 1 : 0;
-                pathPlayerDropdown.SelectedIndex = Math.Max(0, Math.Min(selIdx, pathPlayerDropdown.Items.Count - 1));
+
+                UpdatePlayerDropdownText();
             }
 
+            // Update POV dropdown
             if (povPlayerDropdown != null)
             {
                 povPlayerDropdown.Items.Clear();
@@ -1275,6 +1275,38 @@ namespace entity.Renderers
                 int povIdx = prevPovPlayer != null ? playerNames.IndexOf(prevPovPlayer) + 1 : 0;
                 povPlayerDropdown.SelectedIndex = Math.Max(0, Math.Min(povIdx, povPlayerDropdown.Items.Count - 1));
             }
+        }
+
+        /// <summary>
+        /// Updates the player dropdown button text based on visibility state.
+        /// </summary>
+        private void UpdatePlayerDropdownText()
+        {
+            if (pathPlayerDropdown == null) return;
+            List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+            int visibleCount = playerNames.Count - hiddenPlayers.Count(n => playerNames.Contains(n));
+            if (visibleCount == playerNames.Count)
+                pathPlayerDropdown.Text = "All Visible";
+            else if (visibleCount == 0)
+                pathPlayerDropdown.Text = "None Visible";
+            else
+                pathPlayerDropdown.Text = $"{visibleCount}/{playerNames.Count} Visible";
+        }
+
+        /// <summary>
+        /// Updates the checked state of player dropdown items.
+        /// </summary>
+        private void UpdatePlayerDropdownChecks()
+        {
+            if (pathPlayerDropdown == null) return;
+            foreach (ToolStripItem item in pathPlayerDropdown.DropDownItems)
+            {
+                if (item is ToolStripMenuItem menuItem && menuItem.Tag is string playerName)
+                {
+                    menuItem.Checked = !hiddenPlayers.Contains(playerName);
+                }
+            }
+            UpdatePlayerDropdownText();
         }
 
         private Form debugForm = null;
@@ -7554,7 +7586,6 @@ namespace entity.Renderers
 
                 // Clear hidden players when loading new path
                 hiddenPlayers.Clear();
-                selectedPathPlayer = null;
                 povModeEnabled = false;
                 povFollowPlayer = null;
 
@@ -7804,8 +7835,6 @@ namespace entity.Renderers
                 foreach (var kvp in multiPlayerPaths)
                 {
                     string playerName = kvp.Key;
-                    if (selectedPathPlayer != null && playerName != selectedPathPlayer)
-                        continue;
                     if (hiddenPlayers.Contains(playerName))
                         continue;
 
@@ -7835,8 +7864,6 @@ namespace entity.Renderers
             foreach (var kvp in multiPlayerPaths)
             {
                 string playerName = kvp.Key;
-                if (selectedPathPlayer != null && playerName != selectedPathPlayer)
-                    continue;
                 if (hiddenPlayers.Contains(playerName))
                     continue;
 
