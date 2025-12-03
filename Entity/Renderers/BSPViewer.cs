@@ -9102,6 +9102,9 @@ namespace entity.Renderers
         /// </summary>
         private void ProcessTelemetryLine(string line)
         {
+            // Skip processing if in replay mode - don't overwrite cached data
+            if (liveReplayMode) return;
+
             string[] parts = line.Split(',');
 
             // Parse header row if we haven't yet
