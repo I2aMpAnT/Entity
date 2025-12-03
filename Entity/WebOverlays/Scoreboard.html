@@ -553,10 +553,11 @@
                     const cached = playerRowCache.get(id);
 
                     // Check if we need to rebuild the row (player changed, dead status changed, or emblem changed)
+                    const currentEmblemUrl = getEmblemUrl(player);
                     const needsRebuild = !rowEl ||
                         !cached ||
                         cached.isDead !== player.is_dead ||
-                        cached.emblemUrl !== player.emblem_url ||
+                        cached.emblemUrl !== currentEmblemUrl ||
                         cached.name !== player.name;
 
                     if (needsRebuild) {
@@ -572,7 +573,7 @@
                         // Update cache
                         playerRowCache.set(id, {
                             isDead: player.is_dead,
-                            emblemUrl: player.emblem_url,
+                            emblemUrl: currentEmblemUrl,
                             name: player.name
                         });
                     } else {
@@ -627,6 +628,23 @@
                 return null;
             }
 
+            // Construct emblem URL from player data
+            function getEmblemUrl(player) {
+                // If full URL provided, use it
+                if (player.emblem_url) return player.emblem_url;
+
+                // Construct from raw emblem data (check multiple field name formats)
+                // P=primary, S=secondary, EP=emblem primary (tertiary), ES=emblem secondary (quaternary), EF=foreground, EB=background
+                const p = player.PrimaryColor ?? player.primary_color ?? player.color_primary ?? 0;
+                const s = player.SecondaryColor ?? player.secondary_color ?? player.color_secondary ?? 0;
+                const ep = player.TertiaryColor ?? player.tertiary_color ?? player.color_tertiary ?? 0;
+                const es = player.QuaternaryColor ?? player.quaternary_color ?? player.color_quaternary ?? 0;
+                const ef = player.EmblemForeground ?? player.emblem_foreground ?? player.emblem_fg ?? 0;
+                const eb = player.EmblemBackground ?? player.emblem_background ?? player.emblem_bg ?? 0;
+
+                return `${window.config.emblemServiceUrl}/P${p}-S${s}-EP${ep}-ES${es}-EF${ef}-EB${eb}-ET0.png`;
+            }
+
             function createPlayerRowElement(player, teamColor, gameType, id) {
                 const row = document.createElement('div');
                 row.className = `player-row ${teamColor}`;
@@ -636,25 +654,24 @@
                 const emblemDiv = document.createElement('div');
                 emblemDiv.className = 'player-emblem';
 
-                // Debug: log emblem URL
-                if (player.emblem_url) {
-                    console.log(`Emblem URL for ${player.name}: ${player.emblem_url}`);
-                }
+                // Get emblem URL (constructed or provided)
+                const emblemUrl = getEmblemUrl(player);
+                console.log(`Emblem URL for ${player.name}: ${emblemUrl}`);
 
                 if (player.is_dead) {
                     emblemDiv.innerHTML = '<span class="dead-x">X</span>';
-                } else if (player.emblem_url) {
+                } else if (emblemUrl) {
                     // Use img tag directly for PNG emblems
                     const img = document.createElement('img');
                     img.crossOrigin = 'anonymous';
                     img.style.width = '22px';
                     img.style.height = '22px';
                     img.onerror = function() {
-                        console.error(`Failed to load emblem: ${player.emblem_url}`);
+                        console.error(`Failed to load emblem: ${emblemUrl}`);
                         this.style.display = 'none';
                         emblemDiv.innerHTML = '<span style="width:22px;height:22px;background:#444;border-radius:2px;display:inline-block;"></span>';
                     };
-                    img.src = player.emblem_url;
+                    img.src = emblemUrl;
                     emblemDiv.appendChild(img);
                 } else {
                     emblemDiv.innerHTML = '<span style="width:22px;height:22px;background:#444;border-radius:2px;display:inline-block;"></span>';
