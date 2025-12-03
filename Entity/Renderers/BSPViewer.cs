@@ -307,6 +307,21 @@ namespace entity.Renderers
         private string selectedPathPlayer = null;
 
         /// <summary>
+        /// Set of players to hide during playback.
+        /// </summary>
+        private HashSet<string> hiddenPlayers = new HashSet<string>();
+
+        /// <summary>
+        /// Whether POV mode is enabled (camera follows selected player).
+        /// </summary>
+        private bool povModeEnabled = false;
+
+        /// <summary>
+        /// Player being followed in POV mode.
+        /// </summary>
+        private string povFollowPlayer = null;
+
+        /// <summary>
         /// Minimum timestamp in path data (for timeline).
         /// </summary>
         private float pathMinTimestamp = 0;
@@ -897,6 +912,7 @@ namespace entity.Renderers
 
         // UI controls that need to be updated when path is loaded
         private ToolStripComboBox pathPlayerDropdown;
+        private ToolStripComboBox povPlayerDropdown;
         private TrackBar pathTimelineTrackBar;
         private Label pathTimeLabel;
         private ToolStripButton pathPlayPauseButton;
@@ -989,6 +1005,53 @@ namespace entity.Renderers
             };
             toolStrip.Items.Add(btnTrail);
 
+            // POV mode dropdown
+            ToolStripLabel lblPOV = new ToolStripLabel();
+            lblPOV.Text = "POV:";
+            toolStrip.Items.Add(lblPOV);
+
+            povPlayerDropdown = new ToolStripComboBox();
+            povPlayerDropdown.Items.Add("Free Camera");
+            povPlayerDropdown.SelectedIndex = 0;
+            povPlayerDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            povPlayerDropdown.Width = 100;
+            povPlayerDropdown.SelectedIndexChanged += (s, e) => {
+                if (povPlayerDropdown.SelectedIndex == 0)
+                {
+                    povModeEnabled = false;
+                    povFollowPlayer = null;
+                }
+                else if (povPlayerDropdown.SelectedIndex <= pathPlayerNames.Count)
+                {
+                    povModeEnabled = true;
+                    povFollowPlayer = pathPlayerNames[povPlayerDropdown.SelectedIndex - 1];
+                }
+            };
+            toolStrip.Items.Add(povPlayerDropdown);
+
+            // Hide player button (toggles visibility of selected player)
+            ToolStripButton btnHide = new ToolStripButton();
+            btnHide.Text = "Hide";
+            btnHide.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnHide.Click += (s, e) => {
+                if (selectedPathPlayer == null)
+                {
+                    MessageBox.Show("Select a specific player from the dropdown first.", "Hide Player", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                if (hiddenPlayers.Contains(selectedPathPlayer))
+                {
+                    hiddenPlayers.Remove(selectedPathPlayer);
+                    btnHide.Text = "Hide";
+                }
+                else
+                {
+                    hiddenPlayers.Add(selectedPathPlayer);
+                    btnHide.Text = "Show";
+                }
+            };
+            toolStrip.Items.Add(btnHide);
+
             // Create timeline panel at bottom of form
             Panel timelinePanel = new Panel();
             timelinePanel.Dock = DockStyle.Bottom;
@@ -1012,6 +1075,28 @@ namespace entity.Renderers
             pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
             pathTimelineTrackBar.MouseDown += (s, e) => { pathIsPlaying = false; pathPlayPauseButton.Text = "▶ Play"; };
             timelinePanel.Controls.Add(pathTimelineTrackBar);
+
+            // Zoom buttons for timeline
+            Button btnZoomIn = new Button();
+            btnZoomIn.Text = "+";
+            btnZoomIn.Size = new Size(25, 25);
+            btnZoomIn.Location = new Point(510, 7);
+            btnZoomIn.Click += (s, e) => {
+                // Zoom in: increase trackbar resolution around current position
+                if (pathTimelineTrackBar.Width < 2000)
+                    pathTimelineTrackBar.Width += 200;
+            };
+            timelinePanel.Controls.Add(btnZoomIn);
+
+            Button btnZoomOut = new Button();
+            btnZoomOut.Text = "-";
+            btnZoomOut.Size = new Size(25, 25);
+            btnZoomOut.Location = new Point(540, 7);
+            btnZoomOut.Click += (s, e) => {
+                if (pathTimelineTrackBar.Width > 200)
+                    pathTimelineTrackBar.Width -= 200;
+            };
+            timelinePanel.Controls.Add(btnZoomOut);
 
             this.Controls.Add(timelinePanel);
             timelinePanel.BringToFront();
@@ -7337,6 +7422,23 @@ namespace entity.Renderers
                     selectedPathPlayer = null;
                 }
 
+                // Update POV dropdown
+                if (povPlayerDropdown != null)
+                {
+                    povPlayerDropdown.Items.Clear();
+                    povPlayerDropdown.Items.Add("Free Camera");
+                    foreach (string name in pathPlayerNames)
+                    {
+                        povPlayerDropdown.Items.Add(name);
+                    }
+                    povPlayerDropdown.SelectedIndex = 0;
+                    povModeEnabled = false;
+                    povFollowPlayer = null;
+                }
+
+                // Clear hidden players when loading new path
+                hiddenPlayers.Clear();
+
                 // Initialize timeline
                 if (pathMinTimestamp == float.MaxValue) pathMinTimestamp = 0;
                 if (pathMaxTimestamp == float.MinValue) pathMaxTimestamp = 0;
@@ -7442,6 +7544,9 @@ namespace entity.Renderers
             // Update timeline
             UpdateTimelineLabel();
 
+            // Update camera for POV mode
+            UpdatePOVCamera();
+
             // Stop at end
             if (pathCurrentTimestamp >= pathMaxTimestamp || pathCurrentIndex >= playerPath.Count - 1)
             {
@@ -7449,6 +7554,44 @@ namespace entity.Renderers
                 if (pathPlayPauseButton != null)
                     pathPlayPauseButton.Text = "▶ Play";
             }
+        }
+
+        /// <summary>
+        /// Updates the camera to follow the selected player in POV mode.
+        /// </summary>
+        private void UpdatePOVCamera()
+        {
+            if (!povModeEnabled || string.IsNullOrEmpty(povFollowPlayer))
+                return;
+
+            if (!multiPlayerPaths.ContainsKey(povFollowPlayer))
+                return;
+
+            // Find the point for the followed player at current timestamp
+            PlayerPathPoint? currentPoint = null;
+            foreach (var segment in multiPlayerPaths[povFollowPlayer])
+            {
+                foreach (var pt in segment)
+                {
+                    if (pt.Timestamp <= pathCurrentTimestamp)
+                        currentPoint = pt;
+                    else
+                        break;
+                }
+            }
+
+            if (!currentPoint.HasValue)
+                return;
+
+            var point = currentPoint.Value;
+
+            // Set camera position at player's eye level
+            cam.x = point.X;
+            cam.y = point.Y;
+            cam.z = point.Z + 0.6f; // Eye height offset
+
+            // Set camera yaw to player's facing direction
+            cam.yaw = point.FacingYaw * (float)(Math.PI / 180.0); // Convert to radians if needed
         }
 
         /// <summary>
@@ -7511,6 +7654,8 @@ namespace entity.Renderers
                     string playerName = kvp.Key;
                     if (selectedPathPlayer != null && playerName != selectedPathPlayer)
                         continue;
+                    if (hiddenPlayers.Contains(playerName))
+                        continue;
 
                     foreach (var segment in kvp.Value)
                     {
@@ -7539,6 +7684,8 @@ namespace entity.Renderers
             {
                 string playerName = kvp.Key;
                 if (selectedPathPlayer != null && playerName != selectedPathPlayer)
+                    continue;
+                if (hiddenPlayers.Contains(playerName))
                     continue;
 
                 // Find the point for this player at current timestamp
