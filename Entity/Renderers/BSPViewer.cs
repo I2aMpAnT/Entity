@@ -328,6 +328,23 @@ namespace entity.Renderers
         private float pathMaxTimestamp = 0;
 
         /// <summary>
+        /// Tracks kill events for timeline display.
+        /// </summary>
+        private struct KillEvent
+        {
+            public float Timestamp;
+            public string PlayerName;
+            public int Team;
+            public string Weapon;
+        }
+        private List<KillEvent> killEvents = new List<KillEvent>();
+
+        /// <summary>
+        /// Tracks previous kill count per player to detect new kills.
+        /// </summary>
+        private Dictionary<string, int> playerPrevKills = new Dictionary<string, int>();
+
+        /// <summary>
         /// Current playback timestamp.
         /// </summary>
         private float pathCurrentTimestamp = 0;
@@ -1042,14 +1059,26 @@ namespace entity.Renderers
             pathTimelineTrackBar.Value = 0;
             pathTimelineTrackBar.TickStyle = TickStyle.None;
             pathTimelineTrackBar.Location = new Point(100, 5);
-            pathTimelineTrackBar.Width = this.Width - 120; // Full width minus margins
-            pathTimelineTrackBar.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            pathTimelineTrackBar.Height = 30;
             pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
             pathTimelineTrackBar.MouseDown += (s, e) => { pathIsPlaying = false; pathPlayPauseButton.Text = "▶ Play"; };
             timelinePanel.Controls.Add(pathTimelineTrackBar);
 
+            // Add paint handler to draw kill markers on timeline
+            timelinePanel.Paint += TimelinePanel_Paint;
+
+            // Handle resize to keep trackbar full width
+            timelinePanel.Resize += (s, e) => {
+                if (pathTimelineTrackBar != null)
+                    pathTimelineTrackBar.Width = timelinePanel.Width - 110;
+                timelinePanel.Invalidate(); // Redraw kill markers
+            };
+
             this.Controls.Add(timelinePanel);
             timelinePanel.BringToFront();
+
+            // Initial sizing after panel is added
+            pathTimelineTrackBar.Width = this.ClientSize.Width - 110;
 
             // Separator before live telemetry
             ToolStripSeparator separator2 = new ToolStripSeparator();
@@ -7373,6 +7402,8 @@ namespace entity.Renderers
             playerPath.Clear();
             multiPlayerPaths.Clear();
             pathPlayerNames.Clear();
+            killEvents.Clear();
+            playerPrevKills.Clear();
             pathCurrentIndex = 0;
             pathTimeAccumulator = 0;
             pathMinTimestamp = float.MaxValue;
@@ -7523,6 +7554,26 @@ namespace entity.Renderers
                     int colorSecondary = getInt(parts, "colorsecondary");
                     int colorTertiary = getInt(parts, "colortertiary");
                     int colorQuaternary = getInt(parts, "colorquaternary");
+                    int kills = getInt(parts, "kills");
+
+                    // Track kill events
+                    if (!playerPrevKills.ContainsKey(playerName))
+                        playerPrevKills[playerName] = 0;
+                    if (kills > playerPrevKills[playerName])
+                    {
+                        // New kill(s) detected
+                        for (int k = 0; k < kills - playerPrevKills[playerName]; k++)
+                        {
+                            killEvents.Add(new KillEvent
+                            {
+                                Timestamp = timestamp,
+                                PlayerName = playerName,
+                                Team = team,
+                                Weapon = weapon
+                            });
+                        }
+                        playerPrevKills[playerName] = kills;
+                    }
 
                     PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, playerName, weapon,
                         crouching, airborne, isDead, emblemFg, emblemBg, colorPrimary, colorSecondary, colorTertiary, colorQuaternary);
@@ -8752,6 +8803,7 @@ namespace entity.Renderers
             {
                 emblemLoadingSet.Add(emblemKey);
                 string url = GetEmblemUrl(player);
+                AddDebugLog($"[EMBLEM] Loading: {url}");
 
                 // Load emblem in background thread
                 System.Threading.ThreadPool.QueueUserWorkItem(_ =>
@@ -8761,6 +8813,7 @@ namespace entity.Renderers
                         using (var webClient = new System.Net.WebClient())
                         {
                             byte[] imageData = webClient.DownloadData(url);
+                            AddDebugLog($"[EMBLEM] Downloaded {imageData.Length} bytes for {player.PlayerName}");
                             // Must create texture on main thread
                             this.BeginInvoke(new System.Action(() =>
                             {
@@ -8770,9 +8823,13 @@ namespace entity.Renderers
                                     {
                                         Texture tex = TextureLoader.FromStream(render.device, ms);
                                         emblemTextureCache[emblemKey] = tex;
+                                        AddDebugLog($"[EMBLEM] Texture created for {player.PlayerName}");
                                     }
                                 }
-                                catch { }
+                                catch (Exception ex)
+                                {
+                                    AddDebugLog($"[EMBLEM] Texture error: {ex.Message}");
+                                }
                                 finally
                                 {
                                     emblemLoadingSet.Remove(emblemKey);
@@ -8780,8 +8837,9 @@ namespace entity.Renderers
                             }));
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        AddDebugLog($"[EMBLEM] Download error: {ex.Message}");
                         emblemLoadingSet.Remove(emblemKey);
                     }
                 });
@@ -9084,6 +9142,62 @@ namespace entity.Renderers
             }
 
             UpdateTimelineLabel();
+        }
+
+        /// <summary>
+        /// Paints kill markers on the timeline panel.
+        /// </summary>
+        private void TimelinePanel_Paint(object sender, PaintEventArgs e)
+        {
+            if (pathTimelineTrackBar == null || killEvents.Count == 0)
+                return;
+
+            float timeRange = pathMaxTimestamp - pathMinTimestamp;
+            if (timeRange <= 0) return;
+
+            // Get trackbar bounds for positioning markers
+            int trackLeft = pathTimelineTrackBar.Left + 10; // Account for trackbar padding
+            int trackWidth = pathTimelineTrackBar.Width - 20;
+            int markerY = 2; // Top of panel
+            int markerHeight = 8;
+
+            using (Graphics g = e.Graphics)
+            {
+                foreach (var kill in killEvents)
+                {
+                    // Calculate X position based on timestamp
+                    float t = (kill.Timestamp - pathMinTimestamp) / timeRange;
+                    int x = trackLeft + (int)(t * trackWidth);
+
+                    // Get team color
+                    Color teamColor;
+                    switch (kill.Team)
+                    {
+                        case 0: teamColor = Color.Red; break;
+                        case 1: teamColor = Color.DodgerBlue; break;
+                        case 2: teamColor = Color.LimeGreen; break;
+                        case 3: teamColor = Color.Orange; break;
+                        default: teamColor = Color.White; break;
+                    }
+
+                    // Draw marker line
+                    using (Pen pen = new Pen(teamColor, 2))
+                    {
+                        g.DrawLine(pen, x, markerY, x, markerY + markerHeight);
+                    }
+
+                    // Draw small triangle at top
+                    using (SolidBrush brush = new SolidBrush(teamColor))
+                    {
+                        Point[] triangle = {
+                            new Point(x - 3, markerY),
+                            new Point(x + 3, markerY),
+                            new Point(x, markerY + 4)
+                        };
+                        g.FillPolygon(brush, triangle);
+                    }
+                }
+            }
         }
 
         /// <summary>
