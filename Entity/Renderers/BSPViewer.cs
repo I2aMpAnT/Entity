@@ -7715,8 +7715,8 @@ namespace entity.Renderers
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
                 t.RespawnTimer = getInt("respawntimer");
-                // Use the actual IsDead field from sender (handles edge cases better than RespawnTimer)
-                t.IsDead = getBool("isdead");
+                // Use both IsDead field and RespawnTimer for robust death detection
+                t.IsDead = getBool("isdead") || t.RespawnTimer > 0;
 
                 // Events
                 t.Event = getStr("event");
