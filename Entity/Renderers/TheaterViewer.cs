@@ -9512,9 +9512,6 @@ namespace entity.Renderers
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
             // Draw kill markers if any
-            if (killEvents.Count == 0)
-                goto DrawBookmark;
-
             foreach (var kill in killEvents)
             {
                 // Calculate X position based on timestamp
@@ -9559,7 +9556,6 @@ namespace entity.Renderers
                 }
             }
 
-        DrawBookmark:
             // Draw bookmark marker if set
             if (bookmarkTimestamp >= 0 && pathMaxTimestamp > pathMinTimestamp)
             {
