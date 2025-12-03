@@ -754,6 +754,11 @@ namespace entity.Renderers
         private HashSet<string> emblemLoadingSet = new HashSet<string>();
 
         /// <summary>
+        /// Counter for debug yaw logging (only log first few frames).
+        /// </summary>
+        private int debugYawLogCounter = 0;
+
+        /// <summary>
         /// Cached weapon textures by weapon name.
         /// </summary>
         private Dictionary<string, Texture> weaponTextureCache = new Dictionary<string, Texture>();
@@ -9381,6 +9386,12 @@ namespace entity.Renderers
                         // Use Yaw (radians) directly if available, otherwise convert YawDeg
                         // Use IsNaN check instead of != 0 so yaw=0 (facing east) is handled correctly
                         float yawRadians = !float.IsNaN(player.Yaw) ? player.Yaw : player.YawDeg * (float)(Math.PI / 180.0);
+                        // Debug: log yaw values for first few frames
+                        if (debugYawLogCounter < 10)
+                        {
+                            AddDebugLog($"[YAW] {player.PlayerName}: Yaw={player.Yaw:F4} YawDeg={player.YawDeg:F4} Final={yawRadians:F4}rad ({yawRadians * 180 / Math.PI:F1}°)");
+                            debugYawLogCounter++;
+                        }
                         Matrix rotation = Matrix.RotationZ(yawRadians);
                         Matrix translation = Matrix.Translation(player.PosX, player.PosY, player.PosZ + modelZOffset);
 
