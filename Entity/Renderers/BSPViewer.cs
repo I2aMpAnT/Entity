@@ -7535,10 +7535,49 @@ namespace entity.Renderers
                         {
                             lock (livePlayersLock)
                             {
-                                // IsDead comes directly from sender now
-                                livePlayers[telemetry.PlayerName] = telemetry;
+                                string pName = telemetry.PlayerName;
+                                Vector3 newPos = new Vector3(telemetry.PosX, telemetry.PosY, telemetry.PosZ);
+
+                                // Track death by watching Deaths counter increase
+                                if (!playerPrevDeaths.ContainsKey(pName))
+                                {
+                                    // First time seeing player
+                                    playerPrevDeaths[pName] = telemetry.Deaths;
+                                    playerDeadState[pName] = false;
+                                    playerPrevPosition[pName] = newPos;
+                                }
+                                else
+                                {
+                                    int prevDeaths = playerPrevDeaths[pName];
+
+                                    // Deaths increased = player died
+                                    if (telemetry.Deaths > prevDeaths)
+                                    {
+                                        playerDeadState[pName] = true;
+                                        AddDebugLog($"[DEATH] {pName} died! Deaths: {prevDeaths} -> {telemetry.Deaths}");
+                                    }
+
+                                    // If dead and position changed significantly = respawned
+                                    if (playerDeadState[pName])
+                                    {
+                                        Vector3 prevPos = playerPrevPosition[pName];
+                                        float dist = (newPos - prevPos).Length();
+                                        if (dist > 3.0f)
+                                        {
+                                            playerDeadState[pName] = false;
+                                            AddDebugLog($"[RESPAWN] {pName} respawned!");
+                                        }
+                                    }
+
+                                    playerPrevDeaths[pName] = telemetry.Deaths;
+                                    playerPrevPosition[pName] = newPos;
+                                }
+
+                                // Set IsDead based on our tracking
+                                telemetry.IsDead = playerDeadState[pName];
+                                livePlayers[pName] = telemetry;
                             }
-                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} @ ({telemetry.PosX:F1}, {telemetry.PosY:F1}, {telemetry.PosZ:F1}) Spd={telemetry.Speed:F1} Dead={telemetry.IsDead}");
+                            AddDebugLog($"[PLAYER] {telemetry.PlayerName} Deaths={telemetry.Deaths} Dead={telemetry.IsDead}");
                         }
                     }
                 }
@@ -7704,12 +7743,7 @@ namespace entity.Renderers
                 // K/D Stats
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
-
-                // Debug: show raw isdead value
-                int isdeadIdx = cols.ContainsKey("isdead") ? cols["isdead"] : -1;
-                string isdeadRaw = (isdeadIdx >= 0 && parts.Length > isdeadIdx) ? parts[isdeadIdx].Trim() : "N/A";
-                t.IsDead = getBool("isdead");
-                AddDebugLog($"IsDead DEBUG: idx={isdeadIdx} raw='{isdeadRaw}' parsed={t.IsDead}");
+                // IsDead is computed from death count changes in listener loop
 
                 // Events
                 t.Event = getStr("event");
