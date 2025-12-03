@@ -9665,12 +9665,6 @@ namespace entity.Renderers
                         DrawGroundShadow(player.PosX, player.PosY, player.PosZ, teamColor);
                     }
 
-                    // Draw velocity trail when moving fast
-                    if (player.Speed > 2f)
-                    {
-                        DrawVelocityTrail(player, teamColor);
-                    }
-
                     // Use biped model if available
                     if (playerBipedModel != null)
                     {
@@ -9787,8 +9781,11 @@ namespace entity.Renderers
             circleMat.Ambient = teamColor;
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
-            // Position circle flat at player's feet (no rotation needed - cylinder Z is up)
-            render.device.Transform.World = Matrix.Translation(x, y, z);
+            // Position circle flat at player's feet
+            // Cylinder is created along Y axis, rotate to lie flat on XY plane
+            Matrix rotation = Matrix.RotationX((float)(Math.PI / 2));
+            Matrix translation = Matrix.Translation(x, y, z);
+            render.device.Transform.World = Matrix.Multiply(rotation, translation);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
             render.device.RenderState.Lighting = true;
