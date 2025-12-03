@@ -7582,22 +7582,14 @@ namespace entity.Renderers
         private void SetDefaultColumnOrder()
         {
             csvColumnIndices.Clear();
-            // Matches actual telemetry sender format:
-            //          Timestamp, PlayerName, Team, XboxId, MachineId,
-            //          EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary,
-            //          PosX, PosY, PosZ, VelX, VelY, VelZ, Speed,
-            //          Yaw, Pitch, YawDeg, PitchDeg,
-            //          IsCrouching, CrouchBlend, IsAirborne, AirborneTicks,
-            //          WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades,
-            //          Event, Kills, Deaths, Assists, IsDead, RespawnTimer
+            // Matches actual telemetry sender format (20 columns):
+            // PlayerName, XboxIdentifier, MachineIdentifier, Team,
+            // EmblemForeground, EmblemBackground, PrimaryColor, SecondaryColor, TertiaryColor, QuaternaryColor,
+            // Timestamp, GameTimeMs, X, Y, Z, FacingYaw, FacingPitch, IsCrouching, IsAirborne, CurrentWeapon
             string[] columns = {
-                "timestamp", "playername", "team", "xboxid", "machineid",
-                "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
-                "posx", "posy", "posz", "velx", "vely", "velz", "speed",
-                "yaw", "pitch", "yawdeg", "pitchdeg",
-                "iscrouching", "crouchblend", "isairborne", "airborneticks",
-                "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
-                "event", "kills", "deaths", "assists", "isdead", "respawntimer"
+                "playername", "xboxidentifier", "machineidentifier", "team",
+                "emblemforeground", "emblembackground", "primarycolor", "secondarycolor", "tertiarycolor", "quaternarycolor",
+                "timestamp", "gametimems", "x", "y", "z", "facingyaw", "facingpitch", "iscrouching", "isairborne", "currentweapon"
             };
             for (int i = 0; i < columns.Length; i++)
             {
@@ -7653,9 +7645,9 @@ namespace entity.Renderers
                 if (string.IsNullOrEmpty(t.PlayerName))
                     return null;
 
-                // Identity
-                t.XboxId = getStr("xboxid");
-                t.MachineId = getStr("machineid");
+                // Identity (try both old and new column names)
+                t.XboxId = getStr("xboxidentifier") ?? getStr("xboxid");
+                t.MachineId = getStr("machineidentifier") ?? getStr("machineid");
 
                 // Team - handle both string names and numeric values
                 string teamStr = getStr("team");
@@ -7669,35 +7661,35 @@ namespace entity.Renderers
                     else int.TryParse(teamStr, out t.Team);
                 }
 
-                // Emblem & Colors
-                t.EmblemFg = getInt("emblemfg");
-                t.EmblemBg = getInt("emblembg");
-                t.ColorPrimary = getInt("colorprimary");
-                t.ColorSecondary = getInt("colorsecondary");
-                t.ColorTertiary = getInt("colortertiary");
-                t.ColorQuaternary = getInt("colorquaternary");
+                // Emblem & Colors (try both old and new column names)
+                t.EmblemFg = getInt("emblemforeground") != 0 ? getInt("emblemforeground") : getInt("emblemfg");
+                t.EmblemBg = getInt("emblembackground") != 0 ? getInt("emblembackground") : getInt("emblembg");
+                t.ColorPrimary = getInt("primarycolor") != 0 ? getInt("primarycolor") : getInt("colorprimary");
+                t.ColorSecondary = getInt("secondarycolor") != 0 ? getInt("secondarycolor") : getInt("colorsecondary");
+                t.ColorTertiary = getInt("tertiarycolor") != 0 ? getInt("tertiarycolor") : getInt("colortertiary");
+                t.ColorQuaternary = getInt("quaternarycolor") != 0 ? getInt("quaternarycolor") : getInt("colorquaternary");
 
                 // Timestamp
                 string tsStr = getStr("timestamp");
                 if (!string.IsNullOrEmpty(tsStr))
                     DateTime.TryParse(tsStr, out t.Timestamp);
 
-                // Position
-                t.PosX = getFloat("posx");
-                t.PosY = getFloat("posy");
-                t.PosZ = getFloat("posz");
+                // Position (try both x/y/z and posx/posy/posz)
+                t.PosX = getFloat("x") != 0 ? getFloat("x") : getFloat("posx");
+                t.PosY = getFloat("y") != 0 ? getFloat("y") : getFloat("posy");
+                t.PosZ = getFloat("z") != 0 ? getFloat("z") : getFloat("posz");
 
-                // Velocity
+                // Velocity (may not be present in all formats)
                 t.VelX = getFloat("velx");
                 t.VelY = getFloat("vely");
                 t.VelZ = getFloat("velz");
-                t.Speed = getFloat("speed");
+                t.Speed = getFloat("speed") != 0 ? getFloat("speed") : getFloat("gametimems"); // Use gametimems as fallback display
 
-                // Orientation
-                t.Yaw = getFloat("yaw");
-                t.Pitch = getFloat("pitch");
-                t.YawDeg = getFloat("yawdeg");
-                t.PitchDeg = getFloat("pitchdeg");
+                // Orientation (try both facingyaw/facingpitch and yaw/pitch)
+                t.Yaw = getFloat("facingyaw") != 0 ? getFloat("facingyaw") : getFloat("yaw");
+                t.Pitch = getFloat("facingpitch") != 0 ? getFloat("facingpitch") : getFloat("pitch");
+                t.YawDeg = t.Yaw * (180.0f / (float)Math.PI); // Convert radians to degrees
+                t.PitchDeg = t.Pitch * (180.0f / (float)Math.PI);
 
                 // Movement State
                 t.IsCrouching = getBool("iscrouching");
@@ -7711,11 +7703,10 @@ namespace entity.Renderers
                 t.FragGrenades = getInt("fraggrenades");
                 t.PlasmaGrenades = getInt("plasmagrenades");
 
-                // K/D Stats
+                // K/D Stats (may not be present)
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
                 t.RespawnTimer = getInt("respawntimer");
-                // IsDead = true when RespawnTimer > 0 (player is dead and waiting to respawn)
                 t.IsDead = t.RespawnTimer > 0;
 
                 // Events
