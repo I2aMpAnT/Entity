@@ -2767,6 +2767,15 @@ namespace HaloMap.RawData
                                 device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
                                 device.TextureState[0].AlphaArgument2 = TextureArgument.Diffuse;
 
+                                // Apply UV scaling to base texture if detail scale values are available
+                                // This helps fix "super zoomed in" floor textures
+                                float baseScale = bsp.Shaders.Shader[tempshade].primarydetailuscale;
+                                if (baseScale > 0 && baseScale != 1.0f)
+                                {
+                                    device.TextureState[0].TextureTransform = TextureTransform.Count2;
+                                    device.Transform.Texture0 = Matrix.Scaling(baseScale, bsp.Shaders.Shader[tempshade].primarydetailvscale, 1.0f);
+                                }
+
                                 /*
                                             if (bsp.Shaders.Shader[tempshade].microdetailName != null)
                                             {

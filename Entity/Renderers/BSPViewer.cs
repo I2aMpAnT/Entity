@@ -9406,6 +9406,11 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Tracks failed emblem loads to avoid retrying too quickly.
+        /// </summary>
+        private Dictionary<string, DateTime> emblemFailedCache = new Dictionary<string, DateTime>();
+
+        /// <summary>
         /// Gets or loads an emblem texture, caching it for reuse.
         /// </summary>
         private Texture GetOrLoadEmblemTexture(PlayerTelemetry player, string emblemKey)
@@ -9416,6 +9421,14 @@ namespace entity.Renderers
                 return emblemTextureCache[emblemKey];
             }
 
+            // Check if this emblem recently failed - wait 60 seconds before retry
+            if (emblemFailedCache.ContainsKey(emblemKey))
+            {
+                if ((DateTime.Now - emblemFailedCache[emblemKey]).TotalSeconds < 60)
+                    return null;
+                emblemFailedCache.Remove(emblemKey);
+            }
+
             // Start async load if not already loading
             if (!emblemLoadingSet.Contains(emblemKey))
             {
@@ -9423,43 +9436,84 @@ namespace entity.Renderers
                 string url = GetEmblemUrl(player);
                 AddDebugLog($"[EMBLEM] Loading: {url}");
 
-                // Load emblem in background thread
+                // Load emblem in background thread with retry
                 System.Threading.ThreadPool.QueueUserWorkItem(_ =>
                 {
-                    try
+                    int maxRetries = 2;
+                    int retryDelay = 1000;
+
+                    for (int attempt = 0; attempt <= maxRetries; attempt++)
                     {
-                        using (var webClient = new System.Net.WebClient())
+                        try
                         {
-                            byte[] imageData = webClient.DownloadData(url);
-                            AddDebugLog($"[EMBLEM] Downloaded {imageData.Length} bytes for {player.PlayerName}");
-                            // Must create texture on main thread
-                            this.BeginInvoke(new System.Action(() =>
+                            using (var webClient = new System.Net.WebClient())
                             {
-                                try
+                                // Add headers to help with Cloudflare
+                                webClient.Headers.Add("User-Agent", "Entity-BSPViewer/1.0");
+                                webClient.Headers.Add("Accept", "image/png,image/*");
+
+                                byte[] imageData = webClient.DownloadData(url);
+                                AddDebugLog($"[EMBLEM] Downloaded {imageData.Length} bytes for {player.PlayerName}");
+
+                                // Must create texture on main thread
+                                this.BeginInvoke(new System.Action(() =>
                                 {
-                                    using (var ms = new System.IO.MemoryStream(imageData))
+                                    try
                                     {
-                                        Texture tex = TextureLoader.FromStream(render.device, ms);
-                                        emblemTextureCache[emblemKey] = tex;
-                                        AddDebugLog($"[EMBLEM] Texture created for {player.PlayerName}");
+                                        using (var ms = new System.IO.MemoryStream(imageData))
+                                        {
+                                            Texture tex = TextureLoader.FromStream(render.device, ms);
+                                            emblemTextureCache[emblemKey] = tex;
+                                            AddDebugLog($"[EMBLEM] Texture created for {player.PlayerName}");
+                                        }
                                     }
-                                }
-                                catch (Exception ex)
-                                {
-                                    AddDebugLog($"[EMBLEM] Texture error: {ex.Message}");
-                                }
-                                finally
-                                {
-                                    emblemLoadingSet.Remove(emblemKey);
-                                }
-                            }));
+                                    catch (Exception ex)
+                                    {
+                                        AddDebugLog($"[EMBLEM] Texture error: {ex.Message}");
+                                        emblemFailedCache[emblemKey] = DateTime.Now;
+                                    }
+                                    finally
+                                    {
+                                        emblemLoadingSet.Remove(emblemKey);
+                                    }
+                                }));
+                                return; // Success, exit retry loop
+                            }
+                        }
+                        catch (System.Net.WebException wex)
+                        {
+                            var response = wex.Response as System.Net.HttpWebResponse;
+                            int statusCode = response != null ? (int)response.StatusCode : 0;
+                            AddDebugLog($"[EMBLEM] Download error (attempt {attempt + 1}): HTTP {statusCode} - {wex.Message}");
+
+                            // Don't retry on 4xx errors (client errors)
+                            if (statusCode >= 400 && statusCode < 500)
+                            {
+                                emblemFailedCache[emblemKey] = DateTime.Now;
+                                emblemLoadingSet.Remove(emblemKey);
+                                return;
+                            }
+
+                            if (attempt < maxRetries)
+                            {
+                                System.Threading.Thread.Sleep(retryDelay);
+                                retryDelay *= 2; // Exponential backoff
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            AddDebugLog($"[EMBLEM] Download error (attempt {attempt + 1}): {ex.Message}");
+                            if (attempt < maxRetries)
+                            {
+                                System.Threading.Thread.Sleep(retryDelay);
+                                retryDelay *= 2;
+                            }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        AddDebugLog($"[EMBLEM] Download error: {ex.Message}");
-                        emblemLoadingSet.Remove(emblemKey);
-                    }
+
+                    // All retries failed
+                    emblemFailedCache[emblemKey] = DateTime.Now;
+                    emblemLoadingSet.Remove(emblemKey);
                 });
             }
 
