@@ -7556,23 +7556,29 @@ namespace entity.Renderers
                                     {
                                         playerDeadState[pName] = true;
                                         justDied = true;
+                                        // Store death position - don't update while dead
+                                        playerPrevPosition[pName] = newPos;
                                         AddDebugLog($"[DEATH] {pName} died! Deaths: {prevDeaths} -> {telemetry.Deaths}");
                                     }
 
-                                    // Only check for respawn if we didn't just die this frame
+                                    // Check for respawn: if dead and position changed AT ALL from death spot
                                     if (!justDied && playerDeadState[pName])
                                     {
-                                        Vector3 prevPos = playerPrevPosition[pName];
-                                        float dist = (newPos - prevPos).Length();
-                                        if (dist > 3.0f)
+                                        Vector3 deathPos = playerPrevPosition[pName];
+                                        float dist = (newPos - deathPos).Length();
+                                        if (dist > 0.1f)  // Any movement = respawned
                                         {
                                             playerDeadState[pName] = false;
-                                            AddDebugLog($"[RESPAWN] {pName} respawned!");
+                                            AddDebugLog($"[RESPAWN] {pName} respawned! Moved {dist:F1} units");
                                         }
                                     }
 
                                     playerPrevDeaths[pName] = telemetry.Deaths;
-                                    playerPrevPosition[pName] = newPos;
+                                    // Only update position when alive
+                                    if (!playerDeadState[pName])
+                                    {
+                                        playerPrevPosition[pName] = newPos;
+                                    }
                                 }
 
                                 // Set IsDead based on our tracking
