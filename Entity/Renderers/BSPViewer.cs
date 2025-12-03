@@ -9437,26 +9437,38 @@ namespace entity.Renderers
                 Color textColor = Color.White;
 
                 // Get player data
-                Dictionary<string, PlayerTelemetry> players;
+                Dictionary<string, PlayerTelemetry> players = new Dictionary<string, PlayerTelemetry>();
                 lock (livePlayersLock)
                 {
-                    players = showLiveTelemetry
-                        ? new Dictionary<string, PlayerTelemetry>(livePlayerData)
-                        : pathPlayerData.ToDictionary(kvp => kvp.Key, kvp => new PlayerTelemetry
+                    if (showLiveTelemetry)
+                    {
+                        players = new Dictionary<string, PlayerTelemetry>(livePlayers);
+                    }
+                    else
+                    {
+                        // Build from path data - get latest point for each player
+                        foreach (var kvp in multiPlayerPaths)
                         {
-                            PlayerName = kvp.Value.Count > 0 ? kvp.Value[0].PlayerName : kvp.Key,
-                            Team = kvp.Value.Count > 0 ? kvp.Value[0].Team : -1,
-                            Kills = kvp.Value.Count > 0 ? kvp.Value[0].Kills : 0,
-                            Deaths = kvp.Value.Count > 0 ? kvp.Value[0].Deaths : 0,
-                            IsDead = kvp.Value.Count > 0 ? kvp.Value[0].IsDead : false,
-                            CurrentWeapon = kvp.Value.Count > 0 ? kvp.Value[0].CurrentWeapon : "",
-                            EmblemFg = kvp.Value.Count > 0 ? kvp.Value[0].EmblemFg : 0,
-                            EmblemBg = kvp.Value.Count > 0 ? kvp.Value[0].EmblemBg : 0,
-                            ColorPrimary = kvp.Value.Count > 0 ? kvp.Value[0].ColorPrimary : 0,
-                            ColorSecondary = kvp.Value.Count > 0 ? kvp.Value[0].ColorSecondary : 0,
-                            ColorTertiary = kvp.Value.Count > 0 ? kvp.Value[0].ColorTertiary : 0,
-                            ColorQuaternary = kvp.Value.Count > 0 ? kvp.Value[0].ColorQuaternary : 0
-                        });
+                            var allPoints = kvp.Value.SelectMany(seg => seg).ToList();
+                            var latest = allPoints.LastOrDefault(p => p.Timestamp <= pathCurrentTimestamp);
+                            if (!string.IsNullOrEmpty(latest.PlayerName))
+                            {
+                                players[kvp.Key] = new PlayerTelemetry
+                                {
+                                    PlayerName = latest.PlayerName,
+                                    Team = latest.Team,
+                                    IsDead = latest.IsDead,
+                                    CurrentWeapon = latest.CurrentWeapon,
+                                    EmblemFg = latest.EmblemFg,
+                                    EmblemBg = latest.EmblemBg,
+                                    ColorPrimary = latest.ColorPrimary,
+                                    ColorSecondary = latest.ColorSecondary,
+                                    ColorTertiary = latest.ColorTertiary,
+                                    ColorQuaternary = latest.ColorQuaternary
+                                };
+                            }
+                        }
+                    }
                 }
 
                 // Separate by team
@@ -9620,15 +9632,15 @@ namespace entity.Renderers
                 int currentY = kfY;
                 foreach (var kill in recentKills)
                 {
-                    // Draw killfeed entry: "Killer [weapon] Victim"
-                    Color killerColor = kill.Team == 0 ? Color.FromArgb(197, 66, 69) : Color.FromArgb(65, 105, 168);
-                    Color victimColor = Color.Gray;
+                    // Draw killfeed entry: "Player got a kill with Weapon"
+                    Color teamColor = kill.Team == 0 ? Color.FromArgb(197, 66, 69) :
+                                     kill.Team == 1 ? Color.FromArgb(65, 105, 168) : Color.White;
 
-                    string entry = $"{kill.Killer}  ▶  {kill.Victim}";
+                    string entry = $"{kill.PlayerName} [{kill.Weapon}]";
                     DrawFilledRect(kfX, currentY, 300, rowHeight, Color.FromArgb(150, 0, 0, 0));
                     scoreboardFont.DrawText(null, entry,
                         new Rectangle(kfX + 8, currentY, 290, rowHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, Color.White);
+                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, teamColor);
 
                     currentY += rowHeight + 2;
                 }
