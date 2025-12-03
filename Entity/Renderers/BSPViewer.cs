@@ -9832,9 +9832,10 @@ namespace entity.Renderers
             }
             else
             {
-                // Draw emblem texture if available
+                // Get or load emblem texture
                 string emblemKey = $"{player.EmblemFg}_{player.EmblemBg}_{player.ColorPrimary}_{player.ColorSecondary}_{player.ColorTertiary}_{player.ColorQuaternary}";
-                if (emblemTextureCache.TryGetValue(emblemKey, out Texture emblemTex) && emblemTex != null && !emblemTex.Disposed)
+                Texture emblemTex = GetOrLoadEmblemTexture(player, emblemKey);
+                if (emblemTex != null && !emblemTex.Disposed)
                 {
                     if (emblemSprite == null || emblemSprite.Disposed)
                     {
@@ -9869,8 +9870,21 @@ namespace entity.Renderers
         /// </summary>
         private void DrawFilledRect(int x, int y, int width, int height, Color color)
         {
-            // Use a simple line-based approach since we don't have a rectangle mesh
-            // This is less efficient but works without additional setup
+            // Save current render states
+            bool prevLighting = render.device.RenderState.Lighting;
+            bool prevZEnable = render.device.RenderState.ZBufferEnable;
+            bool prevAlphaBlend = render.device.RenderState.AlphaBlendEnable;
+
+            // Set up render states for 2D UI drawing
+            render.device.RenderState.Lighting = false;
+            render.device.RenderState.ZBufferEnable = false;
+            render.device.RenderState.AlphaBlendEnable = true;
+            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+            render.device.RenderState.CullMode = Cull.None;
+            render.device.SetTexture(0, null);
+
+            // Create transformed colored vertices for screen-space quad
             CustomVertex.TransformedColored[] verts = new CustomVertex.TransformedColored[4];
             verts[0] = new CustomVertex.TransformedColored(x, y, 0, 1, color.ToArgb());
             verts[1] = new CustomVertex.TransformedColored(x + width, y, 0, 1, color.ToArgb());
@@ -9878,11 +9892,12 @@ namespace entity.Renderers
             verts[3] = new CustomVertex.TransformedColored(x + width, y + height, 0, 1, color.ToArgb());
 
             render.device.VertexFormat = CustomVertex.TransformedColored.Format;
-            render.device.SetTexture(0, null);
-            render.device.RenderState.AlphaBlendEnable = true;
-            render.device.RenderState.SourceBlend = Blend.SourceAlpha;
-            render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
             render.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, verts);
+
+            // Restore render states
+            render.device.RenderState.Lighting = prevLighting;
+            render.device.RenderState.ZBufferEnable = prevZEnable;
+            render.device.RenderState.AlphaBlendEnable = prevAlphaBlend;
         }
 
         /// <summary>
