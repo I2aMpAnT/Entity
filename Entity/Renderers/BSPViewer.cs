@@ -9050,12 +9050,8 @@ namespace entity.Renderers
                 Vector3 currentPos = new Vector3(telemetry.PosX, telemetry.PosY, telemetry.PosZ);
 
                 // Filter out placeholder/default entries entirely
-                // These are invalid packets with default values that should be ignored
-                bool isPlaceholder = playerName == "PlayerName" &&
-                                     (telemetry.CurrentWeapon == "currentweapon" || string.IsNullOrEmpty(telemetry.CurrentWeapon)) &&
-                                     telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0;
-
-                if (isPlaceholder)
+                // Any player named "PlayerName" is a placeholder and should be ignored
+                if (playerName == "PlayerName")
                 {
                     // Remove this placeholder if it somehow got added before
                     lock (livePlayersLock)
@@ -10162,8 +10158,8 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
-            // p=primary, s=secondary, ep=emblem primary, es=emblem secondary, eb=emblem background, ef=emblem foreground, et=toggle
-            return $"http://104.207.143.249:3001/p{player.ColorPrimary}-s{player.ColorSecondary}-ep{player.ColorTertiary}-es{player.ColorQuaternary}-eb{player.EmblemBg}-ef{player.EmblemFg}-et0.png";
+            // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EB=emblem background, EF=emblem foreground, ET=toggle
+            return $"http://104.207.143.249:3001/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EB{player.EmblemBg}-EF{player.EmblemFg}-ET0.png";
         }
 
         /// <summary>
