@@ -3077,6 +3077,30 @@ namespace entity.MapForms
         }
 
         /// <summary>
+        /// Opens Theater Mode for this map, using the first BSP.
+        /// Called from the main menu Theater Mode option.
+        /// </summary>
+        public void OpenTheaterMode()
+        {
+            if (map.BSP.sbsp == null || map.BSP.sbsp.Length == 0)
+            {
+                MessageBox.Show("This map has no BSP data for Theater Mode.", "Theater Mode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Use the first BSP
+            int BSPId = map.Functions.ForMeta.FindMetaByID(map.BSP.sbsp[0].ident);
+            if (BSPId != -1)
+            {
+                loadTheater(BSPId);
+            }
+            else
+            {
+                MessageBox.Show("Could not find BSP data for Theater Mode.", "Theater Mode", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        /// <summary>
         /// Loads the Theater viewer for the given BSP.
         /// </summary>
         /// <param name="BSPId">The BSP id.</param>

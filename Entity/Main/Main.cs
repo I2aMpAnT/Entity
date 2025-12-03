@@ -79,6 +79,11 @@ namespace entity.Main
             this.tsPanelTop.Controls.Add(this.menuStrip1);
             this.tsPanelTop.Controls.Add(this.menuStripDebug);
 
+            // Add Theater Mode menu item on the far right of main menu
+            var theaterModeMenuItem = new ToolStripMenuItem("Theater Mode");
+            theaterModeMenuItem.Click += TheaterModeMenuItem_Click;
+            this.mainMenu1.Items.Add(theaterModeMenuItem);
+
             // Locks the toolbars in place. Left unlocked at design time for easy editing
             this.tsPanelTop.Locked = true;
             updateMenuStripLock();
@@ -1008,7 +1013,113 @@ namespace entity.Main
                     // Call the base class
                     return base.ProcessCmdKey(ref msg, keyData);
             }
-        } 
+        }
+
+        /// <summary>
+        /// Opens Theater Mode - prompts to load a map if none is open, then opens BSPViewer in theater mode.
+        /// </summary>
+        private void TheaterModeMenuItem_Click(object sender, EventArgs e)
+        {
+            // Check if any map is already open
+            MapForm activeMapForm = this.ActiveMdiChild as MapForm;
+
+            if (activeMapForm == null)
+            {
+                // No map open - try to find one from recent files or prompt user
+                string mapPath = FindMapFromRecentOrPrompt();
+                if (string.IsNullOrEmpty(mapPath))
+                    return;
+
+                // Load the map
+                activeMapForm = TryLoadMapForm(mapPath);
+                if (activeMapForm == null)
+                    return;
+            }
+
+            // Open BSPViewer in Theater Mode
+            activeMapForm.OpenTheaterMode();
+        }
+
+        /// <summary>
+        /// Finds a map from recent files or prompts user to select one.
+        /// </summary>
+        private string FindMapFromRecentOrPrompt()
+        {
+            // If we have recent maps, show a selection dialog
+            if (Prefs.RecentOpenedMaps.Count > 0)
+            {
+                // Check if any recent maps exist on disk
+                foreach (var recentFile in Prefs.RecentOpenedMaps)
+                {
+                    if (System.IO.File.Exists(recentFile.Path))
+                    {
+                        // Ask user if they want to use this map or select another
+                        var result = MessageBox.Show(
+                            $"Load recent map for Theater Mode?\n\n{recentFile.Path}\n\nClick Yes to use this map, No to select another.",
+                            "Theater Mode - Select Map",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Question);
+
+                        if (result == DialogResult.Yes)
+                            return recentFile.Path;
+                        else if (result == DialogResult.Cancel)
+                            return null;
+                        else
+                            break; // User wants to select another
+                    }
+                }
+            }
+
+            // Prompt user to select a map
+            openmapdialog.InitialDirectory = Prefs.pathMapsFolder;
+            openmapdialog.Title = "Select Map for Theater Mode";
+            if (openmapdialog.ShowDialog() == DialogResult.OK)
+            {
+                return openmapdialog.FileName;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Finds a map by name from recent files or the maps folder.
+        /// Used for auto-loading maps when telemetry specifies a map name.
+        /// </summary>
+        public string FindMapByName(string mapName)
+        {
+            if (string.IsNullOrEmpty(mapName))
+                return null;
+
+            // Normalize map name (remove .map extension if present)
+            string searchName = mapName.Replace(".map", "").ToLowerInvariant();
+
+            // Search recent files first
+            foreach (var recentFile in Prefs.RecentOpenedMaps)
+            {
+                string fileName = System.IO.Path.GetFileNameWithoutExtension(recentFile.Path).ToLowerInvariant();
+                if (fileName == searchName && System.IO.File.Exists(recentFile.Path))
+                {
+                    return recentFile.Path;
+                }
+            }
+
+            // Search maps folder
+            if (System.IO.Directory.Exists(Prefs.pathMapsFolder))
+            {
+                string[] mapFiles = System.IO.Directory.GetFiles(Prefs.pathMapsFolder, "*.map", System.IO.SearchOption.AllDirectories);
+                foreach (string mapFile in mapFiles)
+                {
+                    string fileName = System.IO.Path.GetFileNameWithoutExtension(mapFile).ToLowerInvariant();
+                    if (fileName == searchName)
+                    {
+                        return mapFile;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         #endregion
 
     }

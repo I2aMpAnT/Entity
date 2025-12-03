@@ -8975,7 +8975,7 @@ namespace entity.Renderers
                 // Filter out placeholder/default entries entirely
                 // These are invalid packets with default values that should be ignored
                 bool isPlaceholder = playerName == "PlayerName" &&
-                                     telemetry.CurrentWeapon == "currentweapon" &&
+                                     (telemetry.CurrentWeapon == "currentweapon" || string.IsNullOrEmpty(telemetry.CurrentWeapon)) &&
                                      telemetry.PosX == 0 && telemetry.PosY == 0 && telemetry.PosZ == 0;
 
                 if (isPlaceholder)
