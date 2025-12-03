@@ -370,6 +370,31 @@ namespace entity.Renderers
         private float pathTimeAccumulator = 0;
 
         /// <summary>
+        /// Bookmark timestamp for loop playback.
+        /// </summary>
+        private float bookmarkTimestamp = -1;
+
+        /// <summary>
+        /// Whether bookmark loop mode is enabled.
+        /// </summary>
+        private bool bookmarkLoopEnabled = false;
+
+        /// <summary>
+        /// Reference to the timeline panel for invalidation.
+        /// </summary>
+        private Panel timelinePanelRef = null;
+
+        /// <summary>
+        /// Bookmark button reference.
+        /// </summary>
+        private System.Windows.Forms.Button bookmarkButton = null;
+
+        /// <summary>
+        /// Loop toggle button reference.
+        /// </summary>
+        private System.Windows.Forms.Button loopButton = null;
+
+        /// <summary>
         /// Last frame time for delta calculation.
         /// </summary>
         private DateTime pathLastFrameTime = DateTime.Now;
@@ -1078,24 +1103,100 @@ namespace entity.Renderers
             pathTimelineTrackBar.Location = new Point(100, 5);
             pathTimelineTrackBar.Height = 30;
             pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
-            pathTimelineTrackBar.MouseDown += (s, e) => { pathIsPlaying = false; pathPlayPauseButton.Text = "▶ Play"; };
+            pathTimelineTrackBar.MouseDown += (s, e) => {
+                if (e.Button == MouseButtons.Left)
+                {
+                    pathIsPlaying = false;
+                    pathPlayPauseButton.Text = "▶ Play";
+                }
+            };
+            // Right-click to set bookmark at clicked position
+            pathTimelineTrackBar.MouseUp += (s, e) => {
+                if (e.Button == MouseButtons.Right && pathMaxTimestamp > pathMinTimestamp)
+                {
+                    // Calculate timestamp from click position
+                    float clickRatio = (float)e.X / pathTimelineTrackBar.Width;
+                    clickRatio = Math.Max(0, Math.Min(1, clickRatio));
+                    bookmarkTimestamp = pathMinTimestamp + clickRatio * (pathMaxTimestamp - pathMinTimestamp);
+                    UpdateBookmarkButton();
+                    timelinePanelRef?.Invalidate();
+                }
+            };
             timelinePanel.Controls.Add(pathTimelineTrackBar);
 
-            // Add paint handler to draw kill markers on timeline
+            // Bookmark button - sets bookmark at current position
+            bookmarkButton = new System.Windows.Forms.Button();
+            bookmarkButton.Text = "🔖 Set";
+            bookmarkButton.FlatStyle = FlatStyle.Flat;
+            bookmarkButton.FlatAppearance.BorderColor = Color.FromArgb(0, 120, 180);
+            bookmarkButton.BackColor = Color.FromArgb(30, 45, 60);
+            bookmarkButton.ForeColor = Color.FromArgb(0, 200, 255);
+            bookmarkButton.Font = new System.Drawing.Font("Segoe UI", 8, FontStyle.Bold);
+            bookmarkButton.Size = new Size(55, 25);
+            bookmarkButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            bookmarkButton.Click += (s, e) => {
+                if (bookmarkTimestamp < 0)
+                {
+                    // Set bookmark at current position
+                    bookmarkTimestamp = pathCurrentTimestamp;
+                }
+                else
+                {
+                    // Clear bookmark
+                    bookmarkTimestamp = -1;
+                    bookmarkLoopEnabled = false;
+                    UpdateLoopButton();
+                }
+                UpdateBookmarkButton();
+                timelinePanelRef?.Invalidate();
+            };
+            timelinePanel.Controls.Add(bookmarkButton);
+
+            // Loop button - toggles loop mode
+            loopButton = new System.Windows.Forms.Button();
+            loopButton.Text = "🔁 Loop";
+            loopButton.FlatStyle = FlatStyle.Flat;
+            loopButton.FlatAppearance.BorderColor = Color.FromArgb(0, 120, 180);
+            loopButton.BackColor = Color.FromArgb(30, 45, 60);
+            loopButton.ForeColor = Color.Gray;
+            loopButton.Font = new System.Drawing.Font("Segoe UI", 8, FontStyle.Bold);
+            loopButton.Size = new Size(60, 25);
+            loopButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            loopButton.Click += (s, e) => {
+                if (bookmarkTimestamp >= 0)
+                {
+                    bookmarkLoopEnabled = !bookmarkLoopEnabled;
+                    UpdateLoopButton();
+                }
+            };
+            timelinePanel.Controls.Add(loopButton);
+
+            // Store reference for invalidation
+            timelinePanelRef = timelinePanel;
+
+            // Add paint handler to draw kill markers and bookmark on timeline
             timelinePanel.Paint += TimelinePanel_Paint;
 
-            // Handle resize to keep trackbar full width
+            // Handle resize to keep trackbar full width and position buttons
             timelinePanel.Resize += (s, e) => {
+                int buttonAreaWidth = 130; // Space for bookmark and loop buttons
                 if (pathTimelineTrackBar != null)
-                    pathTimelineTrackBar.Width = timelinePanel.Width - 110;
-                timelinePanel.Invalidate(); // Redraw kill markers
+                    pathTimelineTrackBar.Width = timelinePanel.Width - 110 - buttonAreaWidth;
+                if (bookmarkButton != null)
+                    bookmarkButton.Location = new Point(timelinePanel.Width - buttonAreaWidth + 5, 10);
+                if (loopButton != null)
+                    loopButton.Location = new Point(timelinePanel.Width - buttonAreaWidth + 65, 10);
+                timelinePanel.Invalidate(); // Redraw markers
             };
 
             this.Controls.Add(timelinePanel);
             timelinePanel.BringToFront();
 
             // Initial sizing after panel is added
-            pathTimelineTrackBar.Width = this.ClientSize.Width - 110;
+            int initialButtonAreaWidth = 130;
+            pathTimelineTrackBar.Width = this.ClientSize.Width - 110 - initialButtonAreaWidth;
+            bookmarkButton.Location = new Point(this.ClientSize.Width - initialButtonAreaWidth + 5, 10);
+            loopButton.Location = new Point(this.ClientSize.Width - initialButtonAreaWidth + 65, 10);
 
             // Separator before live telemetry
             ToolStripSeparator separator2 = new ToolStripSeparator();
@@ -2643,6 +2744,49 @@ namespace entity.Renderers
                 case (int)Keys.Left:
                 case (int)Keys.Right:
                     this.Dispose();
+                    break;
+            }
+
+            // Bookmark shortcuts
+            char key = char.ToLower(e.KeyChar);
+            switch (key)
+            {
+                case 'b':
+                    // Toggle bookmark at current position
+                    if (bookmarkTimestamp < 0)
+                    {
+                        bookmarkTimestamp = pathCurrentTimestamp;
+                    }
+                    else
+                    {
+                        bookmarkTimestamp = -1;
+                        bookmarkLoopEnabled = false;
+                        UpdateLoopButton();
+                    }
+                    UpdateBookmarkButton();
+                    timelinePanelRef?.Invalidate();
+                    e.Handled = true;
+                    break;
+
+                case 'l':
+                    // Toggle loop mode (only if bookmark is set)
+                    if (bookmarkTimestamp >= 0)
+                    {
+                        bookmarkLoopEnabled = !bookmarkLoopEnabled;
+                        UpdateLoopButton();
+                        timelinePanelRef?.Invalidate();
+                    }
+                    e.Handled = true;
+                    break;
+
+                case 'g':
+                    // Go to bookmark
+                    if (bookmarkTimestamp >= 0)
+                    {
+                        JumpToBookmark();
+                        timelinePanelRef?.Invalidate();
+                    }
+                    e.Handled = true;
                     break;
             }
         }
@@ -7849,12 +7993,23 @@ namespace entity.Renderers
             // Update camera for POV mode
             UpdatePOVCamera();
 
-            // Stop at end
+            // Handle end of playback
             if (pathCurrentTimestamp >= pathMaxTimestamp || pathCurrentIndex >= playerPath.Count - 1)
             {
-                pathIsPlaying = false;
-                if (pathPlayPauseButton != null)
-                    pathPlayPauseButton.Text = "▶ Play";
+                // Check if bookmark loop is enabled
+                if (bookmarkLoopEnabled && bookmarkTimestamp >= 0)
+                {
+                    // Loop back to bookmark
+                    JumpToBookmark();
+                    // Keep playing
+                }
+                else
+                {
+                    // Stop at end
+                    pathIsPlaying = false;
+                    if (pathPlayPauseButton != null)
+                        pathPlayPauseButton.Text = "▶ Play";
+                }
             }
         }
 
@@ -9338,11 +9493,11 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Paints kill markers on the timeline panel.
+        /// Paints kill markers and bookmark on the timeline panel.
         /// </summary>
         private void TimelinePanel_Paint(object sender, PaintEventArgs e)
         {
-            if (pathTimelineTrackBar == null || killEvents.Count == 0)
+            if (pathTimelineTrackBar == null)
                 return;
 
             float timeRange = pathMaxTimestamp - pathMinTimestamp;
@@ -9355,6 +9510,10 @@ namespace entity.Renderers
             int markerHeight = 12;
 
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // Draw kill markers if any
+            if (killEvents.Count == 0)
+                goto DrawBookmark;
 
             foreach (var kill in killEvents)
             {
@@ -9399,6 +9558,118 @@ namespace entity.Renderers
                     e.Graphics.DrawPolygon(outlinePen, diamond);
                 }
             }
+
+        DrawBookmark:
+            // Draw bookmark marker if set
+            if (bookmarkTimestamp >= 0 && pathMaxTimestamp > pathMinTimestamp)
+            {
+                float t = (bookmarkTimestamp - pathMinTimestamp) / timeRange;
+                int bx = trackLeft + (int)(t * trackWidth);
+
+                // Bookmark color - bright yellow/gold
+                Color bookmarkColor = bookmarkLoopEnabled
+                    ? Color.FromArgb(255, 215, 0)   // Gold when loop enabled
+                    : Color.FromArgb(255, 255, 100); // Light yellow otherwise
+
+                // Draw glowing vertical line
+                using (Pen glowPen = new Pen(Color.FromArgb(100, bookmarkColor), 6))
+                {
+                    e.Graphics.DrawLine(glowPen, bx, 2, bx, 40);
+                }
+                using (Pen pen = new Pen(bookmarkColor, 2))
+                {
+                    e.Graphics.DrawLine(pen, bx, 2, bx, 40);
+                }
+
+                // Draw bookmark flag icon at top
+                Point[] flag = {
+                    new Point(bx, 2),
+                    new Point(bx + 10, 7),
+                    new Point(bx, 12),
+                    new Point(bx, 2)
+                };
+                using (SolidBrush brush = new SolidBrush(bookmarkColor))
+                {
+                    e.Graphics.FillPolygon(brush, flag);
+                }
+                using (Pen outlinePen = new Pen(Color.FromArgb(200, 0, 0, 0), 1))
+                {
+                    e.Graphics.DrawPolygon(outlinePen, flag);
+                }
+
+                // Draw "B" label if loop is enabled
+                if (bookmarkLoopEnabled)
+                {
+                    using (System.Drawing.Font font = new System.Drawing.Font("Segoe UI", 7, FontStyle.Bold))
+                    using (SolidBrush textBrush = new SolidBrush(Color.Black))
+                    {
+                        e.Graphics.DrawString("↺", font, textBrush, bx - 4, 24);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the bookmark button appearance based on state.
+        /// </summary>
+        private void UpdateBookmarkButton()
+        {
+            if (bookmarkButton == null) return;
+
+            if (bookmarkTimestamp >= 0)
+            {
+                bookmarkButton.Text = "🔖 Clear";
+                bookmarkButton.BackColor = Color.FromArgb(60, 80, 40);
+                bookmarkButton.ForeColor = Color.FromArgb(255, 215, 0);
+            }
+            else
+            {
+                bookmarkButton.Text = "🔖 Set";
+                bookmarkButton.BackColor = Color.FromArgb(30, 45, 60);
+                bookmarkButton.ForeColor = Color.FromArgb(0, 200, 255);
+            }
+        }
+
+        /// <summary>
+        /// Updates the loop button appearance based on state.
+        /// </summary>
+        private void UpdateLoopButton()
+        {
+            if (loopButton == null) return;
+
+            if (bookmarkLoopEnabled && bookmarkTimestamp >= 0)
+            {
+                loopButton.BackColor = Color.FromArgb(60, 80, 40);
+                loopButton.ForeColor = Color.FromArgb(255, 215, 0);
+            }
+            else
+            {
+                loopButton.BackColor = Color.FromArgb(30, 45, 60);
+                loopButton.ForeColor = bookmarkTimestamp >= 0 ? Color.FromArgb(0, 200, 255) : Color.Gray;
+            }
+        }
+
+        /// <summary>
+        /// Jumps playback to the bookmark position.
+        /// </summary>
+        private void JumpToBookmark()
+        {
+            if (bookmarkTimestamp < 0 || pathMaxTimestamp <= pathMinTimestamp) return;
+
+            pathCurrentTimestamp = bookmarkTimestamp;
+            pathTimeAccumulator = bookmarkTimestamp;
+
+            // Find the correct path index for this timestamp
+            for (int i = 0; i < playerPath.Count - 1; i++)
+            {
+                if (playerPath[i + 1].Timestamp > pathCurrentTimestamp)
+                {
+                    pathCurrentIndex = i;
+                    break;
+                }
+            }
+
+            UpdateTimelineLabel();
         }
 
         /// <summary>
