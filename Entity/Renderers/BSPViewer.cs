@@ -10411,8 +10411,8 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
-            // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EB=emblem background, EF=emblem foreground, ET=toggle
-            return $"http://104.207.143.249:3001/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EB{player.EmblemBg}-EF{player.EmblemFg}-ET0.png";
+            // P=primary, S=secondary, EP=tertiary, ES=quaternary, EF=foreground, EB=background, ET=toggle
+            return $"http://104.207.143.249:3001/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
