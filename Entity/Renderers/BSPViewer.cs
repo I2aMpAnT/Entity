@@ -7711,11 +7711,12 @@ namespace entity.Renderers
                 t.FragGrenades = getInt("fraggrenades");
                 t.PlasmaGrenades = getInt("plasmagrenades");
 
-                // K/D Stats (may not be present)
+                // K/D Stats
                 t.Kills = getInt("kills");
                 t.Deaths = getInt("deaths");
                 t.RespawnTimer = getInt("respawntimer");
-                t.IsDead = t.RespawnTimer > 0;
+                // Use the actual IsDead field from sender (handles edge cases better than RespawnTimer)
+                t.IsDead = getBool("isdead");
 
                 // Events
                 t.Event = getStr("event");
