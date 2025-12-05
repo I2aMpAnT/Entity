@@ -625,7 +625,7 @@ namespace entity.Renderers
         /// <summary>
         /// Tracks last death timestamp per player for disconnect detection.
         /// </summary>
-        private Dictionary<string, float> playerLastDeathTimestamp = new Dictionary<string, float>();
+        private Dictionary<string, DateTime> playerLastDeathTimestamp = new Dictionary<string, DateTime>();
 
         /// <summary>
         /// Tracks all respawn times for average calculation.
@@ -9479,7 +9479,7 @@ namespace entity.Renderers
                         // Player is alive - if they were dead, calculate respawn time
                         if (playerLastDeathTimestamp.ContainsKey(playerName))
                         {
-                            float respawnTime = telemetry.Timestamp - playerLastDeathTimestamp[playerName];
+                            float respawnTime = (float)(telemetry.Timestamp - playerLastDeathTimestamp[playerName]).TotalSeconds;
                             if (respawnTime > 0 && respawnTime < 60) // Valid respawn (< 60 seconds)
                             {
                                 allRespawnTimes.Add(respawnTime);
@@ -9503,7 +9503,7 @@ namespace entity.Renderers
                     // Check for disconnect (dead for > 2x average respawn time)
                     if (isNowDead && playerLastDeathTimestamp.ContainsKey(playerName))
                     {
-                        float deadTime = telemetry.Timestamp - playerLastDeathTimestamp[playerName];
+                        float deadTime = (float)(telemetry.Timestamp - playerLastDeathTimestamp[playerName]).TotalSeconds;
                         if (deadTime > averageRespawnTime * 2.0f)
                         {
                             disconnectedPlayers.Add(playerName);
