@@ -230,6 +230,14 @@ namespace HaloMap.Map
         /// <remarks></remarks>
         public static Map LoadFromFile(string fileName)
         {
+            // Start debug logging session
+            MapDebugLogger.Clear();
+            MapDebugLogger.Separator();
+            MapDebugLogger.Info("Halo 2 BSP Viewer - Map Loading");
+            MapDebugLogger.Separator();
+            MapDebugLogger.Info("Loading map: {0}", fileName);
+            MapDebugLogger.SetSourceFile(fileName);
+
             // create the map object and give it the map filename
             Map map = new Map(fileName);
 
@@ -239,48 +247,71 @@ namespace HaloMap.Map
             // if the open failed, nothing we can do further
             if (!map.isOpen)
             {
+                MapDebugLogger.Error("Failed to open map file!");
                 return null;
             }
+
+            MapDebugLogger.Debug("Map file opened successfully, Size={0} bytes (0x{0:X})", map.FS.Length);
 
             // Get map version, (what halo this is)
             map.BR.BaseStream.Position = 4;
             int version = map.BR.ReadInt32();
+            MapDebugLogger.LogOffset("Map version", 4, version);
 
             // set the halo game type in the map object
             switch (version)
             {
                 case 609:
                     map.HaloVersion = HaloVersionEnum.HaloCE;
+                    MapDebugLogger.Info("Detected Halo CE map (version 609)");
                     break;
                 case 8:
                     map.HaloVersion = HaloVersionEnum.Halo2;
                     map.BR.BaseStream.Position = 0x24;
-                    switch (map.BR.ReadInt32())
+                    int subVersion = map.BR.ReadInt32();
+                    MapDebugLogger.LogOffset("Sub-version check", 0x24, subVersion);
+                    switch (subVersion)
                     {
                         case -1:
                             map.HaloVersion = HaloVersionEnum.Halo2Vista;
+                            MapDebugLogger.Info("Detected Halo 2 Vista map (version 8, sub=-1)");
                             break;
                         case 0:
                             map.HaloVersion = HaloVersionEnum.Halo2;
+                            MapDebugLogger.Info("Detected Halo 2 Xbox map (version 8, sub=0)");
                             break;
                     }
                     break;
                 case 5:
                     map.HaloVersion = HaloVersionEnum.Halo1;
+                    MapDebugLogger.Info("Detected Halo 1 map (version 5)");
                     break;
 
                     // if we dont support the map, dont open it
                 default:
+                    MapDebugLogger.Error("Unsupported map version: {0}", version);
                     MessageBox.Show("This is not a supported map type.");
                     map.CloseMap();
                     return null;
             }
+
+            MapDebugLogger.Separator("LOADING MAP DATA");
 
             // read from the map
             map.LoadMap();
 
             // close file and return map obj
             map.CloseMap();
+
+            MapDebugLogger.Separator();
+            MapDebugLogger.Info("Map loading complete: {0}", map.MapHeader.mapName);
+            MapDebugLogger.Info("Total tags loaded: {0}", map.IndexHeader.metaCount);
+            MapDebugLogger.Info("BSP count: {0}", map.BSP != null ? map.BSP.bspcount : 0);
+            MapDebugLogger.Separator();
+
+            // Flush and close the log file to ensure all entries are written
+            MapDebugLogger.CloseLogFile();
+
             return map;
         }
 

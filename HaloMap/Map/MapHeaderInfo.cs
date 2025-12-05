@@ -157,56 +157,105 @@ namespace HaloMap.Map
         /// <remarks></remarks>
         public void LoadHalo2MapHeaderInfo(ref BinaryReader BR)
         {
+            MapDebugLogger.Info("Parsing Halo 2 map header...");
+
+            // Read signature first
+            BR.BaseStream.Position = 0;
+            int sig = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Header signature ('head')", 0, sig, true);
+
             // map stuff
             BR.BaseStream.Position = 8;
             fileSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File size", 8, fileSize);
+
             BR.BaseStream.Position = 16;
             indexOffset = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Index offset", 16, indexOffset);
+
             metaStart = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Meta start", 20, metaStart);
+
             metaSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Meta size", 24, metaSize);
+
             combinedSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Combined size", 28, combinedSize);
+
             BR.BaseStream.Position = 340;
             sizeOfCrazy = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Crazy data size", 340, sizeOfCrazy);
+
             offsetToCrazy = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Crazy data offset", 344, offsetToCrazy);
 
             // string stuff
             BR.BaseStream.Position = 352;
             offsetToStringNames1 = BR.ReadInt32();
+            MapDebugLogger.LogOffset("String names offset 1", 352, offsetToStringNames1);
+
             scriptReferenceCount = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Script reference count", 356, scriptReferenceCount);
+
             sizeOfScriptReference = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Script reference size", 360, sizeOfScriptReference);
+
             offsetToStringIndex = BR.ReadInt32();
+            MapDebugLogger.LogOffset("String index offset", 364, offsetToStringIndex);
+
             offsetToStringNames2 = BR.ReadInt32();
+            MapDebugLogger.LogOffset("String names offset 2", 368, offsetToStringNames2);
 
             // map names and code to check if it is an external map
             BR.BaseStream.Position = 408;
             mapName = new string(BR.ReadChars(36));
+            MapDebugLogger.Debug("Map name at offset 0x198: '{0}'", mapName.TrimEnd('\0'));
+
             BR.BaseStream.Position = 444;
             scenarioPath = new string(BR.ReadChars(64));
+            MapDebugLogger.Debug("Scenario path at offset 0x1BC: '{0}'", scenarioPath.TrimEnd('\0'));
+
             mapType = MapTypes.Internal;
             if (scenarioPath.IndexOf("scenarios\\ui\\mainmenu\\mainmenu") != -1)
             {
                 mapType = MapTypes.MainMenu;
+                MapDebugLogger.Info("Map type: MainMenu");
             }
-
-            if (scenarioPath.IndexOf("scenarios\\shared\\shared") != -1)
+            else if (scenarioPath.IndexOf("scenarios\\shared\\shared") != -1)
             {
                 mapType = MapTypes.MPShared;
+                MapDebugLogger.Info("Map type: MPShared");
             }
-
-            if (scenarioPath.IndexOf("scenarios\\shared\\single_player_shared") != -1)
+            else if (scenarioPath.IndexOf("scenarios\\shared\\single_player_shared") != -1)
             {
                 mapType = MapTypes.SPShared;
+                MapDebugLogger.Info("Map type: SPShared");
+            }
+            else
+            {
+                MapDebugLogger.Info("Map type: Internal (playable map)");
             }
 
             // read in stuff about meta names
             BR.BaseStream.Position = 704;
             fileCount = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Tag file count", 704, fileCount);
+
             offsetTofileNames = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File names offset", 708, offsetTofileNames);
+
             fileNamesSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File names size", 712, fileNamesSize);
+
             offsetTofileIndex = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File index offset", 716, offsetTofileIndex);
 
             // signature
             signature = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Map signature", 720, signature, true);
+
+            MapDebugLogger.Info("Header parsed - Map: {0}, Tags: {1}, IndexOffset: 0x{2:X}",
+                mapName.TrimEnd('\0'), fileCount, indexOffset);
         }
 
         /// <summary>
@@ -216,74 +265,105 @@ namespace HaloMap.Map
         /// <remarks></remarks>
         public void LoadHaloCEMapHeaderInfo(ref BinaryReader BR)
         {
+            MapDebugLogger.Info("Parsing Halo 2 Vista/CE map header...");
+
+            // Read signature first
+            BR.BaseStream.Position = 0;
+            int sig = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Header signature ('head')", 0, sig, true);
+
             BR.BaseStream.Position = 8;
             fileSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File size", 8, fileSize);
+
             BR.BaseStream.Position = 16;
             indexOffset = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Index offset", 16, indexOffset);
+
             metaStart = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Meta start", 20, metaStart);
+
             metaSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Meta size", 24, metaSize);
+
             combinedSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Combined size", 28, combinedSize);
+
             BR.BaseStream.Position = 340;
             sizeOfCrazy = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Crazy data size", 340, sizeOfCrazy);
+
             offsetToCrazy = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Crazy data offset", 344, offsetToCrazy);
 
             // string stuff
             BR.BaseStream.Position = 364;
             offsetToStringNames1 = BR.ReadInt32();
-            scriptReferenceCount = BR.ReadInt32();
-            sizeOfScriptReference = BR.ReadInt32();
-            offsetToStringIndex = BR.ReadInt32();
-            offsetToStringNames2 = BR.ReadInt32();
+            MapDebugLogger.LogOffset("String names offset 1", 364, offsetToStringNames1);
 
-            /*
-            BR.BaseStream.Position = 364;
-            SIDMetaTableOffset = BR.ReadInt32();
-            SIDCount = BR.ReadInt32();
-            SIDTableSize = BR.ReadInt32();
-            SIDIndexOffset = BR.ReadInt32();
-            SIDTableOffset = BR.ReadInt32();
-            */
+            scriptReferenceCount = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Script reference count", 368, scriptReferenceCount);
+
+            sizeOfScriptReference = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Script reference size", 372, sizeOfScriptReference);
+
+            offsetToStringIndex = BR.ReadInt32();
+            MapDebugLogger.LogOffset("String index offset", 376, offsetToStringIndex);
+
+            offsetToStringNames2 = BR.ReadInt32();
+            MapDebugLogger.LogOffset("String names offset 2", 380, offsetToStringNames2);
 
             // map names and code to check if it is an external map
             BR.BaseStream.Position = 420;
             mapName = new string(BR.ReadChars(36));
+            MapDebugLogger.Debug("Map name at offset 0x1A4: '{0}'", mapName.TrimEnd('\0'));
+
             BR.BaseStream.Position = 456;
             scenarioPath = new string(BR.ReadChars(80));
+            MapDebugLogger.Debug("Scenario path at offset 0x1C8: '{0}'", scenarioPath.TrimEnd('\0'));
+
             mapType = MapTypes.Internal;
             if (scenarioPath.IndexOf("scenarios\\ui\\mainmenu\\mainmenu") != -1)
             {
                 mapType = MapTypes.MainMenu;
+                MapDebugLogger.Info("Map type: MainMenu");
             }
-
-            if (scenarioPath.IndexOf("scenarios\\shared\\shared") != -1)
+            else if (scenarioPath.IndexOf("scenarios\\shared\\shared") != -1)
             {
                 mapType = MapTypes.MPShared;
+                MapDebugLogger.Info("Map type: MPShared");
             }
-
-            if (scenarioPath.IndexOf("scenarios\\shared\\single_player_shared") != -1)
+            else if (scenarioPath.IndexOf("scenarios\\shared\\single_player_shared") != -1)
             {
                 mapType = MapTypes.SPShared;
+                MapDebugLogger.Info("Map type: SPShared");
+            }
+            else
+            {
+                MapDebugLogger.Info("Map type: Internal (playable map)");
             }
 
             // read in stuff about meta names
             BR.BaseStream.Position = 716;
             fileCount = BR.ReadInt32();
-            offsetTofileNames = BR.ReadInt32();
-            fileNamesSize = BR.ReadInt32();
-            offsetTofileIndex = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Tag file count", 716, fileCount);
 
-            //Model Raw
-            /*
-            BR.BaseStream.Position = 744;
-            ModelRawTableStart = BR.ReadInt32();
-            ModelRawTableSize = BR.ReadInt32();
-            */
+            offsetTofileNames = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File names offset", 720, offsetTofileNames);
+
+            fileNamesSize = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File names size", 724, fileNamesSize);
+
+            offsetTofileIndex = BR.ReadInt32();
+            MapDebugLogger.LogOffset("File index offset", 728, offsetTofileIndex);
 
             // signature
             BR.BaseStream.Position = 752;
             signature = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Map signature", 752, signature, true);
 
-
+            MapDebugLogger.Info("Header parsed - Map: {0}, Tags: {1}, IndexOffset: 0x{2:X}",
+                mapName.TrimEnd('\0'), fileCount, indexOffset);
         }
         #endregion
     }
