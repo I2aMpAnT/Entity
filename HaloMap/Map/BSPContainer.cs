@@ -336,7 +336,7 @@ namespace HaloMap.Map
             {
                 case MapTypes.Internal: return null; // Local
                 case MapTypes.MainMenu: return "mainmenu.map";
-                case MapTypes.Shared: return "shared.map";
+                case MapTypes.MPShared: return "shared.map";
                 case MapTypes.SPShared: return "sp_shared.map";
                 default: return null;
             }
