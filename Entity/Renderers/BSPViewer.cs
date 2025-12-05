@@ -3093,6 +3093,46 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Handle gamepad button input for playback and UI controls.
+        /// </summary>
+        private void HandleGamepadInput()
+        {
+            if (cam == null || !cam.gamepadConnected)
+            {
+                return;
+            }
+
+            // A button - Toggle play/pause
+            if (cam.gamepadAPressed && theaterMode)
+            {
+                TogglePathPlayback();
+                if (pathPlayPauseButton != null)
+                {
+                    pathPlayPauseButton.Text = pathIsPlaying ? "|| Pause" : "> Play";
+                }
+            }
+
+            // Back/Select button - Toggle scoreboard
+            if (cam.gamepadBackPressed)
+            {
+                showScoreboard = !showScoreboard;
+            }
+
+            // Right trigger - Increase playback speed while held
+            if (cam.gamepadRightTrigger > 0.1f && theaterMode)
+            {
+                // Scale playback speed based on trigger pressure (1x to 10x)
+                float speedMultiplier = 1.0f + (cam.gamepadRightTrigger * 9.0f);
+                pathPlaybackSpeed = speedMultiplier;
+            }
+            else if (theaterMode && pathPlaybackSpeed > 1.0f && cam.gamepadRightTrigger <= 0.1f)
+            {
+                // Return to normal speed when trigger released
+                pathPlaybackSpeed = 1.0f;
+            }
+        }
+
+        /// <summary>
         /// The move spawns with keyboard.
         /// </summary>
         /// <remarks></remarks>
@@ -4724,6 +4764,10 @@ namespace entity.Renderers
             {
                 this.speedBar_Update();
             }
+
+            // Poll gamepad and handle input
+            cam.PollGamepad();
+            HandleGamepadInput();
 
             MoveSpawnsWithKeyboard();
 
