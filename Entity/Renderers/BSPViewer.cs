@@ -436,6 +436,26 @@ namespace entity.Renderers
         private bool showPathTrail = false;
 
         /// <summary>
+        /// Path display mode for cycling through different views.
+        /// </summary>
+        private enum PathDisplayMode
+        {
+            AllPaths,           // Show all path segments for all lives
+            MostRecentLife,     // Show only the most recent life's path per player
+            DeathMarkersOnly    // Show death X markers at the end of each path segment
+        }
+
+        /// <summary>
+        /// Current path display mode.
+        /// </summary>
+        private PathDisplayMode currentPathMode = PathDisplayMode.AllPaths;
+
+        /// <summary>
+        /// Whether to show death X markers at the end of path segments.
+        /// </summary>
+        private bool showDeathMarkers = true;
+
+        /// <summary>
         /// Field of view in degrees for theater mode camera.
         /// </summary>
         private float theaterFOV = 78f;
@@ -1106,6 +1126,7 @@ namespace entity.Renderers
         private TrackBar pathTimelineTrackBar;
         private Label pathTimeLabel;
         private ToolStripButton pathPlayPauseButton;
+        private ToolStripButton btnTrail;
 
         /// <summary>
         /// Initializes the player path playback UI controls.
@@ -1231,7 +1252,7 @@ namespace entity.Renderers
             toolStrip.Items.Add(new ToolStripSeparator());
 
             // Show Trail checkbox
-            ToolStripButton btnTrail = new ToolStripButton();
+            btnTrail = new ToolStripButton();
             btnTrail.Text = "Trail: OFF";
             btnTrail.DisplayStyle = ToolStripItemDisplayStyle.Text;
             btnTrail.Click += (s, e) => {
@@ -1255,6 +1276,44 @@ namespace entity.Renderers
                 }
             };
             toolStrip.Items.Add(txtFOV);
+
+            toolStrip.Items.Add(new ToolStripSeparator());
+
+            // Controls dropdown menu
+            ToolStripDropDownButton controlsBtn = new ToolStripDropDownButton();
+            controlsBtn.Text = "Controls";
+            controlsBtn.DisplayStyle = ToolStripItemDisplayStyle.Text;
+
+            // Keyboard controls section
+            ToolStripMenuItem keyboardHeader = new ToolStripMenuItem("─── Keyboard ───");
+            keyboardHeader.Enabled = false;
+            controlsBtn.DropDownItems.Add(keyboardHeader);
+
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Space - Play/Pause") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Left/Right - Skip ±5 sec") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("< / > - Skip ±1 tick") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Tab - Toggle Scoreboard") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("K - Toggle Killfeed") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("P - Cycle Path Mode") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("WASD - Camera Movement") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Mouse - Camera Look") { Enabled = false });
+
+            controlsBtn.DropDownItems.Add(new ToolStripSeparator());
+
+            // Controller controls section
+            ToolStripMenuItem controllerHeader = new ToolStripMenuItem("─── Controller ───");
+            controllerHeader.Enabled = false;
+            controlsBtn.DropDownItems.Add(controllerHeader);
+
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("A - Play/Pause") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Back - Toggle Scoreboard") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("D-Pad Up - Cycle Path Mode") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Left Stick - Camera Movement") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Right Stick - Camera Look") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Left Trigger - Speed Boost") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Right Trigger - Fast Forward") { Enabled = false });
+
+            toolStrip.Items.Add(controlsBtn);
 
             // Create timeline panel at bottom of form - Halo theater style
             Panel timelinePanel = new Panel();
@@ -3157,6 +3216,46 @@ namespace entity.Renderers
                 // Return to normal speed when trigger released
                 pathPlaybackSpeed = 1.0f;
             }
+
+            // D-pad Up - Cycle path display mode
+            if (cam.gamepadDPadUpPressed && theaterMode)
+            {
+                CyclePathDisplayMode();
+            }
+        }
+
+        /// <summary>
+        /// Cycles through path display modes: All Paths -> Most Recent Life -> Death Markers Only
+        /// </summary>
+        private void CyclePathDisplayMode()
+        {
+            switch (currentPathMode)
+            {
+                case PathDisplayMode.AllPaths:
+                    currentPathMode = PathDisplayMode.MostRecentLife;
+                    showPathTrail = true;
+                    showDeathMarkers = false;
+                    AddDebugLog("Path Mode: Most Recent Life");
+                    break;
+                case PathDisplayMode.MostRecentLife:
+                    currentPathMode = PathDisplayMode.DeathMarkersOnly;
+                    showPathTrail = false;
+                    showDeathMarkers = true;
+                    AddDebugLog("Path Mode: Death Markers Only");
+                    break;
+                case PathDisplayMode.DeathMarkersOnly:
+                    currentPathMode = PathDisplayMode.AllPaths;
+                    showPathTrail = true;
+                    showDeathMarkers = true;
+                    AddDebugLog("Path Mode: All Paths + Death Markers");
+                    break;
+            }
+
+            // Update trail button text if it exists
+            if (btnTrail != null)
+            {
+                btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
+            }
         }
 
         /// <summary>
@@ -3567,6 +3666,10 @@ namespace entity.Renderers
 
                     case Keys.K: // Toggle killfeed
                         showKillfeed = !showKillfeed;
+                        return true;
+
+                    case Keys.P: // Cycle path display mode
+                        CyclePathDisplayMode();
                         return true;
                 }
             }
@@ -9078,8 +9181,18 @@ namespace entity.Renderers
                     if (hiddenPlayers.Contains(playerName))
                         continue;
 
-                    foreach (var segment in kvp.Value)
+                    var segments = kvp.Value;
+                    int startIdx = 0;
+
+                    // In MostRecentLife mode, only show the last segment
+                    if (currentPathMode == PathDisplayMode.MostRecentLife && segments.Count > 0)
                     {
+                        startIdx = segments.Count - 1;
+                    }
+
+                    for (int segIdx = startIdx; segIdx < segments.Count; segIdx++)
+                    {
+                        var segment = segments[segIdx];
                         if (segment.Count < 2) continue;
 
                         // Only draw points up to current timestamp
@@ -9095,6 +9208,57 @@ namespace entity.Renderers
                         {
                             render.device.DrawUserPrimitives(PrimitiveType.LineStrip, verts.Count - 1, verts.ToArray());
                         }
+                    }
+                }
+                render.device.RenderState.Lighting = true;
+            }
+
+            // Draw death X markers at the end of path segments (where players died)
+            if (showDeathMarkers)
+            {
+                render.device.SetTexture(0, null);
+                render.device.RenderState.Lighting = false;
+                render.device.VertexFormat = CustomVertex.PositionColored.Format;
+                render.device.Transform.World = Matrix.Identity;
+
+                foreach (var kvp in multiPlayerPaths)
+                {
+                    string playerName = kvp.Key;
+                    if (hiddenPlayers.Contains(playerName))
+                        continue;
+
+                    var segments = kvp.Value;
+
+                    // Draw X marker at the end of each segment except the last (current life)
+                    for (int segIdx = 0; segIdx < segments.Count - 1; segIdx++)
+                    {
+                        var segment = segments[segIdx];
+                        if (segment.Count == 0) continue;
+
+                        // Get the last point of this segment (death location)
+                        var deathPt = segment[segment.Count - 1];
+
+                        // Only draw if the death has occurred by current timestamp
+                        if (deathPt.Timestamp > pathCurrentTimestamp) continue;
+
+                        // Draw red X marker at death location
+                        float xSize = 0.3f;
+                        float zOffset = 0.1f; // Slightly above ground
+                        Color deathColor = Color.Red;
+                        int argb = deathColor.ToArgb();
+
+                        // Create X shape with two lines
+                        CustomVertex.PositionColored[] xVerts = new CustomVertex.PositionColored[]
+                        {
+                            // First diagonal line
+                            new CustomVertex.PositionColored(deathPt.X - xSize, deathPt.Y - xSize, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize, deathPt.Y + xSize, deathPt.Z + zOffset, argb),
+                            // Second diagonal line
+                            new CustomVertex.PositionColored(deathPt.X - xSize, deathPt.Y + xSize, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize, deathPt.Y - xSize, deathPt.Z + zOffset, argb),
+                        };
+
+                        render.device.DrawUserPrimitives(PrimitiveType.LineList, 2, xVerts);
                     }
                 }
                 render.device.RenderState.Lighting = true;

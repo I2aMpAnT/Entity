@@ -174,9 +174,19 @@ namespace HaloMap.Render
         public bool gamepadStartPressed = false;
 
         /// <summary>
+        /// Gamepad D-pad Up pressed this frame.
+        /// </summary>
+        public bool gamepadDPadUpPressed = false;
+
+        /// <summary>
         /// Previous A button state for edge detection.
         /// </summary>
         private bool prevAButton = false;
+
+        /// <summary>
+        /// Previous D-pad Up state for edge detection.
+        /// </summary>
+        private bool prevDPadUp = false;
 
         /// <summary>
         /// Previous Back button state for edge detection.
@@ -496,6 +506,7 @@ namespace HaloMap.Render
             gamepadBPressed = false;
             gamepadBackPressed = false;
             gamepadStartPressed = false;
+            gamepadDPadUpPressed = false;
 
             if (!gamepadConnected || gamepad == null)
             {
@@ -558,6 +569,23 @@ namespace HaloMap.Render
 
                 prevAButton = currentAButton;
                 prevBackButton = currentBackButton;
+
+                // D-pad handling via POV (point-of-view) controller
+                int[] pov = state.GetPointOfViewControllers();
+                bool currentDPadUp = false;
+                if (pov.Length > 0 && pov[0] != -1)
+                {
+                    // POV values are in hundredths of a degree, -1 = centered
+                    // Up = 0, Right = 9000, Down = 18000, Left = 27000
+                    // Also handle diagonals: Up-Right = 4500, Up-Left = 31500
+                    int povVal = pov[0];
+                    currentDPadUp = (povVal >= 31500 || povVal <= 4500);
+                }
+                if (currentDPadUp && !prevDPadUp)
+                {
+                    gamepadDPadUpPressed = true;
+                }
+                prevDPadUp = currentDPadUp;
 
                 // Apply left stick to movement
                 if (gamepadLeftY != 0)
