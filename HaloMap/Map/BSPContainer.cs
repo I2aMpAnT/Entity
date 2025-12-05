@@ -329,15 +329,15 @@ namespace HaloMap.Map
         /// <summary>
         /// Determine which source file contains BSP data.
         /// </summary>
-        private string GetBspSourceFile(int rawOffset, int location)
+        private string GetBspSourceFile(int rawOffset, MapTypes location)
         {
             // Location value from ParsePointer tells us the source
             switch (location)
             {
-                case 0: return null; // Local
-                case 1: return "mainmenu.map";
-                case 2: return "shared.map";
-                case 3: return "sp_shared.map";
+                case MapTypes.Internal: return null; // Local
+                case MapTypes.MainMenu: return "mainmenu.map";
+                case MapTypes.Shared: return "shared.map";
+                case MapTypes.SPShared: return "sp_shared.map";
                 default: return null;
             }
         }
