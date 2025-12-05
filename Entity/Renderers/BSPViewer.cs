@@ -10282,42 +10282,77 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Draws the killfeed overlay.
+        /// Font for killfeed (bold).
+        /// </summary>
+        private Microsoft.DirectX.Direct3D.Font killfeedFont;
+
+        /// <summary>
+        /// Draws the killfeed overlay with fade effect.
         /// </summary>
         private void DrawKillfeed()
         {
             try
             {
-                if (scoreboardFont == null || scoreboardFont.Disposed)
+                // Use bold Highway Gothic style font
+                if (killfeedFont == null || killfeedFont.Disposed)
                 {
-                    scoreboardFont = new Microsoft.DirectX.Direct3D.Font(render.device,
-                        new System.Drawing.Font("Overpass", 12, FontStyle.Regular));
+                    // Highway Gothic (Clearview) or fallback to bold sans-serif
+                    try
+                    {
+                        killfeedFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                            new System.Drawing.Font("Highway Gothic", 13, FontStyle.Bold));
+                    }
+                    catch
+                    {
+                        killfeedFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                            new System.Drawing.Font("Arial", 13, FontStyle.Bold));
+                    }
                 }
 
                 int screenWidth = render.device.Viewport.Width;
-                int kfX = screenWidth - 320;
-                int kfY = 60;
-                int rowHeight = 22;
+                int kfX = screenWidth - 340;
+                int kfY = 80;
+                int rowHeight = 24;
+                float currentTime = showLiveTelemetry ? (float)DateTime.Now.TimeOfDay.TotalSeconds : pathCurrentTimestamp;
+                float fadeTime = 3.0f; // 3 second fade
 
-                // Get recent kills from killEvents
+                // Get recent kills (within last 6 seconds for display, fade after 3)
                 var recentKills = killEvents
-                    .Where(k => showLiveTelemetry || k.Timestamp <= pathCurrentTimestamp)
+                    .Where(k => {
+                        if (!showLiveTelemetry && k.Timestamp > pathCurrentTimestamp)
+                            return false;
+                        float age = currentTime - k.Timestamp;
+                        return age >= 0 && age < 6.0f;
+                    })
                     .OrderByDescending(k => k.Timestamp)
-                    .Take(8)
-                    .Reverse()
+                    .Take(6)
                     .ToList();
 
                 int currentY = kfY;
                 foreach (var kill in recentKills)
                 {
-                    // Draw killfeed entry: "Player got a kill with Weapon"
-                    Color teamColor = kill.Team == 0 ? Color.FromArgb(197, 66, 69) :
-                                     kill.Team == 1 ? Color.FromArgb(65, 105, 168) : Color.White;
+                    // Calculate fade alpha (full for 3 sec, then fade over 3 sec)
+                    float age = currentTime - kill.Timestamp;
+                    float alpha = age < fadeTime ? 1.0f : Math.Max(0, 1.0f - (age - fadeTime) / fadeTime);
+                    int alphaByte = (int)(alpha * 255);
 
-                    string entry = $"{kill.PlayerName} [{kill.Weapon}]";
-                    DrawFilledRect(kfX, currentY, 300, rowHeight, Color.FromArgb(150, 0, 0, 0));
-                    scoreboardFont.DrawText(null, entry,
-                        new Rectangle(kfX + 8, currentY, 290, rowHeight),
+                    if (alphaByte <= 0)
+                        continue;
+
+                    // Team color with fade
+                    Color teamColor = kill.Team == 0 ? Color.FromArgb(alphaByte, 230, 80, 80) :   // Red
+                                     kill.Team == 1 ? Color.FromArgb(alphaByte, 80, 130, 200) :  // Blue
+                                     Color.FromArgb(alphaByte, 255, 255, 255);                   // White/FFA
+
+                    // Background with fade
+                    DrawFilledRect(kfX, currentY, 320, rowHeight, Color.FromArgb((int)(alpha * 180), 0, 0, 0));
+
+                    // Format: "PlayerName [Weapon]" - weapon icon placeholder
+                    string weaponDisplay = GetWeaponShortName(kill.Weapon);
+                    string entry = $"{kill.PlayerName}  [{weaponDisplay}]";
+
+                    killfeedFont.DrawText(null, entry,
+                        new Rectangle(kfX + 10, currentY, 300, rowHeight),
                         DrawTextFormat.Left | DrawTextFormat.VerticalCenter, teamColor);
 
                     currentY += rowHeight + 2;
@@ -10327,6 +10362,40 @@ namespace entity.Renderers
             {
                 AddDebugLog($"[KILLFEED] Error: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// Gets a short display name for weapon.
+        /// </summary>
+        private string GetWeaponShortName(string weapon)
+        {
+            if (string.IsNullOrEmpty(weapon))
+                return "?";
+
+            // Extract short name from full weapon path/name
+            string name = weapon.ToLowerInvariant();
+            if (name.Contains("battle_rifle")) return "BR";
+            if (name.Contains("smg")) return "SMG";
+            if (name.Contains("sniper")) return "Sniper";
+            if (name.Contains("rocket")) return "Rockets";
+            if (name.Contains("shotgun")) return "Shotty";
+            if (name.Contains("sword")) return "Sword";
+            if (name.Contains("pistol") || name.Contains("magnum")) return "Magnum";
+            if (name.Contains("carbine")) return "Carbine";
+            if (name.Contains("needler")) return "Needler";
+            if (name.Contains("plasma_rifle")) return "PR";
+            if (name.Contains("plasma_pistol")) return "PP";
+            if (name.Contains("brute_shot")) return "Brute";
+            if (name.Contains("beam_rifle")) return "Beam";
+            if (name.Contains("fuel_rod")) return "FRG";
+            if (name.Contains("sentinel")) return "Sentinel";
+            if (name.Contains("melee") || name.Contains("punch")) return "Melee";
+            if (name.Contains("grenade") || name.Contains("frag") || name.Contains("plasma")) return "Nade";
+            if (name.Contains("turret") || name.Contains("machinegun")) return "Turret";
+            if (name.Contains("vehicle") || name.Contains("splatter")) return "Vehicle";
+
+            // Fallback: first 6 chars
+            return weapon.Length > 6 ? weapon.Substring(0, 6) : weapon;
         }
 
         /// <summary>
