@@ -623,6 +623,26 @@ namespace entity.Renderers
         private Dictionary<string, Vector3> playerPrevPosition = new Dictionary<string, Vector3>();
 
         /// <summary>
+        /// Tracks last death timestamp per player for disconnect detection.
+        /// </summary>
+        private Dictionary<string, float> playerLastDeathTimestamp = new Dictionary<string, float>();
+
+        /// <summary>
+        /// Tracks all respawn times for average calculation.
+        /// </summary>
+        private List<float> allRespawnTimes = new List<float>();
+
+        /// <summary>
+        /// Average respawn time across all players.
+        /// </summary>
+        private float averageRespawnTime = 5.0f;
+
+        /// <summary>
+        /// Set of players considered disconnected (dead for 2x average respawn time).
+        /// </summary>
+        private HashSet<string> disconnectedPlayers = new HashSet<string>();
+
+        /// <summary>
         /// Lock object for thread-safe access to live player data.
         /// </summary>
         private object livePlayersLock = new object();
@@ -1232,7 +1252,7 @@ namespace entity.Renderers
             // Create timeline panel at bottom of form - Halo theater style
             Panel timelinePanel = new Panel();
             timelinePanel.Dock = DockStyle.Bottom;
-            timelinePanel.Height = 45;
+            timelinePanel.Height = 55;  // Increased from 45 to prevent top cutoff
             timelinePanel.BackColor = Color.FromArgb(15, 25, 35); // Dark blue-black
 
             // Add subtle top border
@@ -1247,7 +1267,7 @@ namespace entity.Renderers
             pathTimeLabel.ForeColor = Color.FromArgb(0, 200, 255); // Cyan
             pathTimeLabel.Font = new System.Drawing.Font("Segoe UI", 10, FontStyle.Bold);
             pathTimeLabel.AutoSize = true;
-            pathTimeLabel.Location = new Point(10, 14);
+            pathTimeLabel.Location = new Point(10, 18);  // Moved down from 14
             pathTimeLabel.BackColor = Color.Transparent;
             timelinePanel.Controls.Add(pathTimeLabel);
 
@@ -1256,8 +1276,8 @@ namespace entity.Renderers
             pathTimelineTrackBar.Maximum = 1000;
             pathTimelineTrackBar.Value = 0;
             pathTimelineTrackBar.TickStyle = TickStyle.None;
-            pathTimelineTrackBar.Location = new Point(100, 5);
-            pathTimelineTrackBar.Height = 30;
+            pathTimelineTrackBar.Location = new Point(100, 10);  // Moved down from 5
+            pathTimelineTrackBar.Height = 35;  // Increased from 30
             pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
             pathTimelineTrackBar.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left)
@@ -9441,7 +9461,56 @@ namespace entity.Renderers
             {
                 lock (livePlayersLock)
                 {
-                    livePlayers[telemetry.PlayerName] = telemetry;
+                    string playerName = telemetry.PlayerName;
+                    bool wasAlive = livePlayers.ContainsKey(playerName) && !livePlayers[playerName].IsDead;
+                    bool isNowDead = telemetry.IsDead;
+
+                    // Track death timestamp for disconnect detection
+                    if (!wasAlive && isNowDead)
+                    {
+                        // Player just died or is still dead
+                        if (!playerLastDeathTimestamp.ContainsKey(playerName))
+                        {
+                            playerLastDeathTimestamp[playerName] = telemetry.Timestamp;
+                        }
+                    }
+                    else if (wasAlive || !isNowDead)
+                    {
+                        // Player is alive - if they were dead, calculate respawn time
+                        if (playerLastDeathTimestamp.ContainsKey(playerName))
+                        {
+                            float respawnTime = telemetry.Timestamp - playerLastDeathTimestamp[playerName];
+                            if (respawnTime > 0 && respawnTime < 60) // Valid respawn (< 60 seconds)
+                            {
+                                allRespawnTimes.Add(respawnTime);
+                                // Keep only last 50 respawns for average
+                                while (allRespawnTimes.Count > 50)
+                                {
+                                    allRespawnTimes.RemoveAt(0);
+                                }
+                                // Update average
+                                if (allRespawnTimes.Count > 0)
+                                {
+                                    averageRespawnTime = allRespawnTimes.Average();
+                                }
+                            }
+                            playerLastDeathTimestamp.Remove(playerName);
+                        }
+                        // Player respawned - remove from disconnected list
+                        disconnectedPlayers.Remove(playerName);
+                    }
+
+                    // Check for disconnect (dead for > 2x average respawn time)
+                    if (isNowDead && playerLastDeathTimestamp.ContainsKey(playerName))
+                    {
+                        float deadTime = telemetry.Timestamp - playerLastDeathTimestamp[playerName];
+                        if (deadTime > averageRespawnTime * 2.0f)
+                        {
+                            disconnectedPlayers.Add(playerName);
+                        }
+                    }
+
+                    livePlayers[playerName] = telemetry;
                 }
                 // Update dropdowns if player list changed
                 UpdateLivePlayerDropdowns();
@@ -9637,6 +9706,10 @@ namespace entity.Renderers
             {
                 // Skip hidden players
                 if (hiddenPlayers.Contains(player.PlayerName))
+                    continue;
+
+                // Skip disconnected players (still show on scoreboard, just not in 3D view)
+                if (disconnectedPlayers.Contains(player.PlayerName))
                     continue;
 
                 Color teamColor = GetTeamColor(player.Team);
@@ -10019,6 +10092,7 @@ namespace entity.Renderers
                 // Team colors matching HTML
                 Color redTeamBg = Color.FromArgb(200, 197, 66, 69);    // #C54245 with alpha
                 Color blueTeamBg = Color.FromArgb(200, 65, 105, 168);  // #4169A8 with alpha
+                Color ffaBg = Color.FromArgb(180, 60, 60, 60);         // Grey for FFA
                 Color textColor = Color.White;
 
                 // Get player data
@@ -10056,57 +10130,76 @@ namespace entity.Renderers
                     }
                 }
 
-                // Separate by team
-                var redPlayers = players.Values.Where(p => p.Team == 0).OrderByDescending(p => p.Kills).ToList();
-                var bluePlayers = players.Values.Where(p => p.Team == 1).OrderByDescending(p => p.Kills).ToList();
+                // Count unique teams to determine game mode
+                var uniqueTeams = players.Values.Select(p => p.Team).Distinct().ToList();
+                bool isFFA = uniqueTeams.Count > 2 || (uniqueTeams.Count == players.Count && players.Count > 2);
 
                 int currentY = sbY;
 
-                // Calculate team scores (sum of kills for slayer)
-                int redScore = redPlayers.Sum(p => p.Kills);
-                int blueScore = bluePlayers.Sum(p => p.Kills);
-
-                // Draw Red Team Header
-                if (redPlayers.Count > 0)
+                if (isFFA)
                 {
-                    DrawFilledRect(sbX, currentY, sbWidth, headerHeight, redTeamBg);
-                    scoreboardHeaderFont.DrawText(null, "Red Team",
-                        new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
-                    scoreboardHeaderFont.DrawText(null, redScore.ToString(),
-                        new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
-                        DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
-                    currentY += headerHeight;
+                    // FFA Mode - All players sorted by kills, white text, grey background
+                    var allPlayers = players.Values.OrderByDescending(p => p.Kills).ToList();
+
+                    // Draw each player row
+                    foreach (var player in allPlayers)
+                    {
+                        DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, ffaBg);
+                        currentY += rowHeight + 2;
+                    }
                 }
-
-                // Draw Blue Team Header
-                if (bluePlayers.Count > 0)
+                else
                 {
-                    DrawFilledRect(sbX, currentY, sbWidth, headerHeight, blueTeamBg);
-                    scoreboardHeaderFont.DrawText(null, "Blue Team",
-                        new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
-                    scoreboardHeaderFont.DrawText(null, blueScore.ToString(),
-                        new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
-                        DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
-                    currentY += headerHeight;
-                }
+                    // Team Mode - Separate by team
+                    var redPlayers = players.Values.Where(p => p.Team == 0).OrderByDescending(p => p.Kills).ToList();
+                    var bluePlayers = players.Values.Where(p => p.Team == 1).OrderByDescending(p => p.Kills).ToList();
 
-                // Gap between headers and players
-                currentY += 6;
+                    // Calculate team scores (sum of kills for slayer)
+                    int redScore = redPlayers.Sum(p => p.Kills);
+                    int blueScore = bluePlayers.Sum(p => p.Kills);
 
-                // Draw Red Team Players
-                foreach (var player in redPlayers)
-                {
-                    DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, redTeamBg);
-                    currentY += rowHeight + 2;
-                }
+                    // Draw Red Team Header
+                    if (redPlayers.Count > 0)
+                    {
+                        DrawFilledRect(sbX, currentY, sbWidth, headerHeight, redTeamBg);
+                        scoreboardHeaderFont.DrawText(null, "Red Team",
+                            new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
+                            DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
+                        scoreboardHeaderFont.DrawText(null, redScore.ToString(),
+                            new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
+                            DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
+                        currentY += headerHeight;
+                    }
 
-                // Draw Blue Team Players
-                foreach (var player in bluePlayers)
-                {
-                    DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, blueTeamBg);
-                    currentY += rowHeight + 2;
+                    // Draw Blue Team Header
+                    if (bluePlayers.Count > 0)
+                    {
+                        DrawFilledRect(sbX, currentY, sbWidth, headerHeight, blueTeamBg);
+                        scoreboardHeaderFont.DrawText(null, "Blue Team",
+                            new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
+                            DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
+                        scoreboardHeaderFont.DrawText(null, blueScore.ToString(),
+                            new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
+                            DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
+                        currentY += headerHeight;
+                    }
+
+                    // Gap between headers and players
+                    currentY += 6;
+
+                    // Draw Red Team Players
+                    foreach (var player in redPlayers)
+                    {
+                        DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, redTeamBg);
+                        currentY += rowHeight + 2;
+                    }
+
+                    // Draw Blue Team Players
+                    foreach (var player in bluePlayers)
+                    {
+                        DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, blueTeamBg);
+                        currentY += rowHeight + 2;
+                    }
                 }
             }
             catch (Exception ex)
