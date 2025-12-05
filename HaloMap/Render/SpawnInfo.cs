@@ -322,19 +322,49 @@ using System.IO;
             try
             {
                 //map.OpenMap(MapTypes.Internal);
-                map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + 256;
+                int scnrOffset = map.MetaInfo.Offset[3];
+                int reflexiveOffset = scnrOffset + 256;
+
+                MapDebugLogger.Separator();
+                MapDebugLogger.Info("SCNR player_starting_locations:");
+                MapDebugLogger.Debug("  SCNR tag offset: 0x{0:X8}", scnrOffset);
+                MapDebugLogger.Debug("  Reflexive offset in scnr: 0x100 (256)");
+                MapDebugLogger.Debug("  Reflexive file offset: 0x{0:X8}", reflexiveOffset);
+
+                map.BR.BaseStream.Position = reflexiveOffset;
                 int tempc = map.BR.ReadInt32();
-                tempr = map.BR.ReadInt32() - map.SecondaryMagic;
+                int rawPointer = map.BR.ReadInt32();
+                tempr = rawPointer - map.SecondaryMagic;
+
+                MapDebugLogger.Debug("  Entry count: {0}", tempc);
+                MapDebugLogger.Debug("  Entry size: 52 bytes");
+                MapDebugLogger.Debug("  Raw pointer: 0x{0:X8}", rawPointer);
+                MapDebugLogger.Debug("  SecondaryMagic: 0x{0:X8}", map.SecondaryMagic);
+                MapDebugLogger.Debug("  Data file offset: 0x{0:X8}", tempr);
+                MapDebugLogger.Separator();
+
                 for (int x = 0; x < tempc; x++)
                 {
                     map.BR.BaseStream.Position = tempr + (52 * x);
-                    PlayerSpawn ps = new PlayerSpawn();                    
+                    PlayerSpawn ps = new PlayerSpawn();
                     ps.Read(map);
 
                     ps.ModelTagNumber = bipdmodeltag;
                     ps.ModelName = map.FileNames.Name[ps.ModelTagNumber];
 
+                    // Log first 15 spawns for debugging
+                    if (x < 15)
+                    {
+                        MapDebugLogger.Info("  Spawn {0}: ({1:F4}, {2:F4}, {3:F4}) rot={4:F4}",
+                            x, ps.X, ps.Y, ps.Z, ps.RotationDirection);
+                    }
+
                     Spawn.Add(ps);
+                }
+
+                if (tempc > 15)
+                {
+                    MapDebugLogger.Debug("  ... and {0} more spawns", tempc - 15);
                 }
             }
             catch (Exception e)
