@@ -339,8 +339,10 @@ namespace entity.Renderers
         private struct KillEvent
         {
             public float Timestamp;
-            public string PlayerName;
-            public int Team;
+            public string KillerName;
+            public int KillerTeam;
+            public string VictimName;
+            public int VictimTeam;
             public string Weapon;
         }
         private List<KillEvent> killEvents = new List<KillEvent>();
@@ -349,6 +351,11 @@ namespace entity.Renderers
         /// Tracks previous kill count per player to detect new kills.
         /// </summary>
         private Dictionary<string, int> playerPrevKills = new Dictionary<string, int>();
+
+        /// <summary>
+        /// Tracks recent deaths for matching to kills.
+        /// </summary>
+        private List<(float Timestamp, string PlayerName, int Team)> recentDeaths = new List<(float, string, int)>();
 
         /// <summary>
         /// Current playback timestamp.
@@ -2294,8 +2301,8 @@ namespace entity.Renderers
                 var recentKills = filteredKills.Skip(Math.Max(0, filteredKills.Count - 10)).ToList();
                 foreach (var kill in recentKills)
                 {
-                    string teamName = kill.Team == 0 ? "Red" : kill.Team == 1 ? "Blue" : kill.Team == 2 ? "Green" : kill.Team == 3 ? "Orange" : "FFA";
-                    sb.AppendLine($"  T={kill.Timestamp:F1}: {kill.PlayerName} ({teamName}) - {kill.Weapon}");
+                    string teamName = kill.KillerTeam == 0 ? "Red" : kill.KillerTeam == 1 ? "Blue" : kill.KillerTeam == 2 ? "Green" : kill.KillerTeam == 3 ? "Orange" : "FFA";
+                    sb.AppendLine($"  T={kill.Timestamp:F1}: {kill.KillerName} killed {kill.VictimName} ({teamName}) - {kill.Weapon}");
                 }
                 if (!recentKills.Any())
                     sb.AppendLine("  (no kills yet)");
@@ -8716,22 +8723,49 @@ namespace entity.Renderers
                     int colorTertiary = getInt(parts, "colortertiary");
                     int colorQuaternary = getInt(parts, "colorquaternary");
                     int kills = getInt(parts, "kills");
+                    int deaths = getInt(parts, "deaths");
+
+                    // Track deaths for matching to kills
+                    if (!playerPrevDeaths.ContainsKey(playerName))
+                        playerPrevDeaths[playerName] = 0;
+                    if (deaths > playerPrevDeaths[playerName])
+                    {
+                        // Player died - add to recent deaths
+                        recentDeaths.Add((timestamp, playerName, team));
+                        // Keep only last 2 seconds of deaths
+                        recentDeaths.RemoveAll(d => timestamp - d.Timestamp > 2.0f);
+                        playerPrevDeaths[playerName] = deaths;
+                    }
 
                     // Track kill events
                     if (!playerPrevKills.ContainsKey(playerName))
                         playerPrevKills[playerName] = 0;
                     if (kills > playerPrevKills[playerName])
                     {
-                        // New kill(s) detected
+                        // New kill(s) detected - try to find victim from recent deaths
                         for (int k = 0; k < kills - playerPrevKills[playerName]; k++)
                         {
+                            // Find most recent death from another team (or any death in FFA)
+                            var victim = recentDeaths
+                                .Where(d => d.PlayerName != playerName && Math.Abs(d.Timestamp - timestamp) < 1.0f)
+                                .OrderByDescending(d => d.Timestamp)
+                                .FirstOrDefault();
+
                             killEvents.Add(new KillEvent
                             {
                                 Timestamp = timestamp,
-                                PlayerName = playerName,
-                                Team = team,
+                                KillerName = playerName,
+                                KillerTeam = team,
+                                VictimName = victim.PlayerName ?? "Unknown",
+                                VictimTeam = victim.Team,
                                 Weapon = weapon
                             });
+
+                            // Remove matched death
+                            if (!string.IsNullOrEmpty(victim.PlayerName))
+                            {
+                                recentDeaths.RemoveAll(d => d.PlayerName == victim.PlayerName && d.Timestamp == victim.Timestamp);
+                            }
                         }
                         playerPrevKills[playerName] = kills;
                     }
@@ -10339,21 +10373,32 @@ namespace entity.Renderers
                     if (alphaByte <= 0)
                         continue;
 
-                    // Team color with fade
-                    Color teamColor = kill.Team == 0 ? Color.FromArgb(alphaByte, 230, 80, 80) :   // Red
-                                     kill.Team == 1 ? Color.FromArgb(alphaByte, 80, 130, 200) :  // Blue
-                                     Color.FromArgb(alphaByte, 255, 255, 255);                   // White/FFA
+                    // Team colors with fade
+                    Color killerColor = GetTeamColorForKillfeed(kill.KillerTeam, alphaByte);
+                    Color victimColor = GetTeamColorForKillfeed(kill.VictimTeam, alphaByte);
+                    Color textColor = Color.FromArgb(alphaByte, 200, 200, 200);
 
                     // Background with fade
                     DrawFilledRect(kfX, currentY, 320, rowHeight, Color.FromArgb((int)(alpha * 180), 0, 0, 0));
 
-                    // Format: "PlayerName [Weapon]" - weapon icon placeholder
+                    // Format: "Killer [weapon] Victim"
                     string weaponDisplay = GetWeaponShortName(kill.Weapon);
-                    string entry = $"{kill.PlayerName}  [{weaponDisplay}]";
 
-                    killfeedFont.DrawText(null, entry,
-                        new Rectangle(kfX + 10, currentY, 300, rowHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, teamColor);
+                    // Draw killer name
+                    int textX = kfX + 10;
+                    Rectangle killerRect = new Rectangle(textX, currentY, 110, rowHeight);
+                    killfeedFont.DrawText(null, kill.KillerName ?? "?",
+                        killerRect, DrawTextFormat.Left | DrawTextFormat.VerticalCenter, killerColor);
+
+                    // Draw weapon (center)
+                    Rectangle weaponRect = new Rectangle(kfX + 120, currentY, 80, rowHeight);
+                    killfeedFont.DrawText(null, $"[{weaponDisplay}]",
+                        weaponRect, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, textColor);
+
+                    // Draw victim name
+                    Rectangle victimRect = new Rectangle(kfX + 200, currentY, 110, rowHeight);
+                    killfeedFont.DrawText(null, kill.VictimName ?? "?",
+                        victimRect, DrawTextFormat.Right | DrawTextFormat.VerticalCenter, victimColor);
 
                     currentY += rowHeight + 2;
                 }
@@ -10396,6 +10441,21 @@ namespace entity.Renderers
 
             // Fallback: first 6 chars
             return weapon.Length > 6 ? weapon.Substring(0, 6) : weapon;
+        }
+
+        /// <summary>
+        /// Gets team color for killfeed with alpha.
+        /// </summary>
+        private Color GetTeamColorForKillfeed(int team, int alpha)
+        {
+            switch (team)
+            {
+                case 0: return Color.FromArgb(alpha, 230, 80, 80);    // Red team
+                case 1: return Color.FromArgb(alpha, 80, 150, 230);   // Blue team
+                case 2: return Color.FromArgb(alpha, 80, 200, 80);    // Green team
+                case 3: return Color.FromArgb(alpha, 230, 150, 50);   // Orange team
+                default: return Color.FromArgb(alpha, 255, 255, 255); // White (FFA/unknown)
+            }
         }
 
         /// <summary>
@@ -10864,7 +10924,7 @@ namespace entity.Renderers
 
                 // Halo-style team colors (brighter, more saturated)
                 Color teamColor;
-                switch (kill.Team)
+                switch (kill.KillerTeam)
                 {
                     case 0: teamColor = Color.FromArgb(255, 60, 60); break;    // Red team
                     case 1: teamColor = Color.FromArgb(60, 140, 255); break;   // Blue team
