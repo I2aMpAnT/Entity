@@ -137,6 +137,7 @@
     <Compile Include="Map\Map.cs" />
     <Compile Include="Map\MapHeaderInfo.cs" />
     <Compile Include="Map\ObjectIndexInfo.cs" />
+    <Compile Include="Map\MapDebugLogger.cs" />
     <Compile Include="Map\StringsInfo.cs" />
     <Compile Include="Meta\Meta.cs" />
     <Compile Include="Meta\MetaScanner.cs" />
