@@ -325,46 +325,50 @@ using System.IO;
                 int scnrOffset = map.MetaInfo.Offset[3];
                 int reflexiveOffset = scnrOffset + 256;
 
-                MapDebugLogger.Separator();
-                MapDebugLogger.Info("SCNR player_starting_locations:");
-                MapDebugLogger.Debug("  SCNR tag offset: 0x{0:X8}", scnrOffset);
-                MapDebugLogger.Debug("  Reflexive offset in scnr: 0x100 (256)");
-                MapDebugLogger.Debug("  Reflexive file offset: 0x{0:X8}", reflexiveOffset);
-
                 map.BR.BaseStream.Position = reflexiveOffset;
                 int tempc = map.BR.ReadInt32();
                 int rawPointer = map.BR.ReadInt32();
                 tempr = rawPointer - map.SecondaryMagic;
 
-                MapDebugLogger.Debug("  Entry count: {0}", tempc);
-                MapDebugLogger.Debug("  Entry size: 52 bytes");
-                MapDebugLogger.Debug("  Raw pointer: 0x{0:X8}", rawPointer);
-                MapDebugLogger.Debug("  SecondaryMagic: 0x{0:X8}", map.SecondaryMagic);
-                MapDebugLogger.Debug("  Data file offset: 0x{0:X8}", tempr);
+                MapDebugLogger.Separator();
+                MapDebugLogger.Info("SCNR player_starting_locations:");
+                MapDebugLogger.Info("  Reflexive at scnr+0x100: count={0}, pointer=0x{1:X8}", tempc, rawPointer);
+                MapDebugLogger.Info("  Entry size: 52 bytes");
+                MapDebugLogger.Info("  Data offset: 0x{0:X8} (pointer - magic 0x{1:X8})", tempr, map.SecondaryMagic);
                 MapDebugLogger.Separator();
 
                 for (int x = 0; x < tempc; x++)
                 {
-                    map.BR.BaseStream.Position = tempr + (52 * x);
+                    long entryStart = tempr + (52 * x);
+                    map.BR.BaseStream.Position = entryStart;
+
+                    // Read raw floats for debugging
+                    float posX = map.BR.ReadSingle();
+                    float posY = map.BR.ReadSingle();
+                    float posZ = map.BR.ReadSingle();
+                    float facing = map.BR.ReadSingle();
+
+                    // Log first 10 spawns with raw data
+                    if (x < 10)
+                    {
+                        MapDebugLogger.Info("  Spawn {0}: pos=({1:F4}, {2:F4}, {3:F4}), facing={4:F4}",
+                            x, posX, posY, posZ, facing);
+                    }
+
+                    // Reset and read properly for the spawn object
+                    map.BR.BaseStream.Position = entryStart;
                     PlayerSpawn ps = new PlayerSpawn();
                     ps.Read(map);
 
                     ps.ModelTagNumber = bipdmodeltag;
                     ps.ModelName = map.FileNames.Name[ps.ModelTagNumber];
 
-                    // Log first 15 spawns for debugging
-                    if (x < 15)
-                    {
-                        MapDebugLogger.Info("  Spawn {0}: ({1:F4}, {2:F4}, {3:F4}) rot={4:F4}",
-                            x, ps.X, ps.Y, ps.Z, ps.RotationDirection);
-                    }
-
                     Spawn.Add(ps);
                 }
 
-                if (tempc > 15)
+                if (tempc > 10)
                 {
-                    MapDebugLogger.Debug("  ... and {0} more spawns", tempc - 15);
+                    MapDebugLogger.Debug("  ... and {0} more spawns", tempc - 10);
                 }
             }
             catch (Exception e)
