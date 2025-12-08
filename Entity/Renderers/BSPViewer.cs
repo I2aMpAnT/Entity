@@ -10570,13 +10570,16 @@ namespace entity.Renderers
                     // Layout from top to bottom: Emblem -> Weapon -> Name -> Arrow
                     // All centered on centerX
                     int emblemSize = 32;
-                    int weaponSize = 16;
-                    int spacing = 4;
+                    int weaponSize = 20;
+                    int weaponGap = 28; // Gap between emblem and name where weapon sits (centered)
+                    int nameHeight = 20;
+                    int arrowHeight = 16;
+                    int smallSpacing = 2;
 
-                    // Calculate starting Y position (work backwards from currentY)
-                    int totalHeight = emblemSize + spacing + weaponSize;
-                    if (showPlayerNames) totalHeight += spacing + 20; // name height
-                    totalHeight += spacing + 16; // arrow height
+                    // Calculate total height and starting position
+                    int totalHeight = emblemSize + weaponGap;
+                    if (showPlayerNames) totalHeight += nameHeight + smallSpacing;
+                    totalHeight += arrowHeight;
 
                     int emblemY = currentY - totalHeight;
                     int emblemX = centerX - emblemSize / 2;
@@ -10627,8 +10630,8 @@ namespace entity.Renderers
                         }
                     }
 
-                    // Draw weapon icon below emblem (centered horizontally and vertically)
-                    int weaponY = emblemY + emblemSize + spacing;
+                    // Draw weapon icon centered in gap between emblem and name
+                    int weaponCenterY = emblemY + emblemSize + weaponGap / 2;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
@@ -10638,20 +10641,20 @@ namespace entity.Renderers
                         // Center the weapon icon: translate to center point, use texture center as origin
                         Vector3 center = new Vector3(desc.Width / 2f, desc.Height / 2f, 0);
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(centerX, weaponY + weaponSize / 2, 0);
+                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(centerX, weaponCenterY, 0);
                         emblemSprite.Draw(weaponTexture, center, Vector3.Empty, Color.White.ToArgb());
                         emblemSprite.Transform = Matrix.Identity;
                         emblemSprite.End();
                     }
 
-                    // Draw player name below weapon (if enabled)
-                    int nameY = weaponY + weaponSize + spacing;
+                    // Draw player name below weapon gap (if enabled)
+                    int nameY = emblemY + emblemSize + weaponGap;
                     if (showPlayerNames)
                     {
                         playerNameFont.DrawText(null, player.PlayerName,
                             new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
                             DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
-                        nameY += 20 + spacing;
+                        nameY += nameHeight + smallSpacing;
                     }
 
                     // Draw blue waypoint arrow at bottom pointing down at player
