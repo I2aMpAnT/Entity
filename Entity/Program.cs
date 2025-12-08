@@ -218,29 +218,151 @@ namespace entity
                         mapFilePath = ofd.FileName;
                     }
                 }
+
+                // Launch with the map and CSV file
+                LaunchTheaterWithMap(mapFilePath, csvFilePath, false);
             }
             else // LIVE mode
             {
-                // For LIVE mode, we need a default map to start with
-                // Try to find any map in the maps folder
-                string mapsFolder = Globals.Prefs.pathMapsFolder;
-                if (!string.IsNullOrEmpty(mapsFolder) && Directory.Exists(mapsFolder))
+                // For LIVE mode, show waiting screen and listen for telemetry to determine map
+                LaunchLiveTheaterMode();
+            }
+        }
+
+        /// <summary>
+        /// Launches LIVE theater mode - waits for telemetry to determine which map to load.
+        /// </summary>
+        private static void LaunchLiveTheaterMode()
+        {
+            string detectedMapName = null;
+
+            using (Form waitingForm = new Form())
+            {
+                waitingForm.Text = "Theater Mode - LIVE";
+                waitingForm.Size = new Size(500, 300);
+                waitingForm.StartPosition = FormStartPosition.CenterScreen;
+                waitingForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                waitingForm.MaximizeBox = false;
+                waitingForm.MinimizeBox = false;
+                waitingForm.BackColor = Color.FromArgb(20, 30, 40);
+
+                // Recording indicator
+                Label recordingLabel = new Label();
+                recordingLabel.Text = "🔴 LIVE";
+                recordingLabel.Font = new Font("Segoe UI", 24, FontStyle.Bold);
+                recordingLabel.ForeColor = Color.FromArgb(255, 80, 80);
+                recordingLabel.AutoSize = true;
+                recordingLabel.Location = new Point(185, 30);
+                waitingForm.Controls.Add(recordingLabel);
+
+                // Status label
+                Label statusLabel = new Label();
+                statusLabel.Text = "Waiting for telemetry data on port 2222...";
+                statusLabel.Font = new Font("Segoe UI", 12);
+                statusLabel.ForeColor = Color.FromArgb(180, 180, 180);
+                statusLabel.AutoSize = true;
+                statusLabel.Location = new Point(115, 90);
+                waitingForm.Controls.Add(statusLabel);
+
+                // Info label
+                Label infoLabel = new Label();
+                infoLabel.Text = "Start HaloCaster and connect to begin streaming.\nThe map will be loaded automatically.";
+                infoLabel.Font = new Font("Segoe UI", 10);
+                infoLabel.ForeColor = Color.FromArgb(120, 120, 120);
+                infoLabel.TextAlign = ContentAlignment.MiddleCenter;
+                infoLabel.Size = new Size(400, 50);
+                infoLabel.Location = new Point(50, 130);
+                waitingForm.Controls.Add(infoLabel);
+
+                // Cancel button
+                Button btnCancel = new Button();
+                btnCancel.Text = "Cancel";
+                btnCancel.Font = new Font("Segoe UI", 10);
+                btnCancel.Size = new Size(100, 35);
+                btnCancel.Location = new Point(200, 210);
+                btnCancel.BackColor = Color.FromArgb(60, 60, 60);
+                btnCancel.ForeColor = Color.White;
+                btnCancel.FlatStyle = FlatStyle.Flat;
+                btnCancel.Click += (s, e) => waitingForm.Close();
+                waitingForm.Controls.Add(btnCancel);
+
+                // Start UDP listener in background
+                System.Net.Sockets.UdpClient udpClient = null;
+                Thread listenerThread = null;
+                bool listening = true;
+
+                try
                 {
-                    string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map");
-                    if (mapFiles.Length > 0)
+                    udpClient = new System.Net.Sockets.UdpClient();
+                    udpClient.Client.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket,
+                        System.Net.Sockets.SocketOptionName.ReuseAddress, true);
+                    udpClient.Client.Bind(new System.Net.IPEndPoint(System.Net.IPAddress.Any, 2222));
+                    udpClient.Client.ReceiveTimeout = 500; // 500ms timeout for checking cancellation
+
+                    listenerThread = new Thread(() =>
                     {
-                        // Use first available map as placeholder (will auto-switch when telemetry arrives)
-                        mapFilePath = mapFiles[0];
-                    }
+                        System.Net.IPEndPoint remoteEP = new System.Net.IPEndPoint(System.Net.IPAddress.Any, 0);
+                        while (listening && detectedMapName == null)
+                        {
+                            try
+                            {
+                                byte[] data = udpClient.Receive(ref remoteEP);
+                                string packet = System.Text.Encoding.UTF8.GetString(data).Trim();
+                                string[] lines = packet.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                foreach (string line in lines)
+                                {
+                                    // Try to detect map name from the data
+                                    string mapName = DetectMapFromLine(line);
+                                    if (!string.IsNullOrEmpty(mapName))
+                                    {
+                                        detectedMapName = mapName;
+                                        waitingForm.BeginInvoke(new System.Action(() => waitingForm.Close()));
+                                        break;
+                                    }
+                                }
+                            }
+                            catch (System.Net.Sockets.SocketException)
+                            {
+                                // Timeout or socket closed, continue checking
+                            }
+                        }
+                    });
+                    listenerThread.IsBackground = true;
+                    listenerThread.Start();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to start listener: {ex.Message}", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
-                // If no maps folder configured or no maps found, ask user
+                waitingForm.ShowDialog();
+
+                // Cleanup
+                listening = false;
+                udpClient?.Close();
+                listenerThread?.Join(1000);
+            }
+
+            // If we detected a map, load it
+            if (!string.IsNullOrEmpty(detectedMapName))
+            {
+                string mapFilePath = FindMapFile(detectedMapName);
                 if (string.IsNullOrEmpty(mapFilePath))
                 {
+                    MessageBox.Show($"Could not find map file for '{detectedMapName}'.\nPlease select it manually.",
+                        "Map Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     using (OpenFileDialog ofd = new OpenFileDialog())
                     {
-                        ofd.Title = "Select Initial Map (will auto-switch based on telemetry)";
+                        ofd.Title = $"Select Map File for '{detectedMapName}'";
                         ofd.Filter = "Halo Map Files (*.map)|*.map|All Files (*.*)|*.*";
+
+                        string mapsFolder = Globals.Prefs.pathMapsFolder;
+                        if (!string.IsNullOrEmpty(mapsFolder) && Directory.Exists(mapsFolder))
+                            ofd.InitialDirectory = mapsFolder;
 
                         if (ofd.ShowDialog() != DialogResult.OK)
                             return;
@@ -248,8 +370,51 @@ namespace entity
                         mapFilePath = ofd.FileName;
                     }
                 }
+
+                LaunchTheaterWithMap(mapFilePath, null, true);
+            }
+        }
+
+        /// <summary>
+        /// Detects map name from a single telemetry line.
+        /// </summary>
+        private static string DetectMapFromLine(string line)
+        {
+            string[] parts = line.Split(',');
+            if (parts.Length < 3)
+                return null;
+
+            // Check if this looks like a header row
+            string first = parts[0].Trim().ToLowerInvariant();
+            if (first == "timestamp" || first == "playername" || first == "mapname")
+            {
+                // This is a header, find mapname column for future reference
+                return null;
             }
 
+            // Assume default column order: Timestamp, MapName, GameType, ...
+            // MapName is typically at index 1
+            if (parts.Length > 1)
+            {
+                string possibleMap = parts[1].Trim();
+                // Validate it looks like a map name (not a timestamp or number)
+                if (!string.IsNullOrEmpty(possibleMap) &&
+                    !possibleMap.Contains(":") &&
+                    !possibleMap.Contains("-") &&
+                    !float.TryParse(possibleMap, out _))
+                {
+                    return possibleMap;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Launches Theater Mode with a specific map file.
+        /// </summary>
+        private static void LaunchTheaterWithMap(string mapFilePath, string csvFilePath, bool startLive)
+        {
             try
             {
                 // Load the map
@@ -277,11 +442,11 @@ namespace entity
                 BSPViewer theaterViewer = new BSPViewer(bsp, map, theaterMode: true);
 
                 // Set the mode so BSPViewer knows what to do on startup
-                if (subMode == TheaterSubMode.Live)
+                if (startLive)
                 {
                     theaterViewer.StartInLiveMode = true;
                 }
-                else if (subMode == TheaterSubMode.Replay && !string.IsNullOrEmpty(csvFilePath))
+                else if (!string.IsNullOrEmpty(csvFilePath))
                 {
                     theaterViewer.StartWithCsvFile = csvFilePath;
                 }
