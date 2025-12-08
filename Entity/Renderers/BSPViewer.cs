@@ -10627,16 +10627,19 @@ namespace entity.Renderers
                         }
                     }
 
-                    // Draw weapon icon below emblem (centered)
+                    // Draw weapon icon below emblem (centered horizontally and vertically)
                     int weaponY = emblemY + emblemSize + spacing;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
-                        float scale = weaponSize / 64.0f; // Assuming 64px source
-                        int weaponX = centerX - weaponSize / 2;
+                        // Get texture dimensions for proper centering
+                        SurfaceDescription desc = weaponTexture.GetLevelDescription(0);
+                        float scale = weaponSize / (float)desc.Width;
+                        // Center the weapon icon: translate to center point, use texture center as origin
+                        Vector3 center = new Vector3(desc.Width / 2f, desc.Height / 2f, 0);
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(weaponX, weaponY, 0);
-                        emblemSprite.Draw(weaponTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
+                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(centerX, weaponY + weaponSize / 2, 0);
+                        emblemSprite.Draw(weaponTexture, center, Vector3.Empty, Color.White.ToArgb());
                         emblemSprite.Transform = Matrix.Identity;
                         emblemSprite.End();
                     }
