@@ -22,6 +22,7 @@ namespace entity
     using HaloMap.Map;
     using HaloMap.Render;
     using HaloMap.Meta;
+    using HaloMap.RawData;
 
     /// <summary>
     /// The program.
