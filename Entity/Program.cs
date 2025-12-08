@@ -251,7 +251,7 @@ namespace entity
 
                 // Recording indicator
                 Label recordingLabel = new Label();
-                recordingLabel.Text = "🔴 LIVE";
+                recordingLabel.Text = "● LIVE";
                 recordingLabel.Font = new Font("Segoe UI", 24, FontStyle.Bold);
                 recordingLabel.ForeColor = Color.FromArgb(255, 80, 80);
                 recordingLabel.AutoSize = true;
@@ -538,7 +538,7 @@ namespace entity
 
                 // LIVE button
                 Button btnLive = new Button();
-                btnLive.Text = "🔴 LIVE";
+                btnLive.Text = "● LIVE";
                 btnLive.Font = new Font("Segoe UI", 14, FontStyle.Bold);
                 btnLive.Size = new Size(160, 80);
                 btnLive.Location = new Point(25, 60);
