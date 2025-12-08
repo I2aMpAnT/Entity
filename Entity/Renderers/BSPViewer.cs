@@ -10089,11 +10089,22 @@ namespace entity.Renderers
                 AddDebugLog("[MAP] Loading DirectX textures and buffers...");
                 BSPModel.BSPDisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp);
 
+                // Dispose old spawns before switching
+                try
+                {
+                    if (spawns != null)
+                    {
+                        spawns.Dispose();
+                        spawns = null;
+                    }
+                }
+                catch { }
+
                 // Successfully created BSP, now update references
                 this.map = newMap;
                 this.bsp = newBsp;
 
-                // Try to reload spawns (non-critical if it fails)
+                // Try to reload spawns for new map (non-critical if it fails)
                 try
                 {
                     spawns = new SpawnLoads(map, bsp, render.device);
@@ -10101,19 +10112,49 @@ namespace entity.Renderers
                 catch (Exception spawnEx)
                 {
                     AddDebugLog($"[MAP] Warning: Could not load spawns: {spawnEx.Message}");
+                    spawns = null;
                 }
 
                 // Update title to reflect new map
                 this.Text = $"Theater Mode - {map.MapHeader.mapName}";
 
-                // Reset camera to center of new map
+                // Position camera at active play area - use player positions if available
                 if (cam != null)
                 {
-                    setCameraPosition(
-                        (bsp.maxBoundries.X - bsp.minBoundries.X) / 2 + bsp.minBoundries.X,
-                        (bsp.maxBoundries.Y - bsp.minBoundries.Y) / 2 + bsp.minBoundries.Y,
-                        (bsp.maxBoundries.Z - bsp.minBoundries.Z) / 2 + bsp.minBoundries.Z,
-                        false);
+                    float camX, camY, camZ;
+                    bool foundPlayers = false;
+
+                    // Try to use live player positions to find active area
+                    lock (livePlayersLock)
+                    {
+                        if (livePlayers.Count > 0)
+                        {
+                            // Average player positions
+                            camX = 0; camY = 0; camZ = 0;
+                            foreach (var player in livePlayers.Values)
+                            {
+                                camX += player.PosX;
+                                camY += player.PosY;
+                                camZ += player.PosZ;
+                            }
+                            camX /= livePlayers.Count;
+                            camY /= livePlayers.Count;
+                            camZ /= livePlayers.Count;
+                            // Position camera above and back from players
+                            camZ += 15f;
+                            foundPlayers = true;
+                        }
+                    }
+
+                    if (!foundPlayers)
+                    {
+                        // Fall back to BSP center
+                        camX = (bsp.maxBoundries.X + bsp.minBoundries.X) / 2;
+                        camY = (bsp.maxBoundries.Y + bsp.minBoundries.Y) / 2;
+                        camZ = (bsp.maxBoundries.Z + bsp.minBoundries.Z) / 2 + 10f;
+                    }
+
+                    setCameraPosition(camX, camY, camZ, false);
                 }
 
                 AddDebugLog($"[MAP] Successfully switched to: {map.MapHeader.mapName}");
