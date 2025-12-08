@@ -81,7 +81,7 @@ namespace entity.Renderers
         /// <summary>
         /// The map.
         /// </summary>
-        private readonly Map map;
+        private Map map;
 
         /// <summary>
         /// The render.
@@ -9698,6 +9698,8 @@ namespace entity.Renderers
                         currentTelemetryMapName = newMapName;
                         // Fire event for parent to handle map loading
                         MapChangeRequested?.Invoke(this, new MapChangeRequestEventArgs { MapName = newMapName });
+                        // Try to auto-load the map
+                        TryLoadMapByName(newMapName);
                     }
                 }
 
@@ -9768,6 +9770,105 @@ namespace entity.Renderers
                 {
                     telemetryDebugLog.RemoveAt(0);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Tries to find and load a map by its display name.
+        /// </summary>
+        /// <param name="mapName">The map name (e.g., "Lockout", "Beaver Creek").</param>
+        private void TryLoadMapByName(string mapName)
+        {
+            try
+            {
+                // Normalize the map name for file matching
+                string normalizedName = mapName.ToLowerInvariant().Replace(" ", "");
+
+                // Get the maps folder
+                string mapsFolder = Prefs.pathMapsFolder;
+                if (string.IsNullOrEmpty(mapsFolder) || !Directory.Exists(mapsFolder))
+                {
+                    AddDebugLog($"[MAP] Maps folder not found: {mapsFolder}");
+                    return;
+                }
+
+                // Search for matching .map file
+                string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map");
+                string matchingFile = null;
+
+                foreach (string filePath in mapFiles)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(filePath).ToLowerInvariant();
+                    // Check for exact match or partial match
+                    if (fileName == normalizedName ||
+                        fileName.Replace("_", "") == normalizedName ||
+                        normalizedName.Contains(fileName) ||
+                        fileName.Contains(normalizedName))
+                    {
+                        matchingFile = filePath;
+                        break;
+                    }
+                }
+
+                if (matchingFile == null)
+                {
+                    AddDebugLog($"[MAP] No matching map file found for '{mapName}' in {mapsFolder}");
+                    return;
+                }
+
+                AddDebugLog($"[MAP] Found map file: {matchingFile}");
+
+                // Load the new map on UI thread
+                if (this.InvokeRequired)
+                {
+                    this.BeginInvoke(new Action(() => LoadNewMap(matchingFile)));
+                }
+                else
+                {
+                    LoadNewMap(matchingFile);
+                }
+            }
+            catch (Exception ex)
+            {
+                AddDebugLog($"[MAP] Error loading map: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Loads a new map file and reinitializes the BSP viewer.
+        /// </summary>
+        /// <param name="mapFilePath">Full path to the .map file.</param>
+        private void LoadNewMap(string mapFilePath)
+        {
+            try
+            {
+                AddDebugLog($"[MAP] Loading new map: {mapFilePath}");
+
+                // Load the new map
+                Map newMap = Map.LoadFromFile(mapFilePath);
+                if (newMap == null)
+                {
+                    AddDebugLog("[MAP] Failed to load map file");
+                    return;
+                }
+
+                // Update the map reference
+                this.map = newMap;
+
+                // Reinitialize BSP
+                bsp = new BSPContainer(map.BSP.sbsp[0], map);
+
+                // Reload spawns
+                spawns = new SpawnInfo.SpawnInfo(map);
+
+                // Update title to reflect new map
+                this.Text = $"Theater Mode - {map.MapHeader.mapName}";
+
+                AddDebugLog($"[MAP] Successfully switched to: {map.MapHeader.mapName}");
+            }
+            catch (Exception ex)
+            {
+                AddDebugLog($"[MAP] Error switching map: {ex.Message}");
             }
         }
 
