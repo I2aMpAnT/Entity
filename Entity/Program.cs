@@ -387,12 +387,19 @@ namespace entity
 
                 waitingForm.ShowDialog();
 
-                // Cleanup
+                // Cleanup - stop listening first
                 listening = false;
-                udpClient?.Close();
-                tcpListener?.Stop();
+
+                // Close sockets
+                try { udpClient?.Close(); } catch { }
+                try { tcpListener?.Stop(); } catch { }
+
+                // Wait for threads to finish
                 udpListenerThread?.Join(1000);
                 tcpListenerThread?.Join(1000);
+
+                // Give the OS time to release the ports
+                Thread.Sleep(500);
             }
 
             // If we detected a map, load it
