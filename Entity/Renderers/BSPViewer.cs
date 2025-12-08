@@ -10324,20 +10324,22 @@ namespace entity.Renderers
                 // Check if player is dead (using IsDead field from telemetry)
                 bool isDead = player.IsDead;
 
-                // Ground offset to align with floor (-0.2 world units)
+                // Ground offset to align model with floor
                 float groundOffset = -0.2f;
 
                 // Adjust Z position for crouching
                 float zOffset = player.IsCrouching ? -0.2f * player.CrouchBlend : 0f;
                 float modelZOffset = zOffset + groundOffset;
 
-                // Calculate circle Z - stays on ground even when jumping
-                // When airborne, estimate ground level by subtracting jump height
-                float circleZ = player.PosZ + groundOffset;
-                if (player.IsAirborne)
+                // Calculate circle Z - at player's feet (no extra offset needed)
+                // Player position should already be at foot level
+                float circleZ = player.PosZ;
+                if (player.IsAirborne && player.AirborneTicks > 0)
                 {
-                    // Keep circle lower when jumping (approximate ground level)
-                    circleZ = player.PosZ + groundOffset - (player.AirborneTicks * 0.02f);
+                    // When jumping, keep circle at estimated ground level
+                    // Limit max offset to prevent circle going too far below
+                    float jumpOffset = Math.Min(player.AirborneTicks * 0.015f, 2.0f);
+                    circleZ = player.PosZ - jumpOffset;
                 }
 
                 // Only draw model and circle if alive
@@ -10430,9 +10432,9 @@ namespace entity.Renderers
             circleMat.Emissive = Color.FromArgb(teamColor.R / 2, teamColor.G / 2, teamColor.B / 2);
 
             // Rotate 90 degrees around X axis to lay flat on XY plane (disc faces up in Z)
-            // Then translate to player position
+            // Then translate to player position (z already has groundOffset applied)
             Matrix rotation = Matrix.RotationX((float)(Math.PI / 2.0));
-            Matrix translation = Matrix.Translation(x, y, z - 0.15f);
+            Matrix translation = Matrix.Translation(x, y, z);
             render.device.Transform.World = Matrix.Multiply(rotation, translation);
             render.device.Material = circleMat;
             render.device.SetTexture(0, null);
@@ -11054,8 +11056,9 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
+            // Use vpstats direct image URL format
             // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EF=foreground, EB=background, ET=toggle
-            return $"http://example.com/emblem/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            return $"https://vpstats.halo2pc.com/emblems/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
