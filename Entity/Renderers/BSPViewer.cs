@@ -43,6 +43,23 @@ namespace entity.Renderers
     /// <remarks></remarks>
     public partial class BSPViewer : Form
     {
+        #region Events
+
+        /// <summary>
+        /// Event args for map change requests.
+        /// </summary>
+        public class MapChangeRequestEventArgs : EventArgs
+        {
+            public string MapName { get; set; }
+        }
+
+        /// <summary>
+        /// Event fired when telemetry indicates a different map should be loaded.
+        /// </summary>
+        public event EventHandler<MapChangeRequestEventArgs> MapChangeRequested;
+
+        #endregion
+
         #region Constants and Fields
 
         /// <summary>
@@ -495,6 +512,10 @@ namespace entity.Renderers
         /// </summary>
         public class PlayerTelemetry
         {
+            // Map/Game Info
+            public string MapName;
+            public string GameType;
+
             // Identity
             public string PlayerName;
             public string XboxId;
@@ -633,6 +654,11 @@ namespace entity.Renderers
         /// Dictionary of live player data by player name.
         /// </summary>
         private Dictionary<string, PlayerTelemetry> livePlayers = new Dictionary<string, PlayerTelemetry>();
+
+        /// <summary>
+        /// Current map name from telemetry for auto-switching.
+        /// </summary>
+        private string currentTelemetryMapName = null;
 
         /// <summary>
         /// Tracks death state per player (true = currently dead, waiting for respawn).
@@ -9657,6 +9683,24 @@ namespace entity.Renderers
             PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
             if (telemetry != null)
             {
+                // Check for map change
+                if (!string.IsNullOrEmpty(telemetry.MapName))
+                {
+                    string newMapName = telemetry.MapName.Trim();
+                    if (currentTelemetryMapName == null)
+                    {
+                        currentTelemetryMapName = newMapName;
+                        AddDebugLog($"[MAP] Initial map: {newMapName}");
+                    }
+                    else if (!currentTelemetryMapName.Equals(newMapName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        AddDebugLog($"[MAP] Map changed: {currentTelemetryMapName} -> {newMapName}");
+                        currentTelemetryMapName = newMapName;
+                        // Fire event for parent to handle map loading
+                        MapChangeRequested?.Invoke(this, new MapChangeRequestEventArgs { MapName = newMapName });
+                    }
+                }
+
                 lock (livePlayersLock)
                 {
                     string playerName = telemetry.PlayerName;
@@ -9801,6 +9845,10 @@ namespace entity.Renderers
                     }
                     return false;
                 };
+
+                // Map/Game Info
+                t.MapName = getStr("mapname");
+                t.GameType = getStr("gametype");
 
                 // Required: PlayerName
                 t.PlayerName = getStr("playername");

@@ -630,18 +630,24 @@
 
             // Construct emblem URL from player data
             function getEmblemUrl(player) {
+                // Debug: log all player properties once per player
+                if (!player._logged) {
+                    console.log(`Player ${player.name} properties:`, JSON.stringify(player, null, 2));
+                    player._logged = true;
+                }
+
                 // If full URL provided, use it
                 if (player.emblem_url) return player.emblem_url;
 
                 // Construct from raw emblem data (check multiple field name formats)
                 // P=primary, S=secondary, EP=emblem primary (tertiary), ES=emblem secondary (quaternary), EF=foreground, EB=background
-                // HaloCaster uses: ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary, EmblemFg, EmblemBg
-                const p = player.ColorPrimary ?? player.PrimaryColor ?? player.primary_color ?? player.color_primary ?? 0;
-                const s = player.ColorSecondary ?? player.SecondaryColor ?? player.secondary_color ?? player.color_secondary ?? 0;
-                const ep = player.ColorTertiary ?? player.TertiaryColor ?? player.tertiary_color ?? player.color_tertiary ?? 0;
-                const es = player.ColorQuaternary ?? player.QuaternaryColor ?? player.quaternary_color ?? player.color_quaternary ?? 0;
-                const ef = player.EmblemFg ?? player.EmblemForeground ?? player.emblem_foreground ?? player.emblem_fg ?? 0;
-                const eb = player.EmblemBg ?? player.EmblemBackground ?? player.emblem_background ?? player.emblem_bg ?? 0;
+                // Check all possible naming conventions: camelCase, PascalCase, snake_case
+                const p = player.color_primary ?? player.ColorPrimary ?? player.colorPrimary ?? player.primary_color ?? player.PrimaryColor ?? 0;
+                const s = player.color_secondary ?? player.ColorSecondary ?? player.colorSecondary ?? player.secondary_color ?? player.SecondaryColor ?? 0;
+                const ep = player.color_tertiary ?? player.ColorTertiary ?? player.colorTertiary ?? player.tertiary_color ?? player.TertiaryColor ?? 0;
+                const es = player.color_quaternary ?? player.ColorQuaternary ?? player.colorQuaternary ?? player.quaternary_color ?? player.QuaternaryColor ?? 0;
+                const ef = player.emblem_fg ?? player.EmblemFg ?? player.emblemFg ?? player.emblem_foreground ?? player.EmblemForeground ?? 0;
+                const eb = player.emblem_bg ?? player.EmblemBg ?? player.emblemBg ?? player.emblem_background ?? player.EmblemBackground ?? 0;
 
                 return `${window.config.emblemServiceUrl}/P${p}-S${s}-EP${ep}-ES${es}-EF${ef}-EB${eb}-ET0.png`;
             }
