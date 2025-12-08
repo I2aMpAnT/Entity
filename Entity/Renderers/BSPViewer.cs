@@ -2300,6 +2300,7 @@ namespace entity.Renderers
             debugForm.Text = showLiveTelemetry ? "Live Telemetry Debug" : "Replay Data Debug";
             debugForm.Size = new System.Drawing.Size(600, 500);
             debugForm.StartPosition = FormStartPosition.CenterParent;
+            debugForm.TopMost = true; // Keep debug window on top
 
             debugTextBox = new TextBox();
             debugTextBox.Multiline = true;
@@ -9887,8 +9888,12 @@ namespace entity.Renderers
                 // Update the map reference
                 this.map = newMap;
 
-                // Reinitialize BSP
-                bsp = map.BSP.sbsp[0];
+                // Get the BSP tag index and create BSPModel
+                int BSPId = map.Functions.ForMeta.FindMetaByID(map.BSP.sbsp[0].ident);
+                Meta meta = new Meta(map);
+                meta.TagIndex = BSPId;
+                meta.ScanMetaItems(true, false);
+                bsp = new BSPModel(ref meta);
 
                 // Reload spawns
                 spawns = new SpawnLoads(map, bsp, render.device);
@@ -9897,6 +9902,8 @@ namespace entity.Renderers
                 this.Text = $"Theater Mode - {map.MapHeader.mapName}";
 
                 AddDebugLog($"[MAP] Successfully switched to: {map.MapHeader.mapName}");
+
+                meta.Dispose();
             }
             catch (Exception ex)
             {
