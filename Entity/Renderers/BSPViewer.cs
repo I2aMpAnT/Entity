@@ -10630,17 +10630,22 @@ namespace entity.Renderers
                         }
                     }
 
-                    // Draw weapon icon centered in gap between emblem and name
-                    float weaponCenterY = emblemY + emblemSize + weaponGap / 2f;
+                    // Draw weapon icon centered in gap between emblem (with border) and name
+                    // Border extends 4px below emblem, so gap starts at emblemY + emblemSize + 4
+                    int borderPadding = 4;
+                    float gapStart = emblemY + emblemSize + borderPadding;
+                    float gapEnd = emblemY + emblemSize + weaponGap;
+                    float weaponCenterY = (gapStart + gapEnd) / 2f;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
                         // Get texture dimensions for proper centering
                         SurfaceDescription desc = weaponTexture.GetLevelDescription(0);
 
-                        // Scale to fit within available space (with margin)
+                        // Scale to fit within available space (actual gap after border)
                         float maxWidth = weaponSize;
-                        float maxHeight = weaponGap - 6; // 3px margin on each side
+                        float actualGapHeight = gapEnd - gapStart; // Gap between border and name
+                        float maxHeight = actualGapHeight - 4; // 2px margin on each side
                         float scaleW = maxWidth / (float)desc.Width;
                         float scaleH = maxHeight / (float)desc.Height;
                         float scale = Math.Min(scaleW, scaleH); // Use smaller scale to fit both dimensions
