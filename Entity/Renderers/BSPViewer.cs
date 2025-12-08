@@ -4419,7 +4419,7 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void DrawSkybox(ParsedModel pm)
         {
-            if (pm == null)
+            if (pm == null || pm.Display == null || pm.Display.meshes == null || pm.Display.Chunk == null)
             {
                 return;
             }
@@ -4427,10 +4427,20 @@ namespace entity.Renderers
             for (int x = 0; x < pm.Display.Chunk.Count; x++)
             {
                 int rawindex = pm.Display.Chunk[x];
+                if (pm.RawDataMetaChunks == null || rawindex < 0 || rawindex >= pm.RawDataMetaChunks.Length ||
+                    pm.RawDataMetaChunks[rawindex] == null || pm.RawDataMetaChunks[rawindex].SubMeshInfo == null ||
+                    pm.Shaders == null || pm.Shaders.Shader == null)
+                {
+                    continue;
+                }
                 for (int xx = 0; xx < pm.RawDataMetaChunks[rawindex].SubMeshInfo.Length; xx++)
                 {
                     // device.Material = meshmaterials[i];
                     int tempshade = pm.RawDataMetaChunks[rawindex].SubMeshInfo[xx].ShaderNumber;
+                    if (tempshade < 0 || tempshade >= pm.Shaders.Shader.Length || pm.Shaders.Shader[tempshade] == null)
+                    {
+                        continue;
+                    }
 
                     //Renderer.SetAlphaBlending(ShaderInfo.AlphaType.AlphaBlend, ref render.device);
                     Renderer.SetAlphaBlending(pm.Shaders.Shader[tempshade].Alpha, ref render.device);
@@ -4472,7 +4482,10 @@ namespace entity.Renderers
                     render.device.RenderState.FillMode = FillMode.Solid;
 
                     // render.device.SetTexture(0, meshtextures[i]);
-                    pm.Display.meshes[x].DrawSubset(xx);
+                    if (x < pm.Display.meshes.Length && pm.Display.meshes[x] != null)
+                    {
+                        pm.Display.meshes[x].DrawSubset(xx);
+                    }
                 }
             }
         }
