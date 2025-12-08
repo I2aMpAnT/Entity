@@ -69,6 +69,16 @@ namespace entity.Renderers
         private readonly bool theaterMode = false;
 
         /// <summary>
+        /// If true, automatically start in LIVE telemetry mode on startup.
+        /// </summary>
+        public bool StartInLiveMode { get; set; } = false;
+
+        /// <summary>
+        /// If set, automatically load this CSV file on startup.
+        /// </summary>
+        public string StartWithCsvFile { get; set; } = null;
+
+        /// <summary>
         /// The cam.
         /// </summary>
         public Camera2 cam;
@@ -3241,11 +3251,30 @@ namespace entity.Renderers
                 aspect = this.Width / (float)this.Height;
                 this.speedBar_Update();
 
-                // Show startup dialog for Theater Mode
+                // Handle Theater Mode startup
                 if (theaterMode && !startupDialogShown)
                 {
                     startupDialogShown = true;
-                    ShowTheaterStartupDialog();
+
+                    // Check if mode was pre-selected from Program.cs
+                    if (StartInLiveMode)
+                    {
+                        // Start LIVE mode automatically
+                        StartTelemetryListener();
+                        showLiveTelemetry = true;
+                        EnableTelemetryViewOptions();
+                        this.Text = "Theater Mode - LIVE (Waiting for data...)";
+                    }
+                    else if (!string.IsNullOrEmpty(StartWithCsvFile))
+                    {
+                        // Load CSV file automatically
+                        LoadPlayerPath(StartWithCsvFile);
+                    }
+                    else
+                    {
+                        // Show startup dialog if not pre-configured
+                        ShowTheaterStartupDialog();
+                    }
                 }
 
                 // While the form is still valid, render and process messages

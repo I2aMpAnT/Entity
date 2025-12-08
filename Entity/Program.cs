@@ -158,32 +158,96 @@ namespace entity
             }
         }
 
+        private enum TheaterSubMode
+        {
+            Cancelled,
+            Live,
+            Replay
+        }
+
         /// <summary>
-        /// Launches Theater Mode directly by prompting for a map file.
+        /// Launches Theater Mode by first asking LIVE or REPLAY.
         /// </summary>
         private static void LaunchTheaterMode()
         {
-            // First, prompt for map file selection
+            // First, ask LIVE or REPLAY
+            TheaterSubMode subMode = ShowTheaterSubModeSelector();
+
+            if (subMode == TheaterSubMode.Cancelled)
+                return;
+
             string mapFilePath = null;
+            string csvFilePath = null;
 
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            if (subMode == TheaterSubMode.Replay)
             {
-                ofd.Title = "Select a Halo 2 Map for Theater Mode";
-                ofd.Filter = "Halo Map Files (*.map)|*.map|All Files (*.*)|*.*";
+                // REPLAY mode - pick CSV file first
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Title = "Select Telemetry CSV File";
+                    ofd.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
 
-                // Try to use saved maps folder
+                    if (ofd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    csvFilePath = ofd.FileName;
+                }
+
+                // Try to detect map name from CSV
+                string detectedMap = DetectMapFromCsv(csvFilePath);
+                if (!string.IsNullOrEmpty(detectedMap))
+                {
+                    mapFilePath = FindMapFile(detectedMap);
+                }
+
+                // If no map detected, ask user to pick one
+                if (string.IsNullOrEmpty(mapFilePath))
+                {
+                    using (OpenFileDialog ofd = new OpenFileDialog())
+                    {
+                        ofd.Title = "Select Map File (could not auto-detect from CSV)";
+                        ofd.Filter = "Halo Map Files (*.map)|*.map|All Files (*.*)|*.*";
+
+                        string mapsFolder = Globals.Prefs.pathMapsFolder;
+                        if (!string.IsNullOrEmpty(mapsFolder) && Directory.Exists(mapsFolder))
+                            ofd.InitialDirectory = mapsFolder;
+
+                        if (ofd.ShowDialog() != DialogResult.OK)
+                            return;
+
+                        mapFilePath = ofd.FileName;
+                    }
+                }
+            }
+            else // LIVE mode
+            {
+                // For LIVE mode, we need a default map to start with
+                // Try to find any map in the maps folder
                 string mapsFolder = Globals.Prefs.pathMapsFolder;
                 if (!string.IsNullOrEmpty(mapsFolder) && Directory.Exists(mapsFolder))
                 {
-                    ofd.InitialDirectory = mapsFolder;
+                    string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map");
+                    if (mapFiles.Length > 0)
+                    {
+                        // Use first available map as placeholder (will auto-switch when telemetry arrives)
+                        mapFilePath = mapFiles[0];
+                    }
                 }
 
-                if (ofd.ShowDialog() != DialogResult.OK)
+                // If no maps folder configured or no maps found, ask user
+                if (string.IsNullOrEmpty(mapFilePath))
                 {
-                    return; // User cancelled
-                }
+                    using (OpenFileDialog ofd = new OpenFileDialog())
+                    {
+                        ofd.Title = "Select Initial Map (will auto-switch based on telemetry)";
+                        ofd.Filter = "Halo Map Files (*.map)|*.map|All Files (*.*)|*.*";
 
-                mapFilePath = ofd.FileName;
+                        if (ofd.ShowDialog() != DialogResult.OK)
+                            return;
+
+                        mapFilePath = ofd.FileName;
+                    }
+                }
             }
 
             try
@@ -211,6 +275,17 @@ namespace entity
 
                 // Launch BSPViewer in Theater Mode
                 BSPViewer theaterViewer = new BSPViewer(bsp, map, theaterMode: true);
+
+                // Set the mode so BSPViewer knows what to do on startup
+                if (subMode == TheaterSubMode.Live)
+                {
+                    theaterViewer.StartInLiveMode = true;
+                }
+                else if (subMode == TheaterSubMode.Replay && !string.IsNullOrEmpty(csvFilePath))
+                {
+                    theaterViewer.StartWithCsvFile = csvFilePath;
+                }
+
                 Application.Run(theaterViewer);
 
                 meta.Dispose();
@@ -219,6 +294,157 @@ namespace entity
             {
                 MessageBox.Show($"Error launching Theater Mode: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Shows the LIVE/REPLAY selector for Theater Mode.
+        /// </summary>
+        private static TheaterSubMode ShowTheaterSubModeSelector()
+        {
+            using (Form dialog = new Form())
+            {
+                TheaterSubMode selectedMode = TheaterSubMode.Cancelled;
+
+                dialog.Text = "Theater Mode";
+                dialog.Size = new Size(400, 220);
+                dialog.StartPosition = FormStartPosition.CenterScreen;
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.MaximizeBox = false;
+                dialog.MinimizeBox = false;
+                dialog.BackColor = Color.FromArgb(20, 30, 40);
+
+                // Title label
+                Label titleLabel = new Label();
+                titleLabel.Text = "Select Source";
+                titleLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+                titleLabel.ForeColor = Color.FromArgb(0, 200, 255);
+                titleLabel.AutoSize = true;
+                titleLabel.Location = new Point(135, 15);
+                dialog.Controls.Add(titleLabel);
+
+                // LIVE button
+                Button btnLive = new Button();
+                btnLive.Text = "🔴 LIVE";
+                btnLive.Font = new Font("Segoe UI", 14, FontStyle.Bold);
+                btnLive.Size = new Size(160, 80);
+                btnLive.Location = new Point(25, 60);
+                btnLive.BackColor = Color.FromArgb(40, 60, 80);
+                btnLive.ForeColor = Color.FromArgb(255, 100, 100);
+                btnLive.FlatStyle = FlatStyle.Flat;
+                btnLive.FlatAppearance.BorderColor = Color.FromArgb(255, 80, 80);
+                btnLive.FlatAppearance.BorderSize = 2;
+                btnLive.Click += (s, e) => { selectedMode = TheaterSubMode.Live; dialog.Close(); };
+                dialog.Controls.Add(btnLive);
+
+                // REPLAY button
+                Button btnReplay = new Button();
+                btnReplay.Text = "📁 REPLAY";
+                btnReplay.Font = new Font("Segoe UI", 14, FontStyle.Bold);
+                btnReplay.Size = new Size(160, 80);
+                btnReplay.Location = new Point(210, 60);
+                btnReplay.BackColor = Color.FromArgb(40, 60, 80);
+                btnReplay.ForeColor = Color.FromArgb(100, 200, 255);
+                btnReplay.FlatStyle = FlatStyle.Flat;
+                btnReplay.FlatAppearance.BorderColor = Color.FromArgb(0, 150, 200);
+                btnReplay.FlatAppearance.BorderSize = 2;
+                btnReplay.Click += (s, e) => { selectedMode = TheaterSubMode.Replay; dialog.Close(); };
+                dialog.Controls.Add(btnReplay);
+
+                // Description labels
+                Label liveDesc = new Label();
+                liveDesc.Text = "Listen for live\ntelemetry data";
+                liveDesc.Font = new Font("Segoe UI", 9);
+                liveDesc.ForeColor = Color.FromArgb(180, 180, 180);
+                liveDesc.TextAlign = ContentAlignment.MiddleCenter;
+                liveDesc.Size = new Size(160, 35);
+                liveDesc.Location = new Point(25, 145);
+                dialog.Controls.Add(liveDesc);
+
+                Label replayDesc = new Label();
+                replayDesc.Text = "Browse for\nCSV telemetry files";
+                replayDesc.Font = new Font("Segoe UI", 9);
+                replayDesc.ForeColor = Color.FromArgb(180, 180, 180);
+                replayDesc.TextAlign = ContentAlignment.MiddleCenter;
+                replayDesc.Size = new Size(160, 35);
+                replayDesc.Location = new Point(210, 145);
+                dialog.Controls.Add(replayDesc);
+
+                dialog.ShowDialog();
+                return selectedMode;
+            }
+        }
+
+        /// <summary>
+        /// Tries to detect map name from CSV file by reading first few lines.
+        /// </summary>
+        private static string DetectMapFromCsv(string csvFilePath)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(csvFilePath))
+                {
+                    // Read header line
+                    string header = reader.ReadLine();
+                    if (string.IsNullOrEmpty(header))
+                        return null;
+
+                    // Find mapname column index
+                    string[] columns = header.ToLowerInvariant().Split(',');
+                    int mapIndex = -1;
+                    for (int i = 0; i < columns.Length; i++)
+                    {
+                        if (columns[i].Trim() == "mapname")
+                        {
+                            mapIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (mapIndex < 0)
+                        return null;
+
+                    // Read first data line
+                    string dataLine = reader.ReadLine();
+                    if (string.IsNullOrEmpty(dataLine))
+                        return null;
+
+                    string[] values = dataLine.Split(',');
+                    if (values.Length > mapIndex)
+                    {
+                        return values[mapIndex].Trim();
+                    }
+                }
+            }
+            catch { }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Finds a map file matching the given map name.
+        /// </summary>
+        private static string FindMapFile(string mapName)
+        {
+            string mapsFolder = Globals.Prefs.pathMapsFolder;
+            if (string.IsNullOrEmpty(mapsFolder) || !Directory.Exists(mapsFolder))
+                return null;
+
+            string normalizedName = mapName.ToLowerInvariant().Replace(" ", "");
+
+            string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map");
+            foreach (string filePath in mapFiles)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(filePath).ToLowerInvariant();
+                if (fileName == normalizedName ||
+                    fileName.Replace("_", "") == normalizedName ||
+                    normalizedName.Contains(fileName) ||
+                    fileName.Contains(normalizedName))
+                {
+                    return filePath;
+                }
+            }
+
+            return null;
         }
 
         // Handle the UI exceptions by showing a dialog box, and asking the user whether
