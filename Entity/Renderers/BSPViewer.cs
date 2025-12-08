@@ -10637,7 +10637,14 @@ namespace entity.Renderers
                     {
                         // Get texture dimensions for proper centering
                         SurfaceDescription desc = weaponTexture.GetLevelDescription(0);
-                        float scale = weaponSize / (float)desc.Width;
+
+                        // Scale to fit within available space (with margin)
+                        float maxWidth = weaponSize;
+                        float maxHeight = weaponGap - 6; // 3px margin on each side
+                        float scaleW = maxWidth / (float)desc.Width;
+                        float scaleH = maxHeight / (float)desc.Height;
+                        float scale = Math.Min(scaleW, scaleH); // Use smaller scale to fit both dimensions
+
                         float scaledWidth = desc.Width * scale;
                         float scaledHeight = desc.Height * scale;
 
