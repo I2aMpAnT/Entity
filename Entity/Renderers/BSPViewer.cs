@@ -9733,19 +9733,22 @@ namespace entity.Renderers
         private void SetDefaultColumnOrder()
         {
             csvColumnIndices.Clear();
-            // Matches actual telemetry sender format (36 columns):
-            // 1-5: Timestamp, PlayerName, Team, XboxId, MachineId
-            // 6-11: EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary
-            // 12-18: PosX, PosY, PosZ, VelX, VelY, VelZ, Speed
-            // 19-22: Yaw, Pitch, YawDeg, PitchDeg
-            // 23-28: IsDead, RespawnTimer, IsCrouching, CrouchBlend, IsAirborne, AirborneTicks
-            // 29-32: WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades
-            // 33-36: Kills, Deaths, Assists, Event
+            // Matches actual telemetry sender format (38 columns):
+            // 1-3: Timestamp, MapName, GameType
+            // 4-8: PlayerName, Team, XboxId, MachineId
+            // 9-14: EmblemFg, EmblemBg, ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary
+            // 15-21: PosX, PosY, PosZ, VelX, VelY, VelZ, Speed
+            // 22-25: Yaw, Pitch, YawDeg, PitchDeg
+            // 26-27: Health, Shield
+            // 28-33: IsDead, RespawnTimer, IsCrouching, CrouchBlend, IsAirborne, AirborneTicks
+            // 34-37: WeaponSlot, CurrentWeapon, FragGrenades, PlasmaGrenades
+            // 38-41: Kills, Deaths, Assists, Event
             string[] columns = {
-                "timestamp", "playername", "team", "xboxid", "machineid",
+                "timestamp", "mapname", "gametype", "playername", "team", "xboxid", "machineid",
                 "emblemfg", "emblembg", "colorprimary", "colorsecondary", "colortertiary", "colorquaternary",
                 "posx", "posy", "posz", "velx", "vely", "velz", "speed",
                 "yaw", "pitch", "yawdeg", "pitchdeg",
+                "health", "shield",
                 "isdead", "respawntimer", "iscrouching", "crouchblend", "isairborne", "airborneticks",
                 "weaponslot", "currentweapon", "fraggrenades", "plasmagrenades",
                 "kills", "deaths", "assists", "event"

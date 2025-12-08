@@ -635,12 +635,13 @@
 
                 // Construct from raw emblem data (check multiple field name formats)
                 // P=primary, S=secondary, EP=emblem primary (tertiary), ES=emblem secondary (quaternary), EF=foreground, EB=background
-                const p = player.PrimaryColor ?? player.primary_color ?? player.color_primary ?? 0;
-                const s = player.SecondaryColor ?? player.secondary_color ?? player.color_secondary ?? 0;
-                const ep = player.TertiaryColor ?? player.tertiary_color ?? player.color_tertiary ?? 0;
-                const es = player.QuaternaryColor ?? player.quaternary_color ?? player.color_quaternary ?? 0;
-                const ef = player.EmblemForeground ?? player.emblem_foreground ?? player.emblem_fg ?? 0;
-                const eb = player.EmblemBackground ?? player.emblem_background ?? player.emblem_bg ?? 0;
+                // HaloCaster uses: ColorPrimary, ColorSecondary, ColorTertiary, ColorQuaternary, EmblemFg, EmblemBg
+                const p = player.ColorPrimary ?? player.PrimaryColor ?? player.primary_color ?? player.color_primary ?? 0;
+                const s = player.ColorSecondary ?? player.SecondaryColor ?? player.secondary_color ?? player.color_secondary ?? 0;
+                const ep = player.ColorTertiary ?? player.TertiaryColor ?? player.tertiary_color ?? player.color_tertiary ?? 0;
+                const es = player.ColorQuaternary ?? player.QuaternaryColor ?? player.quaternary_color ?? player.color_quaternary ?? 0;
+                const ef = player.EmblemFg ?? player.EmblemForeground ?? player.emblem_foreground ?? player.emblem_fg ?? 0;
+                const eb = player.EmblemBg ?? player.EmblemBackground ?? player.emblem_background ?? player.emblem_bg ?? 0;
 
                 return `${window.config.emblemServiceUrl}/P${p}-S${s}-EP${ep}-ES${es}-EF${ef}-EB${eb}-ET0.png`;
             }
