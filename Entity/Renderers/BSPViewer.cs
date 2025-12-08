@@ -10376,6 +10376,10 @@ namespace entity.Renderers
                 // Check if player is dead (using IsDead field from telemetry)
                 bool isDead = player.IsDead;
 
+                // Skip dead players at position 0,0,0 (waiting to respawn - no valid position)
+                if (isDead && Math.Abs(player.PosX) < 0.01f && Math.Abs(player.PosY) < 0.01f && Math.Abs(player.PosZ) < 0.01f)
+                    continue;
+
                 // Ground offset to align model with floor
                 float groundOffset = -0.2f;
 
