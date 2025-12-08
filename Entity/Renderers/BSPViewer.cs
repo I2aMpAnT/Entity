@@ -1146,6 +1146,107 @@ namespace entity.Renderers
             }
         }
 
+        /// <summary>
+        /// Whether the startup dialog has been shown yet.
+        /// </summary>
+        private bool startupDialogShown = false;
+
+        /// <summary>
+        /// Shows the Theater Mode startup dialog asking for LIVE or REPLAY mode.
+        /// </summary>
+        /// <returns>True if user selected an option, false if cancelled.</returns>
+        private bool ShowTheaterStartupDialog()
+        {
+            using (Form startupDialog = new Form())
+            {
+                startupDialog.Text = "Theater Mode";
+                startupDialog.Size = new Size(400, 220);
+                startupDialog.StartPosition = FormStartPosition.CenterScreen;
+                startupDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                startupDialog.MaximizeBox = false;
+                startupDialog.MinimizeBox = false;
+                startupDialog.BackColor = Color.FromArgb(20, 30, 40);
+
+                // Title label
+                Label titleLabel = new Label();
+                titleLabel.Text = "Select Mode";
+                titleLabel.Font = new System.Drawing.Font("Segoe UI", 16, FontStyle.Bold);
+                titleLabel.ForeColor = Color.FromArgb(0, 200, 255);
+                titleLabel.AutoSize = true;
+                titleLabel.Location = new Point(145, 15);
+                startupDialog.Controls.Add(titleLabel);
+
+                // LIVE button with red recording icon
+                System.Windows.Forms.Button btnLive = new System.Windows.Forms.Button();
+                btnLive.Text = "🔴 LIVE";
+                btnLive.Font = new System.Drawing.Font("Segoe UI", 14, FontStyle.Bold);
+                btnLive.Size = new Size(160, 80);
+                btnLive.Location = new Point(25, 60);
+                btnLive.BackColor = Color.FromArgb(40, 60, 80);
+                btnLive.ForeColor = Color.FromArgb(255, 100, 100);
+                btnLive.FlatStyle = FlatStyle.Flat;
+                btnLive.FlatAppearance.BorderColor = Color.FromArgb(255, 80, 80);
+                btnLive.FlatAppearance.BorderSize = 2;
+                btnLive.DialogResult = DialogResult.Yes;
+                btnLive.Click += (s, e) => startupDialog.Close();
+                startupDialog.Controls.Add(btnLive);
+
+                // REPLAY button with file icon
+                System.Windows.Forms.Button btnReplay = new System.Windows.Forms.Button();
+                btnReplay.Text = "📁 REPLAY";
+                btnReplay.Font = new System.Drawing.Font("Segoe UI", 14, FontStyle.Bold);
+                btnReplay.Size = new Size(160, 80);
+                btnReplay.Location = new Point(210, 60);
+                btnReplay.BackColor = Color.FromArgb(40, 60, 80);
+                btnReplay.ForeColor = Color.FromArgb(100, 200, 255);
+                btnReplay.FlatStyle = FlatStyle.Flat;
+                btnReplay.FlatAppearance.BorderColor = Color.FromArgb(0, 150, 200);
+                btnReplay.FlatAppearance.BorderSize = 2;
+                btnReplay.DialogResult = DialogResult.No;
+                btnReplay.Click += (s, e) => startupDialog.Close();
+                startupDialog.Controls.Add(btnReplay);
+
+                // Description labels
+                Label liveDesc = new Label();
+                liveDesc.Text = "Listen for live\ntelemetry data";
+                liveDesc.Font = new System.Drawing.Font("Segoe UI", 9);
+                liveDesc.ForeColor = Color.FromArgb(180, 180, 180);
+                liveDesc.TextAlign = ContentAlignment.MiddleCenter;
+                liveDesc.Size = new Size(160, 35);
+                liveDesc.Location = new Point(25, 145);
+                startupDialog.Controls.Add(liveDesc);
+
+                Label replayDesc = new Label();
+                replayDesc.Text = "Browse for\nCSV telemetry files";
+                replayDesc.Font = new System.Drawing.Font("Segoe UI", 9);
+                replayDesc.ForeColor = Color.FromArgb(180, 180, 180);
+                replayDesc.TextAlign = ContentAlignment.MiddleCenter;
+                replayDesc.Size = new Size(160, 35);
+                replayDesc.Location = new Point(210, 145);
+                startupDialog.Controls.Add(replayDesc);
+
+                DialogResult result = startupDialog.ShowDialog();
+
+                if (result == DialogResult.Yes)
+                {
+                    // LIVE mode - start telemetry listener
+                    StartTelemetryListener();
+                    showLiveTelemetry = true;
+                    EnableTelemetryViewOptions();
+                    this.Text = "Theater Mode - LIVE (Waiting for data...)";
+                    return true;
+                }
+                else if (result == DialogResult.No)
+                {
+                    // REPLAY mode - show file open dialog
+                    LoadPlayerPathDialog();
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
         // UI controls that need to be updated when path is loaded
         private ToolStripDropDownButton pathPlayerDropdown;
         private ToolStripComboBox povPlayerDropdown;
@@ -3139,6 +3240,13 @@ namespace entity.Renderers
 
                 aspect = this.Width / (float)this.Height;
                 this.speedBar_Update();
+
+                // Show startup dialog for Theater Mode
+                if (theaterMode && !startupDialogShown)
+                {
+                    startupDialogShown = true;
+                    ShowTheaterStartupDialog();
+                }
 
                 // While the form is still valid, render and process messages
                 while (frm.Created)
@@ -9716,14 +9824,22 @@ namespace entity.Renderers
             PlayerTelemetry telemetry = ParseTelemetryLine(parts, csvColumnIndices);
             if (telemetry != null)
             {
-                // Check for map change
+                // Check for map change (or initial map detection)
                 if (!string.IsNullOrEmpty(telemetry.MapName))
                 {
                     string newMapName = telemetry.MapName.Trim();
                     if (currentTelemetryMapName == null)
                     {
+                        // First time we see a map name - auto-load it
                         currentTelemetryMapName = newMapName;
-                        AddDebugLog($"[MAP] Initial map: {newMapName}");
+                        AddDebugLog($"[MAP] Initial map detected: {newMapName}");
+                        // Check if current map matches, if not auto-load
+                        string currentMapFile = map?.MapHeader?.mapName?.ToLowerInvariant() ?? "";
+                        if (!currentMapFile.Contains(newMapName.ToLowerInvariant().Replace(" ", "")))
+                        {
+                            AddDebugLog($"[MAP] Auto-loading initial map: {newMapName}");
+                            TryLoadMapByName(newMapName);
+                        }
                     }
                     else if (!currentTelemetryMapName.Equals(newMapName, StringComparison.OrdinalIgnoreCase))
                     {
@@ -9873,9 +9989,17 @@ namespace entity.Renderers
         /// <param name="mapFilePath">Full path to the .map file.</param>
         private void LoadNewMap(string mapFilePath)
         {
+            Meta meta = null;
             try
             {
                 AddDebugLog($"[MAP] Loading new map: {mapFilePath}");
+
+                // Check if render device is available
+                if (render?.device == null)
+                {
+                    AddDebugLog("[MAP] Render device not available, cannot switch map");
+                    return;
+                }
 
                 // Load the new map
                 Map newMap = Map.LoadFromFile(mapFilePath);
@@ -9885,29 +10009,69 @@ namespace entity.Renderers
                     return;
                 }
 
-                // Update the map reference
-                this.map = newMap;
+                // Verify BSP data exists
+                if (newMap.BSP?.sbsp == null || newMap.BSP.sbsp.Length == 0)
+                {
+                    AddDebugLog("[MAP] Map has no BSP data");
+                    return;
+                }
 
                 // Get the BSP tag index and create BSPModel
-                int BSPId = map.Functions.ForMeta.FindMetaByID(map.BSP.sbsp[0].ident);
-                Meta meta = new Meta(map);
+                int BSPId = newMap.Functions.ForMeta.FindMetaByID(newMap.BSP.sbsp[0].ident);
+                if (BSPId < 0)
+                {
+                    AddDebugLog("[MAP] Could not find BSP meta");
+                    return;
+                }
+
+                meta = new Meta(newMap);
                 meta.TagIndex = BSPId;
                 meta.ScanMetaItems(true, false);
-                bsp = new BSPModel(ref meta);
 
-                // Reload spawns
-                spawns = new SpawnLoads(map, bsp, render.device);
+                BSPModel newBsp = new BSPModel(ref meta);
+                if (newBsp == null)
+                {
+                    AddDebugLog("[MAP] Failed to create BSP model");
+                    return;
+                }
+
+                // Successfully created BSP, now update references
+                this.map = newMap;
+                this.bsp = newBsp;
+
+                // Try to reload spawns (non-critical if it fails)
+                try
+                {
+                    spawns = new SpawnLoads(map, bsp, render.device);
+                }
+                catch (Exception spawnEx)
+                {
+                    AddDebugLog($"[MAP] Warning: Could not load spawns: {spawnEx.Message}");
+                }
 
                 // Update title to reflect new map
                 this.Text = $"Theater Mode - {map.MapHeader.mapName}";
 
-                AddDebugLog($"[MAP] Successfully switched to: {map.MapHeader.mapName}");
+                // Reset camera to center of new map
+                if (cam != null)
+                {
+                    setCameraPosition(
+                        (bsp.maxBoundries.X - bsp.minBoundries.X) / 2 + bsp.minBoundries.X,
+                        (bsp.maxBoundries.Y - bsp.minBoundries.Y) / 2 + bsp.minBoundries.Y,
+                        (bsp.maxBoundries.Z - bsp.minBoundries.Z) / 2 + bsp.minBoundries.Z,
+                        false);
+                }
 
-                meta.Dispose();
+                AddDebugLog($"[MAP] Successfully switched to: {map.MapHeader.mapName}");
             }
             catch (Exception ex)
             {
-                AddDebugLog($"[MAP] Error switching map: {ex.Message}");
+                AddDebugLog($"[MAP] Error switching map: {ex.Message}\n{ex.StackTrace}");
+            }
+            finally
+            {
+                // Dispose meta after we're done with it
+                meta?.Dispose();
             }
         }
 
