@@ -2612,6 +2612,12 @@ namespace HaloMap.RawData
             public static void Draw(
                 ref Device device, ref BSPModel bsp, bool Textured, ref Camera2 cam, DXShader shaderx)
             {
+                // Null checks to prevent crashes when map data is not fully loaded
+                if (bsp == null || bsp.Display == null || bsp.Display.vertexBuffer == null ||
+                    bsp.Display.indexBuffer == null || bsp.BSPRawDataMetaChunks == null || bsp.Shaders == null)
+                {
+                    return;
+                }
 
                 Optimization opt = new Optimization(device);
 
@@ -2633,6 +2639,13 @@ namespace HaloMap.RawData
                     if (bsp.cameraCulling && !opt.IsInViewFrustum(bsp.BSPRawDataMetaChunks[rawindex]))
                         continue;
 
+                    // Bounds check for vertex/index buffers
+                    if (rawindex >= bsp.Display.vertexBuffer.Length || rawindex >= bsp.Display.indexBuffer.Length ||
+                        bsp.Display.vertexBuffer[rawindex] == null || bsp.Display.indexBuffer[rawindex] == null)
+                    {
+                        continue;
+                    }
+
                     device.SetStreamSource(0, bsp.Display.vertexBuffer[rawindex], 0);
                     device.VertexFormat = HaloBSPVertex.FVF;
                     device.Indices = bsp.Display.indexBuffer[rawindex];
@@ -2640,6 +2653,13 @@ namespace HaloMap.RawData
                     {
                         ResetTextureStates(ref device);
                         int tempshade = bsp.BSPRawDataMetaChunks[rawindex].SubMeshInfo[xx].ShaderNumber;
+
+                        // Validate shader index
+                        if (bsp.Shaders.Shader == null || tempshade < 0 || tempshade >= bsp.Shaders.Shader.Length ||
+                            bsp.Shaders.Shader[tempshade] == null)
+                        {
+                            continue;
+                        }
 
                         #region AlphaBlending
 
