@@ -463,6 +463,11 @@ namespace entity.Renderers
         private bool showPathTrail = false;
 
         /// <summary>
+        /// Whether to show player names above players.
+        /// </summary>
+        private bool showPlayerNames = true;
+
+        /// <summary>
         /// Path display mode for cycling through different views.
         /// </summary>
         private enum PathDisplayMode
@@ -1401,6 +1406,16 @@ namespace entity.Renderers
                 btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
             };
             toolStrip.Items.Add(btnTrail);
+
+            // Names toggle button
+            ToolStripButton btnNames = new ToolStripButton();
+            btnNames.Text = "Names: ON";
+            btnNames.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnNames.Click += (s, e) => {
+                showPlayerNames = !showPlayerNames;
+                btnNames.Text = showPlayerNames ? "Names: ON" : "Names: OFF";
+            };
+            toolStrip.Items.Add(btnNames);
 
             // FOV control
             ToolStripLabel lblFOV = new ToolStripLabel();
@@ -10535,7 +10550,7 @@ namespace entity.Renderers
                 {
                     Color teamColor = GetTeamColor(player.Team);
                     int centerX = (int)screenPos.X;
-                    int topY = (int)screenPos.Y;
+                    int currentY = (int)screenPos.Y;
 
                     // Determine border color based on events
                     Color borderColor = Color.White; // Default
@@ -10552,13 +10567,19 @@ namespace entity.Renderers
                         }
                     }
 
-                    // Get emblem texture (load async if not cached)
-                    string emblemKey = GetEmblemKey(player);
-                    Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
-
+                    // Layout from top to bottom: Emblem -> Weapon -> Name -> Arrow
+                    // All centered on centerX
                     int emblemSize = 32;
+                    int weaponSize = 16;
+                    int spacing = 4;
+
+                    // Calculate starting Y position (work backwards from currentY)
+                    int totalHeight = emblemSize + spacing + weaponSize;
+                    if (showPlayerNames) totalHeight += spacing + 20; // name height
+                    totalHeight += spacing + 16; // arrow height
+
+                    int emblemY = currentY - totalHeight;
                     int emblemX = centerX - emblemSize / 2;
-                    int emblemY = topY - emblemSize - 8;
 
                     if (isDead)
                     {
@@ -10574,10 +10595,9 @@ namespace entity.Renderers
                         {
                             line.Width = emblemSize + 8;
                             line.Begin();
-                            // Draw border
                             Vector2[] borderPts = {
-                                new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY - 4),
-                                new Vector2(emblemX - 4 + (emblemSize + 8) / 2, emblemY + emblemSize + 4)
+                                new Vector2(centerX, emblemY - 4),
+                                new Vector2(centerX, emblemY + emblemSize + 4)
                             };
                             line.Draw(borderPts, borderColor);
                             line.End();
@@ -10593,10 +10613,12 @@ namespace entity.Renderers
                             line.End();
                         }
 
-                        // Draw emblem texture if available (scale to fit emblemSize)
+                        // Draw emblem texture if available
+                        string emblemKey = GetEmblemKey(player);
+                        Texture emblemTexture = GetOrLoadEmblemTexture(player, emblemKey);
                         if (emblemTexture != null && !emblemTexture.Disposed)
                         {
-                            float emblemScale = emblemSize / 256.0f; // Scale to 25% of current
+                            float emblemScale = emblemSize / 256.0f;
                             emblemSprite.Begin(SpriteFlags.AlphaBlend);
                             emblemSprite.Transform = Matrix.Scaling(emblemScale, emblemScale, 1f) * Matrix.Translation(emblemX, emblemY, 0);
                             emblemSprite.Draw(emblemTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
@@ -10605,28 +10627,33 @@ namespace entity.Renderers
                         }
                     }
 
-                    // Draw player name
-                    int nameY = topY;
-                    playerNameFont.DrawText(null, player.PlayerName,
-                        new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
-                        DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
-
-                    // Draw weapon icon after player name (scaled to 16px)
+                    // Draw weapon icon below emblem (centered)
+                    int weaponY = emblemY + emblemSize + spacing;
                     Texture weaponTexture = GetOrLoadWeaponTexture(player.CurrentWeapon);
                     if (weaponTexture != null && !weaponTexture.Disposed)
                     {
-                        float scale = 0.25f; // Scale down weapon icons
+                        float scale = weaponSize / 64.0f; // Assuming 64px source
+                        int weaponX = centerX - weaponSize / 2;
                         emblemSprite.Begin(SpriteFlags.AlphaBlend);
-                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(centerX + 50, nameY - 4, 0);
+                        emblemSprite.Transform = Matrix.Scaling(scale, scale, 1f) * Matrix.Translation(weaponX, weaponY, 0);
                         emblemSprite.Draw(weaponTexture, Vector3.Empty, Vector3.Empty, Color.White.ToArgb());
-                        emblemSprite.Transform = Matrix.Identity; // Reset
+                        emblemSprite.Transform = Matrix.Identity;
                         emblemSprite.End();
                     }
 
-                    // Draw blue waypoint arrow below name pointing down at player
-                    int arrowY = nameY + 20;
+                    // Draw player name below weapon (if enabled)
+                    int nameY = weaponY + weaponSize + spacing;
+                    if (showPlayerNames)
+                    {
+                        playerNameFont.DrawText(null, player.PlayerName,
+                            new System.Drawing.Rectangle(centerX - 80, nameY, 160, 24),
+                            DrawTextFormat.Center | DrawTextFormat.NoClip, teamColor);
+                        nameY += 20 + spacing;
+                    }
+
+                    // Draw blue waypoint arrow at bottom pointing down at player
                     playerNameFont.DrawText(null, "▼",
-                        new System.Drawing.Rectangle(centerX - 20, arrowY, 40, 20),
+                        new System.Drawing.Rectangle(centerX - 20, nameY, 40, 20),
                         DrawTextFormat.Center | DrawTextFormat.NoClip, Color.CornflowerBlue);
                 }
             }
