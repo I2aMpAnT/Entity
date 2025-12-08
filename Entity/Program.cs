@@ -502,7 +502,12 @@ namespace entity
 
                 Application.Run(theaterViewer);
 
-                meta.Dispose();
+                // Cleanup - ignore errors during disposal as form may already be disposed
+                try { meta.Dispose(); } catch { }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Form was closed - this is normal, ignore it
             }
             catch (Exception ex)
             {
