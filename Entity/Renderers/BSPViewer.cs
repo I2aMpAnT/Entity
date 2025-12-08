@@ -10570,8 +10570,8 @@ namespace entity.Renderers
                     // Layout from top to bottom: Emblem -> Weapon -> Name -> Arrow
                     // All centered on centerX
                     int emblemSize = 32;
-                    int weaponSize = 20;
-                    int weaponGap = 28; // Gap between emblem and name where weapon sits (centered)
+                    int weaponSize = 40;
+                    int weaponGap = 52; // Gap between emblem and name where weapon sits (centered)
                     int nameHeight = 20;
                     int arrowHeight = 16;
                     int smallSpacing = 2;
