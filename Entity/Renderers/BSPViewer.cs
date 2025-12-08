@@ -339,8 +339,10 @@ namespace entity.Renderers
         private struct KillEvent
         {
             public float Timestamp;
-            public string PlayerName;
-            public int Team;
+            public string KillerName;
+            public int KillerTeam;
+            public string VictimName;
+            public int VictimTeam;
             public string Weapon;
         }
         private List<KillEvent> killEvents = new List<KillEvent>();
@@ -349,6 +351,11 @@ namespace entity.Renderers
         /// Tracks previous kill count per player to detect new kills.
         /// </summary>
         private Dictionary<string, int> playerPrevKills = new Dictionary<string, int>();
+
+        /// <summary>
+        /// Tracks recent deaths for matching to kills.
+        /// </summary>
+        private List<(float Timestamp, string PlayerName, int Team)> recentDeaths = new List<(float, string, int)>();
 
         /// <summary>
         /// Current playback timestamp.
@@ -427,6 +434,26 @@ namespace entity.Renderers
         /// Whether to show the path trail.
         /// </summary>
         private bool showPathTrail = false;
+
+        /// <summary>
+        /// Path display mode for cycling through different views.
+        /// </summary>
+        private enum PathDisplayMode
+        {
+            AllPaths,           // Show all path segments for all lives
+            MostRecentLife,     // Show only the most recent life's path per player
+            DeathMarkersOnly    // Show death X markers at the end of each path segment
+        }
+
+        /// <summary>
+        /// Current path display mode.
+        /// </summary>
+        private PathDisplayMode currentPathMode = PathDisplayMode.AllPaths;
+
+        /// <summary>
+        /// Whether to show death X markers at the end of path segments.
+        /// </summary>
+        private bool showDeathMarkers = true;
 
         /// <summary>
         /// Field of view in degrees for theater mode camera.
@@ -621,6 +648,26 @@ namespace entity.Renderers
         /// Tracks previous position per player to detect respawn.
         /// </summary>
         private Dictionary<string, Vector3> playerPrevPosition = new Dictionary<string, Vector3>();
+
+        /// <summary>
+        /// Tracks last death timestamp per player for disconnect detection.
+        /// </summary>
+        private Dictionary<string, DateTime> playerLastDeathTimestamp = new Dictionary<string, DateTime>();
+
+        /// <summary>
+        /// Tracks all respawn times for average calculation.
+        /// </summary>
+        private List<float> allRespawnTimes = new List<float>();
+
+        /// <summary>
+        /// Average respawn time across all players.
+        /// </summary>
+        private float averageRespawnTime = 5.0f;
+
+        /// <summary>
+        /// Set of players considered disconnected (dead for 2x average respawn time).
+        /// </summary>
+        private HashSet<string> disconnectedPlayers = new HashSet<string>();
 
         /// <summary>
         /// Lock object for thread-safe access to live player data.
@@ -1079,6 +1126,7 @@ namespace entity.Renderers
         private TrackBar pathTimelineTrackBar;
         private Label pathTimeLabel;
         private ToolStripButton pathPlayPauseButton;
+        private ToolStripButton btnTrail;
 
         /// <summary>
         /// Initializes the player path playback UI controls.
@@ -1204,7 +1252,7 @@ namespace entity.Renderers
             toolStrip.Items.Add(new ToolStripSeparator());
 
             // Show Trail checkbox
-            ToolStripButton btnTrail = new ToolStripButton();
+            btnTrail = new ToolStripButton();
             btnTrail.Text = "Trail: OFF";
             btnTrail.DisplayStyle = ToolStripItemDisplayStyle.Text;
             btnTrail.Click += (s, e) => {
@@ -1229,10 +1277,48 @@ namespace entity.Renderers
             };
             toolStrip.Items.Add(txtFOV);
 
+            toolStrip.Items.Add(new ToolStripSeparator());
+
+            // Controls dropdown menu
+            ToolStripDropDownButton controlsBtn = new ToolStripDropDownButton();
+            controlsBtn.Text = "Controls";
+            controlsBtn.DisplayStyle = ToolStripItemDisplayStyle.Text;
+
+            // Keyboard controls section
+            ToolStripMenuItem keyboardHeader = new ToolStripMenuItem("─── Keyboard ───");
+            keyboardHeader.Enabled = false;
+            controlsBtn.DropDownItems.Add(keyboardHeader);
+
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Space - Play/Pause") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Left/Right - Skip ±5 sec") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("< / > - Skip ±1 tick") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Tab - Toggle Scoreboard") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("K - Toggle Killfeed") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("P - Cycle Path Mode") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("WASD - Camera Movement") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Mouse - Camera Look") { Enabled = false });
+
+            controlsBtn.DropDownItems.Add(new ToolStripSeparator());
+
+            // Controller controls section
+            ToolStripMenuItem controllerHeader = new ToolStripMenuItem("─── Controller ───");
+            controllerHeader.Enabled = false;
+            controlsBtn.DropDownItems.Add(controllerHeader);
+
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("A - Play/Pause") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Back - Toggle Scoreboard") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("D-Pad Up - Cycle Path Mode") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Left Stick - Camera Movement") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Right Stick - Camera Look") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Left Trigger - Speed Boost") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Right Trigger - Fast Forward") { Enabled = false });
+
+            toolStrip.Items.Add(controlsBtn);
+
             // Create timeline panel at bottom of form - Halo theater style
             Panel timelinePanel = new Panel();
             timelinePanel.Dock = DockStyle.Bottom;
-            timelinePanel.Height = 45;
+            timelinePanel.Height = 55;  // Increased from 45 to prevent top cutoff
             timelinePanel.BackColor = Color.FromArgb(15, 25, 35); // Dark blue-black
 
             // Add subtle top border
@@ -1247,7 +1333,7 @@ namespace entity.Renderers
             pathTimeLabel.ForeColor = Color.FromArgb(0, 200, 255); // Cyan
             pathTimeLabel.Font = new System.Drawing.Font("Segoe UI", 10, FontStyle.Bold);
             pathTimeLabel.AutoSize = true;
-            pathTimeLabel.Location = new Point(10, 14);
+            pathTimeLabel.Location = new Point(10, 18);  // Moved down from 14
             pathTimeLabel.BackColor = Color.Transparent;
             timelinePanel.Controls.Add(pathTimeLabel);
 
@@ -1256,8 +1342,8 @@ namespace entity.Renderers
             pathTimelineTrackBar.Maximum = 1000;
             pathTimelineTrackBar.Value = 0;
             pathTimelineTrackBar.TickStyle = TickStyle.None;
-            pathTimelineTrackBar.Location = new Point(100, 5);
-            pathTimelineTrackBar.Height = 30;
+            pathTimelineTrackBar.Location = new Point(100, 10);  // Moved down from 5
+            pathTimelineTrackBar.Height = 35;  // Increased from 30
             pathTimelineTrackBar.Scroll += PathTimelineTrackBar_Scroll;
             pathTimelineTrackBar.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left)
@@ -2274,8 +2360,8 @@ namespace entity.Renderers
                 var recentKills = filteredKills.Skip(Math.Max(0, filteredKills.Count - 10)).ToList();
                 foreach (var kill in recentKills)
                 {
-                    string teamName = kill.Team == 0 ? "Red" : kill.Team == 1 ? "Blue" : kill.Team == 2 ? "Green" : kill.Team == 3 ? "Orange" : "FFA";
-                    sb.AppendLine($"  T={kill.Timestamp:F1}: {kill.PlayerName} ({teamName}) - {kill.Weapon}");
+                    string teamName = kill.KillerTeam == 0 ? "Red" : kill.KillerTeam == 1 ? "Blue" : kill.KillerTeam == 2 ? "Green" : kill.KillerTeam == 3 ? "Orange" : "FFA";
+                    sb.AppendLine($"  T={kill.Timestamp:F1}: {kill.KillerName} killed {kill.VictimName} ({teamName}) - {kill.Weapon}");
                 }
                 if (!recentKills.Any())
                     sb.AppendLine("  (no kills yet)");
@@ -3093,6 +3179,86 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Handle gamepad button input for playback and UI controls.
+        /// </summary>
+        private void HandleGamepadInput()
+        {
+            if (cam == null || !cam.gamepadConnected)
+            {
+                return;
+            }
+
+            // A button - Toggle play/pause
+            if (cam.gamepadAPressed && theaterMode)
+            {
+                TogglePathPlayback();
+                if (pathPlayPauseButton != null)
+                {
+                    pathPlayPauseButton.Text = pathIsPlaying ? "|| Pause" : "> Play";
+                }
+            }
+
+            // Back/Select button - Toggle scoreboard
+            if (cam.gamepadBackPressed)
+            {
+                showScoreboard = !showScoreboard;
+            }
+
+            // Right trigger - Increase playback speed while held
+            if (cam.gamepadRightTrigger > 0.1f && theaterMode)
+            {
+                // Scale playback speed based on trigger pressure (1x to 10x)
+                float speedMultiplier = 1.0f + (cam.gamepadRightTrigger * 9.0f);
+                pathPlaybackSpeed = speedMultiplier;
+            }
+            else if (theaterMode && pathPlaybackSpeed > 1.0f && cam.gamepadRightTrigger <= 0.1f)
+            {
+                // Return to normal speed when trigger released
+                pathPlaybackSpeed = 1.0f;
+            }
+
+            // D-pad Up - Cycle path display mode
+            if (cam.gamepadDPadUpPressed && theaterMode)
+            {
+                CyclePathDisplayMode();
+            }
+        }
+
+        /// <summary>
+        /// Cycles through path display modes: All Paths -> Most Recent Life -> Death Markers Only
+        /// </summary>
+        private void CyclePathDisplayMode()
+        {
+            switch (currentPathMode)
+            {
+                case PathDisplayMode.AllPaths:
+                    currentPathMode = PathDisplayMode.MostRecentLife;
+                    showPathTrail = true;
+                    showDeathMarkers = false;
+                    AddDebugLog("Path Mode: Most Recent Life");
+                    break;
+                case PathDisplayMode.MostRecentLife:
+                    currentPathMode = PathDisplayMode.DeathMarkersOnly;
+                    showPathTrail = false;
+                    showDeathMarkers = true;
+                    AddDebugLog("Path Mode: Death Markers Only");
+                    break;
+                case PathDisplayMode.DeathMarkersOnly:
+                    currentPathMode = PathDisplayMode.AllPaths;
+                    showPathTrail = true;
+                    showDeathMarkers = true;
+                    AddDebugLog("Path Mode: All Paths + Death Markers");
+                    break;
+            }
+
+            // Update trail button text if it exists
+            if (btnTrail != null)
+            {
+                btnTrail.Text = showPathTrail ? "Trail: ON" : "Trail: OFF";
+            }
+        }
+
+        /// <summary>
         /// The move spawns with keyboard.
         /// </summary>
         /// <remarks></remarks>
@@ -3500,6 +3666,10 @@ namespace entity.Renderers
 
                     case Keys.K: // Toggle killfeed
                         showKillfeed = !showKillfeed;
+                        return true;
+
+                    case Keys.P: // Cycle path display mode
+                        CyclePathDisplayMode();
                         return true;
                 }
             }
@@ -4724,6 +4894,10 @@ namespace entity.Renderers
             {
                 this.speedBar_Update();
             }
+
+            // Poll gamepad and handle input
+            cam.PollGamepad();
+            HandleGamepadInput();
 
             MoveSpawnsWithKeyboard();
 
@@ -8652,22 +8826,49 @@ namespace entity.Renderers
                     int colorTertiary = getInt(parts, "colortertiary");
                     int colorQuaternary = getInt(parts, "colorquaternary");
                     int kills = getInt(parts, "kills");
+                    int deaths = getInt(parts, "deaths");
+
+                    // Track deaths for matching to kills
+                    if (!playerPrevDeaths.ContainsKey(playerName))
+                        playerPrevDeaths[playerName] = 0;
+                    if (deaths > playerPrevDeaths[playerName])
+                    {
+                        // Player died - add to recent deaths
+                        recentDeaths.Add((timestamp, playerName, team));
+                        // Keep only last 2 seconds of deaths
+                        recentDeaths.RemoveAll(d => timestamp - d.Timestamp > 2.0f);
+                        playerPrevDeaths[playerName] = deaths;
+                    }
 
                     // Track kill events
                     if (!playerPrevKills.ContainsKey(playerName))
                         playerPrevKills[playerName] = 0;
                     if (kills > playerPrevKills[playerName])
                     {
-                        // New kill(s) detected
+                        // New kill(s) detected - try to find victim from recent deaths
                         for (int k = 0; k < kills - playerPrevKills[playerName]; k++)
                         {
+                            // Find most recent death from another team (or any death in FFA)
+                            var victim = recentDeaths
+                                .Where(d => d.PlayerName != playerName && Math.Abs(d.Timestamp - timestamp) < 1.0f)
+                                .OrderByDescending(d => d.Timestamp)
+                                .FirstOrDefault();
+
                             killEvents.Add(new KillEvent
                             {
                                 Timestamp = timestamp,
-                                PlayerName = playerName,
-                                Team = team,
+                                KillerName = playerName,
+                                KillerTeam = team,
+                                VictimName = victim.PlayerName ?? "Unknown",
+                                VictimTeam = victim.Team,
                                 Weapon = weapon
                             });
+
+                            // Remove matched death
+                            if (!string.IsNullOrEmpty(victim.PlayerName))
+                            {
+                                recentDeaths.RemoveAll(d => d.PlayerName == victim.PlayerName && d.Timestamp == victim.Timestamp);
+                            }
                         }
                         playerPrevKills[playerName] = kills;
                     }
@@ -8980,8 +9181,18 @@ namespace entity.Renderers
                     if (hiddenPlayers.Contains(playerName))
                         continue;
 
-                    foreach (var segment in kvp.Value)
+                    var segments = kvp.Value;
+                    int startIdx = 0;
+
+                    // In MostRecentLife mode, only show the last segment
+                    if (currentPathMode == PathDisplayMode.MostRecentLife && segments.Count > 0)
                     {
+                        startIdx = segments.Count - 1;
+                    }
+
+                    for (int segIdx = startIdx; segIdx < segments.Count; segIdx++)
+                    {
+                        var segment = segments[segIdx];
                         if (segment.Count < 2) continue;
 
                         // Only draw points up to current timestamp
@@ -8997,6 +9208,57 @@ namespace entity.Renderers
                         {
                             render.device.DrawUserPrimitives(PrimitiveType.LineStrip, verts.Count - 1, verts.ToArray());
                         }
+                    }
+                }
+                render.device.RenderState.Lighting = true;
+            }
+
+            // Draw death X markers at the end of path segments (where players died)
+            if (showDeathMarkers)
+            {
+                render.device.SetTexture(0, null);
+                render.device.RenderState.Lighting = false;
+                render.device.VertexFormat = CustomVertex.PositionColored.Format;
+                render.device.Transform.World = Matrix.Identity;
+
+                foreach (var kvp in multiPlayerPaths)
+                {
+                    string playerName = kvp.Key;
+                    if (hiddenPlayers.Contains(playerName))
+                        continue;
+
+                    var segments = kvp.Value;
+
+                    // Draw X marker at the end of each segment except the last (current life)
+                    for (int segIdx = 0; segIdx < segments.Count - 1; segIdx++)
+                    {
+                        var segment = segments[segIdx];
+                        if (segment.Count == 0) continue;
+
+                        // Get the last point of this segment (death location)
+                        var deathPt = segment[segment.Count - 1];
+
+                        // Only draw if the death has occurred by current timestamp
+                        if (deathPt.Timestamp > pathCurrentTimestamp) continue;
+
+                        // Draw red X marker at death location
+                        float xSize = 0.3f;
+                        float zOffset = 0.1f; // Slightly above ground
+                        Color deathColor = Color.Red;
+                        int argb = deathColor.ToArgb();
+
+                        // Create X shape with two lines
+                        CustomVertex.PositionColored[] xVerts = new CustomVertex.PositionColored[]
+                        {
+                            // First diagonal line
+                            new CustomVertex.PositionColored(deathPt.X - xSize, deathPt.Y - xSize, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize, deathPt.Y + xSize, deathPt.Z + zOffset, argb),
+                            // Second diagonal line
+                            new CustomVertex.PositionColored(deathPt.X - xSize, deathPt.Y + xSize, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize, deathPt.Y - xSize, deathPt.Z + zOffset, argb),
+                        };
+
+                        render.device.DrawUserPrimitives(PrimitiveType.LineList, 2, xVerts);
                     }
                 }
                 render.device.RenderState.Lighting = true;
@@ -9397,7 +9659,56 @@ namespace entity.Renderers
             {
                 lock (livePlayersLock)
                 {
-                    livePlayers[telemetry.PlayerName] = telemetry;
+                    string playerName = telemetry.PlayerName;
+                    bool wasAlive = livePlayers.ContainsKey(playerName) && !livePlayers[playerName].IsDead;
+                    bool isNowDead = telemetry.IsDead;
+
+                    // Track death timestamp for disconnect detection
+                    if (!wasAlive && isNowDead)
+                    {
+                        // Player just died or is still dead
+                        if (!playerLastDeathTimestamp.ContainsKey(playerName))
+                        {
+                            playerLastDeathTimestamp[playerName] = telemetry.Timestamp;
+                        }
+                    }
+                    else if (wasAlive || !isNowDead)
+                    {
+                        // Player is alive - if they were dead, calculate respawn time
+                        if (playerLastDeathTimestamp.ContainsKey(playerName))
+                        {
+                            float respawnTime = (float)(telemetry.Timestamp - playerLastDeathTimestamp[playerName]).TotalSeconds;
+                            if (respawnTime > 0 && respawnTime < 60) // Valid respawn (< 60 seconds)
+                            {
+                                allRespawnTimes.Add(respawnTime);
+                                // Keep only last 50 respawns for average
+                                while (allRespawnTimes.Count > 50)
+                                {
+                                    allRespawnTimes.RemoveAt(0);
+                                }
+                                // Update average
+                                if (allRespawnTimes.Count > 0)
+                                {
+                                    averageRespawnTime = allRespawnTimes.Average();
+                                }
+                            }
+                            playerLastDeathTimestamp.Remove(playerName);
+                        }
+                        // Player respawned - remove from disconnected list
+                        disconnectedPlayers.Remove(playerName);
+                    }
+
+                    // Check for disconnect (dead for > 2x average respawn time)
+                    if (isNowDead && playerLastDeathTimestamp.ContainsKey(playerName))
+                    {
+                        float deadTime = (float)(telemetry.Timestamp - playerLastDeathTimestamp[playerName]).TotalSeconds;
+                        if (deadTime > averageRespawnTime * 2.0f)
+                        {
+                            disconnectedPlayers.Add(playerName);
+                        }
+                    }
+
+                    livePlayers[playerName] = telemetry;
                 }
                 // Update dropdowns if player list changed
                 UpdateLivePlayerDropdowns();
@@ -9593,6 +9904,10 @@ namespace entity.Renderers
             {
                 // Skip hidden players
                 if (hiddenPlayers.Contains(player.PlayerName))
+                    continue;
+
+                // Skip disconnected players (still show on scoreboard, just not in 3D view)
+                if (disconnectedPlayers.Contains(player.PlayerName))
                     continue;
 
                 Color teamColor = GetTeamColor(player.Team);
@@ -9975,6 +10290,7 @@ namespace entity.Renderers
                 // Team colors matching HTML
                 Color redTeamBg = Color.FromArgb(200, 197, 66, 69);    // #C54245 with alpha
                 Color blueTeamBg = Color.FromArgb(200, 65, 105, 168);  // #4169A8 with alpha
+                Color ffaBg = Color.FromArgb(180, 60, 60, 60);         // Grey for FFA
                 Color textColor = Color.White;
 
                 // Get player data
@@ -10012,57 +10328,76 @@ namespace entity.Renderers
                     }
                 }
 
-                // Separate by team
-                var redPlayers = players.Values.Where(p => p.Team == 0).OrderByDescending(p => p.Kills).ToList();
-                var bluePlayers = players.Values.Where(p => p.Team == 1).OrderByDescending(p => p.Kills).ToList();
+                // Count unique teams to determine game mode
+                var uniqueTeams = players.Values.Select(p => p.Team).Distinct().ToList();
+                bool isFFA = uniqueTeams.Count > 2 || (uniqueTeams.Count == players.Count && players.Count > 2);
 
                 int currentY = sbY;
 
-                // Calculate team scores (sum of kills for slayer)
-                int redScore = redPlayers.Sum(p => p.Kills);
-                int blueScore = bluePlayers.Sum(p => p.Kills);
-
-                // Draw Red Team Header
-                if (redPlayers.Count > 0)
+                if (isFFA)
                 {
-                    DrawFilledRect(sbX, currentY, sbWidth, headerHeight, redTeamBg);
-                    scoreboardHeaderFont.DrawText(null, "Red Team",
-                        new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
-                    scoreboardHeaderFont.DrawText(null, redScore.ToString(),
-                        new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
-                        DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
-                    currentY += headerHeight;
+                    // FFA Mode - All players sorted by kills, white text, grey background
+                    var allPlayers = players.Values.OrderByDescending(p => p.Kills).ToList();
+
+                    // Draw each player row
+                    foreach (var player in allPlayers)
+                    {
+                        DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, ffaBg);
+                        currentY += rowHeight + 2;
+                    }
                 }
-
-                // Draw Blue Team Header
-                if (bluePlayers.Count > 0)
+                else
                 {
-                    DrawFilledRect(sbX, currentY, sbWidth, headerHeight, blueTeamBg);
-                    scoreboardHeaderFont.DrawText(null, "Blue Team",
-                        new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
-                    scoreboardHeaderFont.DrawText(null, blueScore.ToString(),
-                        new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
-                        DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
-                    currentY += headerHeight;
-                }
+                    // Team Mode - Separate by team
+                    var redPlayers = players.Values.Where(p => p.Team == 0).OrderByDescending(p => p.Kills).ToList();
+                    var bluePlayers = players.Values.Where(p => p.Team == 1).OrderByDescending(p => p.Kills).ToList();
 
-                // Gap between headers and players
-                currentY += 6;
+                    // Calculate team scores (sum of kills for slayer)
+                    int redScore = redPlayers.Sum(p => p.Kills);
+                    int blueScore = bluePlayers.Sum(p => p.Kills);
 
-                // Draw Red Team Players
-                foreach (var player in redPlayers)
-                {
-                    DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, redTeamBg);
-                    currentY += rowHeight + 2;
-                }
+                    // Draw Red Team Header
+                    if (redPlayers.Count > 0)
+                    {
+                        DrawFilledRect(sbX, currentY, sbWidth, headerHeight, redTeamBg);
+                        scoreboardHeaderFont.DrawText(null, "Red Team",
+                            new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
+                            DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
+                        scoreboardHeaderFont.DrawText(null, redScore.ToString(),
+                            new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
+                            DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
+                        currentY += headerHeight;
+                    }
 
-                // Draw Blue Team Players
-                foreach (var player in bluePlayers)
-                {
-                    DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, blueTeamBg);
-                    currentY += rowHeight + 2;
+                    // Draw Blue Team Header
+                    if (bluePlayers.Count > 0)
+                    {
+                        DrawFilledRect(sbX, currentY, sbWidth, headerHeight, blueTeamBg);
+                        scoreboardHeaderFont.DrawText(null, "Blue Team",
+                            new Rectangle(sbX + 10, currentY + 4, sbWidth - 60, headerHeight),
+                            DrawTextFormat.Left | DrawTextFormat.VerticalCenter, textColor);
+                        scoreboardHeaderFont.DrawText(null, blueScore.ToString(),
+                            new Rectangle(sbX, currentY + 4, sbWidth - 10, headerHeight),
+                            DrawTextFormat.Right | DrawTextFormat.VerticalCenter, textColor);
+                        currentY += headerHeight;
+                    }
+
+                    // Gap between headers and players
+                    currentY += 6;
+
+                    // Draw Red Team Players
+                    foreach (var player in redPlayers)
+                    {
+                        DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, redTeamBg);
+                        currentY += rowHeight + 2;
+                    }
+
+                    // Draw Blue Team Players
+                    foreach (var player in bluePlayers)
+                    {
+                        DrawPlayerRow(sbX, currentY, sbWidth, rowHeight, player, blueTeamBg);
+                        currentY += rowHeight + 2;
+                    }
                 }
             }
             catch (Exception ex)
@@ -10145,43 +10480,89 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Draws the killfeed overlay.
+        /// Font for killfeed (bold).
+        /// </summary>
+        private Microsoft.DirectX.Direct3D.Font killfeedFont;
+
+        /// <summary>
+        /// Draws the killfeed overlay with fade effect.
         /// </summary>
         private void DrawKillfeed()
         {
             try
             {
-                if (scoreboardFont == null || scoreboardFont.Disposed)
+                // Use bold Highway Gothic style font
+                if (killfeedFont == null || killfeedFont.Disposed)
                 {
-                    scoreboardFont = new Microsoft.DirectX.Direct3D.Font(render.device,
-                        new System.Drawing.Font("Overpass", 12, FontStyle.Regular));
+                    // Highway Gothic (Clearview) or fallback to bold sans-serif
+                    try
+                    {
+                        killfeedFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                            new System.Drawing.Font("Highway Gothic", 13, FontStyle.Bold));
+                    }
+                    catch
+                    {
+                        killfeedFont = new Microsoft.DirectX.Direct3D.Font(render.device,
+                            new System.Drawing.Font("Arial", 13, FontStyle.Bold));
+                    }
                 }
 
                 int screenWidth = render.device.Viewport.Width;
-                int kfX = screenWidth - 320;
-                int kfY = 60;
-                int rowHeight = 22;
+                int kfX = screenWidth - 340;
+                int kfY = 80;
+                int rowHeight = 24;
+                float currentTime = showLiveTelemetry ? (float)DateTime.Now.TimeOfDay.TotalSeconds : pathCurrentTimestamp;
+                float fadeTime = 3.0f; // 3 second fade
 
-                // Get recent kills from killEvents
+                // Get recent kills (within last 6 seconds for display, fade after 3)
                 var recentKills = killEvents
-                    .Where(k => showLiveTelemetry || k.Timestamp <= pathCurrentTimestamp)
+                    .Where(k => {
+                        if (!showLiveTelemetry && k.Timestamp > pathCurrentTimestamp)
+                            return false;
+                        float age = currentTime - k.Timestamp;
+                        return age >= 0 && age < 6.0f;
+                    })
                     .OrderByDescending(k => k.Timestamp)
-                    .Take(8)
-                    .Reverse()
+                    .Take(6)
                     .ToList();
 
                 int currentY = kfY;
                 foreach (var kill in recentKills)
                 {
-                    // Draw killfeed entry: "Player got a kill with Weapon"
-                    Color teamColor = kill.Team == 0 ? Color.FromArgb(197, 66, 69) :
-                                     kill.Team == 1 ? Color.FromArgb(65, 105, 168) : Color.White;
+                    // Calculate fade alpha (full for 3 sec, then fade over 3 sec)
+                    float age = currentTime - kill.Timestamp;
+                    float alpha = age < fadeTime ? 1.0f : Math.Max(0, 1.0f - (age - fadeTime) / fadeTime);
+                    int alphaByte = (int)(alpha * 255);
 
-                    string entry = $"{kill.PlayerName} [{kill.Weapon}]";
-                    DrawFilledRect(kfX, currentY, 300, rowHeight, Color.FromArgb(150, 0, 0, 0));
-                    scoreboardFont.DrawText(null, entry,
-                        new Rectangle(kfX + 8, currentY, 290, rowHeight),
-                        DrawTextFormat.Left | DrawTextFormat.VerticalCenter, teamColor);
+                    if (alphaByte <= 0)
+                        continue;
+
+                    // Team colors with fade
+                    Color killerColor = GetTeamColorForKillfeed(kill.KillerTeam, alphaByte);
+                    Color victimColor = GetTeamColorForKillfeed(kill.VictimTeam, alphaByte);
+                    Color textColor = Color.FromArgb(alphaByte, 200, 200, 200);
+
+                    // Background with fade
+                    DrawFilledRect(kfX, currentY, 320, rowHeight, Color.FromArgb((int)(alpha * 180), 0, 0, 0));
+
+                    // Format: "Killer [weapon] Victim"
+                    string weaponDisplay = GetWeaponShortName(kill.Weapon);
+
+                    // Draw killer name
+                    int textX = kfX + 10;
+                    Rectangle killerRect = new Rectangle(textX, currentY, 110, rowHeight);
+                    killfeedFont.DrawText(null, kill.KillerName ?? "?",
+                        killerRect, DrawTextFormat.Left | DrawTextFormat.VerticalCenter, killerColor);
+
+                    // Draw weapon (center)
+                    Rectangle weaponRect = new Rectangle(kfX + 120, currentY, 80, rowHeight);
+                    killfeedFont.DrawText(null, $"[{weaponDisplay}]",
+                        weaponRect, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, textColor);
+
+                    // Draw victim name
+                    Rectangle victimRect = new Rectangle(kfX + 200, currentY, 110, rowHeight);
+                    killfeedFont.DrawText(null, kill.VictimName ?? "?",
+                        victimRect, DrawTextFormat.Right | DrawTextFormat.VerticalCenter, victimColor);
 
                     currentY += rowHeight + 2;
                 }
@@ -10189,6 +10570,55 @@ namespace entity.Renderers
             catch (Exception ex)
             {
                 AddDebugLog($"[KILLFEED] Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Gets a short display name for weapon.
+        /// </summary>
+        private string GetWeaponShortName(string weapon)
+        {
+            if (string.IsNullOrEmpty(weapon))
+                return "?";
+
+            // Extract short name from full weapon path/name
+            string name = weapon.ToLowerInvariant();
+            if (name.Contains("battle_rifle")) return "BR";
+            if (name.Contains("smg")) return "SMG";
+            if (name.Contains("sniper")) return "Sniper";
+            if (name.Contains("rocket")) return "Rockets";
+            if (name.Contains("shotgun")) return "Shotty";
+            if (name.Contains("sword")) return "Sword";
+            if (name.Contains("pistol") || name.Contains("magnum")) return "Magnum";
+            if (name.Contains("carbine")) return "Carbine";
+            if (name.Contains("needler")) return "Needler";
+            if (name.Contains("plasma_rifle")) return "PR";
+            if (name.Contains("plasma_pistol")) return "PP";
+            if (name.Contains("brute_shot")) return "Brute";
+            if (name.Contains("beam_rifle")) return "Beam";
+            if (name.Contains("fuel_rod")) return "FRG";
+            if (name.Contains("sentinel")) return "Sentinel";
+            if (name.Contains("melee") || name.Contains("punch")) return "Melee";
+            if (name.Contains("grenade") || name.Contains("frag") || name.Contains("plasma")) return "Nade";
+            if (name.Contains("turret") || name.Contains("machinegun")) return "Turret";
+            if (name.Contains("vehicle") || name.Contains("splatter")) return "Vehicle";
+
+            // Fallback: first 6 chars
+            return weapon.Length > 6 ? weapon.Substring(0, 6) : weapon;
+        }
+
+        /// <summary>
+        /// Gets team color for killfeed with alpha.
+        /// </summary>
+        private Color GetTeamColorForKillfeed(int team, int alpha)
+        {
+            switch (team)
+            {
+                case 0: return Color.FromArgb(alpha, 230, 80, 80);    // Red team
+                case 1: return Color.FromArgb(alpha, 80, 150, 230);   // Blue team
+                case 2: return Color.FromArgb(alpha, 80, 200, 80);    // Green team
+                case 3: return Color.FromArgb(alpha, 230, 150, 50);   // Orange team
+                default: return Color.FromArgb(alpha, 255, 255, 255); // White (FFA/unknown)
             }
         }
 
@@ -10216,7 +10646,7 @@ namespace entity.Renderers
         private string GetEmblemUrl(PlayerTelemetry player)
         {
             // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EF=foreground, EB=background, ET=toggle
-            return $"http://104.207.143.249:3001/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            return $"http://example.com/emblem/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
@@ -10658,7 +11088,7 @@ namespace entity.Renderers
 
                 // Halo-style team colors (brighter, more saturated)
                 Color teamColor;
-                switch (kill.Team)
+                switch (kill.KillerTeam)
                 {
                     case 0: teamColor = Color.FromArgb(255, 60, 60); break;    // Red team
                     case 1: teamColor = Color.FromArgb(60, 140, 255); break;   // Blue team

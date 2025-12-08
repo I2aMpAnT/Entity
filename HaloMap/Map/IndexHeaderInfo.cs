@@ -137,25 +137,35 @@ namespace HaloMap.Map
         /// <remarks></remarks>
         public void LoadHalo2IndexHeaderInfo(ref BinaryReader BR, Map map)
         {
+            MapDebugLogger.Separator("INDEX HEADER");
+            MapDebugLogger.Info("Reading tag index at offset 0x{0:X}", map.MapHeader.indexOffset);
+
             BR.BaseStream.Position = map.MapHeader.indexOffset;
             constant = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Index constant (base address)", map.MapHeader.indexOffset, constant, true);
+
             map.PrimaryMagic = constant - (map.MapHeader.indexOffset + 32);
+            MapDebugLogger.Debug("Primary magic calculated: 0x{0:X} (constant - indexOffset - 32)", map.PrimaryMagic);
+
             tagTypeCount = BR.ReadInt32();
-            tagsOffset = BR.ReadInt32() - map.PrimaryMagic;
+            MapDebugLogger.LogOffset("Tag type count", map.MapHeader.indexOffset + 4, tagTypeCount);
+
+            int rawTagsOffset = BR.ReadInt32();
+            tagsOffset = rawTagsOffset - map.PrimaryMagic;
+            MapDebugLogger.Debug("Tags offset: raw=0x{0:X}, calculated=0x{1:X} (file offset)", rawTagsOffset, tagsOffset);
+
             scnrID = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Scenario tag ID (scnr)", map.MapHeader.indexOffset + 12, scnrID, true);
+
             matgID = BR.ReadInt32();
+            MapDebugLogger.LogOffset("Globals tag ID (matg)", map.MapHeader.indexOffset + 16, matgID, true);
 
             BR.BaseStream.Position = map.MapHeader.indexOffset + 24;
             metaCount = BR.ReadInt32();
-            
-            /// ** This causes failure when setting a different MATG tag as active as the tag is now located **
-            /// ** at the end of the meta, not the start
-            //  BR.BaseStream.Position = tagsOffset + 8;
+            MapDebugLogger.LogOffset("Meta/tag count", map.MapHeader.indexOffset + 24, metaCount);
 
-            /// Either need to search through all index listings for lowest offset or ???
-            /// However, this is all useless if H2 uses the below method; in which case MATG is unable to 
-            /// be copied & replaced
-
+            // Find lowest offset tag to calculate secondary magic
+            MapDebugLogger.Debug("Scanning {0} tags to find lowest offset for secondary magic...", metaCount);
             int metaNum = 0;
             int metaOfs = int.MaxValue;
             for (int i = 0; i < metaCount; i++)
@@ -170,11 +180,11 @@ namespace HaloMap.Map
             }
 
             map.SecondaryMagic = metaOfs - (map.MapHeader.indexOffset + map.MapHeader.metaStart);
-            
-            // Old method
-            // BR.BaseStream.Position = tagsOffset + 8;
-            // map.SecondaryMagic = BR.ReadInt32() - (map.MapHeader.indexOffset + map.MapHeader.metaStart);
+            MapDebugLogger.Debug("Lowest tag offset: 0x{0:X} at tag index {1}", metaOfs, metaNum);
+            MapDebugLogger.Debug("Secondary magic calculated: 0x{0:X}", map.SecondaryMagic);
 
+            MapDebugLogger.Info("Index header parsed - {0} tags, {1} tag types, tags at 0x{2:X}",
+                metaCount, tagTypeCount, tagsOffset);
         }
 
         /// <summary>

@@ -113,6 +113,91 @@ namespace HaloMap.Render
         /// </summary>
         private Plane[] m_frustum = new Plane[6];
 
+        /// <summary>
+        /// The gamepad device.
+        /// </summary>
+        private Device gamepad;
+
+        /// <summary>
+        /// Whether gamepad is connected.
+        /// </summary>
+        public bool gamepadConnected = false;
+
+        /// <summary>
+        /// Gamepad left stick X axis (-1 to 1).
+        /// </summary>
+        public float gamepadLeftX = 0;
+
+        /// <summary>
+        /// Gamepad left stick Y axis (-1 to 1).
+        /// </summary>
+        public float gamepadLeftY = 0;
+
+        /// <summary>
+        /// Gamepad right stick X axis (-1 to 1).
+        /// </summary>
+        public float gamepadRightX = 0;
+
+        /// <summary>
+        /// Gamepad right stick Y axis (-1 to 1).
+        /// </summary>
+        public float gamepadRightY = 0;
+
+        /// <summary>
+        /// Gamepad left trigger (0 to 1).
+        /// </summary>
+        public float gamepadLeftTrigger = 0;
+
+        /// <summary>
+        /// Gamepad right trigger (0 to 1).
+        /// </summary>
+        public float gamepadRightTrigger = 0;
+
+        /// <summary>
+        /// Gamepad A button pressed this frame.
+        /// </summary>
+        public bool gamepadAPressed = false;
+
+        /// <summary>
+        /// Gamepad B button pressed this frame.
+        /// </summary>
+        public bool gamepadBPressed = false;
+
+        /// <summary>
+        /// Gamepad Back/Select button pressed this frame.
+        /// </summary>
+        public bool gamepadBackPressed = false;
+
+        /// <summary>
+        /// Gamepad Start button pressed this frame.
+        /// </summary>
+        public bool gamepadStartPressed = false;
+
+        /// <summary>
+        /// Gamepad D-pad Up pressed this frame.
+        /// </summary>
+        public bool gamepadDPadUpPressed = false;
+
+        /// <summary>
+        /// Previous A button state for edge detection.
+        /// </summary>
+        private bool prevAButton = false;
+
+        /// <summary>
+        /// Previous D-pad Up state for edge detection.
+        /// </summary>
+        private bool prevDPadUp = false;
+
+        /// <summary>
+        /// Previous Back button state for edge detection.
+        /// </summary>
+        private bool prevBackButton = false;
+
+        /// <summary>
+        /// Deadzone for analog sticks.
+        /// </summary>
+        private const float DEADZONE = 0.15f;
+
         #endregion
 
         #region Constructors and Destructors
@@ -127,10 +212,46 @@ namespace HaloMap.Render
             device = new Device(SystemGuid.Keyboard);
             device.SetCooperativeLevel(form, CooperativeLevelFlags.Foreground | CooperativeLevelFlags.NonExclusive);
 
+            // Try to initialize gamepad
+            InitializeGamepad(form);
+
             radianh = DegreesToRadian(90.0f);
             radianv = DegreesToRadian(-20.0f);
             Position = new Vector3(x, y, z);
             ComputePosition();
+        }
+
+        /// <summary>
+        /// Initialize gamepad device if one is connected.
+        /// </summary>
+        private void InitializeGamepad(Form form)
+        {
+            try
+            {
+                // Find a gamepad device
+                foreach (DeviceInstance di in Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly))
+                {
+                    gamepad = new Device(di.InstanceGuid);
+                    gamepad.SetCooperativeLevel(form, CooperativeLevelFlags.Foreground | CooperativeLevelFlags.NonExclusive);
+
+                    // Set axis range to -1000 to 1000
+                    foreach (DeviceObjectInstance doi in gamepad.Objects)
+                    {
+                        if ((doi.ObjectId & (int)DeviceObjectTypeFlags.Axis) != 0)
+                        {
+                            gamepad.Properties.SetRange(ParameterHow.ById, doi.ObjectId, new InputRange(-1000, 1000));
+                        }
+                    }
+
+                    gamepadConnected = true;
+                    break;
+                }
+            }
+            catch
+            {
+                gamepadConnected = false;
+                gamepad = null;
+            }
         }
 
         #endregion
@@ -367,6 +488,159 @@ namespace HaloMap.Render
                 }
 
                 ComputePosition();
+            }
+
+            return speedChange;
+        }
+
+        /// <summary>
+        /// Poll gamepad state and apply input to camera.
+        /// </summary>
+        /// <returns>True if speed changed.</returns>
+        public bool PollGamepad()
+        {
+            bool speedChange = false;
+
+            // Reset button press states
+            gamepadAPressed = false;
+            gamepadBPressed = false;
+            gamepadBackPressed = false;
+            gamepadStartPressed = false;
+            gamepadDPadUpPressed = false;
+
+            if (!gamepadConnected || gamepad == null)
+            {
+                return speedChange;
+            }
+
+            try
+            {
+                gamepad.Acquire();
+                gamepad.Poll();
+                JoystickState state = gamepad.CurrentJoystickState;
+
+                // Left stick - movement (X axis, Y axis)
+                // Normalize from -1000 to 1000 to -1 to 1
+                gamepadLeftX = state.X / 1000.0f;
+                gamepadLeftY = state.Y / 1000.0f;
+
+                // Right stick - camera (typically Rz for X, Z for Y on Xbox controllers)
+                // Different controllers may use different axes
+                gamepadRightX = state.Rz / 1000.0f;
+                gamepadRightY = state.Z / 1000.0f;
+
+                // Apply deadzone
+                if (Math.Abs(gamepadLeftX) < DEADZONE) gamepadLeftX = 0;
+                if (Math.Abs(gamepadLeftY) < DEADZONE) gamepadLeftY = 0;
+                if (Math.Abs(gamepadRightX) < DEADZONE) gamepadRightX = 0;
+                if (Math.Abs(gamepadRightY) < DEADZONE) gamepadRightY = 0;
+
+                // Triggers - using slider or Rx/Ry axes depending on controller
+                // Xbox controllers typically use sliders
+                int[] sliders = state.GetSlider();
+                if (sliders.Length >= 2)
+                {
+                    // Normalize from 0-65535 to 0-1 (or from -1000 to 1000)
+                    gamepadLeftTrigger = (sliders[0] + 1000) / 2000.0f;
+                    gamepadRightTrigger = (sliders[1] + 1000) / 2000.0f;
+                }
+                else
+                {
+                    // Fallback to Rx/Ry
+                    gamepadLeftTrigger = (state.Rx + 1000) / 2000.0f;
+                    gamepadRightTrigger = (state.Ry + 1000) / 2000.0f;
+                }
+
+                // Buttons - Xbox layout: A=0, B=1, X=2, Y=3, LB=4, RB=5, Back=6, Start=7
+                byte[] buttons = state.GetButtons();
+
+                bool currentAButton = buttons.Length > 0 && buttons[0] != 0;
+                bool currentBackButton = buttons.Length > 6 && buttons[6] != 0;
+
+                // Edge detection - only trigger on press, not hold
+                if (currentAButton && !prevAButton)
+                {
+                    gamepadAPressed = true;
+                }
+                if (currentBackButton && !prevBackButton)
+                {
+                    gamepadBackPressed = true;
+                }
+
+                prevAButton = currentAButton;
+                prevBackButton = currentBackButton;
+
+                // D-pad handling via POV (point-of-view) controller
+                int[] pov = state.GetPOV();
+                bool currentDPadUp = false;
+                if (pov.Length > 0 && pov[0] != -1)
+                {
+                    // POV values are in hundredths of a degree, -1 = centered
+                    // Up = 0, Right = 9000, Down = 18000, Left = 27000
+                    // Also handle diagonals: Up-Right = 4500, Up-Left = 31500
+                    int povVal = pov[0];
+                    currentDPadUp = (povVal >= 31500 || povVal <= 4500);
+                }
+                if (currentDPadUp && !prevDPadUp)
+                {
+                    gamepadDPadUpPressed = true;
+                }
+                prevDPadUp = currentDPadUp;
+
+                // Apply left stick to movement
+                if (gamepadLeftY != 0)
+                {
+                    // Y axis: up = forward (negative on most controllers), down = backward
+                    float moveAmount = -gamepadLeftY; // Negate so up = forward
+
+                    // Apply speed modifier from left trigger
+                    float effectiveSpeed = speed * (1.0f + gamepadLeftTrigger * 2.0f);
+
+                    x += i * effectiveSpeed * moveAmount;
+                    y += j * effectiveSpeed * moveAmount;
+                    z += k * effectiveSpeed * moveAmount;
+                    Position.X = x;
+                    Position.Y = y;
+                    Position.Z = z;
+                }
+
+                if (gamepadLeftX != 0)
+                {
+                    // X axis: strafe left/right
+                    float effectiveSpeed = speed * (1.0f + gamepadLeftTrigger * 2.0f);
+
+                    // Compute strafe direction
+                    float strafeH = radianh - (float)(Math.PI / 2); // 90 degrees to the right
+                    float strafeI = (float)(Math.Cos(strafeH) * Math.Cos(radianv));
+                    float strafeJ = (float)(Math.Sin(strafeH) * Math.Cos(radianv));
+
+                    x += strafeI * effectiveSpeed * gamepadLeftX;
+                    y += strafeJ * effectiveSpeed * gamepadLeftX;
+                    Position.X = x;
+                    Position.Y = y;
+                }
+
+                // Apply right stick to camera look
+                if (gamepadRightX != 0 || gamepadRightY != 0)
+                {
+                    // Camera sensitivity
+                    float sensitivity = 2.0f;
+
+                    // Horizontal look (yaw) - right stick X
+                    radianh -= DegreesToRadian(gamepadRightX * sensitivity);
+
+                    // Vertical look (pitch) - right stick Y
+                    // NOT inverted: pushing down looks down (positive Y = look down)
+                    radianv -= DegreesToRadian(gamepadRightY * sensitivity);
+
+                    ComputePosition();
+                }
+
+            }
+            catch
+            {
+                // Gamepad disconnected or error
+                gamepadConnected = false;
             }
 
             return speedChange;

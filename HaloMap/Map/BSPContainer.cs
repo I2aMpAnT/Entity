@@ -150,32 +150,72 @@ namespace HaloMap.Map
         /// <remarks></remarks>
         public void Halo2BSPContainer(Map map)
         {
+            MapDebugLogger.Separator("BSP CONTAINER");
+            MapDebugLogger.Info("Loading BSP container from scenario tag...");
+
             map.OpenMap(MapTypes.Internal);
-            map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + 528;
+            long bspCountOffset = map.MetaInfo.Offset[3] + 528;
+            map.BR.BaseStream.Position = bspCountOffset;
             bspcount = map.BR.ReadInt32();
-            int tempr = map.BR.ReadInt32() - map.SecondaryMagic;
+            int rawBspArrayPtr = map.BR.ReadInt32();
+            int tempr = rawBspArrayPtr - map.SecondaryMagic;
+
+            MapDebugLogger.LogOffset("BSP count", bspCountOffset, bspcount);
+            MapDebugLogger.Debug("BSP array pointer: raw=0x{0:X8}, file=0x{1:X8}", rawBspArrayPtr, tempr);
+
             sbsp = new BSPInfo[bspcount];
+
+            if (bspcount == 0)
+            {
+                MapDebugLogger.Warn("No BSP structures found in scenario!");
+            }
+
             for (int x = 0; x < bspcount; x++)
             {
                 sbsp[x] = new BSPInfo();
                 sbsp[x].pointerOffset = tempr + (x * 68) - map.MetaInfo.Offset[3];
-                map.BR.BaseStream.Position = tempr + (x * 68);
-                sbsp[x].offset = map.BR.ReadInt32();
+
+                long entryOffset = tempr + (x * 68);
+                map.BR.BaseStream.Position = entryOffset;
+                int rawOffset = map.BR.ReadInt32();
+                sbsp[x].offset = rawOffset;
                 map.Functions.ParsePointer(ref sbsp[x].offset, ref sbsp[x].location);
                 sbsp[x].size = map.BR.ReadInt32();
                 sbsp[x].magic = map.BR.ReadInt32() - sbsp[x].offset;
+
                 map.BR.BaseStream.Position = tempr + (x * 68) + 20;
                 sbsp[x].ident = map.BR.ReadInt32();
 
-                // 	MessageBox.Show(sbsp[x].ident.ToString("X"));
+                // Determine source file for BSP data
+                string sourceFile = GetBspSourceFile(rawOffset, sbsp[x].location);
+
+                MapDebugLogger.Info("BSP {0}:", x);
+                MapDebugLogger.Debug("  Entry at file offset: 0x{0:X8}", entryOffset);
+                MapDebugLogger.Debug("  Raw offset: 0x{0:X8}, File offset: 0x{1:X8}", rawOffset, sbsp[x].offset);
+                MapDebugLogger.Debug("  Size: {0} bytes (0x{0:X})", sbsp[x].size);
+                MapDebugLogger.Debug("  Magic: 0x{0:X8}", sbsp[x].magic);
+                MapDebugLogger.Debug("  Ident: 0x{0:X8}", sbsp[x].ident);
+                MapDebugLogger.Debug("  Source: {0}", sourceFile ?? "local map");
+
                 sbsp[x].TagIndex = map.Functions.ForMeta.FindMetaByID(sbsp[x].ident);
-                map.MetaInfo.Offset[sbsp[x].TagIndex] = sbsp[x].offset;
-                map.MetaInfo.Size[sbsp[x].TagIndex] = sbsp[x].size;
+                if (sbsp[x].TagIndex >= 0)
+                {
+                    map.MetaInfo.Offset[sbsp[x].TagIndex] = sbsp[x].offset;
+                    map.MetaInfo.Size[sbsp[x].TagIndex] = sbsp[x].size;
+                    MapDebugLogger.Debug("  Tag index: {0}", sbsp[x].TagIndex);
+                }
+                else
+                {
+                    MapDebugLogger.Warn("  Could not find tag by ident!");
+                }
+
                 map.BR.BaseStream.Position = tempr + (x * 68) + 28;
                 sbsp[x].lightmapident = map.BR.ReadInt32();
                 sbsp[x].lightmapTagIndex = map.Functions.ForMeta.FindMetaByID(sbsp[x].lightmapident);
+
                 if (sbsp[x].lightmapTagIndex == -1)
                 {
+                    MapDebugLogger.Debug("  No lightmap for this BSP");
                     continue;
                 }
 
@@ -185,10 +225,11 @@ namespace HaloMap.Map
                 {
                     sbsp[x].lightmapident = -1;
                     sbsp[x].lightmapTagIndex = -1;
+                    MapDebugLogger.Warn("  Lightmap offset is 0 - broken lightmap reference");
                     if (
                         MessageBox.Show(
-                            "There is no lightmap for this bsp and the scenario is currently linked to a broken ID.\n Would you like Entity to fix it?", 
-                            "Error", 
+                            "There is no lightmap for this bsp and the scenario is currently linked to a broken ID.\n Would you like Entity to fix it?",
+                            "Error",
                             MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         map.BW.BaseStream.Position = tempr + (x * 68) + 28;
@@ -201,6 +242,9 @@ namespace HaloMap.Map
                 sbsp[x].lightmapoffset += -sbsp[x].magic;
                 sbsp[x].lightmapsize = sbsp[x].size + sbsp[x].offset - sbsp[x].lightmapoffset;
 
+                MapDebugLogger.Debug("  Lightmap: offset=0x{0:X8}, size={1}, ident=0x{2:X8}",
+                    sbsp[x].lightmapoffset, sbsp[x].lightmapsize, sbsp[x].lightmapident);
+
                 map.MetaInfo.Offset[sbsp[x].lightmapTagIndex] = sbsp[x].lightmapoffset;
                 map.MetaInfo.Size[sbsp[x].lightmapTagIndex] = sbsp[x].lightmapsize;
 
@@ -211,11 +255,22 @@ namespace HaloMap.Map
                 map.BR.BaseStream.Position = temprx + 28;
                 sbsp[x].LightMap_TagNumber = map.Functions.ForMeta.FindMetaByID(map.BR.ReadInt32());
 
+                if (sbsp[x].LightMap_TagNumber >= 0)
+                {
+                    MapDebugLogger.Debug("  Lightmap bitmap tag index: {0}", sbsp[x].LightMap_TagNumber);
+                }
+
                 ///light map palettes
                 map.BR.BaseStream.Position = temprx + 8;
                 int tempc2 = map.BR.ReadInt32();
                 int tempr2 = map.BR.ReadInt32() - sbsp[x].magic;
                 sbsp[x].palettesoffset = tempr2;
+
+                if (tempc2 > 0)
+                {
+                    MapDebugLogger.Debug("  Loading {0} lightmap palettes from offset 0x{1:X8}", tempc2, tempr2);
+                }
+
                 for (int y = 0; y < tempc2; y++)
                 {
                     map.BR.BaseStream.Position = tempr2 + (y * 1024);
@@ -240,6 +295,7 @@ namespace HaloMap.Map
 
                 if (tempc2 != 0)
                 {
+                    MapDebugLogger.Debug("  Visual chunks: {0} entries at offset 0x{1:X8}", tempc2, tempr2);
                     map.BR.BaseStream.Position = tempr2;
                     for (int y = 0; y < tempc2; y++)
                     {
@@ -256,6 +312,7 @@ namespace HaloMap.Map
 
                 if (tempc2 > 0)
                 {
+                    MapDebugLogger.Debug("  Scenery chunks: {0} entries at offset 0x{1:X8}", tempc2, tempr2);
                     map.BR.BaseStream.Position = tempr2;
                     for (int y = 0; y < tempc2; y++)
                     {
@@ -266,6 +323,23 @@ namespace HaloMap.Map
             }
 
             map.CloseMap();
+            MapDebugLogger.Info("BSP container loaded: {0} BSP structure(s)", bspcount);
+        }
+
+        /// <summary>
+        /// Determine which source file contains BSP data.
+        /// </summary>
+        private string GetBspSourceFile(int rawOffset, MapTypes location)
+        {
+            // Location value from ParsePointer tells us the source
+            switch (location)
+            {
+                case MapTypes.Internal: return null; // Local
+                case MapTypes.MainMenu: return "mainmenu.map";
+                case MapTypes.MPShared: return "shared.map";
+                case MapTypes.SPShared: return "sp_shared.map";
+                default: return null;
+            }
         }
 
         /// <summary>

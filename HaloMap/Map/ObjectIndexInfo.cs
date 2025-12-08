@@ -11,6 +11,7 @@ namespace HaloMap.Map
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
 
     /// <summary>
@@ -221,6 +222,9 @@ namespace HaloMap.Map
         /// <remarks></remarks>
         public void LoadHalo2ObjectIndexInfo(ref BinaryReader BR, Map map)
         {
+            MapDebugLogger.Separator("TAG INDEX");
+            MapDebugLogger.Info("Reading object entries from offset 0x{0:X} (16-byte entries)", map.IndexHeader.tagsOffset);
+
             TagTypes = new Hashtable();
             identHT = new Hashtable();
             TagType = new string[map.IndexHeader.metaCount];
@@ -229,8 +233,13 @@ namespace HaloMap.Map
             Size = new int[map.IndexHeader.metaCount];
             string[] temptagtypes = new string[500];
             BR.BaseStream.Position = map.IndexHeader.tagsOffset;
+
+            // Count tags by type for summary
+            Dictionary<string, int> tagTypeCounts = new Dictionary<string, int>();
+
             for (int x = 0; x < map.IndexHeader.metaCount; x++)
             {
+                long entryOffset = BR.BaseStream.Position;
                 char[] tempchar = BR.ReadChars(4);
                 Array.Reverse(tempchar);
                 string tempstring = new string(tempchar);
@@ -245,6 +254,7 @@ namespace HaloMap.Map
                 Ident[x] = BR.ReadInt32();
                 if (Ident[x] == -1)
                 {
+                    MapDebugLogger.Warn("Tag {0}: ID=-1, switching to Halo 2 Vista format", x);
                     map.IndexHeader.metaCount = x;
                     map.HaloVersion = HaloVersionEnum.Halo2Vista;
                     break;
@@ -265,12 +275,85 @@ namespace HaloMap.Map
                     lowident = Ident[x];
                 }
 
-                Offset[x] = BR.ReadInt32() - map.SecondaryMagic;
+                int rawOffset = BR.ReadInt32();
+                Offset[x] = rawOffset - map.SecondaryMagic;
                 Size[x] = BR.ReadInt32();
+
+                // Determine source file based on offset
+                string sourceFile = DetermineSourceFile(rawOffset);
+
+                // Log first 10 tags and any sbsp/scnr tags in detail
+                if (x < 10 || tempstring == "sbsp" || tempstring == "scnr" || tempstring == "matg")
+                {
+                    MapDebugLogger.LogTag(x, tempstring, Ident[x], Offset[x], Size[x], sourceFile);
+                }
+
+                // Count tag types
+                if (tagTypeCounts.ContainsKey(tempstring))
+                    tagTypeCounts[tempstring]++;
+                else
+                    tagTypeCounts[tempstring] = 1;
             }
 
-            // TagTypes=new string[TagTypesCount];
-            // Array.Copy(temptagtypes,0,TagTypes,0,TagTypesCount);
+            // Log summary of tag types
+            MapDebugLogger.Info("Loaded {0} tags", map.IndexHeader.metaCount);
+            MapDebugLogger.Debug("All tag classes in map:");
+            System.Text.StringBuilder sb = new System.Text.StringBuilder("  ");
+            int count = 0;
+            foreach (var kvp in tagTypeCounts)
+            {
+                if (count > 0) sb.Append(", ");
+                sb.AppendFormat("{0}:{1}", kvp.Key, kvp.Value);
+                count++;
+                if (count % 10 == 0)
+                {
+                    MapDebugLogger.Debug(sb.ToString());
+                    sb.Clear();
+                    sb.Append("  ");
+                }
+            }
+            if (sb.Length > 2)
+                MapDebugLogger.Debug(sb.ToString());
+
+            // Log ident range
+            MapDebugLogger.Debug("Tag ID range: 0x{0:X8} to 0x{1:X8}", lowident, highident);
+        }
+
+        /// <summary>
+        /// Determine which source file contains data at a given raw offset.
+        /// </summary>
+        private static string DetermineSourceFile(int rawOffset)
+        {
+            // Halo 2 uses high bits to indicate external files
+            // 0x00xxxxxx - local map file
+            // 0x10xxxxxx - mainmenu.map
+            // 0x18xxxxxx - shared.map
+            // 0x30xxxxxx - sp_shared.map (single_player_shared.map)
+            // These are approximate masks based on common Halo 2 implementations
+
+            uint uOffset = (uint)rawOffset;
+            uint highNibble = (uOffset >> 28) & 0xF;
+
+            // More precise check based on actual Halo 2 resource location bits
+            if ((uOffset & 0xC0000000) == 0)
+            {
+                return null; // Local file
+            }
+
+            // Check for external resource flags
+            if ((uOffset & 0x40000000) != 0)
+            {
+                if ((uOffset & 0x80000000) != 0)
+                    return "sp_shared.map";
+                else
+                    return "mainmenu.map";
+            }
+            else if ((uOffset & 0x80000000) != 0)
+            {
+                return "shared.map";
+            }
+
+            return null;
         }
 
         /// <summary>

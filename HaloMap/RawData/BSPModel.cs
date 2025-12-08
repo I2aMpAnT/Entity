@@ -1872,7 +1872,21 @@ namespace HaloMap.RawData
 
                     BR.BaseStream.Position = 172;
                     int tempc = BR.ReadInt32();
-                    int tempr = BR.ReadInt32() - meta.magic - meta.offset;
+                    int rawPointer = BR.ReadInt32();
+                    int tempr = rawPointer - meta.magic - meta.offset;
+
+                    MapDebugLogger.Separator();
+                    MapDebugLogger.Info("BSP Render Geometry (Halo 2):");
+                    MapDebugLogger.Info("  BSP tag file offset: 0x{0:X8}", meta.offset);
+                    MapDebugLogger.Info("  BSP magic: 0x{0:X8}", meta.magic);
+                    MapDebugLogger.Info("  Sections reflexive at sbsp+0xAC (172):");
+                    MapDebugLogger.Info("    File offset: 0x{0:X8}", meta.offset + 172);
+                    MapDebugLogger.Info("    Count: {0}", tempc);
+                    MapDebugLogger.Info("    Raw pointer: 0x{0:X8}", rawPointer);
+                    MapDebugLogger.Info("  Section entry size: 176 bytes");
+                    MapDebugLogger.Info("  First section at file offset: 0x{0:X8}", meta.offset + tempr);
+                    MapDebugLogger.Separator();
+
                     BSPRawDataMetaChunks = new BSPRawDataMetaChunk[tempc];
                     BSPRawDataMetaChunksOffset = tempr;
                     for (int x = 0; x < tempc; x++)
@@ -1880,7 +1894,7 @@ namespace HaloMap.RawData
                         BSPRawDataMetaChunks[x] = new BSPRawDataMetaChunk(tempr + (x * 176), x, ref meta, null);
                     }
 
-                    
+
 
                     break;
                 case HaloVersionEnum.HaloCE:
@@ -3853,6 +3867,17 @@ namespace HaloMap.RawData
                 int tempr = BR.ReadInt32() - meta.magic - meta.offset;
                 this.RawDataChunkInfo = new RawDataOffsetChunk[tempc];
                 rawdatainfooffset = tempr;
+
+                // Log section header (only first 5 sections to avoid spam)
+                if (chunknumber < 5)
+                {
+                    MapDebugLogger.Info("  Section {0}:", chunknumber);
+                    MapDebugLogger.Info("    Section meta at file offset: 0x{0:X8}", meta.offset + offset);
+                    MapDebugLogger.Debug("    Vertex count: {0}, Face count: {1}", VerticeCount, FaceCount);
+                    MapDebugLogger.Debug("    Header size: {0} bytes (at section+0x30)", HeaderSize);
+                    MapDebugLogger.Debug("    Raw data chunks reflexive at section+0x38: count={0}", tempc);
+                }
+
                 for (int x = 0; x < tempc; x++)
                 {
                     this.RawDataChunkInfo[x] = new RawDataOffsetChunk();
@@ -3911,6 +3936,32 @@ namespace HaloMap.RawData
                     }
                 }
 
+                // Log detailed buffer info for first 3 sections
+                if (chunknumber < 3)
+                {
+                    int vertexStride = RawDataChunkInfo[verticechunk].Size / VerticeCount;
+                    var rawChunk = meta.raw.rawChunks[chunknumber];
+                    long rawChunkSize = rawChunk.MS.Length;
+                    MapDebugLogger.Info("    Raw data file offset: 0x{0:X8} (in {1})", rawChunk.offset, rawChunk.rawLocation);
+                    MapDebugLogger.Info("    Raw data chunk size: {0} bytes (0x{0:X})", rawChunkSize);
+                    MapDebugLogger.Info("    Buffer offsets below are relative to raw data start:");
+                    MapDebugLogger.Info("    Index buffer: offset=0x{0:X}, count={1}, stride=2 bytes (16-bit), size={2}",
+                        HeaderSize + RawDataChunkInfo[indicechunk].Offset, IndiceCount, RawDataChunkInfo[indicechunk].Size);
+                    MapDebugLogger.Info("    Vertex buffer: offset=0x{0:X}, count={1}, stride={2} bytes, size={3}",
+                        HeaderSize + RawDataChunkInfo[verticechunk].Offset, VerticeCount, vertexStride, RawDataChunkInfo[verticechunk].Size);
+                    MapDebugLogger.Info("    UV buffer: offset=0x{0:X}, stride=8 bytes (float2), size={1}",
+                        HeaderSize + RawDataChunkInfo[uvchunk].Offset, RawDataChunkInfo[uvchunk].Size);
+                    MapDebugLogger.Info("    Normal buffer: offset=0x{0:X}, stride=12 bytes (3x compressed int32), size={1}",
+                        HeaderSize + RawDataChunkInfo[normalchunk].Offset, RawDataChunkInfo[normalchunk].Size);
+                    MapDebugLogger.Debug("    Submeshes: {0}", SubMeshInfo.Length);
+                    for (int sm = 0; sm < Math.Min(3, SubMeshInfo.Length); sm++)
+                    {
+                        MapDebugLogger.Debug("      Submesh {0}: shader={1}, indices {2}-{3}",
+                            sm, SubMeshInfo[sm].ShaderNumber, SubMeshInfo[sm].IndiceStart,
+                            SubMeshInfo[sm].IndiceStart + SubMeshInfo[sm].IndiceCount);
+                    }
+                }
+
                 this.Indices = new short[this.RawDataChunkInfo[indicechunk].ChunkCount];
                 BR.BaseStream.Position = this.HeaderSize + this.RawDataChunkInfo[indicechunk].Offset;
                 for (int x = 0; x < this.IndiceCount; x++)
@@ -3928,6 +3979,18 @@ namespace HaloMap.RawData
                     vec.Y = BR.ReadSingle();
                     vec.Z = BR.ReadSingle();
                     Vertices.Add(vec);
+                }
+
+                // Log first 5 vertices for section 0
+                if (chunknumber == 0 && Vertices.Count > 0)
+                {
+                    MapDebugLogger.Info("    Vertex format: Position=float3 at offset 0");
+                    MapDebugLogger.Debug("    First 5 vertices:");
+                    for (int v = 0; v < Math.Min(5, Vertices.Count); v++)
+                    {
+                        MapDebugLogger.Debug("      v{0}: ({1:F4}, {2:F4}, {3:F4})",
+                            v, Vertices[v].X, Vertices[v].Y, Vertices[v].Z);
+                    }
                 }
 
                 this.RawDataChunkInfo[uvchunk].ChunkSize = 8;
