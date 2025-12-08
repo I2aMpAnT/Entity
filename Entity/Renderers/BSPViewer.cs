@@ -9821,7 +9821,7 @@ namespace entity.Renderers
                 // Load the new map on UI thread
                 if (this.InvokeRequired)
                 {
-                    this.BeginInvoke(new Action(() => LoadNewMap(matchingFile)));
+                    this.BeginInvoke(new System.Action(() => LoadNewMap(matchingFile)));
                 }
                 else
                 {
@@ -9856,10 +9856,10 @@ namespace entity.Renderers
                 this.map = newMap;
 
                 // Reinitialize BSP
-                bsp = new BSPContainer(map.BSP.sbsp[0], map);
+                bsp = new BSPContainer(map);
 
                 // Reload spawns
-                spawns = new SpawnInfo.SpawnInfo(map);
+                spawns = new SpawnLoads(map, bsp, render.device);
 
                 // Update title to reflect new map
                 this.Text = $"Theater Mode - {map.MapHeader.mapName}";
