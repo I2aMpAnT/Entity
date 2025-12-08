@@ -10089,16 +10089,8 @@ namespace entity.Renderers
                 AddDebugLog("[MAP] Loading DirectX textures and buffers...");
                 BSPModel.BSPDisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp);
 
-                // Dispose old spawns before switching
-                try
-                {
-                    if (spawns != null)
-                    {
-                        spawns.Dispose();
-                        spawns = null;
-                    }
-                }
-                catch { }
+                // Clear old spawns before switching
+                spawns = null;
 
                 // Successfully created BSP, now update references
                 this.map = newMap;
@@ -10121,7 +10113,7 @@ namespace entity.Renderers
                 // Position camera at active play area - use player positions if available
                 if (cam != null)
                 {
-                    float camX, camY, camZ;
+                    float camX = 0, camY = 0, camZ = 0;
                     bool foundPlayers = false;
 
                     // Try to use live player positions to find active area
