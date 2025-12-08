@@ -9012,6 +9012,10 @@ namespace entity.Renderers
                     // Parse player name
                     string playerName = getStr(parts, "playername") ?? "Player";
 
+                    // Skip header values that weren't caught
+                    if (playerName.Equals("PlayerName", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
                     // Parse team
                     int team = -1;
                     string teamStr = getStr(parts, "team");
@@ -10203,6 +10207,10 @@ namespace entity.Renderers
                 // Required: PlayerName
                 t.PlayerName = getStr("playername");
                 if (string.IsNullOrEmpty(t.PlayerName))
+                    return null;
+
+                // Skip header row values that weren't caught by the header detection
+                if (t.PlayerName.Equals("PlayerName", StringComparison.OrdinalIgnoreCase))
                     return null;
 
                 // Identity

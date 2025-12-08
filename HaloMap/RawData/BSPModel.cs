@@ -2612,9 +2612,8 @@ namespace HaloMap.RawData
             public static void Draw(
                 ref Device device, ref BSPModel bsp, bool Textured, ref Camera2 cam, DXShader shaderx)
             {
-                // Null checks to prevent crashes when map data is not fully loaded
-                if (bsp == null || bsp.Display == null || bsp.Display.vertexBuffer == null ||
-                    bsp.Display.indexBuffer == null || bsp.BSPRawDataMetaChunks == null || bsp.Shaders == null)
+                // Basic null check
+                if (bsp == null || bsp.BSPRawDataMetaChunks == null)
                 {
                     return;
                 }
@@ -2639,8 +2638,9 @@ namespace HaloMap.RawData
                     if (bsp.cameraCulling && !opt.IsInViewFrustum(bsp.BSPRawDataMetaChunks[rawindex]))
                         continue;
 
-                    // Bounds check for vertex/index buffers
-                    if (rawindex >= bsp.Display.vertexBuffer.Length || rawindex >= bsp.Display.indexBuffer.Length ||
+                    // Check display buffers exist before accessing
+                    if (bsp.Display == null || bsp.Display.vertexBuffer == null || bsp.Display.indexBuffer == null ||
+                        rawindex >= bsp.Display.vertexBuffer.Length || rawindex >= bsp.Display.indexBuffer.Length ||
                         bsp.Display.vertexBuffer[rawindex] == null || bsp.Display.indexBuffer[rawindex] == null)
                     {
                         continue;
@@ -2654,8 +2654,9 @@ namespace HaloMap.RawData
                         ResetTextureStates(ref device);
                         int tempshade = bsp.BSPRawDataMetaChunks[rawindex].SubMeshInfo[xx].ShaderNumber;
 
-                        // Validate shader index
-                        if (bsp.Shaders.Shader == null || tempshade < 0 || tempshade >= bsp.Shaders.Shader.Length ||
+                        // Validate shader exists
+                        if (bsp.Shaders == null || bsp.Shaders.Shader == null ||
+                            tempshade < 0 || tempshade >= bsp.Shaders.Shader.Length ||
                             bsp.Shaders.Shader[tempshade] == null)
                         {
                             continue;
