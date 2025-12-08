@@ -9888,7 +9888,7 @@ namespace entity.Renderers
                 this.map = newMap;
 
                 // Reinitialize BSP
-                bsp = new BSPContainer(map);
+                bsp = map.BSP.sbsp[0];
 
                 // Reload spawns
                 spawns = new SpawnLoads(map, bsp, render.device);
