@@ -2965,7 +2965,10 @@ namespace HaloMap.RawData
 
                     for (int x = 0; x < bsp.PermutationInfo.Length; x++)
                     {
-                        // continue;
+                        // Skip null permutation entries
+                        if (bsp.PermutationInfo[x] == null)
+                            continue;
+
                         int rawindex = bsp.PermutationInfo[x].sceneryIndex;
 
                         // Bounds and null checks
