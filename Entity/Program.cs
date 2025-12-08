@@ -52,6 +52,9 @@ namespace entity
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
+                // Load preferences first so we have access to maps folder path
+                Globals.Prefs.Load();
+
                 // Show startup mode selector
                 StartupMode mode = ShowStartupSelector();
 
