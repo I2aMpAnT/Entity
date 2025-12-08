@@ -1617,98 +1617,91 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Paints the player selection wheel with emblems and team colors.
+        /// Paints the player selection list with up/down arrows.
         /// </summary>
         private void PlayerWheelPanel_Paint(object sender, PaintEventArgs e)
         {
             List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
+
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+            int arrowHeight = 30; // Height of arrow buttons
+            int titleHeight = 25; // Space for title at top
+            int slotHeight = 40; // Height of each player slot
+            int emblemSize = 32;
+            int listTop = titleHeight + arrowHeight;
+            int listBottom = playerWheelPanel.Height - arrowHeight;
+            int listHeight = listBottom - listTop;
+            int totalSlots = playerNames.Count + 1; // +1 for "Free Camera"
+
+            Color haloBlue = Color.FromArgb(0, 200, 255);
+
+            // Draw UP arrow at top
+            DrawArrowButton(e.Graphics, playerWheelPanel.Width / 2, titleHeight + arrowHeight / 2, true, haloBlue);
+
+            // Draw DOWN arrow at bottom
+            DrawArrowButton(e.Graphics, playerWheelPanel.Width / 2, playerWheelPanel.Height - arrowHeight / 2, false, haloBlue);
+
             if (playerNames.Count == 0)
             {
                 // Draw "No Players" message
                 using (System.Drawing.Font font = new System.Drawing.Font("Segoe UI", 10, FontStyle.Bold))
-                using (SolidBrush brush = new SolidBrush(Color.FromArgb(0, 200, 255)))
+                using (SolidBrush brush = new SolidBrush(haloBlue))
                 {
                     string msg = "No Players";
                     SizeF sz = e.Graphics.MeasureString(msg, font);
                     e.Graphics.DrawString(msg, font, brush,
                         (playerWheelPanel.Width - sz.Width) / 2,
-                        (playerWheelPanel.Height - sz.Height) / 2);
+                        listTop + (listHeight - sz.Height) / 2);
                 }
                 return;
             }
 
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            // Calculate how many slots we can show
+            int visibleSlots = Math.Min(totalSlots, listHeight / slotHeight);
 
-            int slotHeight = 50; // Height of each player slot
-            int emblemSize = 36;
-            int titleHeight = 25; // Space for title at top
-            int hintHeight = 20; // Space for hint at bottom
-            int centerY = titleHeight + (playerWheelPanel.Height - titleHeight - hintHeight) / 2;
-            int totalSlots = playerNames.Count + 1; // +1 for "Free Camera"
-
-            // Calculate visible slot range
-            float currentOffset = wheelSpinOffset + wheelSelectedIndex;
-            int visibleSlots = 5; // Show 5 slots
-
-            // Draw selection highlight in center
-            using (SolidBrush highlightBrush = new SolidBrush(Color.FromArgb(40, 0, 200, 255)))
+            // Calculate scroll offset to keep selected item visible
+            int scrollOffset = 0;
+            if (wheelSelectedIndex >= visibleSlots)
             {
-                e.Graphics.FillRectangle(highlightBrush,
-                    5, centerY - slotHeight / 2 - 2,
-                    playerWheelPanel.Width - 10, slotHeight + 4);
-            }
-            using (Pen highlightPen = new Pen(Color.FromArgb(0, 200, 255), 2))
-            {
-                e.Graphics.DrawRectangle(highlightPen,
-                    5, centerY - slotHeight / 2 - 2,
-                    playerWheelPanel.Width - 10, slotHeight + 4);
+                scrollOffset = wheelSelectedIndex - visibleSlots + 1;
             }
 
-            // Draw player slots with perspective effect
-            for (int visOffset = -visibleSlots / 2; visOffset <= visibleSlots / 2; visOffset++)
+            // Draw player slots
+            for (int i = 0; i < visibleSlots && (i + scrollOffset) < totalSlots; i++)
             {
-                float slotIndex = currentOffset + visOffset - wheelSpinOffset;
-                int actualIndex = ((int)Math.Round(slotIndex) % totalSlots + totalSlots) % totalSlots;
-
-                // Calculate Y position with wheel curve effect
-                float offsetFromCenter = visOffset + (wheelSpinOffset % 1.0f);
-                float yPos = centerY + offsetFromCenter * slotHeight;
-
-                // Scale based on distance from center (perspective)
-                float distFromCenter = Math.Abs(offsetFromCenter);
-                float scale = 1.0f - (distFromCenter * 0.15f);
-                float alpha = 1.0f - (distFromCenter * 0.3f);
-
-                if (scale <= 0.3f || alpha <= 0.1f) continue;
+                int actualIndex = i + scrollOffset;
+                int slotY = listTop + i * slotHeight;
+                int slotX = 8;
+                int slotWidth = playerWheelPanel.Width - 16;
 
                 // Get player info
                 string playerName;
                 Color bgColor;
                 PlayerTelemetry playerData = null;
+                bool isSelected = (actualIndex == wheelSelectedIndex);
 
                 if (actualIndex == 0)
                 {
                     playerName = "Free Camera";
-                    bgColor = Color.FromArgb((int)(alpha * 255), 50, 60, 70);
+                    bgColor = Color.FromArgb(50, 60, 70);
                 }
                 else
                 {
                     playerName = playerNames[actualIndex - 1];
                     int team = GetPlayerTeam(playerName);
 
-                    // Get team background color (white for non-team games)
                     if (!isTeamGame)
                     {
-                        bgColor = Color.FromArgb((int)(alpha * 200), 240, 240, 240);
+                        bgColor = Color.FromArgb(200, 240, 240, 240);
                     }
                     else
                     {
                         Color teamColor = GetTeamColor(team);
-                        bgColor = Color.FromArgb((int)(alpha * 200), teamColor.R, teamColor.G, teamColor.B);
+                        bgColor = Color.FromArgb(200, teamColor.R, teamColor.G, teamColor.B);
                     }
 
-                    // Get player telemetry data for emblem
                     if (showLiveTelemetry)
                     {
                         lock (livePlayersLock)
@@ -1719,27 +1712,28 @@ namespace entity.Renderers
                     }
                     else
                     {
-                        // Get emblem data from path player (replay mode)
                         playerData = GetPathPlayerData(playerName);
                     }
                 }
 
-                // Calculate scaled dimensions
-                int scaledHeight = (int)(slotHeight * scale);
-                int scaledEmblemSize = (int)(emblemSize * scale);
-                int slotY = (int)(yPos - scaledHeight / 2);
-                int slotX = 10;
-                int slotWidth = playerWheelPanel.Width - 20;
-
-                // Draw slot background with team color
-                using (SolidBrush bgBrush = new SolidBrush(bgColor))
+                // Draw selection highlight
+                if (isSelected)
                 {
-                    e.Graphics.FillRoundedRectangle(bgBrush, slotX, slotY, slotWidth, scaledHeight, 6);
+                    using (Pen highlightPen = new Pen(haloBlue, 2))
+                    {
+                        e.Graphics.DrawRoundedRectangle(highlightPen, slotX - 2, slotY - 2, slotWidth + 4, slotHeight, 6);
+                    }
                 }
 
-                // Draw emblem if player data available
-                int emblemX = slotX + 5;
-                int emblemY = slotY + (scaledHeight - scaledEmblemSize) / 2;
+                // Draw slot background
+                using (SolidBrush bgBrush = new SolidBrush(bgColor))
+                {
+                    e.Graphics.FillRoundedRectangle(bgBrush, slotX, slotY, slotWidth, slotHeight - 4, 5);
+                }
+
+                // Draw emblem
+                int emblemX = slotX + 4;
+                int emblemY = slotY + (slotHeight - 4 - emblemSize) / 2;
 
                 if (playerData != null && actualIndex > 0)
                 {
@@ -1748,41 +1742,36 @@ namespace entity.Renderers
 
                     if (emblemImg != null)
                     {
-                        e.Graphics.DrawImage(emblemImg, emblemX, emblemY, scaledEmblemSize, scaledEmblemSize);
+                        e.Graphics.DrawImage(emblemImg, emblemX, emblemY, emblemSize, emblemSize);
                     }
                     else
                     {
-                        // Draw placeholder circle
-                        using (SolidBrush placeholderBrush = new SolidBrush(Color.FromArgb((int)(alpha * 150), 100, 100, 100)))
+                        using (SolidBrush placeholderBrush = new SolidBrush(Color.FromArgb(150, 100, 100, 100)))
                         {
-                            e.Graphics.FillEllipse(placeholderBrush, emblemX, emblemY, scaledEmblemSize, scaledEmblemSize);
+                            e.Graphics.FillEllipse(placeholderBrush, emblemX, emblemY, emblemSize, emblemSize);
                         }
                     }
                 }
                 else if (actualIndex == 0)
                 {
-                    // Draw camera icon for Free Camera
-                    using (System.Drawing.Font iconFont = new System.Drawing.Font("Segoe UI Symbol", 16 * scale, FontStyle.Regular))
-                    using (SolidBrush iconBrush = new SolidBrush(Color.FromArgb((int)(alpha * 255), 0, 200, 255)))
+                    using (System.Drawing.Font iconFont = new System.Drawing.Font("Segoe UI Symbol", 14, FontStyle.Regular))
+                    using (SolidBrush iconBrush = new SolidBrush(haloBlue))
                     {
                         e.Graphics.DrawString("📷", iconFont, iconBrush, emblemX, emblemY);
                     }
                 }
 
                 // Draw player name
-                int textX = emblemX + scaledEmblemSize + 8;
-                int textY = slotY + (scaledHeight - (int)(14 * scale)) / 2;
-                Color textColor = actualIndex == 0 ?
-                    Color.FromArgb((int)(alpha * 255), 0, 200, 255) :
-                    Color.FromArgb((int)(alpha * 255), 255, 255, 255);
+                int textX = emblemX + emblemSize + 6;
+                int textY = slotY + (slotHeight - 4 - 14) / 2;
+                Color textColor = actualIndex == 0 ? haloBlue : Color.White;
 
-                using (System.Drawing.Font nameFont = new System.Drawing.Font("Segoe UI", 9 * scale, FontStyle.Bold))
+                using (System.Drawing.Font nameFont = new System.Drawing.Font("Segoe UI", 9, FontStyle.Bold))
                 using (SolidBrush textBrush = new SolidBrush(textColor))
                 {
-                    // Truncate name if too long
                     string displayName = playerName;
                     SizeF textSize = e.Graphics.MeasureString(displayName, nameFont);
-                    int maxWidth = slotWidth - scaledEmblemSize - 20;
+                    int maxWidth = slotWidth - emblemSize - 16;
                     while (textSize.Width > maxWidth && displayName.Length > 3)
                     {
                         displayName = displayName.Substring(0, displayName.Length - 1);
@@ -1793,51 +1782,94 @@ namespace entity.Renderers
                     e.Graphics.DrawString(displayName, nameFont, textBrush, textX, textY);
                 }
             }
+        }
 
-            // Draw spin instruction at bottom
-            using (System.Drawing.Font hintFont = new System.Drawing.Font("Segoe UI", 8, FontStyle.Regular))
-            using (SolidBrush hintBrush = new SolidBrush(Color.FromArgb(150, 0, 200, 255)))
+        /// <summary>
+        /// Draws an arrow button (up or down).
+        /// </summary>
+        private void DrawArrowButton(Graphics g, int centerX, int centerY, bool isUp, Color color)
+        {
+            int arrowWidth = 20;
+            int arrowHeight = 12;
+
+            Point[] arrowPoints;
+            if (isUp)
             {
-                string hint = "Click to spin";
-                SizeF hintSize = e.Graphics.MeasureString(hint, hintFont);
-                e.Graphics.DrawString(hint, hintFont, hintBrush,
-                    (playerWheelPanel.Width - hintSize.Width) / 2,
-                    playerWheelPanel.Height - hintSize.Height - 5);
+                arrowPoints = new Point[]
+                {
+                    new Point(centerX, centerY - arrowHeight / 2),
+                    new Point(centerX - arrowWidth / 2, centerY + arrowHeight / 2),
+                    new Point(centerX + arrowWidth / 2, centerY + arrowHeight / 2)
+                };
+            }
+            else
+            {
+                arrowPoints = new Point[]
+                {
+                    new Point(centerX, centerY + arrowHeight / 2),
+                    new Point(centerX - arrowWidth / 2, centerY - arrowHeight / 2),
+                    new Point(centerX + arrowWidth / 2, centerY - arrowHeight / 2)
+                };
+            }
+
+            using (SolidBrush brush = new SolidBrush(color))
+            {
+                g.FillPolygon(brush, arrowPoints);
             }
         }
 
         /// <summary>
-        /// Handles click on player wheel to start spinning.
+        /// Handles click on player list - arrows or direct selection.
         /// </summary>
         private void PlayerWheelPanel_MouseClick(object sender, MouseEventArgs e)
         {
             List<string> playerNames = showLiveTelemetry ? livePlayerNames : pathPlayerNames;
-            if (playerNames.Count == 0) return;
+            int totalSlots = playerNames.Count + 1;
+            if (totalSlots <= 1) return;
+
+            int arrowHeight = 30;
+            int titleHeight = 25;
+            int slotHeight = 40;
+            int listTop = titleHeight + arrowHeight;
+            int listBottom = playerWheelPanel.Height - arrowHeight;
 
             if (e.Button == MouseButtons.Left)
             {
-                if (!wheelIsSpinning)
+                // Check if clicked on UP arrow
+                if (e.Y >= titleHeight && e.Y < listTop)
                 {
-                    // Start spin animation with random velocity
-                    Random rnd = new Random();
-                    wheelSpinVelocity = 15f + (float)(rnd.NextDouble() * 10);
-                    wheelIsSpinning = true;
-                    wheelSpinTimer.Start();
+                    wheelSelectedIndex = (wheelSelectedIndex - 1 + totalSlots) % totalSlots;
+                    UpdatePOVFromWheel();
+                    playerWheelPanel.Invalidate();
                 }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                // Right click selects immediately without spin
-                int slotHeight = 50;
-                int titleHeight = 25;
-                int hintHeight = 20;
-                int centerY = titleHeight + (playerWheelPanel.Height - titleHeight - hintHeight) / 2;
-                int clickedSlot = (int)Math.Round((e.Y - centerY) / (float)slotHeight);
-                int totalSlots = playerNames.Count + 1;
-                int newIndex = (wheelSelectedIndex + clickedSlot + totalSlots) % totalSlots;
-                wheelSelectedIndex = newIndex;
-                UpdatePOVFromWheel();
-                playerWheelPanel.Invalidate();
+                // Check if clicked on DOWN arrow
+                else if (e.Y >= listBottom && e.Y < playerWheelPanel.Height)
+                {
+                    wheelSelectedIndex = (wheelSelectedIndex + 1) % totalSlots;
+                    UpdatePOVFromWheel();
+                    playerWheelPanel.Invalidate();
+                }
+                // Check if clicked on a player slot
+                else if (e.Y >= listTop && e.Y < listBottom)
+                {
+                    int listHeight = listBottom - listTop;
+                    int visibleSlots = Math.Min(totalSlots, listHeight / slotHeight);
+                    int scrollOffset = 0;
+                    if (wheelSelectedIndex >= visibleSlots)
+                    {
+                        scrollOffset = wheelSelectedIndex - visibleSlots + 1;
+                    }
+
+                    int clickedVisibleSlot = (e.Y - listTop) / slotHeight;
+                    int clickedIndex = clickedVisibleSlot + scrollOffset;
+
+                    if (clickedIndex >= 0 && clickedIndex < totalSlots)
+                    {
+                        wheelSelectedIndex = clickedIndex;
+                        UpdatePOVFromWheel();
+                        playerWheelPanel.Invalidate();
+                    }
+                }
             }
         }
 
