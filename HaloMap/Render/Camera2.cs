@@ -571,7 +571,7 @@ namespace HaloMap.Render
                 prevBackButton = currentBackButton;
 
                 // D-pad handling via POV (point-of-view) controller
-                int[] pov = state.GetPOV();
+                int[] pov = state.GetPointOfViewControllers();
                 bool currentDPadUp = false;
                 if (pov.Length > 0 && pov[0] != -1)
                 {
