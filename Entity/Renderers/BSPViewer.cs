@@ -581,6 +581,11 @@ namespace entity.Renderers
             public int RespawnTimer;
             public bool IsDead;
 
+            // Last known valid position (for showing death location)
+            public float LastValidPosX;
+            public float LastValidPosY;
+            public float LastValidPosZ;
+
             // Events
             public string Event;
         }
@@ -9968,6 +9973,24 @@ namespace entity.Renderers
                         }
                     }
 
+                    // Preserve last valid position for dead players
+                    bool hasValidPosition = Math.Abs(telemetry.PosX) > 0.01f || Math.Abs(telemetry.PosY) > 0.01f || Math.Abs(telemetry.PosZ) > 0.01f;
+                    if (hasValidPosition)
+                    {
+                        // Current position is valid - store it
+                        telemetry.LastValidPosX = telemetry.PosX;
+                        telemetry.LastValidPosY = telemetry.PosY;
+                        telemetry.LastValidPosZ = telemetry.PosZ;
+                    }
+                    else if (livePlayers.ContainsKey(playerName))
+                    {
+                        // Position is 0,0,0 - preserve last known valid position from previous telemetry
+                        PlayerTelemetry prev = livePlayers[playerName];
+                        telemetry.LastValidPosX = prev.LastValidPosX;
+                        telemetry.LastValidPosY = prev.LastValidPosY;
+                        telemetry.LastValidPosZ = prev.LastValidPosZ;
+                    }
+
                     livePlayers[playerName] = telemetry;
                 }
                 // Update dropdowns if player list changed
@@ -10376,9 +10399,27 @@ namespace entity.Renderers
                 // Check if player is dead (using IsDead field from telemetry)
                 bool isDead = player.IsDead;
 
-                // Skip dead players at position 0,0,0 (waiting to respawn - no valid position)
-                if (isDead && Math.Abs(player.PosX) < 0.01f && Math.Abs(player.PosY) < 0.01f && Math.Abs(player.PosZ) < 0.01f)
-                    continue;
+                // For dead players at 0,0,0, use their last valid position (where they died)
+                float renderPosX = player.PosX;
+                float renderPosY = player.PosY;
+                float renderPosZ = player.PosZ;
+
+                bool atOrigin = Math.Abs(player.PosX) < 0.01f && Math.Abs(player.PosY) < 0.01f && Math.Abs(player.PosZ) < 0.01f;
+                if (isDead && atOrigin)
+                {
+                    // Use last valid position if available
+                    if (Math.Abs(player.LastValidPosX) > 0.01f || Math.Abs(player.LastValidPosY) > 0.01f || Math.Abs(player.LastValidPosZ) > 0.01f)
+                    {
+                        renderPosX = player.LastValidPosX;
+                        renderPosY = player.LastValidPosY;
+                        renderPosZ = player.LastValidPosZ;
+                    }
+                    else
+                    {
+                        // No valid position known, skip rendering
+                        continue;
+                    }
+                }
 
                 // Ground offset to align model with floor
                 float groundOffset = -0.2f;
@@ -10465,7 +10506,29 @@ namespace entity.Renderers
                 }
 
                 // Draw player name/emblem above head (passes isDead to show X when dead)
-                DrawPlayerName(player, isDead);
+                // Use render position for dead players at origin
+                PlayerTelemetry renderPlayer = player;
+                if (isDead && atOrigin)
+                {
+                    // Create a copy with the render position
+                    renderPlayer = new PlayerTelemetry
+                    {
+                        PlayerName = player.PlayerName,
+                        Team = player.Team,
+                        PosX = renderPosX,
+                        PosY = renderPosY,
+                        PosZ = renderPosZ,
+                        IsDead = player.IsDead,
+                        CurrentWeapon = player.CurrentWeapon,
+                        EmblemFg = player.EmblemFg,
+                        EmblemBg = player.EmblemBg,
+                        ColorPrimary = player.ColorPrimary,
+                        ColorSecondary = player.ColorSecondary,
+                        ColorTertiary = player.ColorTertiary,
+                        ColorQuaternary = player.ColorQuaternary
+                    };
+                }
+                DrawPlayerName(renderPlayer, isDead);
             }
         }
 
