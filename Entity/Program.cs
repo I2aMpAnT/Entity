@@ -487,18 +487,11 @@ namespace entity
                 meta.ScanMetaItems(true, false);
                 BSPModel bsp = new BSPModel(ref meta);
 
-                // Launch BSPViewer in Theater Mode
-                BSPViewer theaterViewer = new BSPViewer(bsp, map, theaterMode: true);
-
-                // Set the mode so BSPViewer knows what to do on startup
-                if (startLive)
-                {
-                    theaterViewer.StartInLiveMode = true;
-                }
-                else if (!string.IsNullOrEmpty(csvFilePath))
-                {
-                    theaterViewer.StartWithCsvFile = csvFilePath;
-                }
+                // Launch BSPViewer in Theater Mode with the appropriate startup mode
+                BSPViewer theaterViewer = new BSPViewer(bsp, map,
+                    theaterMode: true,
+                    startLive: startLive,
+                    csvFile: csvFilePath);
 
                 Application.Run(theaterViewer);
 

@@ -853,10 +853,14 @@ namespace entity.Renderers
         /// <param name="tempbsp">The tempbsp.</param>
         /// <param name="map">The map.</param>
         /// <param name="theaterMode">If true, opens in Theater Mode with full playback features.</param>
+        /// <param name="startLive">If true, starts in LIVE telemetry mode immediately.</param>
+        /// <param name="csvFile">If set, loads this CSV file on startup.</param>
         /// <remarks></remarks>
-        public BSPViewer(BSPModel tempbsp, Map map, bool theaterMode = false)
+        public BSPViewer(BSPModel tempbsp, Map map, bool theaterMode = false, bool startLive = false, string csvFile = null)
         {
             this.theaterMode = theaterMode;
+            this.StartInLiveMode = startLive;
+            this.StartWithCsvFile = csvFile;
 
             // InitializeComponent
             InitializeComponent();
