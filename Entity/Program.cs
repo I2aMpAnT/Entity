@@ -260,11 +260,11 @@ namespace entity
 
                 // Status label
                 Label statusLabel = new Label();
-                statusLabel.Text = "Waiting for telemetry data on port 2222...";
+                statusLabel.Text = "Listening on port 2222 (UDP + TCP)...";
                 statusLabel.Font = new Font("Segoe UI", 12);
                 statusLabel.ForeColor = Color.FromArgb(180, 180, 180);
                 statusLabel.AutoSize = true;
-                statusLabel.Location = new Point(115, 90);
+                statusLabel.Location = new Point(130, 90);
                 waitingForm.Controls.Add(statusLabel);
 
                 // Info label
@@ -289,20 +289,23 @@ namespace entity
                 btnCancel.Click += (s, e) => waitingForm.Close();
                 waitingForm.Controls.Add(btnCancel);
 
-                // Start UDP listener in background
+                // Start both UDP and TCP listeners in background
                 System.Net.Sockets.UdpClient udpClient = null;
-                Thread listenerThread = null;
+                System.Net.Sockets.TcpListener tcpListener = null;
+                Thread udpListenerThread = null;
+                Thread tcpListenerThread = null;
                 bool listening = true;
 
                 try
                 {
+                    // UDP listener
                     udpClient = new System.Net.Sockets.UdpClient();
                     udpClient.Client.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket,
                         System.Net.Sockets.SocketOptionName.ReuseAddress, true);
                     udpClient.Client.Bind(new System.Net.IPEndPoint(System.Net.IPAddress.Any, 2222));
-                    udpClient.Client.ReceiveTimeout = 500; // 500ms timeout for checking cancellation
+                    udpClient.Client.ReceiveTimeout = 500;
 
-                    listenerThread = new Thread(() =>
+                    udpListenerThread = new Thread(() =>
                     {
                         System.Net.IPEndPoint remoteEP = new System.Net.IPEndPoint(System.Net.IPAddress.Any, 0);
                         while (listening && detectedMapName == null)
@@ -315,24 +318,65 @@ namespace entity
 
                                 foreach (string line in lines)
                                 {
-                                    // Try to detect map name from the data
                                     string mapName = DetectMapFromLine(line);
                                     if (!string.IsNullOrEmpty(mapName))
                                     {
                                         detectedMapName = mapName;
-                                        waitingForm.BeginInvoke(new System.Action(() => waitingForm.Close()));
+                                        try { waitingForm.BeginInvoke(new System.Action(() => waitingForm.Close())); } catch { }
                                         break;
                                     }
                                 }
                             }
-                            catch (System.Net.Sockets.SocketException)
-                            {
-                                // Timeout or socket closed, continue checking
-                            }
+                            catch (System.Net.Sockets.SocketException) { }
                         }
                     });
-                    listenerThread.IsBackground = true;
-                    listenerThread.Start();
+                    udpListenerThread.IsBackground = true;
+                    udpListenerThread.Start();
+
+                    // TCP listener
+                    tcpListener = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Any, 2222);
+                    tcpListener.Server.SetSocketOption(System.Net.Sockets.SocketOptionLevel.Socket,
+                        System.Net.Sockets.SocketOptionName.ReuseAddress, true);
+                    tcpListener.Start();
+
+                    tcpListenerThread = new Thread(() =>
+                    {
+                        while (listening && detectedMapName == null)
+                        {
+                            try
+                            {
+                                if (!tcpListener.Pending())
+                                {
+                                    Thread.Sleep(100);
+                                    continue;
+                                }
+
+                                using (var client = tcpListener.AcceptTcpClient())
+                                using (var stream = client.GetStream())
+                                using (var reader = new StreamReader(stream, System.Text.Encoding.UTF8))
+                                {
+                                    while (listening && detectedMapName == null && client.Connected)
+                                    {
+                                        string line = reader.ReadLine();
+                                        if (line == null) break;
+                                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                                        string mapName = DetectMapFromLine(line);
+                                        if (!string.IsNullOrEmpty(mapName))
+                                        {
+                                            detectedMapName = mapName;
+                                            try { waitingForm.BeginInvoke(new System.Action(() => waitingForm.Close())); } catch { }
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            catch (System.Net.Sockets.SocketException) { }
+                            catch (IOException) { }
+                        }
+                    });
+                    tcpListenerThread.IsBackground = true;
+                    tcpListenerThread.Start();
                 }
                 catch (Exception ex)
                 {
@@ -346,7 +390,9 @@ namespace entity
                 // Cleanup
                 listening = false;
                 udpClient?.Close();
-                listenerThread?.Join(1000);
+                tcpListener?.Stop();
+                udpListenerThread?.Join(1000);
+                tcpListenerThread?.Join(1000);
             }
 
             // If we detected a map, load it
