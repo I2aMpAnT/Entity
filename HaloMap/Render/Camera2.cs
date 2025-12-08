@@ -570,17 +570,10 @@ namespace HaloMap.Render
                 prevAButton = currentAButton;
                 prevBackButton = currentBackButton;
 
-                // D-pad handling via POV (point-of-view) controller
-                int[] pov = state.GetPointOfViewControllers();
-                bool currentDPadUp = false;
-                if (pov.Length > 0 && pov[0] != -1)
-                {
-                    // POV values are in hundredths of a degree, -1 = centered
-                    // Up = 0, Right = 9000, Down = 18000, Left = 27000
-                    // Also handle diagonals: Up-Right = 4500, Up-Left = 31500
-                    int povVal = pov[0];
-                    currentDPadUp = (povVal >= 31500 || povVal <= 4500);
-                }
+                // D-pad handling via buttons (button indices vary by controller)
+                // Common D-pad up button indices: 10, 12
+                bool currentDPadUp = (buttons.Length > 10 && buttons[10] != 0) ||
+                                     (buttons.Length > 12 && buttons[12] != 0);
                 if (currentDPadUp && !prevDPadUp)
                 {
                     gamepadDPadUpPressed = true;
