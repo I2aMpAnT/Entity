@@ -471,8 +471,16 @@ namespace entity
         /// </summary>
         private static void LaunchTheaterWithMap(string mapFilePath, string csvFilePath, bool startLive)
         {
+            Meta meta = null;
             try
             {
+                // Validate file path
+                if (string.IsNullOrEmpty(mapFilePath) || !File.Exists(mapFilePath))
+                {
+                    MessageBox.Show($"Map file not found: {mapFilePath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Load the map
                 Map map = Map.LoadFromFile(mapFilePath);
                 if (map == null)
@@ -488,11 +496,30 @@ namespace entity
                     return;
                 }
 
+                // Validate Functions object
+                if (map.Functions?.ForMeta == null)
+                {
+                    MessageBox.Show("Map functions not initialized.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 int BSPId = map.Functions.ForMeta.FindMetaByID(map.BSP.sbsp[0].ident);
-                Meta meta = new Meta(map);
+                if (BSPId < 0)
+                {
+                    MessageBox.Show("Could not find BSP meta in map.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                meta = new Meta(map);
                 meta.TagIndex = BSPId;
                 meta.ScanMetaItems(true, false);
                 BSPModel bsp = new BSPModel(ref meta);
+
+                if (bsp == null)
+                {
+                    MessageBox.Show("Failed to create BSP model.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 // Launch BSPViewer in Theater Mode with the appropriate startup mode
                 BSPViewer theaterViewer = new BSPViewer(bsp, map,
@@ -501,9 +528,6 @@ namespace entity
                     csvFile: csvFilePath);
 
                 Application.Run(theaterViewer);
-
-                // Cleanup - ignore errors during disposal as form may already be disposed
-                try { meta.Dispose(); } catch { }
             }
             catch (ObjectDisposedException)
             {
@@ -511,7 +535,12 @@ namespace entity
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error launching Theater Mode: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error launching Theater Mode: {ex.Message}\n\nStack trace:\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Cleanup
+                try { meta?.Dispose(); } catch { }
             }
         }
 
