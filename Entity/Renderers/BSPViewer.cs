@@ -10085,6 +10085,10 @@ namespace entity.Renderers
                     return;
                 }
 
+                // Initialize DirectX textures and buffers for the new BSP
+                AddDebugLog("[MAP] Loading DirectX textures and buffers...");
+                BSPModel.BSPDisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp);
+
                 // Successfully created BSP, now update references
                 this.map = newMap;
                 this.bsp = newBsp;
