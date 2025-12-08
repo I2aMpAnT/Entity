@@ -2955,11 +2955,33 @@ namespace HaloMap.RawData
 
                 if (bsp.DrawBSPPermutations)
                 {
+                    // Null checks for permutation rendering
+                    if (bsp.PermutationInfo == null || bsp.Display == null ||
+                        bsp.Display.permvertexBuffer == null || bsp.Display.permindexBuffer == null ||
+                        bsp.BSPPermutationRawDataMetaChunks == null)
+                    {
+                        return;
+                    }
+
                     for (int x = 0; x < bsp.PermutationInfo.Length; x++)
                     {
                         // continue;
                         int rawindex = bsp.PermutationInfo[x].sceneryIndex;
-                        if (bsp.BSPPermutationRawDataMetaChunks[rawindex].RawDataChunkInfo.Length == 0)
+
+                        // Bounds and null checks
+                        if (rawindex < 0 || rawindex >= bsp.BSPPermutationRawDataMetaChunks.Length ||
+                            bsp.BSPPermutationRawDataMetaChunks[rawindex] == null ||
+                            bsp.BSPPermutationRawDataMetaChunks[rawindex].RawDataChunkInfo == null ||
+                            bsp.BSPPermutationRawDataMetaChunks[rawindex].RawDataChunkInfo.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        // Check buffer bounds
+                        if (rawindex >= bsp.Display.permvertexBuffer.Length ||
+                            rawindex >= bsp.Display.permindexBuffer.Length ||
+                            bsp.Display.permvertexBuffer[rawindex] == null ||
+                            bsp.Display.permindexBuffer[rawindex] == null)
                         {
                             continue;
                         }
