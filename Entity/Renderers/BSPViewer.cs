@@ -11056,9 +11056,9 @@ namespace entity.Renderers
         /// </summary>
         private string GetEmblemUrl(PlayerTelemetry player)
         {
-            // Use vpstats direct image URL format
+            // Direct emblem image URL from carnage.report
             // P=primary, S=secondary, EP=emblem primary, ES=emblem secondary, EF=foreground, EB=background, ET=toggle
-            return $"https://vpstats.halo2pc.com/emblems/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
+            return $"https://carnage.report/emblem/P{player.ColorPrimary}-S{player.ColorSecondary}-EP{player.ColorTertiary}-ES{player.ColorQuaternary}-EF{player.EmblemFg}-EB{player.EmblemBg}-ET0.png";
         }
 
         /// <summary>
