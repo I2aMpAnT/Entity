@@ -9063,12 +9063,20 @@ namespace entity.Renderers
                     bool crouching = getBool(parts, "iscrouching");
                     bool airborne = getBool(parts, "isairborne");
                     bool isDead = getBool(parts, "isdead") || getInt(parts, "respawntimer") > 0;
+
+                    // Emblem/color fields - support both short and full column names
                     int emblemFg = getInt(parts, "emblemfg");
+                    if (emblemFg == 0) emblemFg = getInt(parts, "emblemforeground");
                     int emblemBg = getInt(parts, "emblembg");
+                    if (emblemBg == 0) emblemBg = getInt(parts, "emblembackground");
                     int colorPrimary = getInt(parts, "colorprimary");
+                    if (colorPrimary == 0) colorPrimary = getInt(parts, "primarycolor");
                     int colorSecondary = getInt(parts, "colorsecondary");
+                    if (colorSecondary == 0) colorSecondary = getInt(parts, "secondarycolor");
                     int colorTertiary = getInt(parts, "colortertiary");
+                    if (colorTertiary == 0) colorTertiary = getInt(parts, "tertiarycolor");
                     int colorQuaternary = getInt(parts, "colorquaternary");
+                    if (colorQuaternary == 0) colorQuaternary = getInt(parts, "quaternarycolor");
                     int kills = getInt(parts, "kills");
                     int deaths = getInt(parts, "deaths");
 
