@@ -11172,6 +11172,14 @@ namespace entity.Renderers
                         // Get bounds and export
                         var bounds = GetMapExportBounds();
                         string outputPath = Path.Combine(outputFolder, mapFileName + ".glb");
+
+                        // Delete existing file if it exists (avoid file in use errors)
+                        if (File.Exists(outputPath))
+                        {
+                            try { File.Delete(outputPath); }
+                            catch { /* Ignore delete errors, export will fail if file is locked */ }
+                        }
+
                         ExportToGLB(outputPath, bounds);
 
                         AddDebugLog($"[BATCH] Exported: {mapFileName}");
