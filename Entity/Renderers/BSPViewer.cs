@@ -533,6 +533,90 @@ namespace entity.Renderers
             public int ShaderIndex = -1;
             public float MinX = float.MaxValue, MinY = float.MaxValue, MinZ = float.MaxValue;
             public float MaxX = float.MinValue, MaxY = float.MinValue, MaxZ = float.MinValue;
+
+            /// <summary>
+            /// Subdivides the mesh by splitting each triangle into 4.
+            /// </summary>
+            public void Subdivide(int passes = 1)
+            {
+                for (int pass = 0; pass < passes; pass++)
+                {
+                    if (Indices.Count == 0) return;
+
+                    List<float> newPositions = new List<float>();
+                    List<float> newUVs = new List<float>();
+                    List<uint> newIndices = new List<uint>();
+                    Dictionary<long, uint> midpointCache = new Dictionary<long, uint>();
+
+                    // Helper to get or create midpoint vertex
+                    Func<uint, uint, uint> getMidpoint = (i1, i2) =>
+                    {
+                        // Create unique key for edge (order independent)
+                        long key = i1 < i2 ? ((long)i1 << 32) | i2 : ((long)i2 << 32) | i1;
+                        if (midpointCache.ContainsKey(key))
+                            return midpointCache[key];
+
+                        // Create new midpoint vertex
+                        uint newIdx = (uint)(newPositions.Count / 3);
+                        float x = (Positions[(int)i1 * 3] + Positions[(int)i2 * 3]) / 2;
+                        float y = (Positions[(int)i1 * 3 + 1] + Positions[(int)i2 * 3 + 1]) / 2;
+                        float z = (Positions[(int)i1 * 3 + 2] + Positions[(int)i2 * 3 + 2]) / 2;
+                        newPositions.Add(x);
+                        newPositions.Add(y);
+                        newPositions.Add(z);
+
+                        if (UVs.Count > 0)
+                        {
+                            float u = (UVs[(int)i1 * 2] + UVs[(int)i2 * 2]) / 2;
+                            float v = (UVs[(int)i1 * 2 + 1] + UVs[(int)i2 * 2 + 1]) / 2;
+                            newUVs.Add(u);
+                            newUVs.Add(v);
+                        }
+
+                        midpointCache[key] = newIdx;
+                        return newIdx;
+                    };
+
+                    // Copy original vertices
+                    newPositions.AddRange(Positions);
+                    newUVs.AddRange(UVs);
+
+                    // Subdivide each triangle
+                    for (int i = 0; i < Indices.Count; i += 3)
+                    {
+                        uint a = Indices[i];
+                        uint b = Indices[i + 1];
+                        uint c = Indices[i + 2];
+
+                        uint ab = getMidpoint(a, b);
+                        uint bc = getMidpoint(b, c);
+                        uint ca = getMidpoint(c, a);
+
+                        // Create 4 new triangles
+                        newIndices.Add(a); newIndices.Add(ab); newIndices.Add(ca);
+                        newIndices.Add(ab); newIndices.Add(b); newIndices.Add(bc);
+                        newIndices.Add(ca); newIndices.Add(bc); newIndices.Add(c);
+                        newIndices.Add(ab); newIndices.Add(bc); newIndices.Add(ca);
+                    }
+
+                    Positions = newPositions;
+                    UVs = newUVs;
+                    Indices = newIndices;
+                }
+
+                // Recalculate bounds
+                MinX = float.MaxValue; MinY = float.MaxValue; MinZ = float.MaxValue;
+                MaxX = float.MinValue; MaxY = float.MinValue; MaxZ = float.MinValue;
+                for (int i = 0; i < Positions.Count; i += 3)
+                {
+                    MinX = Math.Min(MinX, Positions[i]);
+                    MaxX = Math.Max(MaxX, Positions[i]);
+                    MinY = Math.Min(MinY, Positions[i + 1]);
+                    MaxY = Math.Max(MaxY, Positions[i + 1]);
+                    MinZ = Math.Min(MinZ, Positions[i + 2]);
+                    MaxZ = Math.Max(MaxZ, Positions[i + 2]);
+                }
+            }
         }
 
         /// <summary>
@@ -11454,7 +11538,16 @@ namespace entity.Renderers
                 }
             }
 
-            // Extract textures from shaders
+            // Subdivide meshes for higher detail (2 passes = 16x more triangles)
+            foreach (var prim in primitivesByShader.Values)
+            {
+                if (prim.Positions.Count > 0)
+                {
+                    prim.Subdivide(2);
+                }
+            }
+
+            // Extract textures from shaders (upscale 2x for better quality)
             usedShaderIndices.Sort();
             foreach (int shaderIdx in usedShaderIndices)
             {
@@ -11485,15 +11578,26 @@ namespace entity.Renderers
                         catch { }
                     }
 
-                    // Convert bitmap to PNG bytes
+                    // Convert bitmap to PNG bytes (upscale 2x for better quality)
                     if (textureBitmap != null)
                     {
                         try
                         {
-                            using (MemoryStream ms = new MemoryStream())
+                            // Upscale texture 2x using high quality interpolation
+                            int newWidth = textureBitmap.Width * 2;
+                            int newHeight = textureBitmap.Height * 2;
+                            using (Bitmap upscaled = new Bitmap(newWidth, newHeight))
                             {
-                                textureBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                                textureData[shaderIdx] = ms.ToArray();
+                                using (Graphics g = Graphics.FromImage(upscaled))
+                                {
+                                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                                    g.DrawImage(textureBitmap, 0, 0, newWidth, newHeight);
+                                }
+                                using (MemoryStream ms = new MemoryStream())
+                                {
+                                    upscaled.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                    textureData[shaderIdx] = ms.ToArray();
+                                }
                             }
                             // Don't dispose if it's the original MainBitmap
                             if (textureBitmap != shader?.MainBitmap)
