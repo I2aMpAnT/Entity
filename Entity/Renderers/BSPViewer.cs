@@ -691,6 +691,16 @@ namespace entity.Renderers
         private Dictionary<string, int> playerPrevDeaths = new Dictionary<string, int>();
 
         /// <summary>
+        /// Tracks whether player was dead in previous frame (for death transition detection).
+        /// </summary>
+        private Dictionary<string, bool> playerWasDead = new Dictionary<string, bool>();
+
+        /// <summary>
+        /// Tracks inferred death count per player (from position-based detection).
+        /// </summary>
+        private Dictionary<string, List<float>> playerDeathTimestamps = new Dictionary<string, List<float>>();
+
+        /// <summary>
         /// Tracks previous position per player to detect respawn.
         /// </summary>
         private Dictionary<string, Vector3> playerPrevPosition = new Dictionary<string, Vector3>();
@@ -8962,6 +8972,9 @@ namespace entity.Renderers
             pathPlayerNames.Clear();
             killEvents.Clear();
             playerPrevKills.Clear();
+            playerPrevDeaths.Clear();
+            playerWasDead.Clear();
+            playerDeathTimestamps.Clear();
             pathCurrentIndex = 0;
             pathTimeAccumulator = 0;
             pathMinTimestamp = float.MaxValue;
@@ -9111,6 +9124,22 @@ namespace entity.Renderers
                     bool airborne = getBool(parts, "isairborne");
                     bool isDead = getBool(parts, "isdead") || getInt(parts, "respawntimer") > 0;
 
+                    // Infer death from position going to 0,0,0
+                    bool atOrigin = Math.Abs(x) < 0.1f && Math.Abs(y) < 0.1f && Math.Abs(z) < 0.1f;
+                    if (atOrigin && !isDead)
+                    {
+                        // Check if player had a valid position before
+                        if (lastPoints.ContainsKey(playerName))
+                        {
+                            var lastPt = lastPoints[playerName];
+                            bool wasAtValidPos = Math.Abs(lastPt.X) > 0.1f || Math.Abs(lastPt.Y) > 0.1f || Math.Abs(lastPt.Z) > 0.1f;
+                            if (wasAtValidPos)
+                            {
+                                isDead = true; // Position jumped to origin = death
+                            }
+                        }
+                    }
+
                     // Emblem/color fields - support both short and full column names
                     int emblemFg = getInt(parts, "emblemfg");
                     if (emblemFg == 0) emblemFg = getInt(parts, "emblemforeground");
@@ -9130,13 +9159,34 @@ namespace entity.Renderers
                     // Track deaths for matching to kills
                     if (!playerPrevDeaths.ContainsKey(playerName))
                         playerPrevDeaths[playerName] = 0;
+                    if (!playerWasDead.ContainsKey(playerName))
+                        playerWasDead[playerName] = false;
+
+                    // Detect death from deaths column OR from isDead flag transition
+                    bool justDied = false;
                     if (deaths > playerPrevDeaths[playerName])
+                    {
+                        justDied = true;
+                        playerPrevDeaths[playerName] = deaths;
+                    }
+                    else if (isDead && !playerWasDead[playerName])
+                    {
+                        // isDead became true (including position-based inference)
+                        justDied = true;
+                    }
+                    playerWasDead[playerName] = isDead;
+
+                    if (justDied)
                     {
                         // Player died - add to recent deaths
                         recentDeaths.Add((timestamp, playerName, team));
                         // Keep only last 2 seconds of deaths
                         recentDeaths.RemoveAll(d => timestamp - d.Timestamp > 2.0f);
-                        playerPrevDeaths[playerName] = deaths;
+
+                        // Track death timestamp for scoreboard
+                        if (!playerDeathTimestamps.ContainsKey(playerName))
+                            playerDeathTimestamps[playerName] = new List<float>();
+                        playerDeathTimestamps[playerName].Add(timestamp);
                     }
 
                     // Track kill events
@@ -11462,6 +11512,20 @@ namespace entity.Renderers
                             if (players.ContainsKey(killEvent.VictimName))
                             {
                                 players[killEvent.VictimName].Deaths++;
+                            }
+                        }
+
+                        // Also count deaths from position-based inference (when no kill data available)
+                        foreach (var kvp in playerDeathTimestamps)
+                        {
+                            if (players.ContainsKey(kvp.Key))
+                            {
+                                int deathCount = kvp.Value.Count(t => t <= pathCurrentTimestamp);
+                                // Only use inferred deaths if we don't already have death data from killEvents
+                                if (players[kvp.Key].Deaths == 0 && deathCount > 0)
+                                {
+                                    players[kvp.Key].Deaths = deathCount;
+                                }
                             }
                         }
                     }
