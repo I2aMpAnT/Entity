@@ -10999,6 +10999,30 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Gets default camera position for GLB export (map-specific or null for auto).
+        /// </summary>
+        private (float x, float y, float z)? GetMapCameraPosition()
+        {
+            // Known good camera positions for specific maps
+            var mapCameras = new Dictionary<string, (float, float, float)>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "lockout", (-13.53283f, 6.021179f, -4.799461f) },
+            };
+
+            string mapName = bsp.Name?.ToLowerInvariant() ?? "";
+
+            foreach (var kvp in mapCameras)
+            {
+                if (mapName.Contains(kvp.Key))
+                {
+                    return kvp.Value;
+                }
+            }
+
+            return null; // Unknown map - use auto camera
+        }
+
+        /// <summary>
         /// Checks if a vertex is within export bounds.
         /// </summary>
         private bool IsVertexInBounds(float x, float y, float z, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds)
@@ -11582,21 +11606,32 @@ namespace entity.Renderers
                     }
                 }
 
-                float camCenterX, camCenterY, camCenterZ, camDistance;
-                if (bounds.HasValue)
+                // Get camera position - use map-specific position if available
+                float camPosX, camPosY, camPosZ;
+                var mapCamPos = GetMapCameraPosition();
+                if (mapCamPos.HasValue)
                 {
+                    // Use predefined camera position for this map
+                    camPosX = mapCamPos.Value.x;
+                    camPosY = mapCamPos.Value.y;
+                    camPosZ = mapCamPos.Value.z;
+                }
+                else if (bounds.HasValue)
+                {
+                    // Calculate from play area bounds
                     var b = bounds.Value;
-                    camCenterX = (b.minX + b.maxX) / 2;
-                    camCenterY = (b.minY + b.maxY) / 2;
-                    camCenterZ = (b.minZ + b.maxZ) / 2;
-                    camDistance = Math.Max(b.maxX - b.minX, Math.Max(b.maxY - b.minY, b.maxZ - b.minZ)) * 1.5f;
+                    float camDistance = Math.Max(b.maxX - b.minX, Math.Max(b.maxY - b.minY, b.maxZ - b.minZ)) * 1.5f;
+                    camPosX = (b.minX + b.maxX) / 2;
+                    camPosY = (b.minY + b.maxY) / 2;
+                    camPosZ = (b.minZ + b.maxZ) / 2 + camDistance;
                 }
                 else
                 {
-                    camCenterX = (meshMinX + meshMaxX) / 2;
-                    camCenterY = (meshMinY + meshMaxY) / 2;
-                    camCenterZ = (meshMinZ + meshMaxZ) / 2;
-                    camDistance = Math.Max(meshMaxX - meshMinX, Math.Max(meshMaxY - meshMinY, meshMaxZ - meshMinZ)) * 1.5f;
+                    // Calculate from mesh bounds
+                    float camDistance = Math.Max(meshMaxX - meshMinX, Math.Max(meshMaxY - meshMinY, meshMaxZ - meshMinZ)) * 1.5f;
+                    camPosX = (meshMinX + meshMaxX) / 2;
+                    camPosY = (meshMinY + meshMaxY) / 2;
+                    camPosZ = (meshMinZ + meshMaxZ) / 2 + camDistance;
                 }
 
                 // Build JSON
@@ -11608,7 +11643,7 @@ namespace entity.Renderers
                 json.Append("  \"nodes\": [\n");
                 json.Append("    { \"mesh\": 0 },\n");
                 json.AppendFormat("    {{ \"camera\": 0, \"translation\": [{0:F6}, {1:F6}, {2:F6}] }}\n",
-                    camCenterX, camCenterY, camCenterZ + camDistance);
+                    camPosX, camPosY, camPosZ);
                 json.Append("  ],\n");
                 json.Append("  \"cameras\": [{\n");
                 json.Append("    \"type\": \"perspective\",\n");
