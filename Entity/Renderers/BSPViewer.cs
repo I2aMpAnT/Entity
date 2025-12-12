@@ -2188,9 +2188,25 @@ namespace entity.Renderers
         /// </summary>
         private void EnableTelemetryViewOptions()
         {
+            // Enable NoCulling (Show backfaces)
+            if (NoCulling != null)
+                NoCulling.Checked = true;
+
             // Enable RenderSky
             if (RenderSky != null)
                 RenderSky.Checked = true;
+
+            // Enable BSP lighting if available
+            if (BSPLighting != null)
+                BSPLighting.Checked = true;
+
+            // Enable BSP Permutations if available
+            if (BSPPermutations != null)
+                BSPPermutations.Checked = true;
+
+            // Enable BSP textures if available
+            if (cbBSPTextures != null)
+                cbBSPTextures.Checked = true;
 
             // Enable spawn types that are useful for viewing: Scenery, Collection, Obstacle
             string[] spawnTypesToEnable = { "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
@@ -2211,14 +2227,6 @@ namespace entity.Renderers
                     }
                 }
             }
-
-            // Enable BSP textures if available
-            if (cbBSPTextures != null)
-                cbBSPTextures.Checked = true;
-
-            // Enable BSP lighting if available
-            if (BSPLighting != null)
-                BSPLighting.Checked = true;
         }
 
         /// <summary>
