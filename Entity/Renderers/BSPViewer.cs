@@ -11990,7 +11990,9 @@ namespace entity.Renderers
                         a.bufferView, a.componentType, a.count, a.type);
                     if (a.min != null && a.max != null)
                     {
-                        json.AppendFormat(", \"min\": [{0:F6}, {1:F6}, {2:F6}], \"max\": [{3:F6}, {4:F6}, {5:F6}]",
+                        // Use G9 format to preserve full float precision (avoids accessor min/max mismatch errors)
+                        json.AppendFormat(System.Globalization.CultureInfo.InvariantCulture,
+                            ", \"min\": [{0:G9}, {1:G9}, {2:G9}], \"max\": [{3:G9}, {4:G9}, {5:G9}]",
                             a.min[0], a.min[1], a.min[2], a.max[0], a.max[1], a.max[2]);
                     }
                     json.AppendFormat(" }}{0}\n", i < accessors.Count - 1 ? "," : "");
