@@ -10866,7 +10866,8 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Exports the current map to a 3D model file (PLY format with colors).
+        /// Exports the current map to a 3D model file (GLB/PLY/OBJ format with colors).
+        /// Culls geometry outside the play area (2x bounds) for known maps.
         /// </summary>
         private void ExportMapTo3D()
         {
@@ -10886,17 +10887,20 @@ namespace entity.Renderers
                 {
                     try
                     {
+                        // Get play area bounds for culling (2x the play area)
+                        var bounds = GetMapExportBounds();
+
                         if (sfd.FileName.EndsWith(".glb", StringComparison.OrdinalIgnoreCase))
                         {
-                            ExportToGLB(sfd.FileName);
+                            ExportToGLB(sfd.FileName, bounds);
                         }
                         else if (sfd.FileName.EndsWith(".ply", StringComparison.OrdinalIgnoreCase))
                         {
-                            ExportToPLY(sfd.FileName);
+                            ExportToPLY(sfd.FileName, bounds);
                         }
                         else
                         {
-                            ExportToOBJ(sfd.FileName);
+                            ExportToOBJ(sfd.FileName, bounds);
                         }
                         MessageBox.Show($"Model exported successfully to:\n{sfd.FileName}", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -10909,9 +10913,68 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Gets export bounds for the current map (2x play area or null if unknown).
+        /// </summary>
+        private (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? GetMapExportBounds()
+        {
+            // Known map play area bounds (from telemetry data analysis)
+            var mapBounds = new Dictionary<string, (float, float, float, float, float, float)>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "beavercreek", (-1.11f, 5.99f, -1.00f, 1.00f, -1.57f, 1.57f) },
+                { "lockout", (-23.77f, -3.49f, -14.00f, 6.00f, -1.57f, 8.00f) },
+                { "midship", (-13.24f, 12.92f, -5.04f, 16.86f, -1.57f, 7.49f) },
+                { "sanctuary", (-13.66f, 13.61f, -5.56f, 33.49f, -1.57f, 5.69f) },
+                { "warlock", (-12.52f, 12.54f, -12.52f, 12.54f, -4.41f, 1.57f) },
+                { "coagulation", (-60f, 60f, -60f, 60f, -10f, 30f) },
+                { "zanzibar", (-40f, 40f, -40f, 40f, -5f, 25f) },
+                { "ivory", (-15f, 15f, -15f, 15f, -5f, 20f) },
+                { "burial", (-50f, 50f, -50f, 50f, -10f, 20f) },
+                { "colossus", (-20f, 20f, -30f, 30f, -10f, 30f) },
+                { "headlong", (-50f, 50f, -50f, 50f, -10f, 40f) },
+                { "waterworks", (-60f, 60f, -60f, 60f, -20f, 30f) },
+                { "ascension", (-30f, 30f, -30f, 30f, -20f, 40f) },
+                { "gemini", (-15f, 15f, -15f, 15f, -5f, 15f) },
+                { "elongation", (-20f, 20f, -10f, 10f, -5f, 10f) },
+                { "turf", (-30f, 30f, -30f, 30f, -5f, 15f) },
+                { "foundation", (-20f, 20f, -20f, 20f, -5f, 15f) },
+            };
+
+            string mapName = bsp.Name?.ToLowerInvariant() ?? "";
+
+            foreach (var kvp in mapBounds)
+            {
+                if (mapName.Contains(kvp.Key))
+                {
+                    var b = kvp.Value;
+                    // Double the bounds for margin
+                    float expandX = (b.Item2 - b.Item1) * 0.5f;
+                    float expandY = (b.Item4 - b.Item3) * 0.5f;
+                    float expandZ = (b.Item6 - b.Item5) * 0.5f;
+                    return (b.Item1 - expandX, b.Item2 + expandX,
+                            b.Item3 - expandY, b.Item4 + expandY,
+                            b.Item5 - expandZ, b.Item6 + expandZ);
+                }
+            }
+
+            return null; // Unknown map - no culling
+        }
+
+        /// <summary>
+        /// Checks if a vertex is within export bounds.
+        /// </summary>
+        private bool IsVertexInBounds(float x, float y, float z, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds)
+        {
+            if (!bounds.HasValue) return true;
+            var b = bounds.Value;
+            return x >= b.minX && x <= b.maxX &&
+                   y >= b.minY && y <= b.maxY &&
+                   z >= b.minZ && z <= b.maxZ;
+        }
+
+        /// <summary>
         /// Exports the BSP model to PLY format with vertex colors.
         /// </summary>
-        private void ExportToPLY(string filePath)
+        private void ExportToPLY(string filePath, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds = null)
         {
             // Collect all vertices and faces from BSP chunks
             List<float[]> allVertices = new List<float[]>(); // x, y, z, r, g, b
@@ -10968,10 +11031,21 @@ namespace entity.Renderers
 
                                     if (i0 != i1 && i0 != i2 && i1 != i2)
                                     {
-                                        if (flip)
-                                            allFaces.Add(new int[] { vertexOffset + i0, vertexOffset + i2, vertexOffset + i1 });
-                                        else
-                                            allFaces.Add(new int[] { vertexOffset + i0, vertexOffset + i1, vertexOffset + i2 });
+                                        // Check bounds - include face if any vertex is inside
+                                        var v0 = chunk.Vertices[i0];
+                                        var v1 = chunk.Vertices[i1];
+                                        var v2 = chunk.Vertices[i2];
+                                        bool inBounds = !bounds.HasValue ||
+                                            IsVertexInBounds(v0.X, v0.Y, v0.Z, bounds) ||
+                                            IsVertexInBounds(v1.X, v1.Y, v1.Z, bounds) ||
+                                            IsVertexInBounds(v2.X, v2.Y, v2.Z, bounds);
+                                        if (inBounds)
+                                        {
+                                            if (flip)
+                                                allFaces.Add(new int[] { vertexOffset + i0, vertexOffset + i2, vertexOffset + i1 });
+                                            else
+                                                allFaces.Add(new int[] { vertexOffset + i0, vertexOffset + i1, vertexOffset + i2 });
+                                        }
                                         flip = !flip;
                                     }
                                     else
@@ -10988,11 +11062,25 @@ namespace entity.Renderers
                                 {
                                     if (i + 2 < chunk.IndiceCount)
                                     {
-                                        allFaces.Add(new int[] {
-                                            vertexOffset + chunk.Indices[i],
-                                            vertexOffset + chunk.Indices[i + 1],
-                                            vertexOffset + chunk.Indices[i + 2]
-                                        });
+                                        int i0 = chunk.Indices[i];
+                                        int i1 = chunk.Indices[i + 1];
+                                        int i2 = chunk.Indices[i + 2];
+                                        // Check bounds - include face if any vertex is inside
+                                        var v0 = chunk.Vertices[i0];
+                                        var v1 = chunk.Vertices[i1];
+                                        var v2 = chunk.Vertices[i2];
+                                        bool inBounds = !bounds.HasValue ||
+                                            IsVertexInBounds(v0.X, v0.Y, v0.Z, bounds) ||
+                                            IsVertexInBounds(v1.X, v1.Y, v1.Z, bounds) ||
+                                            IsVertexInBounds(v2.X, v2.Y, v2.Z, bounds);
+                                        if (inBounds)
+                                        {
+                                            allFaces.Add(new int[] {
+                                                vertexOffset + i0,
+                                                vertexOffset + i1,
+                                                vertexOffset + i2
+                                            });
+                                        }
                                     }
                                 }
                             }
@@ -11003,31 +11091,56 @@ namespace entity.Renderers
                 }
             }
 
+            // Build set of used vertex indices and remap to remove unused vertices
+            HashSet<int> usedVertices = new HashSet<int>();
+            foreach (var f in allFaces)
+            {
+                usedVertices.Add(f[0]);
+                usedVertices.Add(f[1]);
+                usedVertices.Add(f[2]);
+            }
+
+            // Create mapping from old index to new index
+            Dictionary<int, int> vertexRemap = new Dictionary<int, int>();
+            List<float[]> filteredVertices = new List<float[]>();
+            foreach (int oldIdx in usedVertices.OrderBy(x => x))
+            {
+                vertexRemap[oldIdx] = filteredVertices.Count;
+                filteredVertices.Add(allVertices[oldIdx]);
+            }
+
+            // Remap faces to use new vertex indices
+            List<int[]> remappedFaces = new List<int[]>();
+            foreach (var f in allFaces)
+            {
+                remappedFaces.Add(new int[] { vertexRemap[f[0]], vertexRemap[f[1]], vertexRemap[f[2]] });
+            }
+
             // Write PLY file
             using (StreamWriter sw = new StreamWriter(filePath))
             {
                 // Header
                 sw.WriteLine("ply");
                 sw.WriteLine("format ascii 1.0");
-                sw.WriteLine($"element vertex {allVertices.Count}");
+                sw.WriteLine($"element vertex {filteredVertices.Count}");
                 sw.WriteLine("property float x");
                 sw.WriteLine("property float y");
                 sw.WriteLine("property float z");
                 sw.WriteLine("property uchar red");
                 sw.WriteLine("property uchar green");
                 sw.WriteLine("property uchar blue");
-                sw.WriteLine($"element face {allFaces.Count}");
+                sw.WriteLine($"element face {remappedFaces.Count}");
                 sw.WriteLine("property list uchar int vertex_indices");
                 sw.WriteLine("end_header");
 
                 // Vertices with colors
-                foreach (var v in allVertices)
+                foreach (var v in filteredVertices)
                 {
                     sw.WriteLine($"{v[0]:F6} {v[1]:F6} {v[2]:F6} {(int)v[3]} {(int)v[4]} {(int)v[5]}");
                 }
 
                 // Faces
-                foreach (var f in allFaces)
+                foreach (var f in remappedFaces)
                 {
                     sw.WriteLine($"3 {f[0]} {f[1]} {f[2]}");
                 }
@@ -11037,7 +11150,7 @@ namespace entity.Renderers
         /// <summary>
         /// Exports the BSP model to OBJ format with MTL materials.
         /// </summary>
-        private void ExportToOBJ(string filePath)
+        private void ExportToOBJ(string filePath, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds = null)
         {
             string mtlPath = Path.ChangeExtension(filePath, ".mtl");
             string mtlName = Path.GetFileName(mtlPath);
@@ -11161,7 +11274,7 @@ namespace entity.Renderers
         /// <summary>
         /// Exports the BSP model to GLB format (binary glTF) for web viewing.
         /// </summary>
-        private void ExportToGLB(string filePath)
+        private void ExportToGLB(string filePath, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds = null)
         {
             // Collect all vertices and faces
             List<float> positions = new List<float>();
@@ -11294,25 +11407,62 @@ namespace entity.Renderers
 
                 byte[] binData = binStream.ToArray();
 
-                // Calculate bounds
-                float minX = float.MaxValue, minY = float.MaxValue, minZ = float.MaxValue;
-                float maxX = float.MinValue, maxY = float.MinValue, maxZ = float.MinValue;
+                // Calculate mesh bounds from positions
+                float meshMinX = float.MaxValue, meshMinY = float.MaxValue, meshMinZ = float.MaxValue;
+                float meshMaxX = float.MinValue, meshMaxY = float.MinValue, meshMaxZ = float.MinValue;
                 for (int i = 0; i < positions.Count; i += 3)
                 {
-                    minX = Math.Min(minX, positions[i]);
-                    maxX = Math.Max(maxX, positions[i]);
-                    minY = Math.Min(minY, positions[i + 1]);
-                    maxY = Math.Max(maxY, positions[i + 1]);
-                    minZ = Math.Min(minZ, positions[i + 2]);
-                    maxZ = Math.Max(maxZ, positions[i + 2]);
+                    meshMinX = Math.Min(meshMinX, positions[i]);
+                    meshMaxX = Math.Max(meshMaxX, positions[i]);
+                    meshMinY = Math.Min(meshMinY, positions[i + 1]);
+                    meshMaxY = Math.Max(meshMaxY, positions[i + 1]);
+                    meshMinZ = Math.Min(meshMinZ, positions[i + 2]);
+                    meshMaxZ = Math.Max(meshMaxZ, positions[i + 2]);
                 }
 
-                // Build JSON
+                // Use play area bounds for camera if provided, otherwise use mesh bounds
+                float camCenterX, camCenterY, camCenterZ, camDistance;
+                if (bounds.HasValue)
+                {
+                    var b = bounds.Value;
+                    camCenterX = (b.minX + b.maxX) / 2;
+                    camCenterY = (b.minY + b.maxY) / 2;
+                    camCenterZ = (b.minZ + b.maxZ) / 2;
+                    // Camera distance based on play area size
+                    float sizeX = b.maxX - b.minX;
+                    float sizeY = b.maxY - b.minY;
+                    float sizeZ = b.maxZ - b.minZ;
+                    camDistance = Math.Max(sizeX, Math.Max(sizeY, sizeZ)) * 1.5f;
+                }
+                else
+                {
+                    camCenterX = (meshMinX + meshMaxX) / 2;
+                    camCenterY = (meshMinY + meshMaxY) / 2;
+                    camCenterZ = (meshMinZ + meshMaxZ) / 2;
+                    float sizeX = meshMaxX - meshMinX;
+                    float sizeY = meshMaxY - meshMinY;
+                    float sizeZ = meshMaxZ - meshMinZ;
+                    camDistance = Math.Max(sizeX, Math.Max(sizeY, sizeZ)) * 1.5f;
+                }
+
+                // Camera positioned above and looking down at play area
+                float camPosX = camCenterX;
+                float camPosY = camCenterY;
+                float camPosZ = camCenterZ + camDistance;
+
+                // Build JSON with camera node for better default viewpoint
                 string json = $@"{{
   ""asset"": {{ ""version"": ""2.0"", ""generator"": ""Entity"" }},
   ""scene"": 0,
-  ""scenes"": [{{ ""nodes"": [0] }}],
-  ""nodes"": [{{ ""mesh"": 0 }}],
+  ""scenes"": [{{ ""nodes"": [0, 1] }}],
+  ""nodes"": [
+    {{ ""mesh"": 0 }},
+    {{ ""camera"": 0, ""translation"": [{camPosX:F6}, {camPosY:F6}, {camPosZ:F6}] }}
+  ],
+  ""cameras"": [{{
+    ""type"": ""perspective"",
+    ""perspective"": {{ ""aspectRatio"": 1.777, ""yfov"": 0.785, ""znear"": 0.1, ""zfar"": 10000.0 }}
+  }}],
   ""meshes"": [{{
     ""primitives"": [{{
       ""attributes"": {{ ""POSITION"": 0, ""COLOR_0"": 1 }},
@@ -11320,7 +11470,7 @@ namespace entity.Renderers
     }}]
   }}],
   ""accessors"": [
-    {{ ""bufferView"": 0, ""componentType"": 5126, ""count"": {positions.Count / 3}, ""type"": ""VEC3"", ""min"": [{minX:F6}, {minY:F6}, {minZ:F6}], ""max"": [{maxX:F6}, {maxY:F6}, {maxZ:F6}] }},
+    {{ ""bufferView"": 0, ""componentType"": 5126, ""count"": {positions.Count / 3}, ""type"": ""VEC3"", ""min"": [{meshMinX:F6}, {meshMinY:F6}, {meshMinZ:F6}], ""max"": [{meshMaxX:F6}, {meshMaxY:F6}, {meshMaxZ:F6}] }},
     {{ ""bufferView"": 1, ""componentType"": 5121, ""count"": {colors.Count / 4}, ""type"": ""VEC4"", ""normalized"": true }},
     {{ ""bufferView"": 2, ""componentType"": 5125, ""count"": {indices.Count}, ""type"": ""SCALAR"" }}
   ],
