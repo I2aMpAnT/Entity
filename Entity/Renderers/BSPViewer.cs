@@ -11062,8 +11062,8 @@ namespace entity.Renderers
                 return;
             }
 
-            // Get all map files
-            string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map");
+            // Get all map files (including DLC maps in subdirectories)
+            string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map", SearchOption.AllDirectories);
             if (mapFiles.Length == 0)
             {
                 MessageBox.Show("No .map files found in the maps folder.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
