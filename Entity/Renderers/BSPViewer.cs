@@ -1536,6 +1536,13 @@ namespace entity.Renderers
             btnExport3D.Click += (s, e) => { ExportMapTo3D(); };
             toolStrip.Items.Add(btnExport3D);
 
+            // Batch Export All Maps button
+            ToolStripButton btnExportAllMaps = new ToolStripButton();
+            btnExportAllMaps.Text = "Export All Maps";
+            btnExportAllMaps.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnExportAllMaps.Click += (s, e) => { ExportAllMapsToGLB(); };
+            toolStrip.Items.Add(btnExportAllMaps);
+
             // FOV control
             ToolStripLabel lblFOV = new ToolStripLabel();
             lblFOV.Text = "FOV:";
@@ -11032,6 +11039,176 @@ namespace entity.Renderers
                         MessageBox.Show($"Export failed: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Exports all maps in the maps folder to GLB files without requiring manual loading.
+        /// </summary>
+        private void ExportAllMapsToGLB()
+        {
+            // Check render device availability
+            if (render?.device == null)
+            {
+                MessageBox.Show("Render device not available. Please load a map first.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get maps folder
+            string mapsFolder = Prefs.pathMapsFolder;
+            if (string.IsNullOrEmpty(mapsFolder) || !Directory.Exists(mapsFolder))
+            {
+                MessageBox.Show("Maps folder not configured or doesn't exist.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get all map files
+            string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map");
+            if (mapFiles.Length == 0)
+            {
+                MessageBox.Show("No .map files found in the maps folder.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Let user select output folder
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select folder to save GLB files";
+                fbd.ShowNewFolderButton = true;
+
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                string outputFolder = fbd.SelectedPath;
+
+                // Save current map state to restore later
+                var originalMap = this.map;
+                var originalBsp = this.bsp;
+                var originalSpawns = this.spawns;
+                string originalTitle = this.Text;
+
+                int successCount = 0;
+                int failCount = 0;
+                List<string> failedMaps = new List<string>();
+
+                // Create a progress form
+                Form progressForm = new Form();
+                progressForm.Text = "Exporting Maps...";
+                progressForm.Size = new Size(400, 150);
+                progressForm.StartPosition = FormStartPosition.CenterParent;
+                progressForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                progressForm.MaximizeBox = false;
+                progressForm.MinimizeBox = false;
+
+                Label progressLabel = new Label();
+                progressLabel.Location = new Point(20, 20);
+                progressLabel.Size = new Size(350, 40);
+                progressLabel.Text = "Starting export...";
+                progressForm.Controls.Add(progressLabel);
+
+                ProgressBar progressBar = new ProgressBar();
+                progressBar.Location = new Point(20, 70);
+                progressBar.Size = new Size(350, 25);
+                progressBar.Minimum = 0;
+                progressBar.Maximum = mapFiles.Length;
+                progressBar.Value = 0;
+                progressForm.Controls.Add(progressBar);
+
+                progressForm.Show();
+                progressForm.Refresh();
+
+                foreach (string mapFilePath in mapFiles)
+                {
+                    string mapFileName = Path.GetFileNameWithoutExtension(mapFilePath);
+                    progressLabel.Text = $"Exporting: {mapFileName}\n({progressBar.Value + 1} of {mapFiles.Length})";
+                    progressForm.Refresh();
+                    Application.DoEvents();
+
+                    try
+                    {
+                        // Load the map
+                        Map newMap = Map.LoadFromFile(mapFilePath);
+                        if (newMap == null || newMap.BSP?.sbsp == null || newMap.BSP.sbsp.Length == 0)
+                        {
+                            AddDebugLog($"[BATCH] Skipping {mapFileName}: No BSP data");
+                            failedMaps.Add(mapFileName + " (no BSP)");
+                            failCount++;
+                            progressBar.Value++;
+                            continue;
+                        }
+
+                        // Get BSP meta
+                        int BSPId = newMap.Functions.ForMeta.FindMetaByID(newMap.BSP.sbsp[0].ident);
+                        if (BSPId < 0)
+                        {
+                            AddDebugLog($"[BATCH] Skipping {mapFileName}: Could not find BSP meta");
+                            failedMaps.Add(mapFileName + " (no BSP meta)");
+                            failCount++;
+                            progressBar.Value++;
+                            continue;
+                        }
+
+                        Meta meta = new Meta(newMap);
+                        meta.TagIndex = BSPId;
+                        meta.ScanMetaItems(true, false);
+
+                        BSPModel newBsp = new BSPModel(ref meta);
+                        if (newBsp == null)
+                        {
+                            AddDebugLog($"[BATCH] Skipping {mapFileName}: Failed to create BSP model");
+                            failedMaps.Add(mapFileName + " (BSP model failed)");
+                            failCount++;
+                            progressBar.Value++;
+                            continue;
+                        }
+
+                        // Load DirectX textures for this BSP
+                        BSPModel.BSPDisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp);
+
+                        // Temporarily set as current map/bsp for export
+                        this.map = newMap;
+                        this.bsp = newBsp;
+
+                        // Get bounds and export
+                        var bounds = GetMapExportBounds();
+                        string outputPath = Path.Combine(outputFolder, mapFileName + ".glb");
+                        ExportToGLB(outputPath, bounds);
+
+                        AddDebugLog($"[BATCH] Exported: {mapFileName}");
+                        successCount++;
+                    }
+                    catch (Exception ex)
+                    {
+                        AddDebugLog($"[BATCH] Failed to export {mapFileName}: {ex.Message}");
+                        failedMaps.Add(mapFileName + " (" + ex.Message + ")");
+                        failCount++;
+                    }
+
+                    progressBar.Value++;
+                    Application.DoEvents();
+                }
+
+                progressForm.Close();
+
+                // Restore original map state
+                this.map = originalMap;
+                this.bsp = originalBsp;
+                this.spawns = originalSpawns;
+                this.Text = originalTitle;
+
+                // Show summary
+                string summary = $"Export Complete!\n\nSuccessful: {successCount}\nFailed: {failCount}";
+                if (failedMaps.Count > 0 && failedMaps.Count <= 10)
+                {
+                    summary += "\n\nFailed maps:\n" + string.Join("\n", failedMaps);
+                }
+                else if (failedMaps.Count > 10)
+                {
+                    summary += $"\n\nFailed maps: {failedMaps.Count} (see debug log for details)";
+                }
+                summary += $"\n\nOutput folder: {outputFolder}";
+
+                MessageBox.Show(summary, "Batch Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
