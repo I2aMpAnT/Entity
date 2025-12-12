@@ -10828,7 +10828,7 @@ namespace entity.Renderers
 
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                sfd.Filter = "PLY File (*.ply)|*.ply|OBJ File (*.obj)|*.obj";
+                sfd.Filter = "GLB File (*.glb)|*.glb|PLY File (*.ply)|*.ply|OBJ File (*.obj)|*.obj";
                 sfd.Title = "Export 3D Model";
                 sfd.FileName = bsp.Name ?? "map";
 
@@ -10836,7 +10836,11 @@ namespace entity.Renderers
                 {
                     try
                     {
-                        if (sfd.FileName.EndsWith(".ply", StringComparison.OrdinalIgnoreCase))
+                        if (sfd.FileName.EndsWith(".glb", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ExportToGLB(sfd.FileName);
+                        }
+                        else if (sfd.FileName.EndsWith(".ply", StringComparison.OrdinalIgnoreCase))
                         {
                             ExportToPLY(sfd.FileName);
                         }
@@ -11100,6 +11104,210 @@ namespace entity.Renderers
                         vertexOffset += chunk.VerticeCount;
                         sw.WriteLine();
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Exports the BSP model to GLB format (binary glTF) for web viewing.
+        /// </summary>
+        private void ExportToGLB(string filePath)
+        {
+            // Collect all vertices and faces
+            List<float> positions = new List<float>();
+            List<byte> colors = new List<byte>();
+            List<int> indices = new List<int>();
+            int vertexOffset = 0;
+
+            Color[] chunkColors = new Color[]
+            {
+                Color.FromArgb(180, 180, 180),
+                Color.FromArgb(140, 160, 140),
+                Color.FromArgb(160, 150, 140),
+                Color.FromArgb(120, 140, 160),
+                Color.FromArgb(160, 140, 140),
+                Color.FromArgb(150, 150, 130),
+                Color.FromArgb(130, 150, 150),
+                Color.FromArgb(150, 130, 150),
+            };
+
+            if (bsp.BSPRawDataMetaChunks != null)
+            {
+                for (int chunkIdx = 0; chunkIdx < bsp.BSPRawDataMetaChunks.Length; chunkIdx++)
+                {
+                    var chunk = bsp.BSPRawDataMetaChunks[chunkIdx];
+                    if (chunk == null || chunk.Vertices == null || chunk.VerticeCount == 0)
+                        continue;
+
+                    Color chunkColor = chunkColors[chunkIdx % chunkColors.Length];
+
+                    // Add vertices with colors
+                    for (int i = 0; i < chunk.VerticeCount; i++)
+                    {
+                        var v = chunk.Vertices[i];
+                        positions.Add(v.X);
+                        positions.Add(v.Y);
+                        positions.Add(v.Z);
+                        colors.Add(chunkColor.R);
+                        colors.Add(chunkColor.G);
+                        colors.Add(chunkColor.B);
+                        colors.Add(255); // Alpha
+                    }
+
+                    // Process faces
+                    if (chunk.SubMeshInfo != null)
+                    {
+                        foreach (var subMesh in chunk.SubMeshInfo)
+                        {
+                            if (chunk.FaceCount * 3 != chunk.IndiceCount)
+                            {
+                                // Triangle strip
+                                int m = subMesh.IndiceStart;
+                                bool flip = false;
+                                while (m < subMesh.IndiceStart + subMesh.IndiceCount - 2)
+                                {
+                                    int i0 = chunk.Indices[m];
+                                    int i1 = chunk.Indices[m + 1];
+                                    int i2 = chunk.Indices[m + 2];
+
+                                    if (i0 != i1 && i0 != i2 && i1 != i2)
+                                    {
+                                        if (flip)
+                                        {
+                                            indices.Add(vertexOffset + i0);
+                                            indices.Add(vertexOffset + i2);
+                                            indices.Add(vertexOffset + i1);
+                                        }
+                                        else
+                                        {
+                                            indices.Add(vertexOffset + i0);
+                                            indices.Add(vertexOffset + i1);
+                                            indices.Add(vertexOffset + i2);
+                                        }
+                                        flip = !flip;
+                                    }
+                                    else
+                                    {
+                                        flip = !flip;
+                                    }
+                                    m++;
+                                }
+                            }
+                            else
+                            {
+                                for (int i = subMesh.IndiceStart; i < subMesh.IndiceStart + subMesh.IndiceCount - 2; i += 3)
+                                {
+                                    if (i + 2 < chunk.IndiceCount)
+                                    {
+                                        indices.Add(vertexOffset + chunk.Indices[i]);
+                                        indices.Add(vertexOffset + chunk.Indices[i + 1]);
+                                        indices.Add(vertexOffset + chunk.Indices[i + 2]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    vertexOffset += chunk.VerticeCount;
+                }
+            }
+
+            // Build GLB binary
+            using (MemoryStream binStream = new MemoryStream())
+            using (BinaryWriter binWriter = new BinaryWriter(binStream))
+            {
+                // Write positions
+                int positionByteOffset = 0;
+                int positionByteLength = positions.Count * 4;
+                foreach (float f in positions)
+                    binWriter.Write(f);
+
+                // Pad to 4-byte boundary
+                while (binStream.Position % 4 != 0)
+                    binWriter.Write((byte)0);
+
+                // Write colors
+                int colorByteOffset = (int)binStream.Position;
+                int colorByteLength = colors.Count;
+                foreach (byte b in colors)
+                    binWriter.Write(b);
+
+                // Pad to 4-byte boundary
+                while (binStream.Position % 4 != 0)
+                    binWriter.Write((byte)0);
+
+                // Write indices (as unsigned int)
+                int indexByteOffset = (int)binStream.Position;
+                int indexByteLength = indices.Count * 4;
+                foreach (int idx in indices)
+                    binWriter.Write((uint)idx);
+
+                byte[] binData = binStream.ToArray();
+
+                // Calculate bounds
+                float minX = float.MaxValue, minY = float.MaxValue, minZ = float.MaxValue;
+                float maxX = float.MinValue, maxY = float.MinValue, maxZ = float.MinValue;
+                for (int i = 0; i < positions.Count; i += 3)
+                {
+                    minX = Math.Min(minX, positions[i]);
+                    maxX = Math.Max(maxX, positions[i]);
+                    minY = Math.Min(minY, positions[i + 1]);
+                    maxY = Math.Max(maxY, positions[i + 1]);
+                    minZ = Math.Min(minZ, positions[i + 2]);
+                    maxZ = Math.Max(maxZ, positions[i + 2]);
+                }
+
+                // Build JSON
+                string json = $@"{{
+  ""asset"": {{ ""version"": ""2.0"", ""generator"": ""Entity"" }},
+  ""scene"": 0,
+  ""scenes"": [{{ ""nodes"": [0] }}],
+  ""nodes"": [{{ ""mesh"": 0 }}],
+  ""meshes"": [{{
+    ""primitives"": [{{
+      ""attributes"": {{ ""POSITION"": 0, ""COLOR_0"": 1 }},
+      ""indices"": 2
+    }}]
+  }}],
+  ""accessors"": [
+    {{ ""bufferView"": 0, ""componentType"": 5126, ""count"": {positions.Count / 3}, ""type"": ""VEC3"", ""min"": [{minX:F6}, {minY:F6}, {minZ:F6}], ""max"": [{maxX:F6}, {maxY:F6}, {maxZ:F6}] }},
+    {{ ""bufferView"": 1, ""componentType"": 5121, ""count"": {colors.Count / 4}, ""type"": ""VEC4"", ""normalized"": true }},
+    {{ ""bufferView"": 2, ""componentType"": 5125, ""count"": {indices.Count}, ""type"": ""SCALAR"" }}
+  ],
+  ""bufferViews"": [
+    {{ ""buffer"": 0, ""byteOffset"": {positionByteOffset}, ""byteLength"": {positionByteLength}, ""target"": 34962 }},
+    {{ ""buffer"": 0, ""byteOffset"": {colorByteOffset}, ""byteLength"": {colorByteLength}, ""target"": 34962 }},
+    {{ ""buffer"": 0, ""byteOffset"": {indexByteOffset}, ""byteLength"": {indexByteLength}, ""target"": 34963 }}
+  ],
+  ""buffers"": [{{ ""byteLength"": {binData.Length} }}]
+}}";
+
+                byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+                // Pad JSON to 4-byte boundary with spaces
+                int jsonPadding = (4 - (jsonBytes.Length % 4)) % 4;
+                byte[] paddedJson = new byte[jsonBytes.Length + jsonPadding];
+                Array.Copy(jsonBytes, paddedJson, jsonBytes.Length);
+                for (int i = 0; i < jsonPadding; i++)
+                    paddedJson[jsonBytes.Length + i] = 0x20; // space
+
+                // Write GLB file
+                using (FileStream fs = new FileStream(filePath, FileMode.Create))
+                using (BinaryWriter bw = new BinaryWriter(fs))
+                {
+                    // GLB Header
+                    bw.Write(0x46546C67); // magic: "glTF"
+                    bw.Write((uint)2); // version
+                    bw.Write((uint)(12 + 8 + paddedJson.Length + 8 + binData.Length)); // total length
+
+                    // JSON chunk
+                    bw.Write((uint)paddedJson.Length); // chunk length
+                    bw.Write(0x4E4F534A); // chunk type: "JSON"
+                    bw.Write(paddedJson);
+
+                    // BIN chunk
+                    bw.Write((uint)binData.Length); // chunk length
+                    bw.Write(0x004E4942); // chunk type: "BIN\0"
+                    bw.Write(binData);
                 }
             }
         }
