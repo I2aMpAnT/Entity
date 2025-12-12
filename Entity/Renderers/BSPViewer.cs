@@ -10353,39 +10353,65 @@ namespace entity.Renderers
             {
                 PlayerTelemetry t = new PlayerTelemetry();
 
-                // Helper to get string value
-                Func<string, string> getStr = (col) => {
-                    if (cols.ContainsKey(col) && parts.Length > cols[col])
-                        return parts[cols[col]].Trim();
+                // Helper to find column index (supports multiple alternate names)
+                Func<string[], int> findCol = (names) => {
+                    foreach (string name in names)
+                    {
+                        if (cols.ContainsKey(name))
+                            return cols[name];
+                    }
+                    return -1;
+                };
+
+                // Helper to get string value (supports alternate column names)
+                Func<string[], string> getStrAlt = (names) => {
+                    int idx = findCol(names);
+                    if (idx >= 0 && parts.Length > idx)
+                        return parts[idx].Trim();
                     return null;
                 };
 
-                // Helper to get float value
-                Func<string, float> getFloat = (col) => {
+                // Helper to get string value (single name)
+                Func<string, string> getStr = (col) => getStrAlt(new[] { col });
+
+                // Helper to get float value (supports alternate column names)
+                Func<string[], float> getFloatAlt = (names) => {
                     float val = 0;
-                    if (cols.ContainsKey(col) && parts.Length > cols[col])
-                        float.TryParse(parts[cols[col]].Trim(), System.Globalization.NumberStyles.Float,
+                    int idx = findCol(names);
+                    if (idx >= 0 && parts.Length > idx)
+                        float.TryParse(parts[idx].Trim(), System.Globalization.NumberStyles.Float,
                             System.Globalization.CultureInfo.InvariantCulture, out val);
                     return val;
                 };
 
-                // Helper to get int value
-                Func<string, int> getInt = (col) => {
+                // Helper to get float value (single name)
+                Func<string, float> getFloat = (col) => getFloatAlt(new[] { col });
+
+                // Helper to get int value (supports alternate column names)
+                Func<string[], int> getIntAlt = (names) => {
                     int val = 0;
-                    if (cols.ContainsKey(col) && parts.Length > cols[col])
-                        int.TryParse(parts[cols[col]].Trim(), out val);
+                    int idx = findCol(names);
+                    if (idx >= 0 && parts.Length > idx)
+                        int.TryParse(parts[idx].Trim(), out val);
                     return val;
                 };
 
-                // Helper to get bool value (handles True/False, 0/1, yes/no)
-                Func<string, bool> getBool = (col) => {
-                    if (cols.ContainsKey(col) && parts.Length > cols[col])
+                // Helper to get int value (single name)
+                Func<string, int> getInt = (col) => getIntAlt(new[] { col });
+
+                // Helper to get bool value (supports alternate column names)
+                Func<string[], bool> getBoolAlt = (names) => {
+                    int idx = findCol(names);
+                    if (idx >= 0 && parts.Length > idx)
                     {
-                        string val = parts[cols[col]].Trim().ToLowerInvariant();
+                        string val = parts[idx].Trim().ToLowerInvariant();
                         return val == "true" || val == "1" || val == "yes";
                     }
                     return false;
                 };
+
+                // Helper to get bool value (single name)
+                Func<string, bool> getBool = (col) => getBoolAlt(new[] { col });
 
                 // Map/Game Info
                 t.MapName = getStr("mapname");
@@ -10416,23 +10442,23 @@ namespace entity.Renderers
                     else int.TryParse(teamStr, out t.Team);
                 }
 
-                // Emblem & Colors
-                t.EmblemFg = getInt("emblemfg");
-                t.EmblemBg = getInt("emblembg");
-                t.ColorPrimary = getInt("colorprimary");
-                t.ColorSecondary = getInt("colorsecondary");
-                t.ColorTertiary = getInt("colortertiary");
-                t.ColorQuaternary = getInt("colorquaternary");
+                // Emblem & Colors (support both old and new column names)
+                t.EmblemFg = getIntAlt(new[] { "emblemfg", "emblemforeground" });
+                t.EmblemBg = getIntAlt(new[] { "emblembg", "emblembackground" });
+                t.ColorPrimary = getIntAlt(new[] { "colorprimary", "primarycolor" });
+                t.ColorSecondary = getIntAlt(new[] { "colorsecondary", "secondarycolor" });
+                t.ColorTertiary = getIntAlt(new[] { "colortertiary", "tertiarycolor" });
+                t.ColorQuaternary = getIntAlt(new[] { "colorquaternary", "quaternarycolor" });
 
                 // Timestamp
                 string tsStr = getStr("timestamp");
                 if (!string.IsNullOrEmpty(tsStr))
                     DateTime.TryParse(tsStr, out t.Timestamp);
 
-                // Position
-                t.PosX = getFloat("posx");
-                t.PosY = getFloat("posy");
-                t.PosZ = getFloat("posz");
+                // Position (support both old "posx/posy/posz" and new "x/y/z" column names)
+                t.PosX = getFloatAlt(new[] { "posx", "x" });
+                t.PosY = getFloatAlt(new[] { "posy", "y" });
+                t.PosZ = getFloatAlt(new[] { "posz", "z" });
 
                 // Velocity (may not be present in all formats)
                 t.VelX = getFloat("velx");
@@ -10440,9 +10466,9 @@ namespace entity.Renderers
                 t.VelZ = getFloat("velz");
                 t.Speed = getFloat("speed");
 
-                // Orientation (yaw/pitch in radians, yawdeg/pitchdeg in degrees)
-                t.Yaw = getFloat("yaw");
-                t.Pitch = getFloat("pitch");
+                // Orientation (support old yaw/pitch/yawdeg/pitchdeg and new facingyaw/facingpitch)
+                t.Yaw = getFloatAlt(new[] { "yaw", "facingyaw" });
+                t.Pitch = getFloatAlt(new[] { "pitch", "facingpitch" });
                 t.YawDeg = getFloat("yawdeg");
                 t.PitchDeg = getFloat("pitchdeg");
 
@@ -11272,27 +11298,27 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Exports the BSP model to GLB format (binary glTF) for web viewing.
+        /// Exports the BSP model to GLB format (binary glTF) for web viewing with textures.
         /// </summary>
         private void ExportToGLB(string filePath, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds = null)
         {
-            // Collect all vertices and faces
-            List<float> positions = new List<float>();
-            List<byte> colors = new List<byte>();
-            List<int> indices = new List<int>();
-            int vertexOffset = 0;
-
-            Color[] chunkColors = new Color[]
+            // Structure to hold per-primitive data
+            class PrimitiveData
             {
-                Color.FromArgb(180, 180, 180),
-                Color.FromArgb(140, 160, 140),
-                Color.FromArgb(160, 150, 140),
-                Color.FromArgb(120, 140, 160),
-                Color.FromArgb(160, 140, 140),
-                Color.FromArgb(150, 150, 130),
-                Color.FromArgb(130, 150, 150),
-                Color.FromArgb(150, 130, 150),
-            };
+                public List<float> Positions = new List<float>();
+                public List<float> UVs = new List<float>();
+                public List<uint> Indices = new List<uint>();
+                public int ShaderIndex = -1;
+                public float MinX = float.MaxValue, MinY = float.MaxValue, MinZ = float.MaxValue;
+                public float MaxX = float.MinValue, MaxY = float.MinValue, MaxZ = float.MinValue;
+            }
+
+            // Collect primitives grouped by shader
+            Dictionary<int, PrimitiveData> primitivesByShader = new Dictionary<int, PrimitiveData>();
+
+            // Also collect textures
+            Dictionary<int, byte[]> textureData = new Dictionary<int, byte[]>();
+            List<int> usedShaderIndices = new List<int>();
 
             if (bsp.BSPRawDataMetaChunks != null)
             {
@@ -11302,26 +11328,28 @@ namespace entity.Renderers
                     if (chunk == null || chunk.Vertices == null || chunk.VerticeCount == 0)
                         continue;
 
-                    Color chunkColor = chunkColors[chunkIdx % chunkColors.Length];
+                    bool hasUVs = chunk.UVs != null && chunk.UVs.Count == chunk.VerticeCount;
 
-                    // Add vertices with colors
-                    for (int i = 0; i < chunk.VerticeCount; i++)
-                    {
-                        var v = chunk.Vertices[i];
-                        positions.Add(v.X);
-                        positions.Add(v.Y);
-                        positions.Add(v.Z);
-                        colors.Add(chunkColor.R);
-                        colors.Add(chunkColor.G);
-                        colors.Add(chunkColor.B);
-                        colors.Add(255); // Alpha
-                    }
-
-                    // Process faces
+                    // Process each submesh (each has a shader)
                     if (chunk.SubMeshInfo != null)
                     {
                         foreach (var subMesh in chunk.SubMeshInfo)
                         {
+                            int shaderIdx = subMesh.ShaderNumber;
+                            if (shaderIdx < 0) shaderIdx = 0;
+
+                            if (!primitivesByShader.ContainsKey(shaderIdx))
+                            {
+                                primitivesByShader[shaderIdx] = new PrimitiveData { ShaderIndex = shaderIdx };
+                                if (!usedShaderIndices.Contains(shaderIdx))
+                                    usedShaderIndices.Add(shaderIdx);
+                            }
+
+                            var prim = primitivesByShader[shaderIdx];
+                            int baseVertex = prim.Positions.Count / 3;
+
+                            // Collect faces for this submesh
+                            List<int[]> faces = new List<int[]>();
                             if (chunk.FaceCount * 3 != chunk.IndiceCount)
                             {
                                 // Triangle strip
@@ -11332,21 +11360,12 @@ namespace entity.Renderers
                                     int i0 = chunk.Indices[m];
                                     int i1 = chunk.Indices[m + 1];
                                     int i2 = chunk.Indices[m + 2];
-
                                     if (i0 != i1 && i0 != i2 && i1 != i2)
                                     {
                                         if (flip)
-                                        {
-                                            indices.Add(vertexOffset + i0);
-                                            indices.Add(vertexOffset + i2);
-                                            indices.Add(vertexOffset + i1);
-                                        }
+                                            faces.Add(new int[] { i0, i2, i1 });
                                         else
-                                        {
-                                            indices.Add(vertexOffset + i0);
-                                            indices.Add(vertexOffset + i1);
-                                            indices.Add(vertexOffset + i2);
-                                        }
+                                            faces.Add(new int[] { i0, i1, i2 });
                                         flip = !flip;
                                     }
                                     else
@@ -11358,69 +11377,181 @@ namespace entity.Renderers
                             }
                             else
                             {
+                                // Triangle list
                                 for (int i = subMesh.IndiceStart; i < subMesh.IndiceStart + subMesh.IndiceCount - 2; i += 3)
                                 {
                                     if (i + 2 < chunk.IndiceCount)
+                                        faces.Add(new int[] { chunk.Indices[i], chunk.Indices[i + 1], chunk.Indices[i + 2] });
+                                }
+                            }
+
+                            // Build vertex map for this submesh and add to primitive
+                            Dictionary<int, uint> vertexMap = new Dictionary<int, uint>();
+                            foreach (var face in faces)
+                            {
+                                for (int fi = 0; fi < 3; fi++)
+                                {
+                                    int vi = face[fi];
+                                    if (!vertexMap.ContainsKey(vi))
                                     {
-                                        indices.Add(vertexOffset + chunk.Indices[i]);
-                                        indices.Add(vertexOffset + chunk.Indices[i + 1]);
-                                        indices.Add(vertexOffset + chunk.Indices[i + 2]);
+                                        var v = chunk.Vertices[vi];
+                                        vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
+                                        prim.Positions.Add(v.X);
+                                        prim.Positions.Add(v.Y);
+                                        prim.Positions.Add(v.Z);
+                                        prim.MinX = Math.Min(prim.MinX, v.X);
+                                        prim.MaxX = Math.Max(prim.MaxX, v.X);
+                                        prim.MinY = Math.Min(prim.MinY, v.Y);
+                                        prim.MaxY = Math.Max(prim.MaxY, v.Y);
+                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
+
+                                        if (hasUVs)
+                                        {
+                                            var uv = chunk.UVs[vi];
+                                            prim.UVs.Add(uv.X);
+                                            prim.UVs.Add(1.0f - uv.Y); // Flip V for glTF
+                                        }
+                                        else
+                                        {
+                                            prim.UVs.Add(0);
+                                            prim.UVs.Add(0);
+                                        }
                                     }
                                 }
+                                prim.Indices.Add(vertexMap[face[0]]);
+                                prim.Indices.Add(vertexMap[face[1]]);
+                                prim.Indices.Add(vertexMap[face[2]]);
                             }
                         }
                     }
-
-                    vertexOffset += chunk.VerticeCount;
                 }
             }
 
-            // Build GLB binary
+            // Extract textures from shaders
+            usedShaderIndices.Sort();
+            foreach (int shaderIdx in usedShaderIndices)
+            {
+                if (bsp.Shaders?.Shader != null && shaderIdx >= 0 && shaderIdx < bsp.Shaders.Shader.Length)
+                {
+                    var shader = bsp.Shaders.Shader[shaderIdx];
+                    if (shader?.MainBitmap != null)
+                    {
+                        try
+                        {
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                shader.MainBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                textureData[shaderIdx] = ms.ToArray();
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+
+            // Build binary buffer
             using (MemoryStream binStream = new MemoryStream())
             using (BinaryWriter binWriter = new BinaryWriter(binStream))
             {
-                // Write positions
-                int positionByteOffset = 0;
-                int positionByteLength = positions.Count * 4;
-                foreach (float f in positions)
-                    binWriter.Write(f);
+                // Track buffer views
+                List<(int offset, int length, int target)> bufferViews = new List<(int, int, int)>();
+                List<(int bufferView, int componentType, int count, string type, float[] min, float[] max)> accessors =
+                    new List<(int, int, int, string, float[], float[])>();
 
-                // Pad to 4-byte boundary
-                while (binStream.Position % 4 != 0)
-                    binWriter.Write((byte)0);
+                // Write data for each primitive
+                List<(int posAccessor, int uvAccessor, int indexAccessor, int material)> primitiveInfo =
+                    new List<(int, int, int, int)>();
 
-                // Write colors
-                int colorByteOffset = (int)binStream.Position;
-                int colorByteLength = colors.Count;
-                foreach (byte b in colors)
-                    binWriter.Write(b);
+                int materialIndex = 0;
+                Dictionary<int, int> shaderToMaterial = new Dictionary<int, int>();
+                foreach (int shaderIdx in usedShaderIndices)
+                {
+                    shaderToMaterial[shaderIdx] = materialIndex++;
+                }
 
-                // Pad to 4-byte boundary
-                while (binStream.Position % 4 != 0)
-                    binWriter.Write((byte)0);
+                foreach (int shaderIdx in usedShaderIndices)
+                {
+                    if (!primitivesByShader.ContainsKey(shaderIdx))
+                        continue;
 
-                // Write indices (as unsigned int)
-                int indexByteOffset = (int)binStream.Position;
-                int indexByteLength = indices.Count * 4;
-                foreach (int idx in indices)
-                    binWriter.Write((uint)idx);
+                    var prim = primitivesByShader[shaderIdx];
+                    if (prim.Positions.Count == 0)
+                        continue;
+
+                    // Positions
+                    int posOffset = (int)binStream.Position;
+                    foreach (float f in prim.Positions)
+                        binWriter.Write(f);
+                    while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                    int posLength = (int)binStream.Position - posOffset;
+                    int posBufferView = bufferViews.Count;
+                    bufferViews.Add((posOffset, posLength, 34962));
+                    int posAccessor = accessors.Count;
+                    accessors.Add((posBufferView, 5126, prim.Positions.Count / 3, "VEC3",
+                        new float[] { prim.MinX, prim.MinY, prim.MinZ },
+                        new float[] { prim.MaxX, prim.MaxY, prim.MaxZ }));
+
+                    // UVs
+                    int uvOffset = (int)binStream.Position;
+                    foreach (float f in prim.UVs)
+                        binWriter.Write(f);
+                    while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                    int uvLength = (int)binStream.Position - uvOffset;
+                    int uvBufferView = bufferViews.Count;
+                    bufferViews.Add((uvOffset, uvLength, 34962));
+                    int uvAccessor = accessors.Count;
+                    accessors.Add((uvBufferView, 5126, prim.UVs.Count / 2, "VEC2", null, null));
+
+                    // Indices
+                    int idxOffset = (int)binStream.Position;
+                    foreach (uint idx in prim.Indices)
+                        binWriter.Write(idx);
+                    while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                    int idxLength = (int)binStream.Position - idxOffset;
+                    int idxBufferView = bufferViews.Count;
+                    bufferViews.Add((idxOffset, idxLength, 34963));
+                    int idxAccessor = accessors.Count;
+                    accessors.Add((idxBufferView, 5125, prim.Indices.Count, "SCALAR", null, null));
+
+                    primitiveInfo.Add((posAccessor, uvAccessor, idxAccessor, shaderToMaterial[shaderIdx]));
+                }
+
+                // Write texture images
+                Dictionary<int, int> textureImageIndex = new Dictionary<int, int>();
+                List<(int offset, int length)> imageBufferViews = new List<(int, int)>();
+                int imageIdx = 0;
+                foreach (int shaderIdx in usedShaderIndices)
+                {
+                    if (textureData.ContainsKey(shaderIdx))
+                    {
+                        int imgOffset = (int)binStream.Position;
+                        binWriter.Write(textureData[shaderIdx]);
+                        while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                        int imgLength = textureData[shaderIdx].Length;
+                        textureImageIndex[shaderIdx] = imageIdx++;
+                        imageBufferViews.Add((imgOffset, imgLength));
+                    }
+                }
 
                 byte[] binData = binStream.ToArray();
 
-                // Calculate mesh bounds from positions
+                // Calculate camera position
                 float meshMinX = float.MaxValue, meshMinY = float.MaxValue, meshMinZ = float.MaxValue;
                 float meshMaxX = float.MinValue, meshMaxY = float.MinValue, meshMaxZ = float.MinValue;
-                for (int i = 0; i < positions.Count; i += 3)
+                foreach (var prim in primitivesByShader.Values)
                 {
-                    meshMinX = Math.Min(meshMinX, positions[i]);
-                    meshMaxX = Math.Max(meshMaxX, positions[i]);
-                    meshMinY = Math.Min(meshMinY, positions[i + 1]);
-                    meshMaxY = Math.Max(meshMaxY, positions[i + 1]);
-                    meshMinZ = Math.Min(meshMinZ, positions[i + 2]);
-                    meshMaxZ = Math.Max(meshMaxZ, positions[i + 2]);
+                    if (prim.Positions.Count > 0)
+                    {
+                        meshMinX = Math.Min(meshMinX, prim.MinX);
+                        meshMaxX = Math.Max(meshMaxX, prim.MaxX);
+                        meshMinY = Math.Min(meshMinY, prim.MinY);
+                        meshMaxY = Math.Max(meshMaxY, prim.MaxY);
+                        meshMinZ = Math.Min(meshMinZ, prim.MinZ);
+                        meshMaxZ = Math.Max(meshMaxZ, prim.MaxZ);
+                    }
                 }
 
-                // Use play area bounds for camera if provided, otherwise use mesh bounds
                 float camCenterX, camCenterY, camCenterZ, camDistance;
                 if (bounds.HasValue)
                 {
@@ -11428,85 +11559,137 @@ namespace entity.Renderers
                     camCenterX = (b.minX + b.maxX) / 2;
                     camCenterY = (b.minY + b.maxY) / 2;
                     camCenterZ = (b.minZ + b.maxZ) / 2;
-                    // Camera distance based on play area size
-                    float sizeX = b.maxX - b.minX;
-                    float sizeY = b.maxY - b.minY;
-                    float sizeZ = b.maxZ - b.minZ;
-                    camDistance = Math.Max(sizeX, Math.Max(sizeY, sizeZ)) * 1.5f;
+                    camDistance = Math.Max(b.maxX - b.minX, Math.Max(b.maxY - b.minY, b.maxZ - b.minZ)) * 1.5f;
                 }
                 else
                 {
                     camCenterX = (meshMinX + meshMaxX) / 2;
                     camCenterY = (meshMinY + meshMaxY) / 2;
                     camCenterZ = (meshMinZ + meshMaxZ) / 2;
-                    float sizeX = meshMaxX - meshMinX;
-                    float sizeY = meshMaxY - meshMinY;
-                    float sizeZ = meshMaxZ - meshMinZ;
-                    camDistance = Math.Max(sizeX, Math.Max(sizeY, sizeZ)) * 1.5f;
+                    camDistance = Math.Max(meshMaxX - meshMinX, Math.Max(meshMaxY - meshMinY, meshMaxZ - meshMinZ)) * 1.5f;
                 }
 
-                // Camera positioned above and looking down at play area
-                float camPosX = camCenterX;
-                float camPosY = camCenterY;
-                float camPosZ = camCenterZ + camDistance;
+                // Build JSON
+                StringBuilder json = new StringBuilder();
+                json.Append("{\n");
+                json.Append("  \"asset\": { \"version\": \"2.0\", \"generator\": \"Entity\" },\n");
+                json.Append("  \"scene\": 0,\n");
+                json.Append("  \"scenes\": [{ \"nodes\": [0, 1] }],\n");
+                json.Append("  \"nodes\": [\n");
+                json.Append("    { \"mesh\": 0 },\n");
+                json.AppendFormat("    {{ \"camera\": 0, \"translation\": [{0:F6}, {1:F6}, {2:F6}] }}\n",
+                    camCenterX, camCenterY, camCenterZ + camDistance);
+                json.Append("  ],\n");
+                json.Append("  \"cameras\": [{\n");
+                json.Append("    \"type\": \"perspective\",\n");
+                json.Append("    \"perspective\": { \"aspectRatio\": 1.777, \"yfov\": 0.785, \"znear\": 0.1, \"zfar\": 10000.0 }\n");
+                json.Append("  }],\n");
 
-                // Build JSON with camera node for better default viewpoint
-                string json = $@"{{
-  ""asset"": {{ ""version"": ""2.0"", ""generator"": ""Entity"" }},
-  ""scene"": 0,
-  ""scenes"": [{{ ""nodes"": [0, 1] }}],
-  ""nodes"": [
-    {{ ""mesh"": 0 }},
-    {{ ""camera"": 0, ""translation"": [{camPosX:F6}, {camPosY:F6}, {camPosZ:F6}] }}
-  ],
-  ""cameras"": [{{
-    ""type"": ""perspective"",
-    ""perspective"": {{ ""aspectRatio"": 1.777, ""yfov"": 0.785, ""znear"": 0.1, ""zfar"": 10000.0 }}
-  }}],
-  ""meshes"": [{{
-    ""primitives"": [{{
-      ""attributes"": {{ ""POSITION"": 0, ""COLOR_0"": 1 }},
-      ""indices"": 2
-    }}]
-  }}],
-  ""accessors"": [
-    {{ ""bufferView"": 0, ""componentType"": 5126, ""count"": {positions.Count / 3}, ""type"": ""VEC3"", ""min"": [{meshMinX:F6}, {meshMinY:F6}, {meshMinZ:F6}], ""max"": [{meshMaxX:F6}, {meshMaxY:F6}, {meshMaxZ:F6}] }},
-    {{ ""bufferView"": 1, ""componentType"": 5121, ""count"": {colors.Count / 4}, ""type"": ""VEC4"", ""normalized"": true }},
-    {{ ""bufferView"": 2, ""componentType"": 5125, ""count"": {indices.Count}, ""type"": ""SCALAR"" }}
-  ],
-  ""bufferViews"": [
-    {{ ""buffer"": 0, ""byteOffset"": {positionByteOffset}, ""byteLength"": {positionByteLength}, ""target"": 34962 }},
-    {{ ""buffer"": 0, ""byteOffset"": {colorByteOffset}, ""byteLength"": {colorByteLength}, ""target"": 34962 }},
-    {{ ""buffer"": 0, ""byteOffset"": {indexByteOffset}, ""byteLength"": {indexByteLength}, ""target"": 34963 }}
-  ],
-  ""buffers"": [{{ ""byteLength"": {binData.Length} }}]
-}}";
+                // Mesh with primitives
+                json.Append("  \"meshes\": [{\n");
+                json.Append("    \"primitives\": [\n");
+                for (int i = 0; i < primitiveInfo.Count; i++)
+                {
+                    var pi = primitiveInfo[i];
+                    json.AppendFormat("      {{ \"attributes\": {{ \"POSITION\": {0}, \"TEXCOORD_0\": {1} }}, \"indices\": {2}, \"material\": {3} }}{4}\n",
+                        pi.posAccessor, pi.uvAccessor, pi.indexAccessor, pi.material, i < primitiveInfo.Count - 1 ? "," : "");
+                }
+                json.Append("    ]\n");
+                json.Append("  }],\n");
 
-                byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
-                // Pad JSON to 4-byte boundary with spaces
+                // Materials
+                json.Append("  \"materials\": [\n");
+                for (int i = 0; i < usedShaderIndices.Count; i++)
+                {
+                    int shaderIdx = usedShaderIndices[i];
+                    json.Append("    {\n");
+                    json.Append("      \"pbrMetallicRoughness\": {\n");
+                    if (textureImageIndex.ContainsKey(shaderIdx))
+                    {
+                        json.AppendFormat("        \"baseColorTexture\": {{ \"index\": {0} }},\n", textureImageIndex[shaderIdx]);
+                    }
+                    json.Append("        \"metallicFactor\": 0.0,\n");
+                    json.Append("        \"roughnessFactor\": 1.0\n");
+                    json.Append("      },\n");
+                    json.Append("      \"doubleSided\": true\n");
+                    json.AppendFormat("    }}{0}\n", i < usedShaderIndices.Count - 1 ? "," : "");
+                }
+                json.Append("  ],\n");
+
+                // Textures and images (if any)
+                if (imageBufferViews.Count > 0)
+                {
+                    json.Append("  \"textures\": [\n");
+                    for (int i = 0; i < imageBufferViews.Count; i++)
+                    {
+                        json.AppendFormat("    {{ \"source\": {0} }}{1}\n", i, i < imageBufferViews.Count - 1 ? "," : "");
+                    }
+                    json.Append("  ],\n");
+
+                    json.Append("  \"images\": [\n");
+                    for (int i = 0; i < imageBufferViews.Count; i++)
+                    {
+                        json.AppendFormat("    {{ \"mimeType\": \"image/png\", \"bufferView\": {0} }}{1}\n",
+                            bufferViews.Count + i, i < imageBufferViews.Count - 1 ? "," : "");
+                    }
+                    json.Append("  ],\n");
+                }
+
+                // Accessors
+                json.Append("  \"accessors\": [\n");
+                for (int i = 0; i < accessors.Count; i++)
+                {
+                    var a = accessors[i];
+                    json.AppendFormat("    {{ \"bufferView\": {0}, \"componentType\": {1}, \"count\": {2}, \"type\": \"{3}\"",
+                        a.bufferView, a.componentType, a.count, a.type);
+                    if (a.min != null && a.max != null)
+                    {
+                        json.AppendFormat(", \"min\": [{0:F6}, {1:F6}, {2:F6}], \"max\": [{3:F6}, {4:F6}, {5:F6}]",
+                            a.min[0], a.min[1], a.min[2], a.max[0], a.max[1], a.max[2]);
+                    }
+                    json.AppendFormat(" }}{0}\n", i < accessors.Count - 1 ? "," : "");
+                }
+                json.Append("  ],\n");
+
+                // Buffer views (mesh data + image data)
+                json.Append("  \"bufferViews\": [\n");
+                int totalBufferViews = bufferViews.Count + imageBufferViews.Count;
+                for (int i = 0; i < bufferViews.Count; i++)
+                {
+                    var bv = bufferViews[i];
+                    json.AppendFormat("    {{ \"buffer\": 0, \"byteOffset\": {0}, \"byteLength\": {1}, \"target\": {2} }}{3}\n",
+                        bv.offset, bv.length, bv.target, i < totalBufferViews - 1 ? "," : "");
+                }
+                for (int i = 0; i < imageBufferViews.Count; i++)
+                {
+                    var ibv = imageBufferViews[i];
+                    json.AppendFormat("    {{ \"buffer\": 0, \"byteOffset\": {0}, \"byteLength\": {1} }}{2}\n",
+                        ibv.offset, ibv.length, (bufferViews.Count + i) < totalBufferViews - 1 ? "," : "");
+                }
+                json.Append("  ],\n");
+
+                json.AppendFormat("  \"buffers\": [{{ \"byteLength\": {0} }}]\n", binData.Length);
+                json.Append("}");
+
+                byte[] jsonBytes = Encoding.UTF8.GetBytes(json.ToString());
                 int jsonPadding = (4 - (jsonBytes.Length % 4)) % 4;
                 byte[] paddedJson = new byte[jsonBytes.Length + jsonPadding];
                 Array.Copy(jsonBytes, paddedJson, jsonBytes.Length);
                 for (int i = 0; i < jsonPadding; i++)
-                    paddedJson[jsonBytes.Length + i] = 0x20; // space
+                    paddedJson[jsonBytes.Length + i] = 0x20;
 
-                // Write GLB file
+                // Write GLB
                 using (FileStream fs = new FileStream(filePath, FileMode.Create))
                 using (BinaryWriter bw = new BinaryWriter(fs))
                 {
-                    // GLB Header
-                    bw.Write(0x46546C67); // magic: "glTF"
-                    bw.Write((uint)2); // version
-                    bw.Write((uint)(12 + 8 + paddedJson.Length + 8 + binData.Length)); // total length
-
-                    // JSON chunk
-                    bw.Write((uint)paddedJson.Length); // chunk length
-                    bw.Write(0x4E4F534A); // chunk type: "JSON"
+                    bw.Write(0x46546C67); // "glTF"
+                    bw.Write((uint)2);
+                    bw.Write((uint)(12 + 8 + paddedJson.Length + 8 + binData.Length));
+                    bw.Write((uint)paddedJson.Length);
+                    bw.Write(0x4E4F534A); // "JSON"
                     bw.Write(paddedJson);
-
-                    // BIN chunk
-                    bw.Write((uint)binData.Length); // chunk length
-                    bw.Write(0x004E4942); // chunk type: "BIN\0"
+                    bw.Write((uint)binData.Length);
+                    bw.Write(0x004E4942); // "BIN\0"
                     bw.Write(binData);
                 }
             }
