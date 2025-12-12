@@ -2226,7 +2226,7 @@ namespace entity.Renderers
             // Use BeginInvoke to ensure controls are fully loaded
             if (this.IsHandleCreated)
             {
-                this.BeginInvoke(new Action(SetTelemetryViewOptionsInternal));
+                this.BeginInvoke(new System.Action(SetTelemetryViewOptionsInternal));
             }
             else
             {
