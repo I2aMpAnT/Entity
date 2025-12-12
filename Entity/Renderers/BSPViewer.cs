@@ -2188,6 +2188,19 @@ namespace entity.Renderers
         /// </summary>
         private void EnableTelemetryViewOptions()
         {
+            // Use BeginInvoke to ensure controls are fully loaded
+            if (this.IsHandleCreated)
+            {
+                this.BeginInvoke(new Action(SetTelemetryViewOptionsInternal));
+            }
+            else
+            {
+                SetTelemetryViewOptionsInternal();
+            }
+        }
+
+        private void SetTelemetryViewOptionsInternal()
+        {
             // Enable NoCulling (Show backfaces)
             if (NoCulling != null)
                 NoCulling.Checked = true;
@@ -3308,6 +3321,7 @@ namespace entity.Renderers
                     {
                         // Load CSV file automatically
                         LoadPlayerPath(StartWithCsvFile);
+                        EnableTelemetryViewOptions();
                     }
                     else
                     {
