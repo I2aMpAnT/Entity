@@ -11202,6 +11202,21 @@ namespace entity.Renderers
                                 };
                             }
                         }
+
+                        // Count kills and deaths from killEvents up to current timestamp
+                        foreach (var killEvent in killEvents.Where(e => e.Timestamp <= pathCurrentTimestamp))
+                        {
+                            // Count kill for killer
+                            if (players.ContainsKey(killEvent.KillerName))
+                            {
+                                players[killEvent.KillerName].Kills++;
+                            }
+                            // Count death for victim
+                            if (players.ContainsKey(killEvent.VictimName))
+                            {
+                                players[killEvent.VictimName].Deaths++;
+                            }
+                        }
                     }
                 }
 
