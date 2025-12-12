@@ -523,6 +523,19 @@ namespace entity.Renderers
         private bool playerBipedModelLoaded = false;
 
         /// <summary>
+        /// Helper class for GLB export - holds per-primitive mesh data.
+        /// </summary>
+        private class GLBPrimitiveData
+        {
+            public List<float> Positions = new List<float>();
+            public List<float> UVs = new List<float>();
+            public List<uint> Indices = new List<uint>();
+            public int ShaderIndex = -1;
+            public float MinX = float.MaxValue, MinY = float.MaxValue, MinZ = float.MaxValue;
+            public float MaxX = float.MinValue, MaxY = float.MinValue, MaxZ = float.MinValue;
+        }
+
+        /// <summary>
         /// Player telemetry data structure with all fields.
         /// </summary>
         public class PlayerTelemetry
@@ -11302,19 +11315,8 @@ namespace entity.Renderers
         /// </summary>
         private void ExportToGLB(string filePath, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds = null)
         {
-            // Structure to hold per-primitive data
-            class PrimitiveData
-            {
-                public List<float> Positions = new List<float>();
-                public List<float> UVs = new List<float>();
-                public List<uint> Indices = new List<uint>();
-                public int ShaderIndex = -1;
-                public float MinX = float.MaxValue, MinY = float.MaxValue, MinZ = float.MaxValue;
-                public float MaxX = float.MinValue, MaxY = float.MinValue, MaxZ = float.MinValue;
-            }
-
             // Collect primitives grouped by shader
-            Dictionary<int, PrimitiveData> primitivesByShader = new Dictionary<int, PrimitiveData>();
+            Dictionary<int, GLBPrimitiveData> primitivesByShader = new Dictionary<int, GLBPrimitiveData>();
 
             // Also collect textures
             Dictionary<int, byte[]> textureData = new Dictionary<int, byte[]>();
@@ -11340,7 +11342,7 @@ namespace entity.Renderers
 
                             if (!primitivesByShader.ContainsKey(shaderIdx))
                             {
-                                primitivesByShader[shaderIdx] = new PrimitiveData { ShaderIndex = shaderIdx };
+                                primitivesByShader[shaderIdx] = new GLBPrimitiveData { ShaderIndex = shaderIdx };
                                 if (!usedShaderIndices.Contains(shaderIdx))
                                     usedShaderIndices.Add(shaderIdx);
                             }
