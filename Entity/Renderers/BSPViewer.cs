@@ -11437,15 +11437,43 @@ namespace entity.Renderers
                 if (bsp.Shaders?.Shader != null && shaderIdx >= 0 && shaderIdx < bsp.Shaders.Shader.Length)
                 {
                     var shader = bsp.Shaders.Shader[shaderIdx];
+                    Bitmap textureBitmap = null;
+
+                    // Try MainBitmap first
                     if (shader?.MainBitmap != null)
+                    {
+                        textureBitmap = shader.MainBitmap;
+                    }
+                    // If MainBitmap is null but MainTexture exists, extract from DirectX texture
+                    else if (shader?.MainTexture != null && render?.device != null)
+                    {
+                        try
+                        {
+                            // Save texture to temp file and load as bitmap
+                            string tempPath = Path.GetTempFileName() + ".png";
+                            TextureLoader.Save(tempPath, ImageFileFormat.Png, shader.MainTexture);
+                            if (File.Exists(tempPath))
+                            {
+                                textureBitmap = new Bitmap(tempPath);
+                                File.Delete(tempPath);
+                            }
+                        }
+                        catch { }
+                    }
+
+                    // Convert bitmap to PNG bytes
+                    if (textureBitmap != null)
                     {
                         try
                         {
                             using (MemoryStream ms = new MemoryStream())
                             {
-                                shader.MainBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                textureBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                                 textureData[shaderIdx] = ms.ToArray();
                             }
+                            // Don't dispose if it's the original MainBitmap
+                            if (textureBitmap != shader?.MainBitmap)
+                                textureBitmap.Dispose();
                         }
                         catch { }
                     }
