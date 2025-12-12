@@ -11184,6 +11184,18 @@ namespace entity.Renderers
 
                         AddDebugLog($"[BATCH] Exported: {mapFileName}");
                         successCount++;
+
+                        // Dispose resources to prevent memory buildup
+                        try
+                        {
+                            if (newBsp.Shaders?.Shader != null)
+                            {
+                                foreach (var shader in newBsp.Shaders.Shader)
+                                    shader?.Dispose();
+                            }
+                            newBsp.Dispose();
+                        }
+                        catch { }
                     }
                     catch (Exception ex)
                     {
@@ -11194,6 +11206,13 @@ namespace entity.Renderers
 
                     progressBar.Value++;
                     Application.DoEvents();
+
+                    // Force garbage collection every few maps to keep memory in check
+                    if (progressBar.Value % 5 == 0)
+                    {
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                    }
                 }
 
                 progressForm.Close();
