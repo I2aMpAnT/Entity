@@ -1,0 +1,1115 @@
+﻿MapName,PlayerName,Team,EmblemForeground,EmblemBackground,PrimaryColor,SecondaryColor,TertiaryColor,QuaternaryColor,Timestamp,GameTimeMs,X,Y,Z,FacingYaw,FacingPitch,IsCrouching,IsAirborne,CurrentWeapon
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:01.752,1,-0.5104,6.3356,-11.5421,0.8741,-0.5265,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:03.799,2049,-1.6486,5.1951,-11.5346,-0.9613,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:05.853,4102,-1.5518,1.1502,-10.0216,-0.9988,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:07.894,6143,-0.0717,-1.9165,-10.0177,-0.5110,-0.1265,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:09.931,8180,1.8766,-3.6243,-10.8732,-0.9987,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:18.084,16333,-1.6822,9.4117,-7.7180,-0.9452,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:20.129,18379,-1.5030,5.0254,-7.5383,-0.6984,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:22.203,20452,0.0421,1.7601,-8.1458,-0.8962,0.0666,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:24.244,22494,2.0957,-0.0389,-7.0462,-0.3159,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:26.288,24537,2.7513,-1.4028,-8.1405,-0.4131,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:28.334,26583,1.0753,-3.8295,-8.1455,-0.9993,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:30.380,28629,2.8260,-7.6644,-8.0348,-0.3136,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:32.450,30699,5.1515,-7.2323,-8.2690,-0.3475,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:34.495,32744,7.4334,-7.1423,-8.0492,0.9953,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:36.537,34786,8.8948,-7.1715,-8.0347,0.9946,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:38.573,36823,11.8984,-6.2876,-7.2353,0.7304,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:40.611,38860,12.4025,-4.7657,-6.6900,0.3362,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:42.660,40909,12.0431,-1.8752,-6.0327,0.6876,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:44.692,42942,9.6291,-3.0194,-4.5545,-0.1524,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:52.894,51143,9.1940,2.0806,-7.9888,-0.5386,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:54.940,53189,11.5507,2.2260,-7.3933,-0.0357,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:56.971,55221,12.7160,-1.2789,-5.9913,-0.9853,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:14:59.015,57265,12.1380,-5.3408,-6.9121,0.0969,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:01.058,59307,12.6523,-4.9716,-6.8159,0.1577,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:09.241,67491,5.5375,-7.6776,-8.0244,0.3001,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:11.279,69528,5.5698,-7.9886,-8.0481,0.3006,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:13.320,71569,8.1575,-6.8714,-8.0188,0.3842,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:15.356,73605,11.8759,-6.5615,-7.2366,-0.2417,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:17.389,75638,12.7854,-5.7943,-7.0882,0.2441,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:19.422,77671,12.9407,-5.6272,-7.0226,0.1007,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:21.459,79709,12.7888,-5.2516,-6.9256,0.1365,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:23.504,81754,12.8498,-4.7286,-6.7098,-0.0326,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:25.563,83813,12.9407,-1.6214,-6.0247,0.9437,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:27.600,85850,10.0762,-2.5159,-4.6726,0.0433,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:29.654,87904,11.5055,-1.9652,-5.6760,0.0180,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:31.690,89940,12.9869,0.3927,-6.7671,0.4300,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:33.736,91985,12.6800,0.0952,-6.6097,0.5178,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:35.780,94030,12.9870,0.3879,-6.7490,0.4973,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:37.830,96080,12.9511,0.5890,-6.8912,0.6150,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:39.876,98125,12.7119,0.3559,-6.7395,0.4973,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:41.912,100162,12.8976,1.2801,-7.1977,0.9997,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:43.949,102199,12.8070,-0.0537,-6.5763,0.3689,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:46.013,104263,9.8161,-1.2658,-5.5215,-0.1304,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:48.055,106305,7.1787,-2.3184,-5.5481,-0.2038,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:50.091,108340,8.2825,-1.7036,-5.5555,0.0929,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:52.131,110380,9.8273,-2.3555,-5.5553,0.0824,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:54.176,112426,8.2683,-1.4871,-5.5337,-0.2464,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:56.240,114489,4.5925,-1.4746,-6.4102,0.7957,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:15:58.280,116530,0.9518,0.5887,-7.7923,0.9178,1.2569,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:00.319,118568,-0.0872,1.7546,-8.1685,0.9741,-0.1678,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:02.353,120603,1.1113,1.0417,-8.1244,0.8944,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:10.569,128818,-2.5413,-1.5036,-10.0386,0.6476,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:12.617,130867,-6.5152,-1.4250,-8.7077,-0.1068,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:14.667,132916,-8.0918,-1.3973,-7.7244,-0.9470,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:22.891,141141,10.4187,1.9565,-7.9463,0.5347,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:24.939,143188,12.4077,-0.3766,-6.3985,-1.0000,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:26.992,145242,9.4229,-0.7264,-5.5341,-0.1517,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:29.066,147315,5.0677,-1.5757,-5.8885,0.0625,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:31.102,149352,0.7177,-1.2598,-8.1328,-0.4257,0.8920,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:33.150,151399,-2.8149,-3.1465,-7.0608,-0.5418,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:35.196,153445,-5.7422,-5.7722,-6.7481,0.1615,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:43.385,161635,-5.7211,9.1768,-12.2207,-0.9274,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:45.432,163681,-9.3040,8.7161,-11.7385,-0.9984,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:47.466,165716,-8.5189,4.5274,-10.5594,-0.9984,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:49.552,167802,-8.7050,0.6763,-8.6898,-0.9947,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:51.600,169849,-10.2925,-0.7968,-9.8175,-0.5498,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:53.641,171890,-10.1994,-4.3480,-7.8265,-0.6333,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:16:55.680,173929,-6.7006,-6.3184,-7.0965,-0.2607,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:03.870,182120,-9.3377,-2.0783,-9.8328,1.0000,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:05.922,184171,-12.0852,-2.1233,-9.4391,-0.8983,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:07.958,186208,-9.7563,-1.4655,-7.7597,0.8399,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:10.028,188277,-8.6591,-1.6244,-7.7215,-0.9069,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:12.069,190319,-7.3288,-4.2183,-8.4540,0.7241,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:14.110,192359,-9.4000,-2.8938,-9.8417,0.8361,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:16.153,194402,-11.5133,-1.5817,-9.7269,-0.8612,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:18.191,196441,-9.7677,-2.9275,-7.8147,0.4608,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:20.232,198482,-8.9144,-1.4561,-7.7328,0.6480,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:22.282,200532,-8.5725,-0.2215,-7.7477,-0.5351,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:24.322,202571,-8.7606,-1.1407,-7.7615,-0.9919,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:26.368,204617,-8.4097,-2.3446,-7.7176,-0.9755,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:28.419,206668,-7.8922,-6.2931,-7.6699,-0.5844,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:30.470,208719,-5.0817,-5.2988,-5.9703,0.6846,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:32.513,210763,-2.0111,-3.8886,-7.7395,0.3712,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:34.552,212801,-1.1572,-3.5224,-8.1675,-0.8001,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:40.699,218949,-2.5797,-0.4145,-10.0305,-0.8490,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:42.777,221027,-3.2598,-0.9408,-10.0313,0.0768,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:44.815,223065,-1.0801,-1.6914,-10.0433,-0.5677,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:46.853,225102,0.7024,-2.4157,-10.2441,-0.4171,0.6908,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:48.895,227144,2.3162,-2.1133,-10.5506,0.2786,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:50.940,229189,4.5694,0.8415,-9.7308,0.9484,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:53.016,231265,7.7508,1.7306,-7.5605,-0.9662,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:55.049,233298,7.8356,0.7959,-5.5168,-0.9732,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:57.095,235344,7.3457,-0.3544,-5.5493,-0.7390,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:17:59.140,237389,9.6888,-0.3636,-5.5351,0.9829,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:07.374,245623,2.0769,-6.9990,-8.0345,-0.1876,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:09.411,247660,4.6430,-7.7570,-7.2471,0.6896,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:11.459,249709,7.6546,-7.3044,-8.0210,0.9714,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:13.527,251777,7.5611,-3.5241,-8.0178,0.9911,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:15.572,253821,6.6764,-2.8667,-7.3928,-0.0565,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:17.608,255858,7.4616,-2.4335,-8.0395,0.1298,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:19.650,257899,7.9162,-5.4964,-8.0329,-0.9843,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:27.880,266129,-7.1642,-6.1248,-7.3391,-0.1681,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:29.930,268179,-5.1725,-3.7844,-6.1474,0.9906,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:31.968,270217,-4.8491,-3.2789,-6.1468,0.5517,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:40.171,278420,-8.8497,-6.5428,-7.7327,-0.3356,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:42.203,280452,-5.1248,-6.5294,-6.9199,-0.2061,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:44.258,282507,-5.7367,-6.2723,-6.9554,0.0541,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:46.300,284549,-8.1709,-5.7698,-7.7700,0.4878,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:48.351,286601,-6.3045,-6.2509,-6.9696,0.0489,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:50.387,288637,-8.3483,-6.5482,-7.7536,0.9468,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:52.429,290679,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:54.464,292713,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:56.547,294797,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:18:58.604,296853,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:00.655,298904,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:02.696,300945,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:04.732,302982,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:06.807,305056,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:08.844,307094,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:10.877,309127,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:12.922,311171,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:14.953,313202,-11.1772,-6.2869,-7.7656,0.9346,-1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:23.164,321413,-0.4025,-1.5234,-10.0819,0.4984,-0.4095,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:25.215,323465,3.7493,-1.2331,-9.7886,-0.9351,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:27.285,325534,5.6595,1.1321,-9.3962,-0.4955,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:29.338,327588,6.6743,1.6354,-8.4022,0.0077,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:31.387,329636,8.6753,0.7880,-6.5981,-0.6115,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:33.424,331673,7.1674,0.4592,-4.4807,-0.4936,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:35.457,333706,6.9270,-0.5760,-5.5646,0.1030,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:37.523,335773,8.7820,-0.6075,-5.5285,-0.6426,1.5708,True,True,Battle Rifle
+Lockout,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 15:19:39.562,337811,11.6382,-0.7514,-5.1338,-0.9926,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:01.752,1,6.0452,-2.7182,-10.2301,0.6386,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:03.799,2049,7.9187,-3.0705,-10.2705,-0.5191,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:05.853,4102,8.2473,-4.5371,-10.6959,-0.0780,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:07.894,6143,8.3050,-3.4186,-10.2488,0.6793,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:09.931,8180,8.3280,-1.5705,-10.2321,0.0050,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:11.969,10219,6.8659,-1.5812,-10.2364,0.6250,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:14.010,12259,8.6170,-1.4412,-10.2394,-0.9253,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:16.043,14292,6.5789,-1.9398,-10.2713,0.3986,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:22.203,20452,-3.0772,6.2840,-11.5302,0.7451,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:24.244,22494,-2.3989,9.9555,-11.5030,-0.1695,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:26.288,24537,-1.4948,11.9865,-7.9374,-0.9976,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:28.334,26583,-0.6671,7.4359,-7.7401,-0.6469,-0.7943,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:30.380,28629,-0.3954,8.7956,-6.7242,-0.7270,-0.4055,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:32.450,30699,-1.5809,7.2687,-7.7407,-0.6685,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:34.495,32744,-0.9139,3.5645,-6.7170,-0.5933,-1.1494,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:36.537,34786,0.6381,1.3055,-8.1639,-0.3006,0.7538,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:38.573,36823,4.0248,-0.9646,-7.8943,-0.4538,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:40.611,38860,4.6352,-1.1995,-8.0558,0.1459,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:42.660,40909,8.7131,-1.8576,-8.0492,-0.7414,1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:44.692,42942,7.7240,-1.1642,-10.2245,-0.0495,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:46.729,44978,3.3202,-1.5923,-9.1276,0.1015,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:48.764,47014,-0.7899,-1.3925,-10.0329,0.3237,-0.8136,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:50.806,49055,-4.1348,-1.2120,-10.0088,-0.1787,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:52.894,51143,-7.6969,-1.1554,-9.8353,-0.0391,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:54.940,53189,-11.5108,-1.0830,-9.8515,-0.7711,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:56.971,55221,-10.7846,-2.8820,-7.8596,0.5626,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:14:59.015,57265,-10.1087,-1.6810,-7.7422,0.1513,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:01.058,59307,-10.0190,-1.6100,-7.7593,-0.1543,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:03.127,61376,-10.5106,-3.1021,-7.8608,-0.6339,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:05.162,63412,-10.0106,-2.2009,-7.8237,0.1831,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:07.202,65451,-9.8839,-1.4068,-7.7464,-0.1285,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:09.241,67491,-9.9448,-1.4761,-7.7689,-0.0613,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:11.279,69528,-9.4878,-0.2981,-7.7306,-0.3599,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:13.320,71569,-8.4199,-0.7457,-7.7252,-0.2873,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:15.356,73605,-8.6669,-4.2510,-7.7457,-0.9267,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:17.389,75638,-11.4508,-3.5586,-8.5949,0.9736,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:19.422,77671,-10.3220,-1.0125,-8.3512,-0.1914,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:21.459,79709,-10.3366,-0.9164,-8.3642,0.3755,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:23.504,81754,-10.3319,-1.1794,-8.3742,-0.0422,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:25.563,83813,-10.3944,-1.2071,-8.3999,-0.0192,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:27.600,85850,-10.3289,-1.2015,-8.3815,0.1584,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:29.654,87904,-10.3284,-1.1589,-8.3442,0.0952,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:31.690,89940,-10.2267,-0.9726,-7.2948,-0.0069,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:33.736,91985,-9.4033,-0.5055,-7.7463,-0.3477,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:35.780,94030,-9.5204,-1.1088,-7.7680,0.0046,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:37.830,96080,-10.7276,-3.2394,-8.0097,0.3295,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:39.876,98125,-12.1584,-1.9751,-9.5028,0.0606,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:41.912,100162,-11.6657,-0.8891,-9.8270,-0.0437,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:43.949,102199,-12.0096,-1.5422,-9.7623,0.0422,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:46.013,104263,-11.8346,-4.0558,-8.4465,0.9948,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:48.055,106305,-11.5069,-6.2738,-7.7576,-0.6921,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:50.091,108340,-8.0365,-6.1460,-7.2217,0.2445,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:52.131,110380,-9.1011,-5.3221,-7.7172,0.5123,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:54.176,112426,-9.4024,-1.8955,-7.7367,0.0736,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:56.240,114489,-9.5336,-2.4395,-7.7388,0.3997,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:15:58.280,116530,-9.3584,-5.6986,-7.7502,-0.0452,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:00.319,118568,-11.4787,-2.8622,-9.0266,0.4579,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:02.353,120603,-11.7652,-1.4629,-9.8324,-0.0383,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:04.414,122663,-10.3311,-0.9263,-8.4033,-0.0843,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:06.490,124740,-9.4472,-0.9647,-7.7331,-0.4388,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:08.526,126776,-9.1988,-1.2961,-7.7650,0.5654,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:10.569,128818,-8.1184,-3.5374,-7.7637,0.9398,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:12.617,130867,-8.4170,-3.6780,-9.8231,0.9978,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:14.667,132916,-7.9408,-2.9315,-9.8565,0.6792,-1.5708,True,True,Sniper Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:16.746,134996,-7.9026,-0.0956,-9.8453,0.8778,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:24.939,143188,-9.5719,-4.5023,-9.8308,0.9829,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:26.992,145242,-8.8638,-1.2072,-8.8232,0.9959,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:29.066,147315,-7.9433,-0.0541,-9.8274,0.6921,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:31.102,149352,-9.0224,-0.2528,-9.8720,-0.9051,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:33.150,151399,-9.0048,-3.7817,-9.8485,0.9079,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:35.196,153445,-9.7422,-4.3538,-9.8316,0.8220,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:37.237,155486,-9.6407,-0.4813,-9.8285,0.0368,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:39.305,157554,-11.6330,-3.1501,-8.9391,-0.4074,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:41.339,159588,-9.2686,-2.4024,-7.7341,0.1800,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:47.466,165716,12.3840,-1.3518,-6.0362,-0.0027,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:49.552,167802,9.2964,-1.1071,-5.5244,0.2327,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:51.600,169849,7.3943,-1.5835,-5.5713,0.6331,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:53.641,171890,7.6270,-2.0925,-5.5480,0.5874,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:55.680,173929,7.4093,-2.1986,-5.5429,0.7670,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:57.721,175971,9.6927,-1.9576,-4.5660,-0.2344,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:16:59.791,178040,10.0237,-2.8948,-4.4898,0.3979,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:01.822,180071,8.0480,-1.5189,-4.5747,0.7806,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:03.870,182120,7.2600,-2.7228,-5.5630,0.8548,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:05.922,184171,7.9623,-2.4474,-5.5695,0.9901,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:07.958,186208,10.9327,-1.9629,-4.4559,-0.2419,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:10.028,188277,12.5856,-3.1627,-6.0954,-0.4971,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:12.069,190319,12.5423,-6.2947,-7.1964,0.3061,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:14.110,192359,12.9754,-5.4169,-6.9528,0.3603,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:16.153,194402,12.3804,-6.6789,-7.1983,-0.8753,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:18.191,196441,8.2027,-6.5181,-8.0443,0.3810,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:20.232,198482,7.5863,-2.8567,-8.0326,0.9997,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:22.282,200532,9.5732,-1.4702,-10.0988,-0.7036,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:24.322,202571,7.8138,-3.8059,-10.3590,-0.5724,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:26.368,204617,7.9806,-2.7490,-10.2585,-0.9006,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:28.419,206668,4.9234,-0.6481,-10.2197,0.8116,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:30.470,208719,5.6928,1.0149,-9.4070,-0.1152,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:32.513,210763,6.6360,1.4117,-8.7336,-0.0366,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:34.552,212801,5.2916,1.3735,-9.6246,-0.7985,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:42.777,221027,8.3612,1.4111,-8.0734,-0.4988,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:44.815,223065,9.0875,-0.2649,-8.0659,-0.9295,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:46.853,225102,6.7498,-0.7086,-8.0174,-0.3680,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:48.895,227144,4.2767,-1.3194,-8.0466,-0.7901,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:57.095,235344,-0.4995,-0.4482,-10.0322,-0.4189,-0.5330,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:17:59.140,237389,1.8850,-1.6532,-10.6288,0.0330,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:01.179,239429,4.8640,0.9229,-9.7216,0.6122,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:03.269,241518,8.0065,1.6252,-8.0417,-0.9028,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:05.327,243577,6.4757,0.1855,-8.0638,-0.9540,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:07.374,245623,8.5127,0.5026,-8.0323,0.8134,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:09.411,247660,11.8170,1.1849,-6.5131,-0.9996,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:11.459,249709,12.1697,-1.8485,-5.6804,0.0510,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:13.527,251777,9.5325,-2.3806,-4.5084,-0.9141,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:15.572,253821,11.4995,-4.6557,-3.5701,-0.6730,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:17.608,255858,12.1041,-6.9678,-7.1888,0.1962,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:19.650,257899,10.7504,-7.0910,-7.6337,0.4568,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:21.707,259956,8.3199,-4.4331,-8.0444,0.9997,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:23.797,262046,8.0579,-1.6235,-8.0552,-0.8916,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:25.842,264091,6.1921,-1.3465,-8.0358,0.3639,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:27.880,266129,4.1573,-0.9775,-8.0948,-0.4623,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:29.930,268179,4.4979,-1.3992,-8.0854,-0.6013,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:31.968,270217,2.6243,-2.0454,-8.1352,-0.0839,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:38.136,276386,-1.4482,0.0098,-10.0046,0.9993,-1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:40.171,278420,0.8602,-2.0269,-10.1340,-0.2549,0.9632,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:42.203,280452,4.2783,0.1061,-9.7406,0.8861,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:44.258,282507,6.9638,1.6491,-8.6417,-0.5108,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:46.300,284549,8.4197,-0.1807,-8.0329,-0.9763,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:48.351,286601,5.0503,-1.7090,-8.0552,-0.2530,1.5708,True,True,Energy Sword
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:50.387,288637,8.8747,-1.7545,-8.0740,0.1129,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:52.429,290679,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:54.464,292713,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:56.547,294797,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:18:58.604,296853,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:00.655,298904,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:02.696,300945,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:04.732,302982,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:06.807,305056,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:08.844,307094,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:10.877,309127,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:12.922,311171,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:14.953,313202,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:17.024,315273,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:19.063,317313,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:21.108,319358,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:23.164,321413,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:25.215,323465,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:27.285,325534,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:29.338,327588,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:31.387,329636,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:33.424,331673,9.6475,-2.9106,-7.2218,0.9445,1.5708,True,True,Battle Rifle
+Lockout,Tech,_game_team_blue,63,0,1,1,0,2,2025-12-07 15:19:41.629,339878,-7.4079,-1.1709,-9.8244,0.2989,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:01.752,1,-3.0772,6.2840,-11.5302,0.7451,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:03.799,2049,-1.7208,5.5537,-11.5212,-0.9977,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:05.853,4102,-1.6167,1.8211,-10.0131,-0.7272,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:07.894,6143,-1.2096,1.6589,-10.0539,-0.1361,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:09.931,8180,-1.1040,1.3507,-10.0430,-0.6496,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:11.969,10219,-1.0332,1.3553,-10.1485,-0.5099,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:14.010,12259,-1.0598,0.9839,-10.1546,-0.9723,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:16.043,14292,-1.0139,1.2147,-10.1455,-0.1313,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:22.203,20452,-0.0149,9.4602,-7.7330,0.3163,-0.0217,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:24.244,22494,-1.5873,6.5265,-7.7442,-0.9867,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:26.288,24537,-1.7950,2.4130,-7.4338,-0.5588,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:28.334,26583,-2.0054,-1.0159,-8.1454,-0.4735,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:36.537,34786,-2.9968,6.1668,-11.5358,-0.9675,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:38.573,36823,-1.5422,3.3246,-10.7626,-0.0651,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:40.611,38860,-1.7627,-0.4769,-10.0602,-0.8429,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:42.660,40909,-5.9099,-1.4240,-9.5388,0.1962,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:44.692,42942,-7.5806,-1.2412,-9.8559,0.0498,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:50.806,49055,6.2251,-2.7371,-7.9826,0.8490,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:52.894,51143,8.3096,-0.5230,-8.0635,-0.9186,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:54.940,53189,9.1025,-2.3908,-10.2860,0.4466,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:56.971,55221,6.6555,-1.0984,-10.2394,0.7768,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:14:59.015,57265,4.7742,-1.0612,-10.2344,0.5230,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:01.058,59307,4.3042,0.5334,-9.7408,-0.5880,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:09.241,67491,6.0520,-7.3249,-8.0438,-0.0573,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:11.279,69528,5.3929,-6.5481,-8.1473,0.9284,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:13.320,71569,6.8818,-6.9288,-8.0182,0.6195,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:15.356,73605,7.7608,-3.8911,-8.0448,-0.5729,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:17.389,75638,7.3418,-2.3233,-8.0445,0.9457,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:19.422,77671,6.9036,-1.7598,-8.0328,-0.9094,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:21.459,79709,6.2153,-1.4523,-8.0481,-0.0564,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:23.504,81754,6.2584,-2.5377,-8.0421,0.8414,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:25.563,83813,6.5997,-2.8992,-8.0406,0.8026,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:27.600,85850,6.9321,-2.9006,-8.0301,0.8021,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:29.654,87904,6.0942,-2.3620,-8.0620,0.0875,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:31.690,89940,6.2140,-2.3840,-8.0241,0.8313,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:33.736,91985,7.6640,-2.8971,-8.0483,0.3909,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:35.780,94030,8.0318,-1.9972,-8.0524,-0.7530,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:37.830,96080,8.0105,-0.5937,-8.0423,0.1071,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:39.876,98125,7.7442,-0.4028,-8.0303,0.0132,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:41.912,100162,6.1538,-0.4134,-8.0243,-0.3250,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:43.949,102199,5.9422,-0.6545,-8.0619,0.3037,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:46.013,104263,2.0817,-1.1606,-8.1367,-0.2246,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:48.055,106305,0.9626,-3.2630,-7.8007,-0.0341,1.1987,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:50.091,108340,0.7365,-7.2921,-8.0496,0.9708,0.8475,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:52.131,110380,1.0137,-5.5791,-8.0492,0.5899,1.4210,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:15:54.176,112426,-0.8856,-2.9565,-7.5458,0.0088,-1.0923,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:02.353,120603,0.2138,10.0217,-12.4729,0.9988,0.2167,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:04.414,122663,-1.4923,11.9111,-7.4971,-0.9608,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:06.490,124740,-0.9050,6.0756,-7.7442,-0.9847,-1.1215,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:08.526,126776,-1.5434,2.8488,-6.7207,-0.9708,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:10.569,128818,-0.3917,0.4838,-8.1735,-0.8680,-0.3468,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:12.617,130867,-4.5203,-1.0910,-8.1737,-0.3024,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:14.667,132916,-8.2745,-1.8646,-7.7243,-0.9962,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:22.891,141141,-5.4821,9.2732,-12.2778,-0.7959,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:24.939,143188,-8.4454,8.2360,-11.6540,-0.9980,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:26.992,145242,-8.4624,4.2418,-10.6275,-0.9989,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:33.150,151399,0.1431,-6.2720,-7.9233,-0.2206,0.1436,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:35.196,153445,0.9734,-5.6052,-8.0421,0.6204,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:37.237,155486,0.8402,-5.7641,-8.0713,0.9495,0.9374,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:39.305,157554,0.4318,-5.7116,-8.0436,0.6538,0.4578,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:41.339,159588,0.6577,-5.5402,-8.0430,0.4687,0.7627,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:49.552,167802,-2.3185,8.6286,-7.7439,-0.9448,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:51.600,169849,-1.7534,5.5910,-7.7604,-0.9861,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:16:59.791,178040,-9.6460,-1.9974,-9.8759,-0.0634,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:01.822,180071,-10.9035,-2.7414,-9.1357,-0.9841,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:03.870,182120,-8.4100,-5.7568,-7.7173,0.1361,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:05.922,184171,-6.8358,-6.2331,-7.1422,0.9800,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:14.110,192359,-9.5719,-4.5023,-9.8301,0.9829,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:16.153,194402,-9.3668,-1.1630,-9.8550,-0.7284,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:18.191,196441,-10.7653,-3.4177,-8.4298,-0.7467,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:20.232,198482,-7.7397,-6.1453,-7.6209,0.1868,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:22.282,200532,-5.7158,-6.2623,-6.9540,0.5880,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:24.322,202571,-5.2061,-5.0257,-6.7684,0.0000,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:26.368,204617,-5.3154,-4.6469,-6.4994,0.0314,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:28.419,206668,-5.5267,-4.4625,-6.4510,0.6555,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:30.470,208719,-5.8237,-5.4201,-6.9475,0.0192,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:32.513,210763,-5.9314,-5.0899,-6.8311,-0.2985,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:34.552,212801,-5.2262,-3.1705,-6.1418,-0.4039,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:36.600,214849,-5.4756,-2.8416,-6.1427,-0.2771,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:38.658,216908,-5.0101,-3.3403,-6.1445,0.6226,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:40.699,218949,-4.8355,-2.8609,-6.1263,0.4298,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:42.777,221027,-4.6161,-2.9272,-6.1409,-0.2977,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:44.815,223065,-4.6843,-2.8788,-6.1352,-0.6209,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:46.853,225102,-0.9317,-3.5855,-8.1335,-0.3290,-1.1519,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:48.895,227144,1.2327,-5.6269,-8.0200,-0.4635,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:57.095,235344,-11.6688,-6.2757,-7.7433,-0.3676,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:17:59.140,237389,-7.2605,-5.9376,-6.7183,0.2244,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:01.179,239429,-5.5078,-3.6431,-6.1392,-0.7576,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:03.269,241518,-2.8518,-3.0016,-6.8046,-0.1460,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:05.327,243577,0.9869,-3.7986,-8.1368,-0.3932,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:07.374,245623,0.5161,-7.7523,-7.3573,-0.0598,0.5505,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:09.411,247660,3.1469,-9.0369,-6.9912,0.9976,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:11.459,249709,3.0347,-8.9985,-6.8808,0.4775,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:13.527,251777,5.1020,-7.9086,-8.2685,0.2859,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:15.572,253821,8.8848,-6.7713,-8.0459,0.9925,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:23.797,262046,-9.7130,-2.6257,-9.8933,0.2182,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:25.842,264091,-12.0109,-0.8277,-9.8516,-0.0759,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:27.880,266129,-11.7460,-2.8292,-8.9763,-0.5148,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:29.930,268179,-11.4811,-4.3405,-8.2538,0.9095,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:31.968,270217,-11.6924,-3.2876,-8.7722,0.9827,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:34.054,272303,-11.9580,-1.1701,-9.8593,0.8361,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:36.100,274349,-11.3914,-1.1135,-9.8593,0.0238,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:38.136,276386,-10.9549,-2.4825,-8.0030,0.3528,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:40.171,278420,-11.3037,-2.4589,-8.3738,0.6044,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:42.203,280452,-11.0821,-0.5212,-9.8316,-0.0675,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:44.258,282507,-11.2362,-1.0657,-9.9370,-0.3660,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:46.300,284549,-10.3997,-3.8740,-7.6639,0.1498,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:48.351,286601,-10.1765,-4.1299,-7.7569,0.9065,-1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:56.547,294797,12.4969,-1.3502,-6.0336,0.0004,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:18:58.604,296853,8.6373,-1.4365,-5.5450,0.0929,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:00.655,298904,7.4522,-0.2616,-5.5572,-1.0000,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:02.696,300945,10.7669,-1.2701,-5.5317,-0.5996,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:04.732,302982,12.7947,-2.8520,-6.0185,-0.8678,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:06.807,305056,12.5625,-5.8491,-7.1121,0.2558,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:08.844,307094,12.3842,-4.9564,-6.7086,-0.9934,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:10.877,309127,12.5131,-5.0816,-6.8566,-0.9918,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:12.922,311171,12.0416,-2.1111,-6.0550,-0.8276,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:14.953,313202,11.4598,-1.8077,-5.8688,-0.9989,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:17.024,315273,10.5005,-2.3608,-5.5683,-0.4198,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:25.215,323465,1.6959,-2.1490,-10.7606,0.8395,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:27.285,325534,4.5273,-0.6096,-10.2472,0.3820,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:29.338,327588,6.3264,1.7619,-8.5919,-0.0873,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:31.387,329636,9.1449,3.4782,-11.0872,-0.9260,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:39.562,337811,5.9855,-2.2268,-10.2216,0.9592,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:41.629,339878,4.4183,-1.6673,-10.2439,0.0226,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:43.666,341916,4.1243,-1.9559,-10.2488,0.3387,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:45.707,343957,5.3305,1.6199,-9.4690,-0.3528,1.5708,True,True,Battle Rifle
+Lockout,Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 15:19:47.744,345994,7.1011,1.3813,-8.4794,-0.5227,1.5708,True,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:01.752,1,0.0601,8.7965,-12.5301,0.0984,0.0501,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:03.799,2049,-1.0995,10.8101,-11.6256,-0.9546,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:05.853,4102,-1.4562,10.7296,-6.6483,-0.9943,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:07.894,6143,-1.7547,5.8839,-7.7613,-0.9788,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:09.931,8180,-1.4896,5.2018,-7.7215,-0.9723,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:11.969,10219,-1.1583,1.9474,-10.0507,-0.1208,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:20.129,18379,-1.7522,9.1167,-7.7215,-0.8207,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:22.203,20452,0.4365,6.2088,-7.7252,-0.8349,0.4157,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:24.244,22494,-0.4742,5.4739,-7.7457,-0.2890,-0.4099,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:26.288,24537,-0.3763,3.3847,-6.6489,-0.3969,-0.3833,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:28.334,26583,3.4488,1.6335,-7.2099,-0.9471,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:30.380,28629,7.0439,0.7672,-8.5520,-0.2272,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:38.573,36823,7.5885,-5.1977,-8.0174,0.9963,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:40.611,38860,7.5236,-6.7130,-8.0527,-0.9890,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:42.660,40909,3.5458,-7.7769,-8.3073,0.2618,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:44.692,42942,0.3330,-6.8372,-8.0395,0.9815,0.3190,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:46.729,44978,1.1842,-4.5449,-8.1297,0.9994,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:48.764,47014,2.1748,-7.4095,-8.0327,-0.5158,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:50.806,49055,3.8562,-6.5532,-8.3503,0.9981,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:52.894,51143,0.9626,-6.1916,-8.0392,0.9886,1.2404,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:54.940,53189,0.1580,-6.0542,-8.0509,0.2337,0.1939,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:56.971,55221,1.4117,-7.7967,-8.0458,-0.3590,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:14:59.015,57265,3.5687,-6.8543,-8.2611,0.8313,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:01.058,59307,4.7515,-6.3801,-8.3477,0.9563,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:03.127,61376,8.5756,-6.9684,-8.0439,0.7281,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:05.162,63412,7.8385,-6.9880,-8.0453,-0.6192,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:07.202,65451,3.5633,-7.7512,-8.3443,0.0115,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:09.241,67491,3.8482,-7.6685,-8.3461,-0.8446,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:11.279,69528,0.6684,-8.6509,-8.0327,0.9940,0.6930,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:13.320,71569,0.8015,-9.4182,-8.0198,0.9803,0.9567,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:15.356,73605,0.9001,-9.0321,-8.0598,0.9957,1.1296,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:17.389,75638,-0.1522,-8.1168,-8.0401,0.5332,-0.1786,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:19.422,77671,-0.5555,-8.3300,-8.0039,0.6583,-0.6015,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:27.600,85850,9.1469,-0.8697,-10.4005,-0.6576,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:29.654,87904,6.9666,-1.4749,-10.2206,-0.1033,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:31.690,89940,2.8797,-1.9101,-9.3926,0.1562,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:33.736,91985,-0.7871,-1.4978,-10.0477,0.1547,-0.8454,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:35.780,94030,-1.8056,-1.1199,-10.0177,-0.3304,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:37.830,96080,-3.5030,-3.1158,-9.1450,0.8791,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:46.013,104263,7.4297,-2.0252,-8.0355,0.9691,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:48.055,106305,5.1042,-1.5647,-8.0264,0.6319,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:50.091,108340,1.1761,-0.8767,-8.1284,0.0831,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:52.131,110380,-3.3756,-0.8476,-8.1328,0.0318,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:54.176,112426,-4.3970,-0.7776,-8.1412,-0.4073,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:15:56.240,114489,-4.1519,-0.6641,-8.1625,0.1295,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:04.414,122663,-0.3236,11.6646,-11.8546,-0.8979,-0.3475,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:06.490,124740,-1.5117,7.9497,-11.8727,-1.0000,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:08.526,126776,-1.3820,3.3986,-10.5209,-0.9926,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:10.569,128818,-1.3355,1.7140,-10.0353,0.9674,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:12.617,130867,-3.8764,-1.1522,-10.0067,0.0579,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:14.667,132916,-6.7432,-0.8182,-9.8556,-0.0401,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:16.746,134996,-5.9565,-1.0513,-8.7826,0.1502,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:18.782,137031,-4.9362,-1.2440,-9.9643,0.0847,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:20.831,139080,-8.3441,-2.0541,-9.8451,-0.9895,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:22.891,141141,-9.3259,-4.8461,-9.8418,0.1207,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:29.066,147315,6.1751,-2.5654,-10.2164,0.6386,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:31.102,149352,3.0207,-1.6406,-9.2267,0.0609,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:33.150,151399,-0.2706,-1.5646,-10.0433,0.0234,-0.2064,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:35.196,153445,-3.2828,-1.3058,-10.0627,-0.0019,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:37.237,155486,-1.3835,-0.7688,-10.0573,-0.0219,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:39.305,157554,-1.8342,3.1241,-10.5622,-0.3193,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:41.339,159588,-1.8332,6.4607,-11.5660,0.0591,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:43.385,161635,-1.5883,8.6086,-12.0173,0.9807,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:45.432,163681,-1.4905,12.0873,-10.6237,-0.9990,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:47.466,165716,-1.1268,8.4764,-7.7500,-0.9732,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:49.552,167802,-0.9435,9.5130,-7.7337,-0.9820,-1.2398,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:51.600,169849,-0.7962,9.1934,-7.7341,-0.9992,-0.9366,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:53.641,171890,-0.4915,7.3216,-7.7212,-0.8432,-0.5578,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:55.680,173929,-2.2707,6.1691,-7.7529,-0.9742,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:57.721,175971,-3.4905,5.4381,-7.7425,-0.4565,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:16:59.791,178040,-3.1287,6.1552,-7.7706,0.0552,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:01.822,180071,-1.5841,10.3133,-7.7183,0.6660,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:03.870,182120,0.2389,10.7262,-7.7473,0.0203,0.2167,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:05.922,184171,0.2119,10.8031,-7.7617,-0.4873,0.1681,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:07.958,186208,-0.4394,10.3606,-7.7258,-0.9879,-0.3969,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:10.028,188277,-0.5851,6.3910,-7.7343,-0.8432,-0.6641,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:12.069,190319,-1.2330,5.9056,-7.7589,-0.9845,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:14.110,192359,-0.7669,5.6918,-7.7365,-0.9814,-0.9443,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:16.153,194402,-0.9026,5.5913,-7.7316,-0.6973,-1.1071,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:18.191,196441,-1.4208,5.3997,-7.7451,-1.0000,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:26.368,204617,-8.4540,-0.9310,-9.8342,-0.1475,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:28.419,206668,-6.6480,-0.4843,-9.4389,-0.3912,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:30.470,208719,-4.9830,-1.2991,-9.9591,-0.0957,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:32.513,210763,-0.4869,-2.1794,-10.0451,-0.0711,-0.5894,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:34.552,212801,-0.0502,-1.9441,-10.0495,-0.3274,-0.0509,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:36.600,214849,0.2461,0.6456,-9.0400,-0.9958,0.2899,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:38.658,216908,0.5163,-0.0492,-9.1451,-0.9852,0.5386,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:40.699,218949,0.0009,-0.0464,-9.6037,-0.9871,0.0809,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:42.777,221027,1.1064,-1.6015,-10.4426,0.0607,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:44.815,223065,4.9570,-0.9197,-10.2459,-0.8661,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:46.853,225102,7.7410,-2.1483,-10.2435,0.5193,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:48.895,227144,9.9046,-2.8940,-9.8803,0.9599,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:50.940,229189,7.3781,-1.5630,-10.2344,0.2605,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:53.016,231265,4.2038,0.2320,-9.8891,0.3997,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:55.049,233298,7.5414,1.6358,-8.2223,-0.8732,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:57.095,235344,7.5508,-1.2470,-8.0449,0.5201,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:17:59.140,237389,6.1681,-1.2138,-8.0455,-0.4000,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:01.179,239429,6.2892,-2.3993,-8.0452,-0.9881,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:03.269,241518,7.9975,-3.2706,-8.0389,-0.9964,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:09.411,247660,-9.5719,-4.5023,-9.8301,0.9829,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:11.459,249709,-8.7415,-3.1496,-9.8506,0.6645,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:13.527,251777,-7.6833,-1.3032,-9.8389,-0.2957,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:15.572,253821,-10.4816,-1.0590,-9.8752,-0.0245,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:17.608,255858,-12.1048,-3.5838,-8.5886,0.7613,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:19.650,257899,-10.4971,-0.7549,-8.4972,0.4816,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:21.707,259956,-11.3167,-3.0541,-8.9827,0.9521,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:23.797,262046,-9.4019,-1.4200,-7.7209,-0.9375,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:25.842,264091,-8.2774,-2.3459,-7.7768,-0.0107,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:27.880,266129,-8.2396,-4.4469,-7.7477,0.9808,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:29.930,268179,-8.1289,-4.5865,-7.7478,0.6997,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:31.968,270217,-7.5989,-4.7498,-7.7408,0.9924,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:34.054,272303,-8.3881,-1.5965,-7.7448,-0.0291,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:36.100,274349,-8.1599,-1.2874,-7.7492,0.0153,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:38.136,276386,-8.5467,-1.6190,-7.7458,0.5325,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:40.171,278420,-8.2413,-1.9471,-7.7714,-0.0841,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:42.203,280452,-8.9324,-5.3098,-7.7781,0.9735,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:44.258,282507,-10.8286,-5.3877,-7.7250,0.9330,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:46.300,284549,-8.8121,-4.9478,-7.7175,0.8891,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:48.351,286601,-8.5916,-4.7189,-6.8943,0.9896,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:50.387,288637,-7.2481,-4.7310,-7.7460,0.8996,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:56.547,294797,-0.2000,8.8155,-12.5395,0.0808,-0.1480,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:18:58.604,296853,-4.1290,9.5611,-12.5543,-0.9907,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:00.655,298904,-1.9710,8.0759,-11.9760,-0.9998,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:02.696,300945,-1.7518,3.9718,-10.5833,-0.7931,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:04.732,302982,-1.7241,0.5084,-10.0215,-0.9994,-1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:06.807,305056,0.7400,-1.8929,-10.1824,0.3202,0.7441,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:08.844,307094,4.5766,-1.1731,-10.2511,-0.9940,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:10.877,309127,4.3338,-1.2465,-10.2631,-0.9961,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:12.922,311171,5.1688,-0.8219,-10.2415,0.0697,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:14.953,313202,4.5392,0.2935,-9.9900,0.9333,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:17.024,315273,7.4772,1.5325,-8.2692,-0.8533,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:19.063,317313,7.5519,-1.0133,-8.0417,-0.2180,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:21.108,319358,8.3323,-4.0555,-8.0368,-0.9897,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:29.338,327588,6.4040,-0.5494,-10.2636,-0.6689,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:31.387,329636,4.8530,0.7273,-9.7146,0.8457,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:33.424,331673,4.3419,0.5529,-9.7620,0.3355,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:35.457,333706,4.6620,1.0355,-9.7424,0.7028,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:37.523,335773,8.5296,0.8000,-8.0160,-0.8358,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:39.562,337811,6.8556,-2.0201,-8.0650,0.1353,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:41.629,339878,8.1895,-4.8372,-8.0602,-0.9337,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:43.666,341916,6.9758,-8.4783,-7.9604,0.0188,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:45.707,343957,3.7537,-8.7918,-5.9700,0.3301,1.5708,False,True,Battle Rifle
+Lockout,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 15:19:47.744,345994,2.0912,-8.3018,-8.0438,0.3301,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:01.752,1,-3.1013,7.3935,-11.9084,0.7451,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:03.799,2049,-2.4659,9.8666,-11.7499,0.5734,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:05.853,4102,-1.4954,12.0416,-8.3542,-0.9994,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:07.894,6143,-2.5606,7.5750,-7.7156,-0.8695,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:09.931,8180,-1.2843,5.6806,-7.7364,-0.9762,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:11.969,10219,-0.1586,6.9882,-7.7671,-0.9999,-0.1587,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:14.010,12259,-0.7169,5.6701,-7.7734,-0.9991,-0.7480,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:16.043,14292,-0.8240,5.5371,-7.7377,-0.4856,-0.8792,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:18.084,16333,-1.7153,5.1265,-7.7327,-0.9906,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:20.129,18379,-1.2972,1.6922,-8.1634,-0.3820,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:28.334,26583,7.6802,-5.6361,-8.0178,0.9761,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:30.380,28629,8.4452,-1.4456,-8.0174,0.9997,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:32.450,30699,8.9492,-2.2226,-7.3147,0.9907,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:34.495,32744,8.8181,0.7921,-8.0773,0.2560,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:42.660,40909,9.8259,-0.8434,-5.5436,0.3667,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:44.692,42942,10.5748,-1.3969,-5.1701,-0.0318,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:46.729,44978,12.4509,-4.7486,-6.6909,0.1562,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:48.764,47014,9.6812,-6.8311,-8.0244,-0.2014,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:50.806,49055,7.7440,-3.7358,-8.0632,-0.1060,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:52.894,51143,7.9523,-2.7282,-8.0660,0.9958,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:54.940,53189,7.4786,-2.5422,-8.0438,0.4175,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:56.971,55221,7.6045,-3.4996,-8.0616,-0.4658,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:14:59.015,57265,7.6903,-3.1808,-8.0467,-0.1509,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:01.058,59307,7.6694,-1.6093,-8.0477,0.3387,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:03.127,61376,8.1619,-3.2764,-8.0590,0.1411,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:05.162,63412,7.8406,-5.0286,-8.0518,0.9967,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:07.202,65451,8.7898,-7.0504,-8.0499,-0.6258,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:09.241,67491,8.0384,-7.0946,-8.0379,0.1167,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:11.279,69528,10.9892,-6.8551,-7.6577,-0.2086,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:13.320,71569,12.3541,-5.2462,-6.8918,0.2128,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:15.356,73605,12.3922,-4.9880,-6.8047,0.1774,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:17.389,75638,12.3546,-3.0604,-6.1154,0.0541,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:19.422,77671,11.7063,-2.2452,-5.4487,-0.1947,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:21.459,79709,11.1620,-2.7913,-4.6076,-0.1373,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:23.504,81754,11.9468,-2.4038,-5.1105,-0.0433,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:25.563,83813,12.5687,-1.3776,-6.0341,0.9986,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:33.736,91985,2.3544,-2.3555,-10.7245,-0.8358,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:35.780,94030,-0.6052,-1.3079,-10.0209,0.1107,-0.5974,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:37.830,96080,-1.3560,0.5091,-10.0178,0.9780,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:39.876,98125,-1.2756,4.8136,-11.4239,0.9941,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:41.912,100162,-1.2964,6.2363,-11.5214,0.9652,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:43.949,102199,0.0285,8.8926,-12.5699,-0.8513,-0.0256,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:46.013,104263,-1.4973,5.1454,-11.5387,-0.9997,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:48.055,106305,-1.8050,1.3369,-10.0348,-0.9912,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:50.091,108340,-3.6660,-1.0895,-10.0089,0.5805,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:52.131,110380,-5.5011,-1.2101,-9.5884,-0.0104,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:54.176,112426,-6.9380,-1.3198,-8.5304,-0.3257,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:15:56.240,114489,-5.1706,-0.6377,-9.0016,-0.3046,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:04.414,122663,-1.0876,10.0056,-11.6757,-0.9270,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:06.490,124740,-1.5037,11.8031,-7.0228,-1.0000,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:08.526,126776,-3.3547,8.0491,-7.7361,-0.9079,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:10.569,128818,-5.9749,7.4688,-6.1701,-0.9781,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:12.617,130867,-9.5583,7.4933,-11.4433,-0.7041,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:14.667,132916,-9.9589,3.2761,-9.9805,-0.9631,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:22.891,141141,-9.5996,7.6741,-11.4917,-0.9768,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:24.939,143188,-8.9241,3.4738,-10.4038,-0.9925,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:33.150,151399,4.5427,0.6098,-9.7227,-0.9180,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:35.196,153445,2.4552,-1.5246,-9.3588,0.0755,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:37.237,155486,-1.6783,-1.4823,-10.0245,0.0512,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:39.305,157554,-3.8294,-1.1797,-10.0198,0.0853,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:41.339,159588,-8.0289,-0.9769,-9.8340,0.4858,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:43.385,161635,-11.7633,-2.6811,-9.0409,-0.7563,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:45.432,163681,-10.0209,-3.6627,-7.8182,0.6303,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:47.466,165716,-9.5507,-4.1495,-7.7522,-0.9037,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:49.552,167802,-9.6990,-3.1496,-7.7447,-0.9775,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:51.600,169849,-7.6813,-6.5154,-7.5962,-0.0841,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:16:59.791,178040,-8.9399,0.0510,-9.8523,-0.9995,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:01.822,180071,-11.2859,-0.7984,-9.8477,-0.2528,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:03.870,182120,-11.1111,-2.7084,-8.2145,0.6885,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:05.922,184171,-10.1381,-2.5123,-7.7552,0.7374,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:07.958,186208,-10.1676,-2.1740,-7.7728,0.0667,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:10.028,188277,-10.4925,-2.3366,-7.8361,0.0100,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:12.069,190319,-10.3264,-0.8329,-9.8327,0.4570,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:14.110,192359,-5.7759,-1.0381,-9.9162,-0.0491,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:16.153,194402,-1.2844,-1.7585,-10.0444,-0.2623,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:18.191,196441,2.4263,-3.3567,-10.7940,-0.9806,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:20.232,198482,3.5284,-7.0784,-11.2185,-0.7903,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:22.282,200532,4.4694,-8.9233,-11.2358,0.3243,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:24.322,202571,4.4110,-8.5805,-11.2429,0.9918,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:32.513,210763,-8.4324,-5.6921,-7.7345,0.9993,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:34.552,212801,-7.4312,-3.7468,-9.4205,0.9984,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:36.600,214849,-7.2074,-1.3923,-9.8546,-0.5587,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:38.658,216908,-7.1837,-1.8499,-9.4463,0.0529,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:40.699,218949,-7.0961,-1.7655,-9.4582,0.0276,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:42.777,221027,-7.0837,-1.7265,-9.4515,0.0276,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:44.815,223065,-4.7518,-1.4696,-8.2002,0.2086,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:46.853,225102,-3.0495,0.4732,-8.1446,0.0330,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:48.895,227144,-0.7427,-1.7675,-8.1494,-0.1059,-0.8429,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:50.940,229189,2.0583,-1.4130,-8.1375,-0.0502,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:53.016,231265,4.9953,-0.3519,-6.4700,-0.2969,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:17:55.049,233298,6.8391,-1.1852,-5.5545,0.4158,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:01.179,239429,-8.3195,-5.9967,-7.7406,0.4406,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:03.269,241518,-4.8312,-4.5282,-5.9062,-0.0100,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:05.327,243577,-1.6818,-2.8396,-8.1214,0.1762,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:07.374,245623,0.6354,-2.2260,-8.1699,-0.6596,0.7042,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:09.411,247660,1.0163,-2.3555,-8.1652,0.0507,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:11.459,249709,1.0881,-3.3687,-8.1681,-0.0023,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:13.527,251777,2.3179,-1.5604,-8.1361,0.2852,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:21.707,259956,-7.3826,-1.3020,-9.5563,0.0445,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:23.797,262046,-5.2407,-0.8323,-8.5855,0.2544,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:25.842,264091,-6.8766,-1.3941,-9.8889,0.1951,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:31.968,270217,-9.8722,-5.9274,-7.7381,0.7774,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:34.054,272303,-6.0496,-6.3724,-6.8956,0.2734,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:36.100,274349,-5.1426,-5.4545,-6.9308,0.6960,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:38.136,276386,-5.3379,-5.6149,-6.9703,0.4545,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:40.171,278420,-8.3609,-6.0874,-7.7611,0.9901,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:42.203,280452,-7.4732,-5.9023,-7.4602,-0.6274,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:44.258,282507,-10.7171,-4.6837,-8.0160,0.8949,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:46.300,284549,-12.0057,-1.4036,-9.8181,-0.3178,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:48.351,286601,-9.9418,-0.7162,-9.8311,-0.7066,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:50.387,288637,-9.3473,-1.2198,-9.8265,-0.8542,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:52.429,290679,-8.3705,-2.7411,-9.9462,-0.9929,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:18:54.464,292713,-8.3705,-2.7411,-9.9462,-0.9929,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:02.696,300945,-7.5121,-0.8417,-9.8298,0.6520,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:04.732,302982,-6.2434,-0.5352,-9.1971,-0.1914,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:06.807,305056,-3.6599,-0.9594,-8.1432,0.7233,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:08.844,307094,-5.6070,-1.4524,-9.7062,-0.2467,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:10.877,309127,-8.3154,-1.0629,-9.8592,0.4376,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:12.922,311171,-7.1962,-0.4569,-9.4073,-0.2467,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:14.953,313202,-3.4378,-0.4137,-8.1442,0.2840,-1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:17.024,315273,0.5704,0.1443,-7.8652,-0.7456,0.7499,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:19.063,317313,1.3220,-1.9872,-8.1167,-0.7786,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:21.108,319358,-0.4406,-2.6966,-8.1486,-0.9579,-0.3676,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:23.164,321413,1.2956,-6.0742,-8.1068,-0.3546,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:25.215,323465,1.4977,-7.2484,-8.0180,-0.1906,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:27.285,325534,4.7283,-6.2262,-8.3506,-0.9658,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:29.338,327588,3.7916,-7.1521,-8.3607,0.4755,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:37.523,335773,1.1285,-1.6626,-10.5250,0.6525,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:39.562,337811,1.0592,-1.9042,-10.4839,-0.6786,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:41.629,339878,1.5901,-1.7875,-10.7484,0.0709,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:43.666,341916,1.3930,-1.9047,-10.6416,-0.7740,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:45.707,343957,1.5952,-2.0686,-10.7297,0.1266,1.5708,False,True,Battle Rifle
+Lockout,WTFrenetic,_game_team_red,2,25,1,0,1,0,2025-12-07 15:19:47.744,345994,1.5952,-2.0686,-10.7297,0.1266,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:01.752,1,6.2189,-2.7436,-8.0301,0.8490,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:03.799,2049,6.6598,-1.1215,-8.0461,-0.2083,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:05.853,4102,6.3682,-1.4395,-8.0325,-0.1638,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:07.894,6143,6.6590,-1.3726,-8.0621,-0.0372,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:09.931,8180,9.4130,-0.1697,-8.0748,0.5276,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:11.969,10219,9.6479,-0.1185,-7.8995,0.2069,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:14.010,12259,9.5828,-0.0534,-8.0502,0.5059,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:16.043,14292,9.5964,0.1371,-8.0447,0.4718,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:18.084,16333,8.2438,-1.7271,-8.0252,-0.5560,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:26.288,24537,1.9359,-2.1715,-10.7656,-0.0117,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:28.334,26583,4.5332,0.0907,-9.9452,0.9828,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:30.380,28629,4.4672,1.0925,-9.7172,0.7156,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:32.450,30699,8.4427,1.1754,-8.0179,-0.5266,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:34.495,32744,6.2462,1.2855,-9.0029,0.2002,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:40.611,38860,-9.6954,-2.9503,-7.7293,-0.9780,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:42.660,40909,-9.5505,-1.0542,-7.7483,-0.1800,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:44.692,42942,-8.3940,-1.6582,-7.7478,-0.0038,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:46.729,44978,-9.2506,-4.1063,-7.7454,-0.9158,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:48.764,47014,-5.7914,-5.3166,-6.9449,0.6111,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:50.806,49055,-6.2711,-5.2934,-6.8779,-0.5984,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:52.894,51143,-9.2751,-5.6508,-7.7509,0.0675,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:54.940,53189,-6.9269,-6.1272,-7.1865,0.8112,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:56.971,55221,-6.5277,-6.2899,-6.9746,0.1619,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:14:59.015,57265,-10.3961,-4.9647,-7.7637,0.9915,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:07.202,65451,-9.6058,-2.8756,-9.8317,0.6433,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:09.241,67491,-11.0718,-1.4071,-9.8397,-0.8542,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:11.279,69528,-9.6261,-4.9201,-7.7228,-0.6819,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:13.320,71569,-7.6427,-6.3643,-7.5664,0.2356,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:15.356,73605,-7.2227,-6.1606,-7.3460,0.2139,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:17.389,75638,-6.5600,-5.9485,-7.0171,0.1308,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:19.422,77671,-6.8903,-6.1244,-7.1484,0.1293,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:21.459,79709,-6.8903,-6.1244,-7.1484,0.1293,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:23.504,81754,-7.5592,-6.0974,-7.5149,0.2169,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:25.563,83813,-6.8153,-5.9584,-7.1108,0.1209,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:27.600,85850,-6.8169,-5.9275,-7.1117,0.1209,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:29.654,87904,-7.2369,-5.9654,-7.3493,0.2378,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:31.690,89940,-9.1043,-5.6707,-7.7585,0.3246,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:33.736,91985,-6.8238,-5.8604,-7.1354,0.1064,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:35.780,94030,-7.0189,-5.8997,-7.2203,0.1079,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:37.830,96080,-9.6416,-5.7996,-7.7173,0.1199,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:39.876,98125,-11.9744,-4.1230,-8.3069,0.8758,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:41.912,100162,-12.1414,-3.3825,-8.7453,0.7912,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:43.949,102199,-9.5532,-5.1503,-7.7133,-0.4687,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:46.013,104263,-5.4087,-6.2015,-6.9236,0.5652,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:54.176,112426,-1.7224,9.6646,-7.7391,-0.7115,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:56.240,114489,-1.1229,5.4446,-7.7441,-0.9645,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:15:58.280,116530,-1.0230,5.6131,-7.7466,-0.7256,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:00.319,118568,-0.2218,5.7307,-7.7425,-0.9955,-0.2574,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:02.353,120603,-0.7878,5.6457,-7.7474,-0.9780,-0.8959,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:04.414,122663,0.1079,6.7048,-7.7672,-0.8633,0.1348,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:06.490,124740,-1.0935,5.6538,-7.7666,-0.6178,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:12.617,130867,-11.0866,-6.1285,-7.7307,0.6074,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:14.667,132916,-10.2605,-6.1342,-7.7429,0.9998,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:16.746,134996,-9.4158,-2.8926,-7.6032,0.9930,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:18.782,137031,-8.4364,-1.1053,-7.7415,-0.1011,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:20.831,139080,-8.4618,-4.8815,-7.7449,-0.9609,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:22.891,141141,-6.1104,-4.0797,-6.2954,0.9898,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:24.939,143188,-7.1480,-6.1936,-7.0892,0.6120,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:26.992,145242,-11.2233,-5.6953,-7.7711,0.8995,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:29.066,147315,-12.0686,-2.1453,-9.3807,0.9948,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:31.102,149352,-12.0050,-1.3423,-9.8688,0.0100,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:33.150,151399,-11.8838,-2.7191,-9.1766,0.0161,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:35.196,153445,-8.5880,-1.3715,-7.7328,0.3271,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:37.237,155486,-8.1937,-3.0039,-7.7286,-0.9721,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:39.305,157554,-9.7156,-5.9247,-7.7604,0.9820,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:41.339,159588,-12.1475,-3.4503,-8.6519,0.9862,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:43.385,161635,-12.1412,-3.1526,-8.9363,0.7682,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:49.552,167802,6.2193,-2.7434,-8.0293,0.8490,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:51.600,169849,7.0535,-1.6432,-8.0679,0.6702,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:53.641,171890,7.0641,-1.9581,-8.0481,-0.6097,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:55.680,173929,7.1597,-1.2384,-8.0419,-0.6903,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:57.721,175971,7.2926,-0.4349,-8.0448,-0.1773,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:16:59.791,178040,8.0666,-3.6159,-8.0695,-0.4098,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:01.822,180071,7.1466,-7.4057,-8.0443,-0.3914,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:03.870,182120,5.5027,-7.2798,-8.1076,0.9340,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:05.922,184171,4.9798,-6.3805,-8.3128,0.9399,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:07.958,186208,3.8876,-6.9305,-8.3481,-0.5515,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:10.028,188277,0.9041,-8.5343,-8.0509,0.9961,0.9804,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:12.069,190319,1.3560,-7.6549,-8.0481,0.9976,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:14.110,192359,1.1682,-7.6443,-8.0598,0.9800,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:16.153,194402,1.2166,-7.6380,-8.0466,0.9904,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:18.191,196441,1.2397,-8.1526,-8.0741,0.2498,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:20.232,198482,1.5579,-7.1866,-8.0409,0.9525,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:22.282,200532,5.6019,-7.8316,-8.0502,-0.2765,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:24.322,202571,6.9018,-7.9591,-8.0176,0.3878,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:26.368,204617,6.9512,-8.0939,-8.0669,0.1175,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:28.419,206668,5.6249,-9.0816,-6.9100,0.3214,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:30.470,208719,4.2520,-8.6620,-7.3617,0.6529,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:32.513,210763,1.9947,-6.1163,-8.0787,0.5217,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:34.552,212801,2.1015,-7.4739,-8.0600,0.7782,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:36.600,214849,0.8488,-9.0076,-8.0612,0.9417,0.9234,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:38.658,216908,1.6935,-7.1499,-8.0443,0.8741,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:40.699,218949,2.2425,-7.4781,-8.0178,-0.0471,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:42.777,221027,6.4637,-7.5452,-7.8665,0.7182,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:44.815,223065,3.6430,-7.6126,-7.5886,0.9846,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:46.853,225102,2.9539,-7.1549,-8.0523,0.4531,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:48.895,227144,3.6426,-6.1341,-8.3392,-0.5013,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:50.940,229189,1.5483,-8.3436,-8.0466,-0.6535,1.5708,False,True,Energy Sword
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:53.016,231265,0.4122,-6.3773,-8.0792,0.8707,0.4608,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:55.049,233298,0.0200,-6.6418,-8.0417,0.5620,0.0180,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:57.095,235344,-0.0154,-6.4620,-8.0311,0.6201,-0.0074,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:17:59.140,237389,2.2488,-7.1560,-6.9972,-0.1846,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:01.179,239429,6.7343,-7.0990,-8.0214,0.0272,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:03.269,241518,7.9511,-4.7149,-8.0448,0.9584,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:05.327,243577,6.4950,-7.5683,-8.0369,0.1471,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:07.374,245623,6.7228,-6.0809,-7.2819,-0.9535,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:09.411,247660,6.7038,-6.0734,-8.0809,-0.9591,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:11.459,249709,7.6860,-6.7801,-8.0362,-0.2864,1.5708,False,True,Energy Sword
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:19.650,257899,-1.4854,5.0678,-7.7244,-0.9845,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:21.707,259956,1.0231,1.2598,-8.1178,-0.7456,1.3580,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:23.797,262046,2.6686,-0.7823,-7.8657,-0.0364,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:25.842,264091,-1.6083,-0.4762,-8.1441,0.5959,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:27.880,266129,-4.7695,-0.9634,-8.1220,-0.1486,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:29.930,268179,-6.5781,-0.9750,-8.5713,-0.1007,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:31.968,270217,-8.0236,-2.3294,-9.8390,-0.9603,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:34.054,272303,-7.2440,-3.3006,-9.8340,-0.7694,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:36.100,274349,-7.8269,-3.3702,-9.8469,0.9901,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:38.136,276386,-9.8220,-1.1069,-9.8401,0.2969,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:40.171,278420,-11.2662,-2.9912,-8.3028,0.2206,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:42.203,280452,-10.8519,-1.8075,-9.6069,0.8600,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:50.387,288637,7.3036,-0.0440,-10.2302,-0.9908,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:52.429,290679,6.7590,-1.0712,-10.2447,-0.1091,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:18:54.464,292713,6.7590,-1.0712,-10.2447,-0.1091,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:00.655,298904,0.1388,-6.2713,-7.9933,-0.2206,0.1437,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:02.696,300945,0.8839,-5.8725,-8.0210,0.9412,1.0051,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:04.732,302982,0.5561,-5.1454,-8.0848,0.1082,0.5242,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:06.807,305056,1.8709,-6.6161,-8.0729,-0.2769,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:08.844,307094,1.6647,-6.8998,-8.0507,0.9910,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:10.877,309127,5.1379,-7.7287,-7.0472,0.2274,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:12.922,311171,8.6017,-7.7032,-8.0664,0.8234,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:21.108,319358,6.0483,-8.8525,-8.0301,0.7451,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:23.164,321413,7.9034,-8.7967,-8.0671,1.0000,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:25.215,323465,7.3597,-9.0863,-8.0704,0.9996,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:27.285,325534,6.0460,-9.3028,-7.6137,0.7924,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:29.338,327588,4.6235,-7.0054,-8.2493,-0.0372,1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:35.457,333706,-9.3858,-3.6685,-9.8327,0.9656,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:37.523,335773,-8.0170,-1.0344,-9.8245,0.1295,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:39.562,337811,-8.7287,-1.7250,-9.8511,-0.0613,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:41.629,339878,-10.7192,-1.5010,-9.7519,-0.0230,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:43.666,341916,-11.7586,-4.6001,-7.6037,-0.6383,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:45.707,343957,-13.5715,-3.8426,-9.0215,-0.6383,-1.5708,False,True,Battle Rifle
+Lockout,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 15:19:47.744,345994,-14.2918,-2.6671,-25.3553,-0.6383,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:01.752,1,5.3380,-6.1902,-8.1439,-0.5998,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:03.799,2049,4.8145,-6.2183,-8.3534,0.5329,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:05.853,4102,3.5605,-7.3770,-8.3356,-0.1457,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:07.894,6143,0.8933,-6.2350,-8.0356,0.7880,1.1206,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:09.931,8180,2.0851,-8.6865,-8.0504,0.9705,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:18.084,16333,6.9898,-2.7029,-8.1611,0.9780,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:20.129,18379,7.1521,-1.8560,-8.0490,-0.6596,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:22.203,20452,6.7840,-2.1066,-8.0724,0.1532,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:24.244,22494,6.3734,-0.4568,-7.1779,-0.2374,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:32.450,30699,-8.5528,-5.3008,-7.8568,-0.5053,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:34.495,32744,-5.3443,-5.5369,-6.9708,0.3926,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:36.537,34786,-5.5324,-5.9385,-6.9316,0.3926,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:38.573,36823,-6.5703,-3.4647,-6.1619,-0.3481,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:40.611,38860,-5.8584,-4.3834,-6.2343,-0.0337,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:42.660,40909,-5.9168,-6.1640,-6.9715,0.1634,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:44.692,42942,-7.3655,-5.5828,-7.4125,0.2527,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:50.806,49055,-8.1512,-2.2675,-9.7861,0.0000,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:52.894,51143,-7.0189,-0.6950,-9.8384,0.0443,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:54.940,53189,-2.5475,-0.5452,-10.0235,0.6711,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:56.971,55221,-1.5201,3.1454,-10.6109,-0.0728,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:14:59.015,57265,-1.0264,3.6692,-10.9033,-0.4421,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:01.058,59307,-1.2093,2.6900,-10.4735,-0.1636,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:03.127,61376,-1.3790,3.4172,-10.7616,-0.9936,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:05.162,63412,-2.5784,6.2130,-11.5846,0.9814,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:07.202,65451,-2.1027,10.1074,-11.3965,-0.9831,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:09.241,67491,-1.4778,11.6517,-6.7084,-0.9841,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:11.279,69528,-0.4796,9.6991,-7.7512,-0.8411,-0.5420,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:13.320,71569,-0.5941,10.1596,-7.7302,-0.9959,-0.6369,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:15.356,73605,-0.2469,10.1933,-7.7362,-0.9959,-0.2328,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:17.389,75638,0.1858,10.0657,-7.9104,-0.7150,0.1823,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:19.422,77671,-0.6174,9.9023,-7.9011,-0.9976,-0.6642,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:21.459,79709,-0.9967,9.8747,-7.7617,-0.9947,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:23.504,81754,-1.8721,9.7654,-7.7851,-0.9752,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:25.563,83813,-2.9382,9.5658,-7.7305,-0.5076,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:27.600,85850,-3.0367,9.6131,-7.7304,-0.5089,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:29.654,87904,-2.5540,9.7707,-7.7320,-0.7169,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:31.690,89940,-1.4605,9.4684,-6.7595,-0.4775,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:33.736,91985,0.2558,11.4659,-7.8686,-0.0518,0.2139,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:35.780,94030,-0.8963,9.4641,-10.7527,-0.9417,-1.1191,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:37.830,96080,-2.0826,6.3123,-11.5737,-0.9948,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:39.876,98125,-1.2179,5.0068,-11.5323,-0.6412,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:48.055,106305,-7.5473,-0.9510,-7.7396,-0.1898,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:50.091,108340,-5.5389,-1.0348,-9.9057,-0.1816,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:56.240,114489,-3.1682,9.5000,-7.7661,0.6573,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:15:58.280,116530,-2.1437,10.0749,-7.7405,-0.6093,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:00.319,118568,-2.5185,7.4561,-6.6348,-0.9431,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:02.353,120603,-3.2095,5.8547,-7.7361,-0.9720,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:04.414,122663,-1.0484,6.2814,-7.7220,-0.9973,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:06.490,124740,-1.3578,2.4022,-10.3057,-0.9996,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:08.526,126776,-0.0302,-0.2594,-9.7712,-0.1717,-0.0980,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:14.667,132916,-9.9972,-6.2008,-7.9111,0.9333,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:16.746,134996,-9.3228,-6.5192,-7.7418,0.9750,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:18.782,137031,-5.0486,-5.2132,-6.1050,0.5447,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:20.831,139080,-1.7669,-2.6582,-8.1299,-0.5043,-1.5708,False,True,Shotgun
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:22.891,141141,0.7602,-5.9512,-8.0457,0.9978,0.8609,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:24.939,143188,4.2760,-7.1994,-6.9591,0.0353,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:26.992,145242,8.6040,-7.1064,-8.0347,0.9206,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:29.066,147315,12.0284,-6.2574,-7.2078,-0.3295,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:31.102,149352,12.0200,-2.3418,-6.0173,0.7918,1.5708,False,True,Shotgun
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:33.150,151399,8.3800,-1.4328,-4.4622,0.0969,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:35.196,153445,7.0866,-2.8842,-5.5413,-0.2135,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:37.237,155486,8.7079,-2.9228,-5.5381,0.0467,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:39.305,157554,6.6820,-2.1835,-5.5466,0.9949,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:41.339,159588,7.1297,-0.6474,-5.5859,-0.2989,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:43.385,161635,9.3665,-1.1753,-5.5391,-0.0116,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:45.432,163681,12.1025,-2.7963,-6.0361,-0.7555,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:47.466,165716,11.9268,-2.1230,-6.0183,0.7028,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:49.552,167802,8.5613,-0.8921,-5.5245,-0.4629,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:51.600,169849,4.1523,-1.3095,-6.8026,0.7118,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:53.641,171890,0.5510,0.3953,-8.0529,0.8945,0.4615,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:55.680,173929,-0.5915,2.0300,-8.1319,0.9809,-0.6307,False,True,Shotgun
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:57.721,175971,-1.6980,5.3142,-10.9124,0.9724,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:16:59.791,178040,-1.8165,9.5047,-10.8820,0.9986,-1.5708,False,True,Shotgun
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:01.822,180071,-1.7743,11.5970,-12.0098,-0.9928,-1.5708,False,True,Shotgun
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:03.870,182120,-1.4928,11.9423,-7.6036,-0.9996,-1.5708,False,True,Shotgun
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:12.069,190319,12.5654,-6.7037,-7.2073,0.0004,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:14.110,192359,12.1385,-3.6847,-6.2840,0.9601,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:16.153,194402,12.8432,0.2972,-5.7599,0.5483,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:18.191,196441,12.7670,2.2988,-7.3162,0.6006,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:20.232,198482,12.7979,2.2832,-7.3119,0.3666,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:22.282,200532,12.9134,1.2549,-7.1978,-0.2899,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:24.322,202571,12.8083,1.9131,-7.2237,-0.0288,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:26.368,204617,12.6668,2.0060,-7.2124,-0.5934,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:28.419,206668,12.7698,2.2798,-7.3153,0.1327,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:30.470,208719,12.6193,2.2549,-7.3153,-0.2150,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:32.513,210763,12.3901,2.2548,-7.3106,-0.1925,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:34.552,212801,12.4879,2.2749,-7.3032,0.5525,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:36.600,214849,12.9556,1.4912,-7.2287,0.0541,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:38.658,216908,12.7431,2.2479,-7.3096,-0.5099,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:40.699,218949,12.0383,2.2830,-7.1982,-0.2203,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:42.777,221027,12.4005,1.4229,-7.1853,0.0127,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:44.815,223065,12.7208,2.2271,-7.1883,-0.0999,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:46.853,225102,12.8005,0.9775,-7.0809,-0.1160,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:48.895,227144,12.3584,2.1538,-7.1991,-0.2225,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:50.940,229189,11.6126,-1.7902,-5.9370,-0.8600,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:53.016,231265,9.5303,-2.7672,-5.5365,0.4731,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:55.049,233298,10.1364,-0.0344,-5.5352,-0.8319,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:17:57.095,235344,9.4696,-2.8199,-5.5411,0.8221,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:05.327,243577,8.1588,-4.6270,-7.9770,0.3852,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:07.374,245623,7.7390,-3.3334,-8.0350,-0.2914,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:09.411,247660,7.7587,-3.3220,-8.0304,-0.5636,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:11.459,249709,7.1847,-2.5945,-8.0433,0.6430,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:13.527,251777,6.5649,-0.1216,-8.0598,-0.2723,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:15.572,253821,6.1095,-2.9061,-7.0035,0.5939,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:23.797,262046,-1.9544,-1.1881,-10.0387,0.3643,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:25.842,264091,-1.9627,-1.5763,-10.0500,0.0426,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:27.880,266129,-2.5801,-2.8213,-9.1702,0.8692,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:29.930,268179,-3.0007,-3.0133,-9.2366,0.7583,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:31.968,270217,-1.8658,-0.2410,-10.0436,-0.0012,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:34.054,272303,-1.3533,1.7743,-10.0348,0.9709,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:36.100,274349,-1.8743,3.7444,-10.9634,-0.8749,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:38.136,276386,-1.9083,3.3956,-10.7538,-0.6471,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:40.171,278420,-1.8986,4.1006,-11.1155,-0.2395,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:42.203,280452,-2.4791,6.0506,-11.5268,-0.5677,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:44.258,282507,-1.8033,10.1131,-11.6194,0.1072,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:46.300,284549,-1.5008,11.8170,-7.1182,-0.9941,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:48.351,286601,-3.4102,7.9611,-7.7442,-0.8257,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:50.387,288637,-6.0326,8.3080,-6.1149,-0.9463,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:52.429,290679,-8.7718,7.8687,-11.5732,-0.9322,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:54.464,292713,-8.7718,7.8687,-11.5732,-0.9322,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:56.547,294797,-8.7718,7.8687,-11.5732,-0.9322,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:18:58.604,296853,-8.7718,7.8687,-11.5732,-0.9322,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:00.655,298904,-8.7718,7.8687,-11.5732,-0.9322,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:08.844,307094,3.2285,-6.8587,-8.1538,-0.8214,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:10.877,309127,0.7176,-7.2069,-8.0565,0.7531,0.7015,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:12.922,311171,-0.0408,-7.5711,-8.0720,-0.7712,-0.0418,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:14.953,313202,-0.1332,-6.9874,-8.0659,0.8241,-0.0732,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:17.024,315273,1.6144,-8.7444,-8.0539,-0.5872,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:19.063,317313,1.9674,-7.4030,-7.7693,0.7901,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:21.108,319358,-0.1222,-6.4294,-8.0457,0.6159,-0.1217,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:23.164,321413,1.7096,-6.2875,-8.0584,0.9288,1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:29.338,327588,-11.8437,-0.5917,-9.7476,-0.0988,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:31.387,329636,-11.6866,-3.1971,-8.8213,-0.0410,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:33.424,331673,-9.4403,-1.2676,-7.7720,0.1064,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:35.457,333706,-9.3282,-1.5207,-7.7470,-0.4486,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:37.523,335773,-9.4281,-0.9734,-7.7647,-0.7921,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:39.562,337811,-8.5346,-2.2626,-7.7313,0.0353,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:41.629,339878,-8.1293,-5.6026,-7.7440,-0.1942,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:43.666,341916,-6.2735,-3.6027,-5.6962,0.9691,-1.5708,False,True,Battle Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:45.707,343957,-3.8331,-2.8958,-5.2108,0.9890,-1.5708,False,True,Sniper Rifle
+Lockout,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 15:19:47.744,345994,-1.4627,-1.3673,-8.1365,0.9967,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:01.752,1,6.9880,-2.7068,-8.0301,0.9780,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:03.799,2049,8.1798,-4.8856,-8.0326,-0.9990,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:05.853,4102,5.6781,-7.8135,-6.9452,-0.3838,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:07.894,6143,4.7251,-8.5452,-11.1377,0.8427,1.5708,False,True,Energy Sword
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:09.931,8180,5.6278,-6.9568,-11.2428,-0.4614,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:11.969,10219,6.9993,-6.6729,-11.2665,0.0629,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:14.010,12259,8.2155,-5.4656,-11.0500,0.5418,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:16.043,14292,7.5974,-1.5070,-10.2311,-0.3674,1.5708,False,True,Energy Sword
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:18.084,16333,3.3592,-1.7542,-9.1408,0.1022,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:20.129,18379,-0.7283,-1.4815,-10.0330,0.5014,-0.7362,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:22.203,20452,-1.3243,2.6430,-10.2030,1.0000,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:24.244,22494,-1.0666,4.0392,-11.1049,-0.9916,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:26.288,24537,-1.8121,-0.1584,-10.0441,-0.8859,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:28.334,26583,-5.8897,-0.7406,-9.3445,-0.3503,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:30.380,28629,-7.7644,-1.1217,-7.6874,0.0100,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:32.450,30699,-8.6641,-0.3708,-7.7501,-0.0406,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:34.495,32744,-9.3545,-0.9843,-7.7563,-0.0406,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:36.537,34786,-7.0354,-1.2551,-6.9343,-0.1589,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:38.573,36823,-4.3464,-0.5965,-8.1687,0.1475,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:40.611,38860,-4.3843,-0.9669,-8.1588,-0.1813,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:42.660,40909,-5.9584,-0.9954,-9.5139,-0.9904,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:44.692,42942,-6.5139,-0.9630,-9.9759,-0.1783,-1.5708,False,True,Energy Sword
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:46.729,44978,-11.4052,-0.9766,-9.8492,-0.2176,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:48.764,47014,-11.5219,-2.3664,-9.3595,-0.4423,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:50.806,49055,-11.1694,-0.9106,-9.4864,-0.0230,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:52.894,51143,-10.4304,-0.7821,-9.8572,-0.0276,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:54.940,53189,-10.4660,-2.5946,-8.1095,0.5871,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:56.971,55221,-9.7046,-0.8972,-9.8422,0.6543,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:14:59.015,57265,-8.7849,2.4284,-10.1466,-0.1763,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:01.058,59307,-8.6792,1.9035,-10.0373,-0.2781,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:03.127,61376,-8.3337,2.3226,-10.1143,-0.7259,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:05.162,63412,-8.2344,1.8085,-8.5284,-0.6261,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:07.202,65451,-9.2773,1.0301,-9.8354,-0.2889,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:09.241,67491,-8.4390,1.4078,-9.8586,-0.5299,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:11.279,69528,-8.6108,1.3751,-9.8988,-0.4373,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:13.320,71569,-8.4307,1.0272,-9.8533,-0.3834,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:15.356,73605,-8.5693,1.3619,-9.8569,-0.5721,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:17.389,75638,-8.2870,1.2560,-9.4489,-0.6031,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:19.422,77671,-8.6243,0.7937,-9.2948,-0.6007,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:21.459,79709,-8.4551,0.7650,-9.8355,-0.3642,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:23.504,81754,-8.4785,0.8497,-9.8401,-0.3441,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:25.563,83813,-8.4908,1.0296,-9.8306,-0.3441,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:27.600,85850,-8.4145,1.2025,-9.0104,-0.3441,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:29.654,87904,-8.4334,1.2215,-9.8034,-0.1725,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:31.690,89940,-8.4909,1.5029,-8.8242,-0.5921,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:33.736,91985,-9.3033,0.0407,-9.8499,-0.6395,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:35.780,94030,-10.7951,-1.4569,-9.8287,0.0429,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:37.830,96080,-10.8360,-3.6164,-8.6233,0.7841,-1.5708,False,True,Energy Sword
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:39.876,98125,-10.1752,-2.5718,-7.6186,0.4531,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:41.912,100162,-8.1159,-1.6572,-7.7342,0.5927,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:43.949,102199,-8.8235,-1.2875,-6.6156,0.8042,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:46.013,104263,-11.0456,-3.0544,-8.3694,0.9127,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:48.055,106305,-9.7316,-0.7317,-9.8457,0.3737,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:50.091,108340,-8.9491,-0.6259,-9.8512,0.9656,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:52.131,110380,-8.7766,-1.5891,-9.8536,0.3857,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:54.176,112426,-8.0970,-3.8273,-9.8491,0.9594,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:15:56.240,114489,-8.9215,-4.5859,-9.8549,0.6605,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:04.414,122663,-1.8257,9.2590,-7.7430,-0.6253,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:12.617,130867,-9.3780,-5.8873,-7.7346,0.4813,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:14.667,132916,-7.2695,-3.9688,-8.2900,0.8707,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:16.746,134996,-7.1635,-3.2292,-9.8320,0.4704,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:18.782,137031,-7.3897,-4.2296,-9.8505,0.9553,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:20.831,139080,-7.1676,-3.7444,-9.8495,0.4814,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:22.891,141141,-9.0153,-4.4904,-9.8485,-0.0097,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:24.939,143188,-7.7736,-3.9380,-9.8484,0.8590,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:26.992,145242,-9.7527,-3.8322,-9.5793,0.9940,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:29.066,147315,-10.4530,-0.9207,-9.8785,0.9329,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:31.102,149352,-10.6477,-4.3094,-7.8191,-0.6671,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:33.150,151399,-6.8932,-5.6400,-6.6521,0.2933,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:35.196,153445,-6.5610,-3.2898,-6.1649,-0.9706,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:37.237,155486,-7.8448,-5.6641,-7.6215,0.6071,-1.5708,False,True,Energy Sword
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:39.305,157554,-7.2610,-5.7386,-7.3776,0.1621,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:41.339,159588,-5.3486,-4.9566,-6.7342,0.0383,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:43.385,161635,-5.7009,-4.0593,-6.2925,0.1222,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:45.432,163681,-4.9385,-2.8901,-5.4394,0.5724,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:47.466,165716,-5.9539,-5.5481,-6.9328,-0.5527,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:49.552,167802,-4.0961,-3.3586,-6.1211,-0.1521,-1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:51.600,169849,-0.0134,-4.8902,-6.7602,-0.5370,-0.0113,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:53.641,171890,3.4751,-7.1956,-7.1024,-0.1338,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:55.680,173929,7.8148,-6.5371,-8.0542,0.5107,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:57.721,175971,7.9249,-4.0740,-8.0427,0.5325,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:16:59.791,178040,7.5588,-3.4632,-8.0367,-0.1736,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:01.822,180071,7.5788,-3.6657,-8.0605,-0.1403,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:03.870,182120,8.0044,-5.1082,-8.0576,0.8178,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:05.922,184171,7.4978,-3.5704,-8.0305,-0.1676,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:07.958,186208,7.7081,-3.8699,-8.0411,-0.1865,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:10.028,188277,7.7585,-5.0948,-8.0529,0.2330,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:12.069,190319,9.8996,-6.8610,-8.0753,-0.1391,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:14.110,192359,12.6192,-5.3486,-6.9594,0.0527,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:16.153,194402,11.0594,-6.5665,-7.4612,0.2464,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:18.191,196441,6.8966,-7.2976,-8.0449,0.4521,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:20.232,198482,6.8194,-7.0766,-8.0619,0.6925,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:22.282,200532,7.9418,-5.7810,-8.0476,0.8858,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:24.322,202571,5.4918,-6.2041,-8.1289,-0.6174,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:26.368,204617,5.4763,-6.0198,-8.1058,0.3243,1.5708,False,True,Energy Sword
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:28.419,206668,5.4669,-6.0142,-8.0953,0.3257,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:30.470,208719,5.4757,-6.0180,-8.1009,0.3279,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:32.513,210763,5.3724,-6.1910,-8.1265,0.4534,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:34.552,212801,5.2114,-6.0373,-8.2573,-0.6849,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:36.600,214849,5.1230,-6.6616,-8.2746,0.9150,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:38.658,216908,6.0424,-7.1517,-8.0391,0.6477,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:40.699,218949,5.4392,-6.2978,-8.1283,0.9937,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:42.777,221027,4.5843,-5.8550,-8.3336,0.6871,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:44.815,223065,3.7839,-6.3083,-8.3601,0.9261,1.5708,False,True,Sniper Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:53.016,231265,0.9415,-6.9665,-8.0327,0.9784,1.2879,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:55.049,233298,-0.4044,-3.0083,-8.1398,0.3224,-0.3444,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:57.095,235344,-1.5131,-2.6583,-8.1677,-0.0314,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:17:59.140,237389,0.4633,-3.9054,-7.3785,0.4476,0.4633,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:05.327,243577,6.7092,-6.1352,-8.0244,-0.5389,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:07.374,245623,7.4890,-8.0585,-8.0439,-0.5927,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:15.572,253821,-0.9132,11.9203,-11.6886,-0.9700,-0.9976,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:17.608,255858,-1.6445,8.9732,-7.2700,-0.8609,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:19.650,257899,-1.3106,4.3309,-6.7222,-0.8698,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:21.707,259956,-1.3394,0.0946,-8.1419,-0.7791,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:23.797,262046,-3.9689,-0.5607,-8.1465,-0.9850,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:31.968,270217,5.7115,-1.6398,-8.0244,0.2456,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:34.054,272303,2.0855,-3.6533,-8.3374,0.2292,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:36.100,274349,1.9131,-3.9074,-10.9365,-0.2300,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:38.136,276386,1.9527,-2.6397,-10.7522,-0.4411,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:40.171,278420,2.2100,-4.0535,-10.9504,-0.8670,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:42.203,280452,0.5798,-2.2149,-10.2595,-0.0461,0.7046,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:44.258,282507,-3.4806,-1.1191,-10.0357,0.0104,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:46.300,284549,-7.9496,-1.2319,-9.8452,-0.6147,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:48.351,286601,-7.4932,-3.3277,-9.8367,-0.9464,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:50.387,288637,-7.2895,-4.3409,-8.3635,-0.6340,-1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:18:58.604,296853,7.8331,-7.5826,-8.0389,0.9997,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:00.655,298904,7.9435,-4.1079,-8.0647,-0.0525,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:02.696,300945,7.8720,-3.3336,-8.0590,0.3553,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:04.732,302982,8.0320,-2.3168,-8.0500,0.8435,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:06.807,305056,7.8710,-5.3826,-8.0430,0.2143,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:08.844,307094,7.5313,-3.9499,-8.0408,0.1902,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:10.877,309127,8.2790,-0.1893,-7.4297,0.9685,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:12.922,311171,5.0456,0.9409,-9.6973,-0.5492,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:21.108,319358,11.0884,-7.1020,-7.3390,0.7975,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:23.164,321413,7.7729,-4.8574,-8.0260,0.9993,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:25.215,323465,8.0679,-2.9161,-8.0340,-0.3066,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:27.285,325534,8.2731,-6.5028,-8.0178,-0.9887,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:29.338,327588,6.6549,-7.7400,-8.0458,0.1013,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:31.387,329636,6.7976,-7.3727,-8.0419,0.9332,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:33.424,331673,7.6959,-7.1714,-8.0492,0.9959,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:35.457,333706,7.3410,-7.2029,-8.0527,0.6000,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:37.523,335773,10.2994,-6.8763,-7.6668,0.8663,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:39.562,337811,12.4473,-4.5318,-6.0227,0.9942,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:41.629,339878,12.4614,-2.5732,-6.0628,0.8965,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:43.666,341916,11.3911,1.1655,-6.0549,0.4926,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:45.707,343957,8.0868,0.0920,-8.0150,-0.7569,1.5708,False,True,Battle Rifle
+Lockout,SHOW5TOPPER,_game_team_blue,11,15,13,4,2,13,2025-12-07 15:19:47.744,345994,6.0028,-0.4642,-8.0333,-0.4154,1.5708,False,True,Battle Rifle

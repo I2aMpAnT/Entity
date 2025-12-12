@@ -1,0 +1,1233 @@
+﻿MapName,PlayerName,Team,EmblemForeground,EmblemBackground,PrimaryColor,SecondaryColor,TertiaryColor,QuaternaryColor,Timestamp,GameTimeMs,X,Y,Z,FacingYaw,FacingPitch,IsCrouching,IsAirborne,CurrentWeapon
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:29:55.054,0,-11.5407,3.3917,2.2699,0.4304,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:29:57.086,2033,-9.6415,2.6929,2.2564,0.9551,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:29:59.110,4057,-10.1941,3.7329,2.2424,-0.7954,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:01.132,6079,-9.2463,5.6949,2.2392,0.0122,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:03.157,8104,-9.2783,9.5432,1.8462,0.8413,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:05.194,10141,-6.5578,12.7481,1.3364,0.6267,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:07.208,12155,-3.0432,14.0821,3.1245,0.7877,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:09.232,14179,-1.0571,14.9399,4.4228,-0.9794,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:21.484,26431,-5.2733,3.3372,0.0699,0.3950,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:23.544,28491,-6.9793,6.0352,-0.0448,0.9909,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:25.591,30538,-8.1245,7.4009,-0.0300,0.9756,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:27.618,32565,-7.2082,8.6457,0.7012,0.9916,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:29.648,34595,-7.3142,5.3667,0.3809,0.9201,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:31.693,36640,-9.5086,2.3539,0.8498,0.8953,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:33.722,38669,-12.4118,2.3881,0.5611,0.6924,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:35.769,40716,-11.2081,2.9662,-0.0447,-0.1991,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:37.802,42749,-11.5227,2.6330,3.7192,0.6573,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:39.849,44796,-8.6171,4.5137,2.2304,-0.4255,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:41.862,46809,-9.8222,7.4724,2.2814,0.8883,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:43.900,48847,-8.3620,10.7724,1.3154,-0.2370,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:45.960,50907,-5.5561,13.2681,1.9171,-0.8570,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:48.014,52961,-2.0354,14.8132,3.5129,0.2600,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:50.073,55020,1.4989,14.9952,3.6762,-0.6249,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:52.114,57061,3.8156,14.6953,3.7028,-0.4596,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:54.152,59099,7.1261,12.5678,1.2358,-0.2574,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:56.177,61123,7.7173,10.4398,1.2464,0.2537,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:30:58.209,63156,9.1865,7.4942,2.2676,-0.9742,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:00.245,65192,7.0454,4.8050,2.8243,-0.6454,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:02.268,67215,8.2874,2.4069,2.2597,-0.4814,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:04.303,69250,8.0314,-0.8874,1.4928,-0.4593,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:06.326,71273,4.2484,-2.1435,2.1052,0.8756,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:08.372,73319,0.7726,-4.0261,3.6779,0.1251,0.8097,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:10.394,75341,0.1319,-1.5237,3.6673,0.9739,0.1531,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:12.422,77369,-0.2450,2.4764,4.0735,0.9831,-0.2779,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:14.461,79407,-1.3107,5.7299,4.6702,-0.0027,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:16.483,81430,-5.0729,4.8834,0.6037,0.5399,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:18.512,83459,-6.5948,9.1713,1.5732,0.9091,-1.5708,False,True,Energy Sword
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:20.548,85495,-6.5906,10.4351,1.2509,-0.1479,-1.5708,False,True,Energy Sword
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:22.590,87537,-8.4933,7.3436,2.2595,0.9308,-1.5708,False,True,Energy Sword
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:24.644,89591,-9.4761,8.9344,2.0879,0.8537,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:38.872,103819,-0.0563,-2.5683,3.6305,0.7492,-0.0339,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:40.898,105845,-3.4963,-3.2574,2.7188,0.9999,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:42.927,107874,-4.8522,-2.0249,1.8965,-0.0389,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:44.947,109894,-7.3923,-1.3989,1.4308,0.9941,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:46.959,111906,-9.8673,1.6982,2.2847,0.9668,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:31:48.994,113941,-10.4681,5.8345,2.9047,0.7206,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:01.222,126169,11.6805,7.3374,2.2683,-0.8076,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:03.252,128199,8.9686,9.2084,1.9227,0.6529,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:05.276,130223,8.5523,10.4452,1.3708,0.9196,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:07.320,132267,6.0427,12.5238,1.4826,-0.1643,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:09.330,134277,2.7181,13.8286,4.4172,0.7351,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:21.534,146481,-3.7478,2.2392,0.0615,0.5578,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:23.556,148503,-6.9003,5.1810,-0.0439,0.7463,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:25.575,150522,-10.0335,6.7658,0.0293,0.1433,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:27.606,152553,-12.3587,5.3193,0.0546,-0.9783,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:29.645,154592,-11.0988,2.2126,-0.0733,0.5720,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:31.684,156631,-11.3138,4.6712,3.9070,0.7784,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:33.740,158687,-9.6182,7.4134,2.2532,0.9275,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:45.946,170893,-3.0694,-1.6876,1.4785,0.4555,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:47.970,172916,-2.2324,-1.4275,1.4506,0.9824,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:50.017,174964,1.9893,-1.9412,1.4783,0.5209,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:52.035,176982,4.5409,-1.1058,1.2401,0.9888,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:54.057,179003,6.8462,-0.6381,1.7365,0.8172,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:56.076,181023,9.7215,2.1735,2.2655,0.6508,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:32:58.118,183065,12.9782,3.4817,0.8004,0.5334,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:00.135,185082,11.3570,1.9148,2.6535,0.5831,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:02.154,187101,11.4661,5.7464,2.2189,-0.8393,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:04.181,189128,13.1405,4.0134,1.1012,0.2292,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:06.214,191161,11.3875,1.9087,2.5906,0.7198,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:08.235,193182,10.9103,6.1867,2.2766,0.8422,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:10.265,195212,8.6782,9.6807,2.6041,-0.0027,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:12.297,197244,7.2762,8.5718,0.6338,-0.9911,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:14.333,199280,6.4742,10.1405,1.2565,-0.4147,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:16.353,201299,7.0504,9.3902,1.0231,0.9569,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:18.378,203324,5.1829,13.0603,2.1792,0.3603,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:20.405,205352,1.7759,14.5881,3.5921,0.8008,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:22.437,207384,0.6199,15.1666,3.6634,-0.8635,0.6083,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:24.476,209423,3.7002,14.1108,2.9020,-0.9952,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:26.502,211449,3.7485,14.7595,2.8694,-0.5635,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:28.530,213477,5.1071,13.7727,2.2755,0.3446,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:30.575,215522,1.4597,15.0771,3.6514,-0.1153,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:32.628,217575,4.9709,14.1515,2.4244,-0.2999,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:34.649,219596,7.8065,11.9383,1.7188,-0.8957,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:36.689,221636,6.6764,13.1658,1.4059,-0.8683,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:38.716,223663,5.7648,10.4218,1.2265,-0.9570,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:40.760,225707,3.3288,9.6802,0.7833,-0.8660,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:42.809,227755,3.0214,10.3149,1.2355,0.0023,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:44.829,229776,2.8146,11.1933,1.7194,-0.7568,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:46.852,231799,1.8199,10.7483,0.2527,-0.2005,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:33:48.886,233833,5.0428,11.8427,0.9014,-0.6503,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:03.133,248080,3.0560,9.0292,0.0536,-0.9978,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:05.160,250107,4.8664,7.3975,0.0756,-0.8309,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:07.195,252142,5.1710,5.8233,0.0522,-0.9680,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:09.225,254172,8.1924,6.4576,0.3909,0.9181,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:11.260,256207,11.7917,5.4917,0.0286,0.7478,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:13.293,258240,12.1198,2.3562,0.6581,0.6512,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:15.338,260285,10.6329,4.0587,3.7078,0.5712,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:17.380,262327,9.8199,7.4639,3.4384,-0.9079,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:29.559,274506,-4.6367,11.9573,0.8826,-0.4240,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:31.595,276542,-8.2084,10.1449,2.2918,-0.9791,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:33.624,278571,-10.5651,6.9048,2.2756,-0.6860,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:35.642,280589,-10.8965,4.2704,2.3708,-0.0031,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:37.669,282616,-9.3727,0.7130,2.0749,-0.8925,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:39.683,284630,-6.2218,-1.8032,1.4818,-0.4602,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:41.699,286646,-3.2049,-3.5758,2.8804,0.2809,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:43.743,288690,-0.7659,-3.7084,3.6838,0.0404,-0.9872,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:45.790,290736,3.0749,-4.6140,3.6475,0.9922,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:47.811,292758,7.2625,-4.2658,3.6653,0.1872,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:49.852,294799,8.4444,-4.1815,3.6281,0.9998,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:34:51.893,296840,7.9370,-4.8499,3.7488,0.3908,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:06.166,311113,-9.2603,6.6126,0.0825,0.1620,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:08.189,313136,-7.0148,9.1131,0.9283,0.0324,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:10.219,315166,-5.7283,12.8005,1.7175,0.7776,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:12.248,317195,-3.1689,14.5466,3.1002,-0.0020,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:14.258,319205,0.8505,15.1719,3.6563,-0.3426,1.2191,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:28.442,333389,-4.9711,1.1863,0.7876,0.8393,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:30.466,335413,-1.2404,0.8761,0.3116,0.5588,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:32.492,337439,2.8710,1.0809,1.1488,0.2348,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:34.541,339488,4.8113,3.2791,0.0567,0.7270,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:48.783,353730,4.6667,11.6247,1.1426,-0.6770,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:50.806,355753,1.0313,12.3071,0.2505,-0.3371,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:52.820,357767,-1.0518,13.0971,0.2786,0.0891,-1.3938,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:54.846,359793,1.2199,12.5618,0.2615,-0.9802,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:56.892,361839,2.1043,13.1358,0.2402,-0.9587,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:35:58.917,363864,0.1717,13.7727,0.2410,-0.3982,0.2397,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:00.959,365906,0.3243,13.7171,0.2488,-0.8946,0.3735,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:13.280,378227,11.2269,6.9133,2.2722,-0.5691,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:15.334,380281,8.9156,10.0906,1.6250,0.8527,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:17.375,382322,6.0398,13.2319,1.7028,0.6881,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:19.412,384359,5.5159,11.8210,1.2528,0.7923,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:21.446,386393,2.2729,13.1898,3.9475,0.9335,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:23.508,388455,2.1695,12.3254,0.2045,-0.5739,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:25.557,390504,1.5859,13.3271,0.2357,-0.1259,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:27.605,392552,-1.3338,13.1720,0.2787,-0.2761,-1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:29.654,394601,0.5727,13.4976,0.2809,-0.1701,0.5295,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:31.716,396663,4.5650,12.1294,0.8564,-0.2662,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:33.752,398699,8.4325,10.3749,1.3684,-0.7062,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:35.805,400752,7.0259,11.8282,1.2648,0.4507,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:37.870,402817,3.4013,13.2830,3.5714,0.5470,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:39.905,404852,1.9573,15.5581,5.9092,-0.9933,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:41.950,406897,0.7560,16.4952,7.0066,-0.9568,0.9240,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:43.999,408946,1.3307,16.3337,6.9686,-0.9790,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:46.056,411003,0.9842,16.2865,6.9601,-0.9581,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:48.107,413054,1.6735,16.2264,6.9827,-0.9568,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:50.154,415101,1.6735,16.2264,6.9827,-0.9568,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:52.210,417157,1.6735,16.2264,6.9827,-0.9568,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:54.251,419198,1.6735,16.2264,6.9827,-0.9568,1.5708,False,True,Battle Rifle
+Midship,Keylord,_game_team_red,53,31,3,7,4,4,2025-12-07 04:36:56.303,421250,1.7571,15.8925,6.9310,-0.9568,1.5708,False,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:29:55.054,0,8.8920,9.1194,1.9340,-0.8743,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:29:57.086,2033,7.9230,6.5018,2.2786,-0.6043,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:29:59.110,4057,9.0623,6.9196,2.2500,-0.6438,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:01.132,6079,8.8852,9.8877,1.6529,-0.0684,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:03.157,8104,8.2197,9.4419,1.6788,-0.9999,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:15.366,20313,-0.3912,-0.3111,1.4325,0.9726,-0.3785,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:17.395,22341,2.8755,-0.8619,1.4754,0.1544,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:19.441,24388,6.5638,-1.4175,1.4294,0.1249,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:21.484,26431,9.2242,0.7663,2.0262,0.9382,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:23.544,28491,7.8701,4.7101,2.2609,0.9043,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:25.591,30538,8.6075,3.8868,2.2550,0.5334,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:27.618,32565,8.0771,5.5270,2.2502,-0.0449,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:29.648,34595,8.5549,5.6901,2.2480,-0.1099,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:31.693,36640,7.4492,5.1714,2.2795,0.5538,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:33.722,38669,9.3404,6.0683,2.2497,0.4850,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:35.769,40716,7.6752,6.8269,2.2291,-0.7256,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:37.802,42749,10.1777,4.3142,2.7569,-0.3958,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:39.849,44796,8.6929,0.4666,1.9045,-0.9009,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:41.862,46809,6.3252,-1.5070,1.4436,0.9993,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:43.900,48847,4.0493,-2.7858,2.3462,0.9343,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:45.960,50907,3.8170,-3.1817,2.8258,0.9637,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:48.014,52961,3.7389,-3.2022,3.4985,0.9681,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:50.073,55020,2.9142,-3.0329,2.9449,0.1479,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:52.114,57061,-0.2350,-3.8233,3.6238,0.9036,-0.2399,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:54.152,59099,-2.9236,-2.7186,2.9078,0.9029,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:56.177,61123,-1.6501,-3.3498,3.4302,0.4533,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:30:58.209,63156,-2.5166,-2.8944,3.1100,-0.6759,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:00.245,65192,-2.6017,-2.8768,3.0558,-0.9949,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:02.268,67215,-5.5770,-4.8523,3.7923,0.2256,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:04.303,69250,-5.4304,-4.5948,3.6289,-0.3899,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:06.326,71273,-3.9896,-4.6898,3.6942,0.9593,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:08.372,73319,-3.4869,-2.9047,2.6521,0.9737,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:20.548,85495,-5.9970,4.7103,0.0101,0.7069,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:22.590,87537,-9.3505,3.1975,-0.0704,0.2292,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:24.644,89591,-11.9324,3.1579,0.0329,0.3441,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:36.847,101794,9.9803,7.1250,2.2613,0.6633,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:38.872,103819,7.0102,6.6735,2.2515,0.1085,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:40.898,105845,9.5132,8.9182,2.0646,-0.3773,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:42.927,107874,6.5187,11.6965,1.2511,-0.1615,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:44.947,109894,3.7003,13.4144,3.1021,-0.9786,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:46.959,111906,2.0061,14.7417,6.2347,-0.9110,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:48.994,113941,0.7518,14.7549,6.5528,-0.9394,0.8119,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:51.028,115974,-1.7403,15.3708,6.7973,-0.6674,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:53.054,118001,-1.9852,15.1207,6.8207,-0.9430,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:55.076,120023,0.3662,14.2071,6.3194,-0.7650,0.3213,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:57.135,122082,1.7050,15.3244,6.7485,0.0547,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:31:59.167,124113,2.2841,16.2531,5.8279,-0.9366,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:01.222,126169,0.3148,15.1008,6.6943,0.0564,0.3919,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:03.252,128199,-3.9743,15.4699,4.8837,-0.9795,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:05.276,130223,-2.1350,15.9962,5.9296,-0.9527,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:07.320,132267,-0.1940,15.6847,6.9114,0.0043,-0.2656,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:09.330,134277,1.8156,15.8941,6.8924,-0.9328,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:11.367,136314,3.1571,16.0830,5.5487,-0.9347,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:13.395,138342,-0.2912,15.0110,6.6884,0.0245,-0.2243,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:15.451,140398,-1.4171,15.9605,6.9166,0.2702,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:17.480,142427,0.9782,16.0798,6.9449,-0.3833,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:19.503,144450,-1.1190,15.6200,6.8848,-0.9557,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:21.534,146481,1.2319,14.1151,6.2832,-0.7314,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:23.556,148503,0.5139,13.9905,6.2961,-0.7853,0.5931,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:25.575,150522,-0.9948,16.0833,6.9291,-0.7565,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:27.606,152553,-4.6002,15.9357,5.0070,-0.9923,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:29.645,154592,-5.3641,15.3476,4.4409,-0.9084,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:31.684,156631,-3.5956,16.1929,5.4245,-0.9999,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:33.740,158687,-2.0997,14.3355,5.3078,-0.6747,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:45.946,170893,10.0366,7.2600,2.2545,0.9413,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:47.970,172916,7.6535,10.8217,1.2591,0.9184,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:50.017,174964,4.1885,12.2135,0.8654,0.5823,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:52.035,176982,2.6837,12.3447,0.2899,-0.9993,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:32:54.057,179003,5.1427,10.3834,1.6347,0.9971,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:08.235,193182,-10.1649,6.8783,2.2749,0.2073,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:10.265,195212,-11.8252,6.4377,2.2813,0.8247,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:12.297,197244,-8.3663,8.9750,1.9158,0.8635,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:14.333,199280,-5.3817,11.7328,1.8038,0.5376,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:16.353,201299,-3.2238,14.4261,3.1021,0.0672,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:18.378,203324,-0.0644,15.0222,3.6490,-0.9837,-0.0718,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:20.405,205352,0.7322,16.0204,4.1872,-0.2011,0.8123,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:32.628,217575,4.6614,2.5848,0.0389,-0.2501,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:34.649,219596,4.4641,-0.4569,1.2813,-0.9904,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:46.852,231799,11.2136,6.0339,2.2590,0.7556,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:33:48.886,233833,8.3760,7.5681,2.2340,-0.8781,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:01.096,246043,3.1805,-1.3138,1.3132,-0.9092,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:03.133,248080,2.6460,-1.1326,1.4563,0.5693,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:05.160,250107,2.8831,-0.4991,1.9211,-0.9585,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:07.195,252142,2.4041,-2.8722,1.4425,0.5550,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:09.225,254172,1.2744,-4.2227,2.4037,0.8457,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:21.438,266385,8.1157,-0.2997,1.5995,-0.7331,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:23.457,268404,4.2517,-1.1393,1.2613,-0.7309,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:25.477,270423,0.4892,-2.3471,1.4669,0.2590,0.5902,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:27.528,272475,-2.3726,-2.9130,1.4393,0.9578,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:29.559,274506,-5.3434,-1.0226,1.3591,0.4650,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:31.595,276542,-9.0518,0.4845,1.9621,0.9011,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:33.624,278571,-8.0785,0.6017,1.8284,0.9490,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:45.790,290736,11.4166,4.9380,0.1220,-0.8812,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:47.811,292758,11.9062,2.0263,0.1076,-0.0337,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:49.852,294799,10.8713,3.6939,2.2813,-0.3270,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:51.893,296840,12.0910,3.3742,2.2430,0.2000,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:53.920,298867,11.8623,3.6966,2.2297,-0.7118,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:55.940,300887,8.6257,4.8565,2.2742,-0.9997,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:34:57.972,302919,11.4323,4.0613,2.2978,-0.9988,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:00.018,304965,9.1803,0.4312,1.9643,-0.9825,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:02.077,307024,7.8867,0.1275,1.9688,-0.6383,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:04.125,309072,6.9409,-0.4592,2.4596,-0.6282,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:06.166,311113,7.8650,-0.7270,1.4845,-0.9989,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:08.189,313136,8.6787,-2.5194,2.8300,-0.5930,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:10.219,315166,7.4871,-4.7651,3.6674,0.4273,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:12.248,317195,9.1130,-2.9817,3.6571,0.9880,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:14.258,319205,8.3632,0.1366,3.5328,0.9993,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:16.290,321237,9.2315,2.5684,2.2283,0.8039,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:18.306,323253,9.7825,2.0938,2.2777,-0.5620,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:20.340,325287,7.8652,-0.4611,1.5386,-0.5389,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:22.354,327300,6.4949,-0.7288,1.4786,-0.1703,1.5708,True,True,Oddball
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:24.390,329337,4.0438,1.2741,0.8304,-0.5704,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:36.568,341515,2.5269,12.3546,0.2662,-0.6157,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:38.599,343546,3.9232,12.1624,0.8790,-0.1165,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:40.642,345589,7.1267,9.8324,2.2222,-0.9155,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:42.692,347639,8.4347,7.8425,2.7546,-0.9990,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:44.720,349667,6.9564,6.4421,2.2842,-0.9420,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:46.742,351689,9.2684,3.3232,2.2543,-0.9280,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:48.783,353730,8.3295,0.6479,1.8257,0.8577,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:35:50.806,355753,9.5023,3.8954,2.2429,0.6049,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:03.022,367969,-2.8391,1.7171,0.0479,0.4071,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:05.072,370019,-5.6956,4.3141,0.0658,0.7371,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:07.117,372064,-7.6355,7.9439,0.3005,0.9270,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:09.179,374126,-6.6769,8.8155,0.8861,0.6779,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:11.230,376177,-6.9912,7.7073,2.2500,0.9472,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:13.280,378227,-5.8014,10.1233,1.2755,0.8632,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:15.334,380281,-4.1745,13.4972,2.5978,-0.7305,-1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:17.375,382322,-0.1494,14.6153,3.6694,0.0124,-0.0397,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:19.412,384359,0.6072,13.9582,3.6532,-0.1452,0.7024,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:21.446,386393,0.4345,14.4348,3.6784,-0.9011,0.4783,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:23.508,388455,0.6736,12.0526,3.6812,-0.1899,0.6529,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:37.870,402817,1.5019,-1.8321,1.4547,-0.1370,1.5708,True,True,Battle Rifle
+Midship,Grave,_game_team_blue,48,4,1,0,0,1,2025-12-07 04:36:39.905,404852,5.6734,-1.0073,1.5073,0.3470,1.5708,True,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:29:55.054,0,4.9777,1.0063,0.8758,0.3624,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:29:57.086,2033,4.8489,-0.5818,1.2702,-0.3716,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:29:59.110,4057,8.1275,0.8588,2.5092,-0.3176,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:11.282,16229,8.5518,7.3291,2.2601,-0.0303,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:13.330,18277,7.5993,10.6047,1.3053,0.9995,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:15.366,20313,7.7726,10.8428,1.2404,0.2671,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:27.618,32565,8.0799,5.2740,0.0286,-0.2480,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:29.648,34595,5.7120,3.9464,0.0450,0.4486,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:31.693,36640,5.0678,0.3920,1.0564,0.9967,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:33.722,38669,4.9668,0.4216,1.3881,0.8754,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:35.769,40716,6.0673,4.5264,2.8895,0.5575,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:48.014,52961,-2.9343,7.1253,0.0441,-0.1521,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:50.073,55020,-0.3820,3.4863,-0.8377,-0.8590,-0.4237,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:52.114,57061,0.4731,3.0434,-0.6094,0.9996,0.4849,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:54.152,59099,1.0390,6.1307,-0.9244,0.9839,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:56.177,61123,-0.3171,8.7600,-0.0593,0.4492,-0.2661,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:30:58.209,63156,-3.0326,10.5587,0.8980,0.3503,-1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:00.245,65192,-6.3677,10.3728,1.2708,-0.2395,-1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:02.268,67215,-8.3858,8.0632,2.8437,-0.9989,-1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:04.303,69250,-8.3569,8.2562,2.8138,-0.9517,-1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:06.326,71273,-8.3364,8.2184,2.8671,0.8222,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:08.372,73319,-8.3938,8.1482,2.8270,0.9056,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:10.394,75341,-8.5911,8.8620,2.6951,0.4694,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:12.422,77369,-8.1726,8.9916,2.6197,0.2933,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:14.461,79407,-9.2192,8.8027,2.0196,0.0399,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:16.483,81430,-7.8599,5.6232,3.2055,0.9715,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:18.512,83459,-8.3042,1.7535,2.4123,-0.9574,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:20.548,85495,-6.7885,-0.2968,1.4373,0.2810,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:22.590,87537,-7.9934,1.1559,2.6143,0.7961,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:24.644,89591,-6.4164,-1.3478,1.4541,-0.4955,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:26.679,91626,-5.1585,-1.5619,1.7374,0.5221,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:28.702,93649,-8.3876,-3.0921,3.0681,-0.8461,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:30.736,95683,-8.9838,-4.0298,3.6293,0.0199,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:32.774,97721,-8.9584,-4.4914,3.6424,0.0153,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:34.810,99757,-9.2888,-1.8351,3.1706,-0.0399,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:36.847,101794,-9.7529,1.5402,2.2627,0.9854,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:38.872,103819,-9.7771,5.7226,2.3546,0.9982,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:40.898,105845,-8.3904,9.8525,1.6325,0.7850,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:42.927,107874,-6.4082,10.6562,1.2286,0.5102,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:44.947,109894,-5.3222,9.6769,1.2767,-0.0089,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:57.135,122082,11.5187,7.1060,2.2578,-0.8030,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:31:59.167,124113,9.1915,7.8871,2.2496,0.7723,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:01.222,126169,7.5408,9.0509,3.2181,0.6454,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:15.451,140398,-1.6758,10.5080,0.2653,0.9925,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:27.606,152553,-0.4736,-0.2636,1.5120,-0.8859,-0.4934,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:29.645,154592,-2.8006,-1.6105,1.4557,0.3122,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:31.684,156631,-3.0474,-1.1313,1.2762,0.9997,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:33.740,158687,-5.0849,-0.9366,1.2363,0.9796,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:35.780,160727,-3.5757,-1.5120,1.1775,0.5240,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:37.815,162761,-1.7631,-0.6905,2.7159,0.5049,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:39.835,164782,-0.2107,0.9808,3.6381,0.5834,-0.1367,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:41.856,166803,-2.9247,-0.8457,3.7232,0.6031,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:43.904,168851,-6.7047,-0.3481,1.4551,0.6489,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:45.946,170893,-7.7700,0.7364,2.5292,-0.4265,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:47.970,172916,-8.1759,1.4046,2.6304,0.9760,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:50.017,174964,-7.7535,4.5939,2.2413,0.4774,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:52.035,176982,-7.0285,4.9357,2.2428,0.8749,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:54.057,179003,-6.5068,5.1679,2.2656,0.4755,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:56.076,181023,-3.0074,7.6423,0.7576,0.3377,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:32:58.118,183065,0.9713,9.5751,0.3369,0.3290,1.2202,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:00.135,185082,4.3611,10.6512,1.0432,-0.0360,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:02.154,187101,7.2826,8.3582,0.5823,-0.9124,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:04.181,189128,7.8149,6.6097,-0.0195,0.9621,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:06.214,191161,6.9406,9.1956,0.9969,0.9657,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:08.235,193182,8.6021,7.2277,-0.0192,-0.0627,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:10.265,195212,11.6172,6.5622,1.0031,0.1932,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:12.297,197244,10.9811,7.7054,0.0569,-0.0923,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:14.333,199280,11.9586,5.6590,1.2070,-0.1205,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:16.353,201299,11.9070,4.9879,-0.0107,-0.5177,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:18.378,203324,9.2051,6.4959,0.0599,0.4753,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:20.405,205352,7.4283,8.8057,0.6999,0.9956,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:22.437,207384,8.0487,9.9052,1.4586,-0.6008,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:24.476,209423,8.6212,7.3760,2.2589,-0.6077,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:26.502,211449,8.3491,6.2038,2.2580,-0.9993,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:28.530,213477,8.5024,3.0289,2.2806,-0.9912,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:30.575,215522,8.0793,0.0276,1.6796,-0.6134,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:32.628,217575,5.1875,-1.2974,2.2949,-0.5955,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:34.649,219596,2.4491,-2.9000,3.1101,-0.1433,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:36.689,221636,-0.6806,-3.6601,3.6646,-0.3976,-0.8664,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:38.716,223663,-3.7352,-4.4657,3.6304,0.9940,-1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:40.760,225707,-3.3381,-4.6179,3.6282,0.9881,-1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:42.809,227755,-2.6576,-4.5005,3.6527,-0.0582,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:44.829,229776,-3.3520,-4.5393,3.6528,0.7144,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:46.852,231799,-0.5751,-4.2544,3.6763,0.9700,-0.6706,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:48.886,233833,-0.2895,-5.5115,3.6476,0.7285,-0.3256,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:50.920,235866,1.2737,-4.5825,4.7251,0.6665,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:52.957,237904,4.4049,-5.0469,3.9345,1.0000,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:55.000,239947,5.9290,-4.7055,3.6771,0.2102,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:57.040,241987,8.9301,-4.4953,3.6533,0.9999,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:33:59.071,244018,8.7373,-3.7834,3.6325,0.2973,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:01.096,246043,6.5837,-4.4184,4.1464,0.0740,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:03.133,248080,4.5788,-4.6243,3.6449,0.2789,1.5708,False,True,Oddball
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:15.338,260285,-5.9526,11.1824,1.2558,-0.6109,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:17.380,262327,-8.3896,8.0120,2.8216,0.1861,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:29.559,274506,0.0913,11.5400,0.2559,0.0639,0.1605,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:31.595,276542,-3.8366,11.5715,0.8602,-0.9626,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:33.624,278571,-4.2102,11.5870,0.8545,-0.8482,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:35.642,280589,-3.5466,10.6261,0.8813,-0.7234,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:37.669,282616,-3.2477,8.8193,1.8818,-0.8370,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:39.683,284630,-2.7898,8.8235,0.0744,0.1876,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:51.893,296840,4.0837,6.9250,0.5858,-0.7413,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:53.920,298867,5.1175,3.0525,0.7294,-0.8257,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:55.940,300887,3.7305,-0.5564,1.2561,-0.1167,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:34:57.972,302919,-0.2455,-0.9601,3.6839,-0.5612,-0.3429,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:00.018,304965,-0.5987,-4.7766,3.6652,-0.6704,-0.5586,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:02.077,307024,1.1321,-5.6774,3.8467,0.9926,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:04.125,309072,1.1464,-5.8009,3.9861,0.9710,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:16.290,321237,-1.1881,11.8550,0.2550,-0.4374,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:18.306,323253,3.0784,11.7903,1.3259,-0.5467,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:20.340,325287,7.4197,10.9338,1.2609,-0.4550,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:22.354,327300,9.6346,8.7755,2.0939,-0.9591,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:34.541,339488,-10.1907,5.9014,0.3194,-0.3626,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:36.568,341515,-7.0524,6.1127,-0.0614,0.9803,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:38.599,343546,-6.0921,10.0051,1.2755,0.7951,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:40.642,345589,-2.4080,12.0276,0.2739,-0.1188,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:42.692,347639,1.0510,13.1398,0.2543,0.9162,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:44.720,349667,0.6271,13.3563,0.2676,-0.5036,0.6022,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:46.742,351689,4.5537,12.0087,0.8695,-0.6665,1.5708,False,True,Shotgun
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:48.783,353730,7.7142,9.0481,2.5376,-0.7687,1.5708,False,True,Shotgun
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:50.806,355753,8.1012,8.3168,2.8292,-0.9704,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:52.820,357767,8.3810,8.3347,2.8141,-0.9997,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:54.846,359793,7.4450,9.1548,2.6462,0.7402,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:56.892,361839,4.6396,12.4812,2.4050,0.6270,1.5708,False,True,Shotgun
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:35:58.917,363864,1.3607,14.6210,4.3939,-0.4643,1.5708,False,True,Shotgun
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:00.959,365906,-2.9673,14.2256,3.1950,-0.9892,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:03.022,367969,-5.4890,15.2633,4.3827,-0.7096,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:05.072,370019,-4.9208,15.6856,4.7411,-0.9017,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:07.117,372064,-2.2482,16.1096,6.7547,-0.5945,-1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:09.179,374126,2.0893,15.9063,6.8040,-0.9057,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:11.230,376177,2.6705,15.8674,5.8506,-0.8275,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:23.508,388455,11.8838,4.6491,2.2607,0.2988,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:25.557,390504,9.4733,2.2070,2.2602,-0.9545,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:27.605,392552,9.1167,-1.6947,2.6189,0.2015,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:29.654,394601,7.4047,-4.4049,3.6585,0.1298,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:31.716,396663,3.2732,-5.1302,5.0813,0.3624,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:33.752,398699,3.0538,-4.5576,3.6635,0.3313,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:35.805,400752,6.6365,-3.8828,5.0485,0.3068,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:37.870,402817,9.1046,-3.6659,3.6467,0.6910,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:39.905,404852,9.2111,-2.0476,2.4202,0.2330,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:41.950,406897,7.9627,-3.3344,2.4543,0.8175,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:43.999,408946,8.3970,-4.3701,3.5420,0.9903,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:46.056,411003,5.5022,-3.8247,5.0418,0.9991,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:48.107,413054,6.1072,-3.8613,5.1473,0.9940,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:50.154,415101,6.5094,-3.5571,4.8812,0.4643,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:52.210,417157,9.0640,-0.7980,3.5037,0.8928,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:54.251,419198,7.6249,3.0023,3.3607,0.7505,1.5708,False,True,Battle Rifle
+Midship,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 04:36:56.303,421250,6.4644,3.7923,2.7972,0.7505,1.5708,False,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:29:55.054,0,2.2477,-3.2866,1.4579,0.7772,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:29:57.086,2033,3.0585,-1.3729,1.4690,0.3385,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:29:59.110,4057,4.6821,-0.6422,1.2234,0.9286,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:01.132,6079,7.1172,-1.1823,1.4566,0.6260,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:03.157,8104,5.7419,0.7922,2.3649,0.9879,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:05.194,10141,5.1297,1.6618,0.6414,0.9956,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:07.208,12155,6.4696,4.7282,-0.0507,0.7561,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:19.441,24388,-9.7972,6.9557,0.0564,-0.2421,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:21.484,26431,-7.4382,8.4267,0.5227,0.9374,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:23.544,28491,-6.6069,11.8997,1.2403,-0.5082,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:35.769,40716,-12.4188,3.7289,0.0698,0.2445,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:37.802,42749,-10.1691,5.8410,0.3183,-0.7676,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:39.849,44796,-7.8488,7.5139,0.0202,0.9826,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:41.862,46809,-6.6175,11.2305,1.2225,-0.2771,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:43.900,48847,-5.3797,12.7641,1.9044,0.4400,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:45.960,50907,-2.2332,14.0421,3.4201,-0.3035,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:48.014,52961,-1.7112,14.2645,3.6286,-0.7116,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:50.073,55020,-5.4436,13.8880,3.8372,-0.8420,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:52.114,57061,-5.3463,13.5072,2.1058,-0.8526,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:54.152,59099,-3.9607,13.6851,4.0178,-0.9953,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:56.177,61123,-3.8934,14.6010,3.6349,-0.9955,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:30:58.209,63156,-3.9156,14.5291,3.8645,-0.9968,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:00.245,65192,-4.4431,13.8858,2.5402,-0.7785,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:02.268,67215,-3.7226,13.7435,2.8162,-0.9985,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:04.303,69250,-7.1575,12.1011,1.9937,-0.0820,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:06.326,71273,-6.9753,11.5125,1.2194,0.0613,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:18.512,83459,-1.8800,-2.8934,1.4826,0.7115,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:20.548,85495,-4.0967,-0.2188,1.2784,0.7939,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:22.590,87537,-4.0073,3.5727,0.0469,0.3330,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:24.644,89591,-5.4826,5.4937,-0.0263,0.2604,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:26.679,91626,-4.6555,2.3522,0.9462,-0.9982,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:28.702,93649,-5.9030,-1.0218,1.4863,-0.0184,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:30.736,95683,-9.0916,1.6151,2.2480,0.7699,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:32.774,97721,-12.1034,4.0306,2.2284,0.9977,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:34.810,99757,-12.0592,4.6424,0.1115,0.8453,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:36.847,101794,-11.3498,7.2804,0.0522,-0.0650,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:38.872,103819,-12.3463,5.5080,0.0830,0.4088,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:40.898,105845,-12.3445,4.2960,0.0946,-0.9980,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:42.927,107874,-12.2267,1.9337,-0.0476,0.7270,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:31:57.135,122082,5.7724,11.7147,1.8662,-0.5158,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:11.367,136314,-2.2440,12.8332,0.2494,-0.6101,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:13.395,138342,-2.7078,9.4818,0.0824,-0.8889,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:15.451,140398,-3.4912,7.9557,0.3957,-0.6593,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:17.480,142427,-5.1712,6.6585,1.9650,0.9997,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:19.503,144450,-7.7241,5.6320,2.2827,0.6945,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:21.534,146481,-6.8932,6.8153,2.2559,-0.6835,-1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:33.740,158687,-10.8307,3.7418,2.2656,0.4550,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:35.780,160727,-10.9772,3.0191,2.2458,0.9666,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:47.970,172916,-1.1413,-1.1954,1.4519,-0.0505,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:50.017,174964,-4.9459,-0.5062,1.2565,0.9676,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:52.035,176982,-5.6436,0.5803,2.5160,0.7711,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:54.057,179003,-5.0252,4.1467,1.4852,0.5958,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:56.076,181023,-1.6849,4.5623,-0.8124,0.0452,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:32:58.118,183065,2.4768,4.7456,-0.3268,0.0452,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:00.135,185082,5.0147,3.4113,0.0605,-0.9980,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:02.154,187101,4.2465,-0.6676,1.8451,-0.9832,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:04.181,189128,4.0427,-4.6353,3.5638,0.9842,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:06.214,191161,7.4582,-4.3161,3.6540,0.3363,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:08.235,193182,9.0921,-0.5110,3.1610,0.9999,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:10.265,195212,10.7443,3.5565,2.2543,0.9760,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:12.297,197244,9.8527,7.7382,2.4257,0.1782,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:14.333,199280,7.0290,6.0356,2.6978,-0.5079,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:16.353,201299,7.4007,4.6761,2.2483,-0.4466,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:18.378,203324,8.8651,1.8811,2.2652,-0.9345,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:20.405,205352,8.2761,-0.5403,1.5221,0.0462,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:22.437,207384,5.8209,-1.7940,2.2418,-0.2464,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:24.476,209423,2.9705,-3.6882,3.5888,0.0885,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:26.502,211449,-1.1351,-4.3445,3.6652,-0.0625,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:28.530,213477,0.4655,-3.7944,3.6649,0.9979,0.4197,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:30.575,215522,3.9244,-3.2674,2.6235,0.8980,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:32.628,217575,3.5603,-3.2166,2.6544,-0.5597,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:34.649,219596,0.9724,-2.0269,3.6755,0.5836,1.1584,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:36.689,221636,1.0847,-2.7466,3.6515,0.6492,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:38.716,223663,-0.1707,-2.5747,3.6673,-0.5400,-0.2372,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:40.760,225707,2.9539,-4.6909,3.6562,0.9949,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:42.809,227755,5.6153,-4.1122,5.2104,0.8354,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:44.829,229776,8.4287,-4.0592,3.6524,0.7434,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:46.852,231799,8.2000,-3.8901,3.6327,0.9413,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:48.886,233833,8.8418,-1.3326,2.4726,0.6510,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:50.920,235866,9.0048,0.6423,1.9866,0.6849,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:52.957,237904,5.3409,-1.5679,1.6170,-0.2715,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:55.000,239947,6.0778,-1.2286,1.5057,0.6585,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:57.040,241987,9.2415,0.0819,1.8396,0.9174,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:33:59.071,244018,8.4518,1.0396,1.9897,0.6213,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:01.096,246043,8.6012,-0.4253,1.6767,-0.8622,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:03.133,248080,5.0801,-1.2998,2.5195,-0.8623,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:15.338,260285,-9.3916,8.3880,2.1826,-0.9983,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:17.380,262327,-9.4998,5.6644,2.2682,0.7685,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:19.399,264346,-8.5794,7.8090,2.2465,0.7642,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:21.438,266385,-9.0997,4.5026,2.2749,-0.0888,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:23.457,268404,-7.1764,3.5918,2.2602,-0.2353,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:25.477,270423,-6.7754,2.0237,2.2467,0.8125,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:27.528,272475,-6.7766,2.1852,2.2687,-0.6342,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:29.559,274506,-6.9157,3.3784,2.2353,0.9492,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:31.595,276542,-5.8293,3.1553,1.8881,-0.6631,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:33.624,278571,-4.2788,-0.5633,1.2674,-0.8830,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:47.811,292758,2.1719,-4.8340,3.6963,-0.0768,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:49.852,294799,5.9680,-3.3278,4.7976,0.8698,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:51.893,296840,6.8759,-0.8060,1.4192,0.7153,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:53.920,298867,8.1541,-1.3403,1.4548,0.4475,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:34:55.940,300887,8.4095,0.0433,2.5065,0.9999,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:10.219,315166,-9.0972,7.4530,2.2543,-0.9937,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:12.248,317195,-7.1272,6.1250,2.2542,-0.9443,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:14.258,319205,-3.9152,6.8326,0.0805,-0.5167,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:16.290,321237,-0.4410,5.8531,0.9554,-0.3420,-0.4523,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:18.306,323253,2.2373,4.9601,0.0369,-0.1513,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:20.340,325287,3.6008,2.3689,0.0549,-0.8929,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:22.354,327300,3.6245,-0.7300,1.2624,-0.7931,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:24.390,329337,4.2270,0.5938,1.2595,0.7920,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:36.568,341515,-11.9660,2.6039,0.0088,0.2445,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:38.599,343546,-10.5380,4.2192,4.3096,0.0667,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:40.642,345589,-7.8339,4.3728,2.2502,-0.1432,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:42.692,347639,-9.2516,7.0654,2.2612,0.9844,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:44.720,349667,-7.3364,10.2983,2.3862,0.0973,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:46.742,351689,-6.2559,12.9413,1.5270,-0.8349,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:48.783,353730,-3.8164,13.8408,2.7660,-0.9350,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:35:50.806,355753,-4.5617,14.3715,2.5989,0.1458,-1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:03.022,367969,11.2321,5.6881,2.7850,0.0111,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:05.072,370019,9.0998,5.3719,2.2741,0.9353,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:07.117,372064,8.3634,9.4510,3.0717,0.1865,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:09.179,374126,6.5482,9.2885,1.2418,-0.9249,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:11.230,376177,7.2344,5.6306,0.8269,0.6019,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:13.280,378227,7.3960,7.4563,0.0981,0.8900,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:15.334,380281,9.3075,6.0662,0.0785,-0.8090,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:17.375,382322,6.3216,4.7137,-0.0146,-0.6606,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:19.412,384359,5.2305,1.7615,0.5435,-0.9539,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:21.446,386393,5.3538,-0.5114,1.4887,-0.0042,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:23.508,388455,7.5885,0.5712,2.4796,0.9902,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:25.557,390504,7.4759,1.8475,2.3955,0.9324,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:27.605,392552,7.2863,1.7465,2.2500,0.9938,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:29.654,394601,7.2424,1.7655,2.2427,0.7613,1.5708,True,True,Battle Rifle
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:31.716,396663,6.7441,2.5348,2.2282,0.5777,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:33.752,398699,6.7708,2.0596,2.2480,0.9816,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:35.805,400752,6.8344,2.3330,2.2803,0.8897,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:37.870,402817,6.8887,2.0369,2.2466,0.9989,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:39.905,404852,7.1753,2.1921,2.2559,0.9900,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:41.950,406897,7.1717,2.3590,2.2796,-0.9126,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:43.999,408946,6.7823,2.2865,2.2362,0.9127,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:46.056,411003,6.8972,2.2049,2.2409,-0.5964,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:48.107,413054,7.3270,1.7162,2.2259,0.9713,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:50.154,415101,6.7444,2.6515,2.2648,0.8490,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:52.210,417157,8.5482,4.4511,2.2727,0.5981,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:54.251,419198,11.3990,5.9805,2.2763,0.4200,1.5708,True,True,Oddball
+Midship,shooter22,_game_team_red,56,4,12,0,12,0,2025-12-07 04:36:56.303,421250,12.3070,6.7572,2.2382,0.9428,1.5708,True,True,Oddball
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:29:55.054,0,11.6686,7.3354,2.2547,-0.8076,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:29:57.086,2033,11.9575,5.4102,2.2396,-0.0732,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:29:59.110,4057,10.7021,3.3442,2.2559,-0.7145,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:01.132,6079,10.7221,2.8926,2.2266,-0.7645,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:03.157,8104,12.8418,3.0806,0.0827,0.6487,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:05.194,10141,8.9394,3.2159,-0.0108,0.5394,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:07.208,12155,6.2383,5.0548,-0.1213,-0.8675,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:09.232,14179,6.7285,5.9568,-0.0497,0.8277,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:11.282,16229,7.8672,7.9586,0.2328,0.9787,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:13.330,18277,8.0113,10.6794,1.2393,-0.9660,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:25.591,30538,11.2317,6.7739,2.2683,-0.5204,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:27.618,32565,8.4702,9.6384,3.1714,0.2270,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:29.648,34595,5.5115,12.2218,1.7756,0.4161,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:31.693,36640,2.9142,13.6564,4.1816,-0.0237,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:45.960,50907,10.7383,6.3572,2.2567,0.7064,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:48.014,52961,7.9613,9.5012,1.6456,0.7128,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:50.073,55020,4.7995,12.3745,2.3264,0.6053,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:30:52.114,57061,2.1401,14.3394,5.1776,-0.5518,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:04.303,69250,2.8434,12.9802,0.4080,-0.9819,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:06.326,71273,0.4557,13.6765,0.2674,-0.4404,0.4622,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:08.372,73319,1.3727,12.5391,0.2827,-0.9991,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:10.394,75341,0.2191,9.1976,0.0817,-0.1277,0.2918,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:12.422,77369,-3.6754,10.5808,0.8796,-0.5496,-1.5708,True,True,Shotgun
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:14.461,79407,-7.4324,9.4576,2.2665,-0.3286,-1.5708,True,True,Shotgun
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:16.483,81430,-7.2691,8.3484,0.5288,-0.5824,-1.5708,True,True,Shotgun
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:18.512,83459,-7.5483,8.7086,2.4106,-0.5099,-1.5708,True,True,Shotgun
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:20.548,85495,-8.0498,8.2491,3.3470,0.8337,-1.5708,True,True,Oddball
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:22.590,87537,-8.0363,7.5517,2.2628,1.0000,-1.5708,True,True,Shotgun
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:34.810,99757,9.7122,7.6814,2.2825,0.6793,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:36.847,101794,6.7222,10.5880,1.2653,0.0554,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:38.872,103819,2.5929,11.4568,0.7836,0.4852,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:40.898,105845,1.1196,12.7155,0.2151,-0.2262,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:42.927,107874,1.3390,12.8607,0.2468,-0.2035,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:44.947,109894,1.2200,9.3200,0.0793,-0.2344,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:46.959,111906,1.1686,11.6130,0.2786,0.2774,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:48.994,113941,-2.8589,12.5291,0.3807,-0.9881,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:51.028,115974,-6.5376,12.0796,1.2406,-0.9769,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:53.054,118001,-8.6407,9.9282,1.5652,-0.9776,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:55.076,120023,-10.5039,6.5347,2.2253,-0.4525,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:57.135,122082,-10.8285,5.0331,2.3507,-0.9971,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:31:59.167,124113,-10.9149,4.8757,2.3641,-0.8522,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:01.222,126169,-9.4586,0.7345,2.0839,-0.9989,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:03.252,128199,-6.6429,-1.8485,1.4827,-0.0176,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:05.276,130223,-4.4520,-2.5524,2.1465,0.8191,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:07.320,132267,-7.8913,-0.9297,1.4557,0.6033,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:09.330,134277,-9.5233,0.6452,2.0110,0.9474,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:11.367,136314,-11.0256,4.3491,2.3268,0.9999,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:13.395,138342,-9.5039,8.4232,2.2523,0.9399,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:15.451,140398,-5.5600,12.5936,1.8253,0.7275,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:17.480,142427,-4.2071,11.7789,0.8784,-0.3013,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:19.503,144450,-6.7920,9.9222,1.9889,-0.8782,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:21.534,146481,-9.0029,7.1216,2.2536,-0.0452,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:23.556,148503,-7.4812,5.5293,2.2737,-1.0000,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:25.575,150522,-6.6218,5.4307,2.2602,-0.2750,-1.5708,True,True,Oddball
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:27.606,152553,-8.3599,6.3429,2.2591,0.7034,-1.5708,True,True,Oddball
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:29.645,154592,-8.2609,8.7808,2.9401,0.2918,-1.5708,True,True,Oddball
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:31.684,156631,-5.3162,9.8685,2.3257,0.4846,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:33.740,158687,-6.8027,10.2888,1.9393,-0.7304,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:35.780,160727,-10.4049,5.2512,2.4061,-0.9692,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:37.815,162761,-13.0445,3.4660,0.1864,0.0037,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:39.835,164782,-10.3243,6.2963,0.0486,0.6421,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:41.856,166803,-7.0308,8.8057,0.7876,0.4269,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:43.904,168851,-3.4657,10.5320,0.8831,-0.9901,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:45.946,170893,-4.7039,6.7762,0.0549,-0.9994,-1.5708,True,True,Energy Sword
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:32:58.118,183065,-8.7772,9.2046,1.8850,-0.8562,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:00.135,185082,-6.6555,11.7426,1.2349,-0.3217,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:02.154,187101,-3.9043,14.3890,3.4485,-0.0912,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:04.181,189128,0.0228,15.7183,3.6824,0.0390,-0.0460,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:06.214,191161,2.8705,14.3916,3.1819,-0.8069,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:08.235,193182,5.2410,12.5705,1.9645,-0.9963,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:10.265,195212,3.2669,10.2143,0.8710,-0.9846,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:12.297,197244,4.5534,5.8957,0.0824,-0.9028,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:24.476,209423,3.7121,8.5582,0.0709,-0.3163,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:26.502,211449,4.7489,6.0340,0.0817,-0.8446,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:28.530,213477,7.9976,3.5516,-0.0172,-0.7799,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:30.575,215522,11.8981,2.0834,1.5590,0.9719,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:32.628,217575,11.0659,3.7486,2.2397,-0.7134,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:34.649,219596,13.0568,3.5804,0.6193,0.7610,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:36.689,221636,11.3286,2.1269,3.1632,0.9389,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:38.716,223663,10.9904,4.7255,2.2870,0.8326,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:40.760,225707,12.2142,1.9362,0.0565,0.7877,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:42.809,227755,10.6373,3.6731,4.3418,-0.4418,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:44.829,229776,7.6316,4.3720,2.2821,0.1962,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:33:59.071,244018,3.7350,2.0314,0.0675,-0.8754,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:01.096,246043,4.1539,-1.7578,2.2777,-0.9996,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:13.293,258240,11.6767,7.3278,2.3121,-0.8076,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:15.338,260285,10.0644,3.4750,2.2983,-0.9391,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:17.380,262327,8.3413,-0.5180,1.6095,-0.7844,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:19.399,264346,4.4402,-1.7342,1.9718,0.3662,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:21.438,266385,1.0331,-0.6240,3.7104,0.4630,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:23.457,268404,0.9292,-0.0842,3.5521,0.7151,1.0626,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:25.477,270423,2.5668,-1.9031,2.8075,0.6547,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:27.528,272475,3.7312,-0.8253,1.2781,0.3101,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:29.559,274506,7.8356,0.0525,2.4210,0.9574,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:31.595,276542,7.5903,-1.4289,1.4641,-0.6692,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:33.624,278571,4.4886,-2.0652,2.0090,0.1600,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:35.642,280589,3.1088,-1.4410,1.6316,0.0180,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:37.669,282616,2.8062,-0.5245,1.1691,-0.4100,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:51.893,296840,11.3592,6.2842,2.2652,-0.9526,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:34:53.920,298867,9.8354,5.4372,2.3447,-0.9718,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:06.166,311113,11.4023,6.0149,2.2660,-0.4070,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:08.189,313136,10.8435,4.0508,2.3413,0.7891,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:10.219,315166,12.2935,4.3454,2.2825,-0.8305,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:12.248,317195,11.9701,1.9405,0.7403,0.4056,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:14.258,319205,10.3397,4.7029,3.6100,-0.0954,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:16.290,321237,7.3926,6.2337,2.2589,-0.4541,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:18.306,323253,6.7788,6.6932,2.2654,-0.9917,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:20.340,325287,6.8427,6.7382,2.2681,0.5428,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:22.354,327300,6.7823,6.6740,2.2644,-0.9994,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:24.390,329337,6.7962,5.5693,2.2393,-0.6857,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:26.409,331356,7.0277,5.7659,2.2385,-0.4481,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:28.442,333389,7.4928,5.8807,2.2470,0.5456,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:30.466,335413,7.4928,5.8807,2.2470,0.5456,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:32.492,337439,7.4928,5.8807,2.2470,0.5456,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:34.541,339488,7.4928,5.8807,2.2470,0.5456,1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:48.783,353730,-7.1992,9.1337,0.9291,0.7104,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:50.806,355753,-7.0521,12.3821,1.2776,0.8101,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:52.820,357767,-9.0475,9.3933,1.8009,-0.9206,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:54.846,359793,-8.0289,5.7089,2.2388,0.0069,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:56.892,361839,-6.7532,2.9442,2.2624,0.9155,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:35:58.917,363864,-5.9847,4.1058,1.9761,0.8159,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:00.959,365906,-4.6523,6.0528,0.0785,0.5048,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:03.022,367969,-0.3236,5.1876,-0.9465,-0.0498,-0.4028,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:05.072,370019,0.7082,5.8622,-1.1111,0.8841,0.7828,True,True,Shotgun
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:17.375,382322,-8.7703,9.9794,1.6277,0.8939,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:19.412,384359,-7.1235,10.1739,1.4580,-0.9116,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:21.446,386393,-8.3621,6.7022,2.2723,-0.9841,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:23.508,388455,-7.6341,3.3206,2.2501,-0.5192,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:25.557,390504,-7.6942,-0.6904,1.4709,-0.8311,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:27.605,392552,-4.2347,-2.6906,2.2184,-0.5873,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:29.654,394601,-1.0572,-2.5857,3.6744,0.8499,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:31.716,396663,-3.0162,-2.6978,2.8940,0.9931,-1.5708,True,True,Battle Rifle
+Midship,Future Trunks,_game_team_blue,44,1,1,0,0,1,2025-12-07 04:36:43.999,408946,-2.2229,-3.2324,1.4681,0.7115,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:29:55.054,0,-1.3923,-0.7871,1.4699,-0.7618,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:29:57.086,2033,-1.4551,-1.1725,1.4524,0.9999,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:29:59.110,4057,-0.6087,-0.1884,1.4635,0.5752,-0.6942,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:01.132,6079,-1.2675,-0.4679,1.4403,0.6544,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:03.157,8104,-2.4884,-1.1528,1.4772,0.9547,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:05.194,10141,-2.2334,-1.2713,1.4351,0.9825,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:19.441,24388,-7.3843,4.9299,-0.0542,0.7643,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:21.484,26431,-11.1300,6.1457,0.0325,0.3564,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:23.544,28491,-11.1905,3.5887,0.0939,-0.9947,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:25.591,30538,-10.6753,3.7446,4.4041,0.1407,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:27.618,32565,-7.5924,4.8508,3.3747,0.3742,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:29.648,34595,-6.9020,3.1957,2.2784,-0.8736,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:31.693,36640,-6.7408,3.0218,2.2529,0.7623,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:33.722,38669,-8.2324,0.6297,1.8757,-0.4137,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:35.769,40716,-6.1809,-0.6875,1.4526,0.9070,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:37.802,42749,-8.4821,-0.1384,1.6345,0.7779,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:39.849,44796,-7.3976,2.9413,2.2603,0.9209,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:41.862,46809,-8.1503,5.6525,2.2604,0.9739,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:43.900,48847,-8.6173,9.8175,1.6459,0.9995,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:45.960,50907,-5.9346,12.3009,1.4779,-0.6773,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:48.014,52961,-7.7290,10.6408,1.2549,-0.6358,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:50.073,55020,-8.1816,7.4848,2.2603,-0.0514,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:52.114,57061,-6.7781,4.8743,2.2462,-0.9154,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:54.152,59099,-6.6917,4.9490,2.2376,-0.6599,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:56.177,61123,-6.5451,4.3137,2.2376,-0.9149,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:30:58.209,63156,-6.4287,4.7813,2.2551,-0.8957,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:00.245,65192,-5.2896,2.1315,3.1932,-0.9210,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:02.268,67215,-4.0623,-0.5108,1.2284,-0.9905,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:04.303,69250,-7.9049,-2.0143,2.4421,-0.9953,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:06.326,71273,-8.1881,-3.3398,2.4367,-0.7126,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:08.372,73319,-7.7215,-4.5786,3.6600,0.0529,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:10.394,75341,-8.2416,-4.2917,3.6474,0.9004,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:12.422,77369,-6.4480,-3.2367,4.5581,0.9642,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:14.461,79407,-5.5792,-1.0481,1.4827,0.3140,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:16.483,81430,-4.8665,-1.0065,1.2466,0.9776,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:18.512,83459,-8.5871,-0.0262,2.0930,0.9940,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:20.548,85495,-10.6978,3.3788,2.2560,0.7037,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:22.590,87537,-11.8206,5.2437,2.2260,0.3544,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:24.644,89591,-12.9260,3.4424,0.0740,0.5331,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:26.679,91626,-11.2450,2.1731,3.4012,0.9644,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:28.702,93649,-10.0858,5.0981,2.4482,-0.8732,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:30.736,95683,-7.6995,5.9273,2.2511,-0.3724,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:32.774,97721,-9.0785,3.0152,2.2605,-0.7607,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:34.810,99757,-7.7500,-0.9832,1.4766,-0.6466,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:36.847,101794,-3.9737,-2.6507,2.3709,-0.6059,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:38.872,103819,-2.1360,-3.1541,3.2832,0.6968,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:40.898,105845,-4.3035,-2.7375,2.2676,0.9872,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:42.927,107874,-5.2119,-2.1209,1.7916,0.1566,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:44.947,109894,-7.3600,-1.0049,1.4687,-0.5902,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:46.959,111906,-4.5785,-2.0585,1.9263,0.9922,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:48.994,113941,-7.7657,-0.0723,2.5881,0.9558,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:51.028,115974,-9.4876,3.6843,2.2749,0.8691,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:31:53.054,118001,-8.1767,2.7908,2.2494,-0.9780,-1.5708,True,True,Oddball
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:05.276,130223,1.6433,12.5484,0.2783,-0.0910,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:07.320,132267,0.9425,11.9147,0.2561,-0.0403,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:09.330,134277,-2.9657,12.0730,0.4501,-0.3036,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:11.367,136314,-3.7160,11.5860,0.8746,-0.2383,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:13.395,138342,-6.1881,12.0909,1.6911,0.5607,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:25.575,150522,-3.2583,-1.0943,1.3121,-0.7115,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:27.606,152553,-5.5345,-0.9755,1.4797,0.1032,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:29.645,154592,-9.1805,0.7269,2.0185,0.9957,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:31.684,156631,-8.2258,2.7688,2.2391,0.9456,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:33.740,158687,-7.2861,2.7719,2.2494,0.9992,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:35.780,160727,-7.9122,2.5348,2.2528,0.7600,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:37.815,162761,-8.4428,5.9387,2.2371,-0.7931,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:39.835,164782,-9.3419,9.2803,1.9313,0.8412,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:41.856,166803,-9.3897,9.1657,3.1245,0.0429,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:43.904,168851,-7.7243,11.2617,1.2447,0.6382,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:45.946,170893,-4.6455,13.7659,2.4185,0.7348,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:47.970,172916,-0.6108,14.2591,3.6541,-0.9990,-0.7376,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:50.017,174964,2.2520,14.1892,3.3833,-0.6251,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:52.035,176982,1.8597,14.6767,3.5671,-0.1901,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:54.057,179003,3.1880,14.6657,3.0772,-0.5658,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:56.076,181023,5.0381,13.6711,2.2755,-0.9352,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:32:58.118,183065,6.8251,12.0011,1.2519,-0.8117,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:00.135,185082,4.1150,12.8648,2.9444,0.5793,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:02.154,187101,2.0335,14.8633,6.2214,-0.5699,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:04.181,189128,1.0400,16.0090,6.9272,-0.0781,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:06.214,191161,-0.1641,15.9971,6.9332,0.3951,-0.2278,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:08.235,193182,1.0467,15.3893,6.7971,-0.5880,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:10.265,195212,4.1999,14.3682,2.9550,-0.9780,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:12.297,197244,5.2311,13.2412,2.0854,0.3017,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:14.333,199280,1.5134,14.7121,3.8323,-0.2426,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:16.353,201299,0.4427,13.3051,3.6279,0.5781,0.4251,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:18.378,203324,-0.7515,11.8885,3.6288,0.8037,-0.8086,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:20.405,205352,-0.1074,10.8198,4.0113,0.9867,-0.1169,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:22.437,207384,0.7578,7.3698,3.6205,-0.9861,0.8276,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:24.476,209423,1.9626,6.3598,3.6631,-0.8508,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:26.502,211449,0.0551,5.5487,4.8771,0.2270,0.0470,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:28.530,213477,-0.0434,9.3479,4.4285,-0.6515,-0.0393,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:30.575,215522,-0.0620,12.7496,3.6369,-0.9625,-0.0953,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:32.628,217575,0.0838,10.4805,3.6528,-0.9557,0.1086,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:34.649,219596,-0.0610,13.2392,3.6484,-0.9474,-0.0568,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:36.689,221636,-0.1098,11.4102,3.6816,-0.9906,-0.1013,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:38.716,223663,0.9370,7.3700,4.5341,-0.0015,1.2281,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:40.760,225707,1.3923,4.3845,3.6852,0.3940,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:42.809,227755,-0.1219,2.9249,3.5385,-0.4304,-0.0666,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:44.829,229776,0.7280,3.4443,3.6690,-0.1033,0.8147,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:57.040,241987,9.2162,1.0950,2.1181,0.4937,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:33:59.071,244018,10.0765,2.6955,2.2589,0.6850,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:01.096,246043,12.3789,6.0953,2.2417,0.4195,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:03.133,248080,10.6729,5.0608,2.3306,0.8413,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:05.160,250107,8.9575,1.4785,2.2626,-0.9928,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:17.380,262327,-11.9276,6.4618,2.2497,0.3813,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:19.399,264346,-9.5703,8.9280,2.1009,0.9789,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:21.438,266385,-7.6160,11.7061,1.3373,0.9254,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:23.457,268404,-4.5998,13.8886,2.4584,0.3903,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:25.477,270423,-2.2201,14.1889,3.4583,-0.3527,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:27.528,272475,-1.5273,13.8428,3.6386,-0.9913,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:29.559,274506,-0.1455,12.4543,3.6566,-0.9253,-0.1506,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:31.595,276542,0.3981,13.4468,3.6680,-0.5058,0.4761,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:33.624,278571,-0.2311,9.2593,3.6672,-0.9676,-0.2104,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:35.642,280589,-0.3338,5.2962,4.9357,-0.8936,-0.3061,True,True,Energy Sword
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:37.669,282616,-0.2463,4.5952,4.9188,-0.9155,-0.2499,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:39.683,284630,1.4622,2.8492,3.5124,-0.9439,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:41.699,286646,2.6348,-1.0593,2.8962,0.0230,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:43.743,288690,6.0003,-0.8319,2.2194,0.6427,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:45.790,290736,6.5800,-1.0066,1.4758,0.0808,1.5708,True,True,Oddball
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:47.811,292758,3.9188,-2.6390,2.3964,-0.5230,1.5708,True,True,Oddball
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:49.852,294799,3.8418,-4.3602,3.7469,0.9552,1.5708,True,True,Oddball
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:51.893,296840,5.0549,-4.7324,3.6748,-0.1626,1.5708,True,True,Oddball
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:34:53.920,298867,5.7971,-4.3196,3.6409,0.3467,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:06.166,311113,-10.3565,7.1648,0.0569,-0.3564,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:08.189,313136,-7.5692,8.5648,0.5540,0.9984,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:10.219,315166,-5.2254,11.6214,1.6872,0.6451,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:12.248,317195,-3.4448,14.4884,2.9922,0.3123,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:14.258,319205,0.1275,14.1436,3.6554,-0.9696,0.1166,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:16.290,321237,0.0900,12.2559,3.6819,-0.9969,0.0764,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:18.306,323253,-0.2889,11.9516,3.6521,-0.9318,-0.3123,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:20.340,325287,-0.2835,10.3091,3.6533,-0.9723,-0.2401,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:22.354,327300,1.5839,6.7299,4.3806,-0.5671,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:24.390,329337,1.8664,3.2920,3.6799,-0.7227,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:26.409,331356,1.5907,2.6233,3.5514,-0.8383,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:38.599,343546,-12.0524,3.4709,0.0403,-0.9461,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:40.642,345589,-10.6106,3.7097,4.3325,0.0567,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:42.692,347639,-9.0118,7.2452,2.2506,-0.6237,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:44.720,349667,-7.2438,10.6742,1.2606,0.7603,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:46.742,351689,-4.8667,13.0739,2.2589,0.2019,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:35:48.783,353730,-2.6327,14.4258,3.2825,-0.1861,-1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:00.959,365906,10.3366,6.7999,2.2614,-0.4918,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:03.022,367969,7.4602,5.4862,2.2735,0.1526,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:05.072,370019,6.8336,4.3559,2.2480,0.2464,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:07.117,372064,7.1668,4.4053,2.2480,0.5217,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:09.179,374126,9.5304,5.8608,2.2613,0.4909,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:11.230,376177,11.8917,3.7253,2.2655,-0.4466,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:13.280,378227,7.8721,3.8001,2.2505,0.7975,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:15.334,380281,8.8670,5.9982,2.2226,0.8403,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:17.375,382322,9.4231,8.2264,2.2457,0.4300,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:19.412,384359,9.0073,9.2228,1.8717,0.6234,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:21.446,386393,8.7408,9.6716,1.6986,0.6004,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:23.508,388455,8.5965,9.1667,1.8285,0.9881,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:25.557,390504,8.8536,9.0693,1.9401,0.6027,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:27.605,392552,8.2835,10.3694,1.3754,0.3646,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:29.654,394601,7.1463,10.2810,1.2655,-0.9501,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:31.716,396663,8.5773,7.0877,-0.0508,-0.8843,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:33.752,398699,11.3527,4.6467,0.2533,-0.9996,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:35.805,400752,11.1013,2.5775,3.8667,0.7449,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:37.870,402817,8.9126,5.9714,2.2585,0.6357,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:39.905,404852,7.9724,6.7734,2.2619,-0.7293,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:41.950,406897,6.8164,6.3630,2.2496,-0.9709,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:43.999,408946,7.4330,6.8907,2.2757,-0.2276,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:46.056,411003,6.9072,6.3562,2.2519,-0.9267,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:48.107,413054,8.9620,5.7241,2.2518,-0.9832,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:50.154,415101,9.9264,2.6602,2.2374,0.1194,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:52.210,417157,10.3102,4.6556,2.3301,0.1194,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:54.251,419198,9.6045,7.0911,2.2680,0.9006,1.5708,True,True,Battle Rifle
+Midship,Hyrax,_game_team_red,22,4,1,2,0,0,2025-12-07 04:36:56.303,421250,9.6045,7.0911,2.2680,0.9006,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:29:55.054,0,2.6875,12.4825,0.3370,-0.3163,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:29:57.086,2033,4.2200,11.5193,0.8755,-0.7110,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:29:59.110,4057,5.7723,12.7587,1.6806,-0.4812,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:01.132,6079,3.8672,13.5163,2.7184,-0.2039,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:03.157,8104,3.4437,13.6225,2.9202,-0.9169,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:05.194,10141,2.7781,14.2298,3.2171,-0.7996,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:07.208,12155,0.7366,14.4866,3.6756,-0.2556,0.9572,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:09.232,14179,-1.1973,11.2793,3.6636,-0.6264,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:11.282,16229,-0.1889,11.7868,0.2757,0.4001,-0.2526,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:13.330,18277,3.4915,11.8329,0.7395,-0.3407,1.5708,True,True,Carbine
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:15.366,20313,4.8979,11.8513,0.8757,-0.3283,1.5708,True,True,Carbine
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:17.395,22341,6.3877,13.2415,1.5258,0.3412,1.5708,True,True,Carbine
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:19.441,24388,2.9097,13.8739,4.3658,-0.5718,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:21.484,26431,1.6897,14.3428,6.4554,-0.8875,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:23.544,28491,-1.3299,14.8001,6.5733,-0.3150,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:25.591,30538,-1.6260,13.7556,6.1790,-0.6915,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:27.618,32565,-0.9170,15.6899,6.8763,-0.6820,-1.1337,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:29.648,34595,-2.1130,15.9468,6.6828,-0.8439,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:31.693,36640,-3.5093,15.1352,4.5746,-0.8210,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:33.722,38669,-0.8554,13.1972,3.6629,-0.3057,-1.1433,True,True,Carbine
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:35.769,40716,0.4139,12.1896,3.7317,-0.2548,0.3652,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:37.802,42749,-0.4718,11.9843,3.6544,-0.5566,-0.5299,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:39.849,44796,-0.3941,12.0307,3.6461,-0.7371,-0.3797,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:41.862,46809,-0.6121,15.4080,3.6343,-0.9940,-0.6883,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:30:54.152,59099,6.6683,9.2407,1.0943,-0.8746,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:08.372,73319,-3.0538,13.1239,0.5536,0.1442,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:10.394,75341,-2.2628,11.9335,1.5436,-0.5315,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:12.422,77369,-3.5318,8.8193,0.0654,-0.1579,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:14.461,79407,-3.7512,8.0543,-0.0435,0.9457,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:16.483,81430,-4.0573,8.1378,-0.1106,-0.9968,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:18.512,83459,-4.0530,6.1766,0.0784,-0.5989,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:20.548,85495,-7.4361,4.8469,-0.0740,0.9368,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:22.590,87537,-10.3514,2.7143,-0.0243,-0.4059,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:24.644,89591,-12.4962,3.9567,2.0957,0.4229,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:26.679,91626,-10.5138,4.9737,2.3561,0.6797,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:28.702,93649,-9.5666,2.8026,3.3928,0.9065,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:40.898,105845,2.2880,8.4783,0.0755,0.2891,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:42.927,107874,-1.2155,7.7342,-0.4635,-0.4452,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:44.947,109894,-1.0771,8.5675,0.8210,-0.4466,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:46.959,111906,-3.3948,10.7857,1.0992,-0.1691,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:48.994,113941,-6.9684,11.0745,1.2529,-0.3521,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:51.028,115974,-6.4994,10.0217,1.2543,-0.8183,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:53.054,118001,-8.4486,9.1480,1.8680,-0.6404,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:55.076,120023,-7.5215,11.3751,1.2694,-0.5170,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:57.135,122082,-4.3761,13.4302,2.4634,-0.4995,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:31:59.167,124113,-0.9794,15.2433,4.5672,-0.2378,-1.3545,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:01.222,126169,2.7355,14.8393,3.3182,-0.9265,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:03.252,128199,4.0708,13.8054,2.6742,-0.9473,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:17.480,142427,10.0586,6.2308,2.2785,-0.7538,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:19.503,144450,6.2053,5.0674,2.2574,0.4153,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:21.534,146481,7.7227,4.0190,2.2577,0.1661,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:23.556,148503,9.2573,2.4833,2.2634,-0.6662,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:25.575,150522,7.4770,3.7568,2.2673,0.3761,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:27.606,152553,7.8056,3.8762,2.2486,0.2075,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:29.645,154592,7.5990,5.1581,2.2688,-0.0433,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:31.684,156631,8.3627,4.8529,2.2826,-0.2332,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:33.740,158687,7.6716,4.2033,2.2391,0.5350,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:35.780,160727,7.2155,5.5570,2.2525,-0.6859,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:37.815,162761,7.2355,5.0677,2.2535,-0.5716,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:39.835,164782,7.1391,6.3353,2.2548,-0.4425,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:41.856,166803,7.0459,6.4436,2.2308,-0.6312,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:43.904,168851,7.5927,6.3493,2.2530,0.2267,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:45.946,170893,7.5583,3.3474,2.2578,0.6348,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:47.970,172916,7.3329,6.0771,2.2515,-0.5714,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:50.017,174964,8.4282,9.5073,1.7123,0.9648,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:52.035,176982,5.6493,10.0812,1.2388,0.9973,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:32:54.057,179003,6.8092,12.2155,1.2378,0.5528,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:06.214,191161,-10.8962,6.5313,2.2783,-0.4353,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:08.235,193182,-7.4604,3.9011,2.2808,0.1604,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:10.265,195212,-8.3761,2.3002,2.2669,-0.9685,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:12.297,197244,-6.8399,-1.4575,1.4265,0.5325,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:14.333,199280,-7.1581,-1.6529,1.4504,0.4916,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:16.353,201299,-7.3683,-1.8786,1.4410,0.4428,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:18.378,203324,-8.2050,-0.5032,1.5337,0.9598,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:20.405,205352,-5.1194,-2.0750,1.7819,0.8633,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:22.437,207384,-3.6982,-3.1304,3.2416,0.9693,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:24.476,209423,-2.7391,-3.0035,3.0288,-0.6459,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:38.716,223663,-7.9075,9.9269,1.4701,0.5551,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:40.760,225707,-4.6384,12.6457,2.3990,0.5161,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:42.809,227755,-2.4815,14.6991,5.2278,-0.9751,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:44.829,229776,-2.4366,14.6262,5.2896,-0.8366,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:46.852,231799,-1.9458,14.4395,6.2936,-0.7770,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:48.886,233833,1.7213,13.9465,6.2553,-0.5563,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:50.920,235866,1.5596,14.1983,6.3808,-0.5809,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:52.957,237904,-2.0281,15.5284,6.8265,-0.8584,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:55.000,239947,-3.9358,16.1729,5.3275,-0.9688,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:57.040,241987,-2.0535,16.6215,6.1621,-0.9258,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:33:59.071,244018,-1.9344,15.1351,6.9145,-0.8633,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:01.096,246043,-1.0145,14.3638,6.3745,-0.8303,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:03.133,248080,-0.4388,14.7583,6.5620,-0.8635,-0.4532,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:05.160,250107,1.4245,15.2138,6.7625,-0.8420,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:07.195,252142,0.1040,13.4604,5.8891,-0.8383,0.1478,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:09.225,254172,0.8537,14.9794,6.5945,-0.9089,1.0802,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:11.260,256207,-0.4589,14.8718,6.5936,-0.7985,-0.3914,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:13.293,258240,-3.3283,15.6130,5.9638,-0.9867,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:15.338,260285,-4.9353,13.1481,2.2056,-0.7954,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:17.380,262327,-3.8381,14.2090,2.8138,-0.8012,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:19.399,264346,-2.5238,13.8062,3.2978,-0.8001,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:21.438,266385,0.2629,11.5864,3.6651,-0.8458,0.2238,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:33.624,278571,11.1182,7.0749,2.2824,0.0969,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:35.642,280589,8.6221,9.8984,1.6446,0.8622,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:37.669,282616,5.7363,12.3436,1.6178,-0.9999,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:39.683,284630,5.9068,11.4266,1.2425,-0.1433,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:41.699,286646,4.9484,12.1267,2.2298,0.6787,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:43.743,288690,2.4902,14.2988,4.9424,-0.8799,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:45.790,290736,5.8768,12.5141,3.4215,-0.9695,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:47.811,292758,8.9490,9.3471,1.8198,-0.9160,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:49.852,294799,9.3877,9.2964,1.8878,-0.9906,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:51.893,296840,8.2931,9.2778,1.7367,-0.9998,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:53.920,298867,9.0553,9.2690,1.8723,-0.9955,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:55.940,300887,6.9003,10.4001,1.2614,0.0954,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:34:57.972,302919,3.8209,13.0405,2.9579,0.5066,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:00.018,304965,2.1478,14.6955,6.1064,-0.9794,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:02.077,307024,-0.3122,14.9975,6.6291,-0.9974,-0.2380,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:04.125,309072,0.3061,15.2872,6.7390,-1.0000,0.3939,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:06.166,311113,0.2762,15.4414,6.8002,-0.2895,0.2002,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:08.189,313136,4.0459,15.7675,5.0376,-0.8920,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:10.219,315166,0.8234,14.3759,3.6551,0.4303,1.0945,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:12.248,317195,-0.4798,15.6296,3.6278,-0.0914,-0.5383,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:24.390,329337,6.5068,5.2804,-0.0282,-0.8759,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:26.409,331356,7.3322,4.8487,-0.0405,0.3636,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:28.442,333389,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:30.466,335413,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:32.492,337439,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:34.541,339488,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:36.568,341515,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:38.599,343546,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:40.642,345589,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:42.692,347639,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:44.720,349667,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:46.742,351689,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:48.783,353730,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:50.806,355753,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:52.820,357767,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:54.846,359793,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:35:56.892,361839,7.6418,4.9610,-0.0481,-0.2268,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:09.179,374126,-7.0937,4.8299,-0.0595,0.9991,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:11.230,376177,-10.1111,2.4734,-0.0216,-0.7412,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:13.280,378227,-11.9181,3.5544,2.5887,0.0919,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:15.334,380281,-9.7899,7.2472,2.2547,0.6705,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:17.375,382322,-7.1208,10.5033,1.2549,0.4909,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:19.412,384359,-3.0860,11.6761,0.6259,-0.3913,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:21.446,386393,0.8158,12.1384,0.2599,0.0728,0.8784,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:23.508,388455,1.5524,12.3644,0.2323,-0.3976,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:25.557,390504,0.9861,12.8292,0.2197,-0.0351,1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:37.870,402817,-4.0447,-1.1056,1.3626,-0.9968,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:39.905,404852,-2.7299,-4.5171,3.6188,0.9761,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:41.950,406897,-4.7932,-4.4946,3.6532,-0.0317,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:43.999,408946,-5.2669,-4.5211,3.6606,-0.1863,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:46.056,411003,-4.4848,-3.6871,4.1035,0.8134,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:48.107,413054,-7.4929,-0.7235,1.5718,0.8996,-1.5708,True,True,Battle Rifle
+Midship,Sneaky Beaver,_game_team_blue,2,25,1,1,8,8,2025-12-07 04:36:50.154,415101,-7.5032,2.2850,2.2547,0.2281,-1.5708,True,True,Battle Rifle
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:29:55.054,0,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:29:57.086,2033,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:29:59.110,4057,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:01.132,6079,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:03.157,8104,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:05.194,10141,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:07.208,12155,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:09.232,14179,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:11.282,16229,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:13.330,18277,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:15.366,20313,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:17.395,22341,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:19.441,24388,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:21.484,26431,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:23.544,28491,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:25.591,30538,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:27.618,32565,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:29.648,34595,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:31.693,36640,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:33.722,38669,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:35.769,40716,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:37.802,42749,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:39.849,44796,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:41.862,46809,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:43.900,48847,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:45.960,50907,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:48.014,52961,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:50.073,55020,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:52.114,57061,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:54.152,59099,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:56.177,61123,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:30:58.209,63156,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:00.245,65192,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:02.268,67215,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:04.303,69250,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:06.326,71273,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:08.372,73319,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:10.394,75341,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:12.422,77369,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:14.461,79407,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:16.483,81430,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:18.512,83459,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:20.548,85495,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:22.590,87537,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:24.644,89591,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:26.679,91626,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:28.702,93649,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:30.736,95683,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:32.774,97721,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:34.810,99757,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:36.847,101794,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:38.872,103819,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:40.898,105845,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:42.927,107874,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:44.947,109894,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:46.959,111906,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:48.994,113941,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:51.028,115974,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:53.054,118001,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:55.076,120023,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:57.135,122082,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:31:59.167,124113,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:01.222,126169,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:03.252,128199,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:05.276,130223,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:07.320,132267,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:09.330,134277,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:11.367,136314,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:13.395,138342,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:15.451,140398,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:17.480,142427,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:19.503,144450,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:21.534,146481,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:23.556,148503,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:25.575,150522,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:27.606,152553,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:29.645,154592,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:31.684,156631,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:33.740,158687,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:35.780,160727,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:37.815,162761,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:39.835,164782,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:41.856,166803,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:43.904,168851,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:45.946,170893,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:47.970,172916,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:50.017,174964,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:52.035,176982,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:54.057,179003,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:56.076,181023,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:32:58.118,183065,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:00.135,185082,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:02.154,187101,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:04.181,189128,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:06.214,191161,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:08.235,193182,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:10.265,195212,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:12.297,197244,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:14.333,199280,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:16.353,201299,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:18.378,203324,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:20.405,205352,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:22.437,207384,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:24.476,209423,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:26.502,211449,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:28.530,213477,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:30.575,215522,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:32.628,217575,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:34.649,219596,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:36.689,221636,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:38.716,223663,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:40.760,225707,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:42.809,227755,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:44.829,229776,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:46.852,231799,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:48.886,233833,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:50.920,235866,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:52.957,237904,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:55.000,239947,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:57.040,241987,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:33:59.071,244018,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:01.096,246043,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:03.133,248080,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:05.160,250107,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:07.195,252142,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:09.225,254172,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:11.260,256207,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:13.293,258240,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:15.338,260285,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:17.380,262327,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:19.399,264346,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:21.438,266385,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:23.457,268404,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:25.477,270423,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:27.528,272475,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:29.559,274506,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:31.595,276542,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:33.624,278571,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:35.642,280589,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:37.669,282616,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:39.683,284630,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:41.699,286646,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:43.743,288690,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:45.790,290736,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:47.811,292758,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:49.852,294799,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:51.893,296840,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:53.920,298867,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:55.940,300887,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:34:57.972,302919,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:00.018,304965,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:02.077,307024,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:04.125,309072,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:06.166,311113,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:08.189,313136,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:10.219,315166,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:12.248,317195,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:14.258,319205,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:16.290,321237,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:18.306,323253,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:20.340,325287,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:22.354,327300,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:24.390,329337,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:26.409,331356,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:28.442,333389,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:30.466,335413,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:32.492,337439,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:34.541,339488,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:36.568,341515,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:38.599,343546,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:40.642,345589,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:42.692,347639,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:44.720,349667,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:46.742,351689,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:48.783,353730,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:50.806,355753,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:52.820,357767,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:54.846,359793,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:56.892,361839,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:35:58.917,363864,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:00.959,365906,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:03.022,367969,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:05.072,370019,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:07.117,372064,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:09.179,374126,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:11.230,376177,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:13.280,378227,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:15.334,380281,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:17.375,382322,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:19.412,384359,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:21.446,386393,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:23.508,388455,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:25.557,390504,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:27.605,392552,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:29.654,394601,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:31.716,396663,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:33.752,398699,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:35.805,400752,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:37.870,402817,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:39.905,404852,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:41.950,406897,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:43.999,408946,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:46.056,411003,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:48.107,413054,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:50.154,415101,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:52.210,417157,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:54.251,419198,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians
+Midship,I2aMpAnT,_game_team_red,0,0,0,0,0,0,2025-12-07 04:36:56.303,421250,-1.3609,3.6097,-0.1800,0.0007,-1.5708,True,True,Guardians

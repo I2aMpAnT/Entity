@@ -1,0 +1,1325 @@
+﻿MapName,PlayerName,Team,EmblemForeground,EmblemBackground,PrimaryColor,SecondaryColor,TertiaryColor,QuaternaryColor,Timestamp,GameTimeMs,X,Y,Z,FacingYaw,FacingPitch,IsCrouching,IsAirborne,CurrentWeapon
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:02.025,5,8.3802,4.1883,0.1579,0.0004,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:04.052,2031,6.9999,4.2391,0.1814,0.3896,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:06.078,4057,5.9889,4.6469,0.1482,-0.6747,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:14.205,12184,11.9944,-1.3688,-0.5561,0.9924,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:16.241,14221,9.5792,1.1910,-0.9898,0.9735,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:18.261,16240,7.5057,2.2814,-0.9993,0.4210,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:20.296,18275,7.3555,2.4146,-0.9889,0.7709,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:22.318,20297,4.9894,3.6059,0.1632,0.7319,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:24.342,22322,3.5229,6.3160,0.1826,0.4285,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:26.373,24353,1.3419,7.6079,-0.4393,-0.9574,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:28.412,26392,-0.3070,6.2040,0.0005,-0.1721,-0.2439,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:30.447,28426,-1.2526,4.4074,0.1727,-0.2731,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:32.467,30447,-2.8878,3.0180,0.1367,0.7296,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:34.487,32466,-3.0770,2.4710,0.1559,0.9579,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:36.515,34494,-2.7515,2.9637,0.0496,0.9271,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:38.548,36527,-4.0662,2.7455,0.1418,0.9957,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:40.574,38554,-6.2201,4.0508,0.1544,0.3536,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:42.634,40613,-3.9042,0.6661,0.1516,0.9052,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:50.778,48757,7.5240,-3.1657,0.0889,0.8898,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:52.808,50787,5.7739,-5.4903,0.1409,-0.4270,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:54.842,52822,8.9226,-6.8510,0.8974,0.8389,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:56.887,54866,10.4278,-9.3490,1.2278,0.6104,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:26:58.933,56912,6.8649,-8.5168,3.1674,0.2507,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:00.979,58958,3.2162,-8.7493,3.9311,0.7058,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:03.039,61019,0.9710,-8.1083,5.2500,0.7182,1.3014,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:11.212,69192,18.7737,1.1848,0.1699,-0.3628,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:13.282,71262,18.7736,1.1846,0.1680,-0.1596,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:21.495,79475,-18.3660,-5.9614,0.1699,0.9598,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:23.547,81526,-18.3660,-5.9614,0.1699,0.9598,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:25.584,83563,-16.2190,-5.5415,0.2452,0.7412,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:27.624,85604,-12.4354,-4.2955,1.0361,0.0268,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:29.647,87627,-10.4590,-4.0968,0.1482,-0.9880,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:31.675,89654,-10.6865,-4.0848,0.1585,-0.9883,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:33.741,91721,-10.4718,-4.1406,0.1600,-0.2678,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:35.758,93738,-9.3638,-5.1123,0.1372,-0.0969,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:37.797,95777,-10.4903,-5.0544,0.1626,0.0824,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:39.829,97808,-11.2193,-4.1294,1.0432,0.8271,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:41.850,99830,-11.1027,-6.4096,0.7899,0.1015,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:43.872,101851,-14.2004,-4.5533,0.1635,-0.3580,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:45.917,103896,-15.9355,-4.1549,0.1688,0.9905,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:47.941,105920,-18.2016,-1.4521,0.1645,0.8413,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:49.963,107943,-18.3330,1.8226,0.1291,-0.3057,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:52.007,109987,-18.6119,1.5615,0.1719,-0.8925,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:54.034,112014,-18.8327,0.2842,0.1336,0.9824,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:56.070,114049,-19.2348,-0.3886,0.1691,0.1596,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:27:58.106,116085,-17.2903,-0.0025,0.1673,0.5258,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:00.140,118120,-17.0782,0.0935,0.1482,-0.9801,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:02.174,120153,-17.0183,-2.6107,0.1784,-0.9831,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:04.224,122203,-18.7746,-3.2842,0.1583,-0.0880,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:06.262,124241,-16.0849,-5.2385,0.4784,0.0812,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:08.295,126274,-18.0134,-2.8255,0.1556,0.9268,-1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:10.313,128293,19.5516,-0.5482,0.3798,0.9819,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:12.345,130325,19.5199,-4.5372,0.1607,-0.8322,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:14.368,132347,16.5094,-7.9143,0.1559,-0.6869,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:16.417,134396,12.5111,-9.9212,0.4609,-0.2074,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:18.446,136426,8.6368,-8.8248,2.1999,0.5348,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:20.482,138462,5.3900,-8.2506,3.8113,0.9992,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:22.512,140491,6.9911,-8.2930,3.2569,-0.0047,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:24.540,142520,9.9439,-7.4843,1.1470,0.6567,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:26.592,144572,11.7678,-4.2247,-0.0895,0.9455,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:28.642,146621,9.5354,-2.6309,-0.9981,0.9376,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:36.777,154757,14.7699,6.3620,-0.0109,0.0740,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:38.824,156804,12.9873,4.0869,1.0568,-0.6960,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:40.851,158830,11.7876,2.9273,2.3612,-0.3488,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:42.875,160854,9.5825,0.0764,3.3817,-0.9373,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:44.909,162889,7.5522,-3.3894,0.7265,0.2456,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:46.927,164907,5.9911,-3.7023,1.1630,-0.7272,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:55.064,173044,8.4003,4.1946,0.0264,0.0004,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:57.089,175069,8.2855,4.4997,0.1538,-0.5642,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:28:59.112,177091,5.1337,5.8326,0.1312,-0.9969,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:01.164,179143,3.2246,6.0235,0.1783,-0.6523,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:03.199,181179,2.3629,2.1524,-0.0822,-0.9975,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:05.241,183220,1.5466,0.9023,-0.4416,-0.5825,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:07.292,185272,1.4371,-3.3250,-0.4458,-0.9157,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:15.416,193395,15.4630,-3.1221,0.1673,0.0503,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:17.458,195437,12.3261,-1.8005,-0.2695,0.9542,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:19.485,197464,9.8396,0.6649,-0.9734,0.9475,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:21.523,199503,6.9374,2.2412,-0.7516,-0.7367,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:23.542,201522,6.5284,2.2675,-0.4806,0.0548,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:25.572,203551,5.4434,2.2483,0.1532,-0.2695,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:27.602,205582,4.7428,3.8936,0.1782,-0.9313,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:29.623,207602,4.6042,3.1890,0.1809,-0.4493,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:31.668,209647,3.9436,2.5936,0.1585,0.0081,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:33.700,211679,1.3047,2.3267,-0.4684,0.8767,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:35.732,213711,-0.1213,0.6826,-0.2288,0.9876,-0.1854,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:43.952,221932,-5.9985,4.4640,-0.0204,-0.8490,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:46.005,223984,-6.0170,4.0163,0.1412,0.2430,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:52.149,230129,8.3877,4.1931,0.1665,0.0004,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:54.186,232165,8.4154,3.4210,0.1620,-0.9716,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:56.236,234216,6.3207,0.7166,0.1786,-0.9840,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:29:58.275,236254,3.8824,-2.2428,0.9625,-0.2864,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:00.318,238298,0.0872,-3.6128,1.1334,0.1714,0.0712,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:02.370,240350,-0.9861,-4.0418,0.4319,-0.6965,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:04.400,242380,1.0055,-2.0996,2.4029,0.9310,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:06.458,244438,0.1110,-0.2544,0.0418,0.8476,-0.0142,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:08.502,246481,-2.1124,1.6575,0.1877,0.9147,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:14.656,252636,-3.0928,6.5655,0.2285,0.0000,-1.5708,True,True,Guardians
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:16.711,254691,-3.8338,6.7005,0.1586,-0.0942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:18.750,256729,-6.9357,5.5131,1.2911,-0.3199,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:20.788,258767,-9.5398,3.1981,2.3270,-0.8700,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:22.856,260836,-7.5248,2.6562,2.3382,-0.6164,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:28.990,266969,15.1100,1.6808,0.1683,-0.9999,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:31.045,269024,15.0791,3.4650,0.1676,0.1761,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:33.071,271051,12.5923,1.2106,-0.6186,-0.9954,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:35.128,273108,9.5849,1.0557,-1.0010,0.9503,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:37.167,275146,6.7531,2.4024,-0.1760,-0.2247,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:39.215,277194,2.8814,2.0241,0.1551,0.3508,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:41.268,279247,-0.4466,4.3895,0.5615,-0.4677,-0.6275,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:43.323,281302,-4.0783,4.7287,1.2197,-0.9174,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:45.365,283345,-7.9980,4.6169,1.3322,-0.5052,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:47.406,285386,-9.7151,3.3764,-1.0013,-0.3207,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:49.445,287424,-7.6999,3.0070,-1.0231,-0.9681,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:51.465,289444,-7.9867,3.0561,-0.9923,0.0096,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:53.514,291494,-9.9045,5.0664,-0.2458,-0.8751,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:55.542,293522,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:57.584,295563,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:30:59.618,297597,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:01.659,299639,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:03.680,301660,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:05.707,303687,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:07.731,305711,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:09.767,307746,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:11.788,309767,-8.3341,7.2769,0.1546,-0.5942,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:17.907,315887,20.1945,3.5980,0.1693,-0.4084,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:19.929,317909,19.4224,0.3776,0.1826,-0.7848,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:21.964,319943,-19.9326,1.8285,0.1211,0.4422,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:24.013,321993,-19.6376,3.6339,0.1241,-0.7358,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:26.042,324021,-19.1457,5.2741,0.1409,0.3315,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:28.084,326064,-18.9670,5.6185,0.5642,-0.1270,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:30.131,328111,-18.6894,6.1623,0.1393,-0.9917,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:32.162,330141,-18.6612,5.8886,0.1630,-0.9798,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:38.256,336236,17.3073,1.9038,0.1685,-0.9993,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:40.303,338283,16.2340,3.3397,0.1827,-0.1251,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:42.323,340302,11.9332,3.3258,0.1662,0.0639,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:44.366,342346,10.1551,2.1307,0.1479,-0.2985,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:46.391,344370,11.1537,3.2205,0.1155,-0.9991,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:48.427,346407,10.2577,3.0441,0.1762,-0.9150,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:50.480,348460,10.3065,2.9603,0.1459,-0.9273,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:52.530,350509,10.3738,3.2703,0.1464,-0.9991,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:54.571,352551,10.3761,3.3193,0.1697,-0.9438,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:56.617,354596,9.7786,2.6080,0.1756,0.9768,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:31:58.654,356633,12.0593,1.5003,-0.3295,-0.8642,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:00.690,358669,10.6988,-0.3640,-1.1170,0.8414,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:02.724,360703,9.3088,-1.4229,-1.0061,0.9899,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:04.743,362723,11.9918,-4.0431,-0.9661,-0.8541,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:06.775,364755,13.3614,-7.2084,0.1310,-0.3346,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:08.799,366779,14.6569,-8.5901,0.1187,0.8057,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:10.835,368814,10.9462,-9.8143,0.9928,0.9926,1.5708,True,True,Shotgun
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:12.880,370860,7.3257,-8.7468,2.8985,0.9994,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:14.905,372884,4.3869,-8.4010,3.8843,0.9629,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:16.924,374903,3.8800,-9.1241,3.8862,0.7390,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:18.944,376923,5.2225,-8.0231,3.9295,0.7179,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:20.996,378976,3.6457,-9.1012,3.8802,-0.0181,1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:27.131,385110,-10.3557,2.1665,-0.1229,-0.9999,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:29.187,387166,-9.0154,-0.1047,-1.0008,-0.0666,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:31.223,389202,-6.0825,-2.7677,-1.0001,-0.3194,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:33.260,391239,-4.3895,-2.5240,-0.4148,0.5854,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:35.315,393294,-4.1703,-2.6490,-0.2771,0.3246,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:37.345,395324,-2.9414,-1.3046,0.1690,0.8175,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:39.363,397342,-1.5629,-2.6955,1.2204,-0.5396,-1.5708,True,True,Battle Rifle
+Beaver Creek,         Nark,_game_team_red,46,11,11,0,0,11,2025-12-07 20:32:41.378,399357,-0.6699,-3.1805,1.2729,-0.4200,-0.7225,True,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:02.025,5,-2.4753,-3.2969,0.1641,0.9525,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:04.052,2031,-2.0089,-3.7233,0.1596,-0.9570,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:06.078,4057,1.0721,-6.9481,-0.4282,-0.7430,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:08.096,6076,2.6035,-3.9506,0.1956,-0.4373,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:10.131,8110,1.7459,-0.3873,-0.3583,-0.9481,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:12.174,10153,1.5065,3.6391,-0.4084,0.9976,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:14.205,12184,3.6202,5.8542,0.1707,-0.5998,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:16.241,14221,7.6351,5.5897,0.1276,-0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:18.261,16240,11.5445,4.1738,0.9786,-0.1604,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:20.296,18275,13.9170,3.5791,1.9009,-0.4378,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:22.318,20297,11.0678,2.6905,2.3565,0.5878,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:24.342,22322,10.4201,0.0034,3.3405,-0.8094,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:26.373,24353,11.7265,-1.1553,1.8587,-0.9735,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:28.412,26392,13.0315,-4.5471,1.7765,-0.7134,1.5708,False,True,Carbine
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:30.447,28426,15.5225,-6.2010,1.1291,0.3319,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:32.467,30447,18.8705,-3.5777,0.1796,0.9037,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:34.487,32466,-17.8570,-0.0992,0.3719,0.9936,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:36.515,34494,-19.4745,-2.9707,0.1311,0.8426,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:38.548,36527,-16.4942,-5.3678,0.4392,-0.0123,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:40.574,38554,-12.4130,-6.6284,0.1817,-0.7502,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:42.634,40613,-10.3004,-6.7814,0.1370,0.4728,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:44.666,42646,-7.4560,-6.7186,0.1443,0.6273,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:46.697,44677,-7.2969,-6.7108,0.1522,0.7879,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:48.744,46723,-7.0781,-6.7080,0.1337,0.7687,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:50.778,48757,-6.0062,-6.7117,0.1446,0.6219,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:52.808,50787,-5.7898,-6.6608,0.0407,0.6202,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:54.842,52822,-5.9229,-6.5343,0.0582,-0.0481,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:56.887,54866,-7.1189,-4.6351,0.1493,-0.2850,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:26:58.933,56912,-3.3211,-3.7584,0.1366,-0.7305,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:00.979,58958,-1.5440,-2.0173,0.2654,-0.9439,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:03.039,61019,-1.5632,-2.0356,0.1427,-0.0516,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:05.098,63078,-5.6297,-3.0422,-1.0088,-0.1330,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:07.138,65117,-4.1740,-2.4384,-0.2621,0.4585,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:09.171,67151,-5.0570,-2.6029,-0.8383,-0.3784,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:11.212,69192,-4.4637,-2.3608,-0.4655,0.4585,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:13.282,71262,-4.4796,-2.4490,-0.4358,0.1540,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:15.330,73309,-4.4948,-2.3454,-0.5059,0.4883,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:17.366,75346,-5.3261,-2.3831,-0.9524,-0.2953,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:19.432,77411,-5.9430,-3.1165,-0.9860,0.2586,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:21.495,79475,-4.3225,-3.1186,-0.4119,-0.1638,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:23.547,81526,-3.6145,-3.0016,0.1046,0.9954,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:25.584,83563,-5.7579,-3.0288,-1.0118,0.6991,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:33.741,91721,18.1369,5.4597,0.1756,-0.7244,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:35.758,93738,19.5759,1.3635,0.1671,-0.9035,1.5708,False,True,Shotgun
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:37.797,95777,-17.4182,-2.5780,0.1784,-0.9714,-1.5708,False,True,Shotgun
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:45.917,103896,7.0345,4.7167,0.1816,0.2789,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:47.941,105920,3.4893,6.7700,0.1714,-0.2051,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:54.034,112014,-0.2500,-6.4157,-0.1071,0.7774,-0.2527,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:56.070,114049,-2.1986,-5.2498,0.1670,0.0915,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:27:58.106,116085,-6.3459,-6.0120,1.2947,0.4473,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:06.262,124241,9.6150,6.3069,0.0600,-0.7929,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:08.295,126274,6.8793,3.7345,0.1674,-0.1670,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:10.313,128293,5.6458,0.7222,0.1400,-0.1827,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:12.345,130325,5.6261,-2.8413,0.1456,0.5996,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:14.368,132347,4.4469,-3.5476,0.1452,0.6089,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:22.512,140491,17.2814,-1.9221,0.1316,0.6252,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:24.540,142520,13.8303,-3.0723,0.1594,-0.0134,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:26.592,144572,11.4824,-0.0633,-0.9979,0.4664,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:28.642,146621,9.8999,-2.3668,-1.0450,-0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:30.684,148663,9.7231,-1.6378,-1.0651,0.9016,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:32.706,150686,11.9660,-3.6707,-0.9742,-0.8960,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:34.744,152723,11.5046,-7.4924,0.2588,-0.9588,1.5708,False,True,Shotgun
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:36.777,154757,8.9060,-9.4592,1.9581,0.9997,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:38.824,156804,5.3574,-8.4336,3.8196,0.8339,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:40.851,158830,3.1940,-9.1527,3.7827,0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:42.875,160854,3.1067,-9.1069,3.8010,-0.1985,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:44.909,162889,4.6096,-8.3669,3.9039,0.9040,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:46.927,164907,5.3947,-8.0719,3.7702,0.9643,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:48.952,166932,5.0294,-8.3430,3.9275,0.5436,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:50.981,168960,2.1112,-8.0336,4.6435,0.6605,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:53.007,170986,1.8935,-7.6892,4.0907,0.7091,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:55.064,173044,4.1758,-8.7096,3.9040,0.0345,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:57.089,175069,3.0654,-8.6971,3.9031,0.9752,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:28:59.112,177091,3.1053,-8.6980,3.7923,0.5761,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:01.164,179143,4.9590,-8.0472,3.8949,-0.3477,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:03.199,181179,6.0136,-8.3492,3.5714,0.3015,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:11.358,189337,-11.0755,-4.5169,1.2575,0.9160,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:13.380,191359,-11.7885,-3.1142,1.9367,-0.9063,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:15.416,193395,-11.8279,0.5954,1.8528,0.8361,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:17.458,195437,-8.7812,2.8910,2.3818,0.3856,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:19.485,197464,-8.7301,2.9326,2.8895,0.2116,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:21.523,199503,-8.5355,2.9146,2.3288,-0.3585,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:23.542,201522,-8.4957,3.4053,2.3686,-0.7248,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:25.572,203551,-8.5383,3.4259,2.3654,-0.3806,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:27.602,205582,-9.2937,3.3913,2.3496,0.8778,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:29.623,207602,-8.5043,6.0584,0.1731,0.6013,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:31.668,209647,-6.4194,8.8941,1.5819,-0.2668,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:33.700,211679,-3.5240,7.9183,2.7180,0.0834,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:35.732,213711,0.3049,7.9345,3.2657,-0.5709,0.2684,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:37.765,215745,2.4604,5.4184,4.2834,-0.8342,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:39.826,217805,2.7384,5.6909,4.5292,-0.3083,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:41.892,219872,3.9378,5.5396,5.1559,-0.6380,1.5708,False,True,Rocket Launcher
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:43.952,221932,2.2792,5.3865,4.2457,0.6887,1.5708,False,True,Rocket Launcher
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:46.005,223984,2.9627,6.1507,4.7143,-0.5244,1.5708,False,True,Rocket Launcher
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:48.043,226022,2.5093,6.4622,4.9975,-0.1494,1.5708,False,True,Rocket Launcher
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:56.236,234216,19.2442,-0.8322,0.1824,0.9993,1.5708,False,True,Shotgun
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:29:58.275,236254,18.9350,3.6276,0.1825,0.9940,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:00.318,238298,15.3349,4.6160,0.6733,0.0969,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:02.370,240350,11.2545,5.5530,0.1602,0.6689,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:04.400,242380,7.4869,6.2540,2.1578,-0.0081,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:12.596,250576,17.8592,5.7503,0.9529,-0.0188,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:14.656,252636,13.5773,5.8267,0.1751,0.3547,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:16.711,254691,9.4356,6.8636,1.1301,-0.7694,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:18.750,256729,6.1763,4.6284,0.1633,-0.7138,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:20.788,258767,3.2872,1.4186,0.1673,-0.5243,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:22.856,260836,-0.4793,-0.4714,-0.2135,0.9269,-0.5153,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:24.909,262889,0.4627,2.6648,-0.1747,0.9777,0.4810,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:26.944,264924,-0.5715,4.2570,0.0603,-0.3646,-0.5479,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:33.071,271051,-15.8505,-5.9873,0.6380,0.7454,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:35.128,273108,-15.2973,-6.0965,0.2611,0.0284,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:37.167,275146,-11.7141,-4.8548,1.1298,0.4836,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:39.215,277194,-12.4087,-5.3459,0.7378,0.6123,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:41.268,279247,-11.3702,-4.1094,1.7855,0.0912,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:43.323,281302,-8.4992,-3.3491,2.3507,-0.1676,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:45.365,283345,-8.4791,-3.5844,2.2424,0.9999,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:47.406,285386,-8.4826,-3.1575,2.9645,0.0828,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:49.445,287424,-7.7451,-2.7818,2.3633,-0.6085,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:51.465,289444,-8.1131,-2.4395,2.3525,-0.5227,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:53.514,291494,-8.8043,-3.4347,2.3623,-0.8885,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:55.542,293522,-8.4003,-4.0943,2.1521,-0.2951,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:57.584,295563,-8.4003,-4.0943,2.1521,-0.2951,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:30:59.618,297597,-8.4003,-4.0943,2.1521,-0.2951,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:01.659,299639,-8.4003,-4.0943,2.1521,-0.2951,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:09.767,307746,-17.6727,-1.5944,0.1755,0.4380,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:11.788,309767,20.2416,-0.1449,0.1489,0.9998,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:13.815,311795,19.3996,-3.9891,0.1559,-0.9990,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:15.854,313833,16.9234,-7.5813,0.1543,-0.7768,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:17.907,315887,13.4934,-8.8290,0.1507,0.0173,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:19.929,317909,11.2916,-9.8284,1.5933,0.6348,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:21.964,319943,7.9970,-8.6675,2.5715,0.4632,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:24.013,321993,6.3962,-7.7375,3.5998,0.9044,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:26.042,324021,6.2716,-8.0747,3.5555,0.9493,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:28.084,326064,4.2681,-8.4905,3.8917,0.8482,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:30.131,328111,4.2941,-8.1025,3.8985,0.4216,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:32.162,330141,3.6970,-9.0194,3.8482,0.8990,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:34.197,332177,2.8509,-8.8856,3.8623,0.9820,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:36.223,334203,2.9138,-8.7500,3.8993,0.0788,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:38.256,336236,4.2715,-8.7241,3.9222,0.8001,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:40.303,338283,3.5679,-9.0675,3.8124,0.6880,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:42.323,340302,6.3491,-8.3407,3.4430,0.9423,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:44.366,342346,4.4675,-8.6533,3.9172,0.9231,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:46.391,344370,4.5576,-8.7273,3.9033,0.4048,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:48.427,346407,7.5555,-8.8279,2.8041,-0.4988,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:50.480,348460,5.0086,-8.3966,3.9269,0.3557,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:52.530,350509,2.2022,-8.4265,3.9938,0.1831,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:54.571,352551,-0.5887,-7.8564,5.1007,0.3425,-0.5965,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:56.617,354596,-3.9250,-5.5533,4.9150,0.9748,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:31:58.654,356633,-7.2134,-4.6803,0.1828,-0.0211,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:00.690,358669,-11.4739,-4.1074,1.1335,0.7406,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:02.724,360703,-13.8801,-3.2418,2.8504,-0.3922,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:04.743,362723,-15.2959,-1.9929,2.8308,-0.1505,-1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:06.775,364755,-15.4767,0.5173,2.7738,-0.0367,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:08.799,366779,-14.1801,2.0066,2.8556,-0.1702,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:10.835,368814,-16.7999,2.3750,1.8100,-0.0414,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:12.880,370860,-16.8126,-0.0893,0.1607,-0.1106,-1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:14.905,372884,19.4150,3.3611,0.1824,0.9939,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:16.924,374903,16.2658,5.1958,1.1105,-0.1630,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:18.944,376923,14.1101,2.7622,2.5111,-0.8210,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:20.996,378976,16.5089,3.5830,2.8518,-0.7020,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:23.035,381015,14.6564,4.4236,0.1120,0.6610,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:25.070,383050,13.5661,6.6693,0.1503,-0.5256,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:27.131,385110,16.8602,5.4955,0.9334,-0.5172,1.5708,False,True,Sniper Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:35.315,393294,8.2771,1.7313,0.1683,-0.0984,1.5708,False,True,Battle Rifle
+Beaver Creek,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 20:32:37.345,395324,8.2654,1.7300,0.1683,-0.0984,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:02.025,5,-5.9834,4.4561,0.1603,-0.8490,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:04.052,2031,-5.8415,4.4001,0.1348,-0.0552,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:06.078,4057,-6.2125,7.3480,0.1527,-0.2215,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:08.096,6076,-3.9275,6.2778,0.1549,-0.0344,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:10.131,8110,-0.3154,5.0431,0.1689,-0.1052,-0.3478,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:12.174,10153,-0.6804,4.6693,0.1409,-0.1570,-0.6602,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:14.205,12184,-3.5465,5.2570,0.1551,0.2322,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:16.241,14221,-6.7033,8.0317,1.1749,0.8089,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:18.261,16240,-5.3495,8.2224,2.0016,-0.3996,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:20.296,18275,-1.7395,7.6565,3.2585,-0.7987,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:22.318,20297,1.6346,6.3022,4.3232,-0.7099,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:24.342,22322,3.2202,4.9322,5.1299,-0.6564,1.5708,False,True,Rocket Launcher
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:26.373,24353,2.7840,3.3611,5.1599,-0.7615,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:28.412,26392,4.0284,5.2345,5.2449,-0.8168,1.5708,False,True,Rocket Launcher
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:30.447,28426,1.7566,6.7061,5.5863,-0.2128,1.5708,False,True,Rocket Launcher
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:32.467,30447,0.8394,7.7661,3.2422,0.5102,0.9576,False,True,Rocket Launcher
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:34.487,32466,0.1125,7.9638,3.2902,-0.3574,0.1020,False,True,Rocket Launcher
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:36.515,34494,-0.6402,8.1903,3.2718,-0.4886,-0.7433,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:38.548,36527,-2.3787,7.5905,3.1952,-0.5004,-1.5708,False,True,Rocket Launcher
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:40.574,38554,0.0750,7.9668,3.2701,-0.4973,0.0312,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:42.634,40613,-1.3028,7.5808,3.2744,-0.0808,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:44.666,42646,-0.8834,8.2754,3.2793,0.0481,-0.9612,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:46.697,44677,-0.8451,8.3119,3.2656,-0.8010,-0.9945,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:48.744,46723,0.8015,7.1205,3.2239,-0.9383,0.9348,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:50.778,48757,0.7920,7.7808,3.2480,-0.9283,0.9460,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:52.808,50787,1.0633,7.4955,3.1818,-0.9966,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:54.842,52822,0.6598,7.8800,3.2831,-0.0746,0.6619,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:56.887,54866,-0.7961,8.2985,3.2497,-0.4049,-0.8095,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:26:58.933,56912,-3.7971,7.9959,2.6002,-0.8073,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:00.979,58958,-1.9713,7.9618,3.2666,-0.8383,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:03.039,61019,-4.6668,8.2704,2.6569,-0.9489,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:05.098,63078,-3.1454,7.8045,2.9020,-0.1382,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:07.138,65117,0.5254,7.7601,3.2810,-0.9312,0.5323,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:09.171,67151,0.6876,6.8186,3.2761,-0.9580,0.7872,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:11.212,69192,0.8255,6.5980,-0.3286,-0.1891,0.9612,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:13.282,71262,0.1203,5.7335,-0.2648,-0.2756,0.1660,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:21.495,79475,-11.3768,2.9120,0.1561,-0.2859,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:23.547,81526,-9.2452,0.0033,-0.9994,-0.1467,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:25.584,83563,-8.5415,2.8441,-1.0104,-0.5979,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:27.624,85604,-10.2492,5.1395,-0.1942,-0.0376,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:29.647,87627,-12.9994,6.2030,0.1275,0.5847,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:37.797,95777,13.3620,5.6178,0.1765,-0.1971,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:39.829,97808,9.0975,5.7472,0.1610,-0.0625,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:41.850,99830,4.9557,5.8386,0.1674,0.3983,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:49.963,107943,19.9245,0.1665,0.1561,-0.9814,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:27:52.007,109987,-17.5191,0.3334,0.4462,0.8931,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:00.140,118120,1.3482,-5.5627,-0.4585,-0.5369,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:02.174,120153,2.0355,-7.7959,-0.4382,0.6524,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:04.224,122203,1.7151,-7.9768,-0.4405,0.8387,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:12.345,130325,8.3873,4.1932,0.1727,-0.0579,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:14.368,132347,9.9005,5.4937,0.1500,0.2379,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:16.417,134396,10.7770,5.5264,0.1752,0.1537,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:18.446,136426,9.7431,5.3684,0.1369,0.3767,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:20.482,138462,13.5730,5.2164,0.1849,-0.3233,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:22.512,140491,17.8775,4.4996,0.1559,-0.1609,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:24.540,142520,19.6095,1.5035,0.1326,-0.5092,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:26.592,144572,-17.4316,-0.3416,0.4644,-0.7887,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:28.642,146621,-17.9472,-3.7825,0.1330,-0.9239,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:30.684,148663,-19.0712,-5.4129,0.1326,0.2660,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:32.706,150686,-17.0273,-6.2735,0.1555,0.2452,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:34.744,152723,-13.2036,-4.6607,1.8459,0.5771,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:36.777,154757,-10.9386,-1.7919,1.8607,0.2161,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:38.824,156804,-8.4571,0.6247,2.0041,-0.8167,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:40.851,158830,-11.1046,3.3374,2.1867,0.3326,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:42.875,160854,-14.7332,2.7933,2.8784,-0.1814,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:44.909,162889,-15.5125,-1.1587,2.7297,-0.9123,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:46.927,164907,-13.9700,-3.4174,2.8455,0.6657,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:48.952,166932,-10.5012,-2.6088,2.9831,0.0368,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:50.981,168960,-7.1228,-2.5011,2.3491,-0.1338,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:53.007,170986,-10.3481,-0.7115,1.7805,0.2581,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:55.064,173044,-8.8866,0.3375,-1.0270,-0.6497,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:57.089,175069,-8.3378,2.8075,-0.9975,0.6742,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:28:59.112,177091,-7.2630,0.8769,-1.0021,0.9847,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:01.164,179143,-6.8868,-2.5507,-0.9886,-0.3912,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:03.199,181179,-3.5926,-3.1767,0.0872,0.9731,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:05.241,183220,-6.4556,-4.8255,0.1525,0.2954,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:07.292,185272,-4.2564,-5.0119,0.1783,-0.1085,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:09.337,187317,-6.5375,-4.4809,0.1278,-0.0318,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:11.358,189337,-6.7485,-4.6091,0.1840,-0.2532,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:13.380,191359,-11.1257,-4.4327,1.0837,0.3731,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:15.416,193395,-13.3849,-2.6702,2.8790,-0.1520,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:17.458,195437,-9.4406,-2.2880,2.2865,0.7633,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:19.485,197464,-9.4952,-3.0412,2.3566,0.1781,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:21.523,199503,-11.5720,-3.2818,1.9989,-0.2382,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:23.542,201522,-15.1030,-3.5592,2.8824,0.8762,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:25.572,203551,-17.1715,-0.6914,0.2544,0.9114,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:27.602,205582,-18.3280,1.0790,0.1787,-0.9925,-1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:29.623,207602,19.9438,-1.7030,0.1499,-0.8991,1.5708,False,True,Shotgun
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:31.668,209647,18.2749,-4.9538,0.1765,-0.2456,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:33.700,211679,19.4050,-5.0381,0.1824,-0.8106,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:35.732,213711,18.3431,-5.3244,0.1449,-0.7203,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:41.892,219872,18.8393,6.0817,0.1746,-0.6192,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:43.952,221932,15.2128,5.0358,1.4741,0.0019,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:46.005,223984,11.7505,3.2351,2.9610,0.1312,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:48.043,226022,9.8319,1.0004,3.3958,-0.3866,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:50.103,228083,9.5374,1.0371,3.3665,-0.3378,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:52.149,230129,7.3528,-0.3809,4.4087,-0.2434,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:54.186,232165,4.4527,-3.2865,0.1816,-0.5424,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:56.236,234216,0.9147,-4.2871,-0.4100,-0.6765,1.0096,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:29:58.275,236254,-1.7657,-3.3821,0.4524,0.1842,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:00.318,238298,-5.7161,-2.8341,-0.9674,-0.3870,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:02.370,240350,-8.0584,-2.5785,-0.9903,0.8708,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:04.400,242380,-8.0201,-2.2843,-0.9977,0.9999,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:06.458,244438,-8.1180,-0.8730,-0.9772,0.9960,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:08.502,246481,-10.2039,-1.8928,-0.3429,-0.9808,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:10.541,248521,-10.6821,-2.4188,-0.0197,-0.4935,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:12.596,250576,-10.8250,0.3179,-1.0059,-0.7555,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:14.656,252636,-10.6538,-2.7129,0.0964,-0.9561,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:22.856,260836,5.6434,-1.7360,0.1564,0.3286,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:24.909,262889,1.6912,-0.8252,-0.0325,-0.1411,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:26.944,264924,-0.2168,-0.7122,-0.3696,0.2664,-0.1870,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:28.990,266969,-1.1449,-1.2345,0.2042,-0.4184,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:35.128,273108,-18.3616,-5.9520,0.2043,0.9598,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:37.167,275146,-15.9625,-5.3591,1.2546,0.0858,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:39.215,277194,-12.1567,-3.8907,1.7134,0.9913,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:41.268,279247,-10.4655,-0.1484,1.5056,0.9534,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:43.323,281302,-10.8636,3.2915,0.1284,-0.8698,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:45.365,283345,-14.2903,3.3152,0.1537,-0.4094,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:47.406,285386,-10.3990,2.7083,0.1609,-0.9755,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:49.445,287424,-8.3735,3.1625,0.1583,-0.9963,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:51.465,289444,-10.3444,1.0245,-0.6971,-0.8423,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:53.514,291494,-7.8387,-1.4758,-0.9771,-0.9949,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:55.542,293522,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:57.584,295563,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:30:59.618,297597,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:01.659,299639,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:03.680,301660,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:05.707,303687,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:07.731,305711,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:09.767,307746,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:11.788,309767,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:13.815,311795,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:15.854,313833,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:17.907,315887,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:19.929,317909,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:21.964,319943,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:24.013,321993,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:26.042,324021,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:28.084,326064,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:30.131,328111,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:32.162,330141,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:34.197,332177,-4.9022,-3.0115,-0.7430,0.1075,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:40.303,338283,-0.4039,-6.4578,-0.0351,0.7774,-0.4079,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:42.323,340302,-0.0286,-6.7841,-0.2325,0.9746,-0.0394,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:44.366,342346,1.2618,-7.3794,-0.4523,0.9428,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:46.391,344370,-1.2514,-4.2183,0.2217,0.9738,-1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:48.427,346407,0.0018,-2.4057,2.2267,0.9752,-0.0137,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:50.480,348460,1.1823,0.1996,4.2181,-0.9318,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:52.530,350509,2.7184,3.1557,5.1898,0.7118,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:54.571,352551,5.8464,3.4739,1.4593,-0.5486,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:56.617,354596,8.8233,3.0461,-1.0228,-0.9408,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:31:58.654,356633,6.1916,3.0192,-0.2999,-0.4573,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:00.690,358669,4.1960,5.7034,0.1559,0.6719,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:02.724,360703,6.0416,5.7983,0.1428,-0.6796,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:04.743,362723,9.2394,5.3106,0.1317,-0.4791,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:06.775,364755,13.1912,5.7052,0.1824,0.1223,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:08.799,366779,14.9730,4.7174,2.0782,-0.7490,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:10.835,368814,11.2507,3.3535,2.4288,-0.3739,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:12.880,370860,9.7390,3.5934,2.3626,0.2619,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:14.905,372884,9.6287,3.5083,2.3420,0.2634,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:16.924,374903,11.8960,1.8410,2.2610,-0.9935,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:18.944,376923,11.0959,-2.0942,2.4233,0.3624,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:27.131,385110,2.5373,-5.1975,-0.0971,-0.6823,1.5708,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:29.187,387166,-0.6541,-5.2921,-0.0147,0.3838,-0.6311,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:31.223,389202,0.1202,-2.4134,2.3226,0.7965,0.0799,False,True,Battle Rifle
+Beaver Creek,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 20:32:33.260,391239,2.1666,0.2430,4.9843,0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:02.025,5,10.2374,3.0870,0.1699,0.0491,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:04.052,2031,9.4642,2.0489,0.1657,-0.9773,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:06.078,4057,7.5440,-0.6324,0.1555,-0.9302,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:08.096,6076,6.9141,-4.3979,0.1270,-0.1540,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:10.131,8110,5.4568,-5.6317,0.1785,0.3711,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:12.174,10153,5.7330,-5.3108,0.1485,0.1838,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:14.205,12184,8.3956,-6.9767,0.1568,0.0089,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:16.241,14221,12.1333,-8.1258,0.1561,-0.5670,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:18.261,16240,11.7790,-9.9439,0.7345,-0.3418,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:20.296,18275,9.7599,-9.6814,1.5001,0.0615,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:22.318,20297,6.4542,-8.4465,3.3821,0.8818,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:24.342,22322,3.3997,-8.7262,3.8992,0.5752,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:26.373,24353,5.1580,-8.4213,3.9048,0.1915,1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:32.467,30447,-2.6510,6.2128,0.1824,-0.5860,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:34.487,32466,1.2813,4.1910,-0.4343,-0.5273,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:36.515,34494,4.2945,2.7593,0.1690,0.9033,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:38.548,36527,3.9084,6.1102,0.1510,-0.2394,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:40.574,38554,0.3424,6.9108,-0.3618,-0.6312,0.3433,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:48.744,46723,5.6078,3.4478,0.1755,-0.6261,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:50.778,48757,5.0252,3.4778,0.1586,-0.6489,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:52.808,50787,2.7187,0.3620,0.1595,-0.8834,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:54.842,52822,3.2739,1.2127,0.1263,0.9370,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:26:56.887,54866,3.4118,1.2633,0.1634,0.9071,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:03.039,61019,11.4961,4.4843,0.1775,0.6759,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:05.098,63078,10.1676,5.6568,0.1416,-0.9848,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:07.138,65117,11.6815,5.9928,0.1304,0.2320,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:09.171,67151,10.1195,6.3881,0.1816,-0.5191,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:11.212,69192,9.1516,6.4753,0.1529,-0.9141,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:13.282,71262,9.1880,6.2454,0.1586,-0.5489,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:15.330,73309,5.3237,6.4065,0.1544,0.2318,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:17.366,75346,1.8528,4.1020,-0.3615,-0.8025,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:19.432,77411,0.4092,1.2336,-0.4834,-0.9642,0.4082,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:21.495,79475,-0.3657,4.0143,0.2041,0.6962,-0.3215,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:23.547,81526,-3.5047,3.3247,0.1481,-0.9858,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:25.584,83563,-3.8347,3.0895,0.1806,-0.2121,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:27.624,85604,-7.4528,4.5269,1.3694,0.1653,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:29.647,87627,-8.8921,5.4248,0.1558,0.2863,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:31.675,89654,-9.8360,3.8434,-0.9911,-0.8943,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:33.741,91721,-8.0739,0.4613,-0.9730,-0.9665,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:35.758,93738,-10.5966,1.6720,0.0149,0.9885,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:37.797,95777,-8.0618,3.1651,0.1647,-0.8192,-1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:39.829,97808,-7.6748,0.1327,0.1669,-0.9721,-1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:41.850,99830,-6.5095,0.0901,0.1819,0.4323,-1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:43.872,101851,-5.5192,3.4438,0.1516,0.9986,-1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:45.917,103896,-5.6760,5.3410,0.1639,0.5460,-1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:47.941,105920,-5.4585,5.5126,0.1460,-0.2459,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:49.963,107943,-5.4444,5.9336,0.1453,0.9853,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:52.007,109987,-8.9561,7.8979,0.2752,0.5540,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:54.034,112014,-8.2104,9.5217,0.8624,-0.6881,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:56.070,114049,-4.9732,7.9875,2.1626,-0.4046,-1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:27:58.106,116085,-2.1679,7.9149,3.2718,-0.9595,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:00.140,118120,-1.3830,8.0665,3.2684,-0.7433,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:02.174,120153,-2.3066,7.9124,3.2656,-0.9983,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:04.224,122203,-2.5068,7.6909,3.2005,-0.9330,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:06.262,124241,-2.5483,7.7758,3.1093,-0.9330,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:08.295,126274,-1.5896,8.1969,3.2634,-0.8161,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:10.313,128293,-3.8200,7.6665,2.7001,-0.8010,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:12.345,130325,-3.2704,7.8488,2.8274,-0.9294,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:14.368,132347,-2.7471,7.8095,3.0554,-0.8633,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:16.417,134396,-2.6246,7.5546,3.0808,-0.8311,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:18.446,136426,-1.2659,7.9240,3.2910,0.0479,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:20.482,138462,0.6434,6.8125,3.2843,-0.1634,0.7146,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:22.512,140491,0.4012,8.0589,3.2815,-0.9216,0.4202,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:24.540,142520,0.5201,8.0969,3.2896,-0.9213,0.5500,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:26.592,144572,2.7316,5.9704,4.5828,0.4754,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:28.642,146621,3.0249,3.5037,5.2586,-0.8696,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:30.684,148663,2.5950,3.2194,5.1305,-0.0703,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:32.706,150686,4.5529,3.2000,6.0173,-0.2844,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:34.744,152723,8.8866,2.7900,-1.0663,0.1205,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:36.777,154757,9.4251,-1.0820,-0.9735,-0.9832,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:38.824,156804,11.9242,-4.3053,-0.8001,-0.9389,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:40.851,158830,9.9815,-7.3203,0.1756,-0.1662,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:42.875,160854,5.7546,-6.4542,0.1817,0.1214,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:44.909,162889,2.8884,-5.4838,0.1562,-0.4198,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:46.927,164907,-0.7802,-4.2901,0.7389,0.4704,-0.8982,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:48.952,166932,-3.7093,-2.6719,0.1311,1.0000,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:50.981,168960,-7.3997,-2.1709,-0.9946,0.9821,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:53.007,170986,-7.5370,2.1791,-0.9928,0.6960,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:55.064,173044,-10.2389,4.7338,-0.4564,0.9999,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:57.089,175069,-11.6722,6.6279,0.1507,0.2289,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:28:59.112,177091,-14.3726,7.5581,0.1473,0.4346,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:01.164,179143,-15.7776,5.4342,0.1467,-0.3326,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:03.199,181179,-17.7075,3.4658,0.1332,-0.7881,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:05.241,183220,19.4750,-0.2115,0.4692,-0.5194,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:07.292,185272,19.1262,-1.6149,0.1461,0.5987,1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:09.337,187317,18.5532,1.7194,0.1559,-0.6284,1.5708,False,True,Sniper Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:11.358,189337,19.0263,-1.0925,0.1716,-0.9929,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:13.380,191359,18.1350,-4.8286,0.1756,-0.1998,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:15.416,193395,15.6107,-7.3028,1.2536,0.1433,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:17.458,195437,12.4835,-9.9935,0.4912,-0.3776,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:19.485,197464,8.5442,-8.6607,2.2834,0.5054,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:21.523,199503,8.3488,-8.6544,2.3947,0.9460,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:23.542,201522,5.4420,-8.4401,3.7856,0.9675,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:25.572,203551,6.1442,-8.2946,3.5287,0.9993,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:27.602,205582,3.2708,-8.8411,3.8930,0.7139,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:29.623,207602,3.1878,-8.7574,3.9051,0.7989,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:31.668,209647,2.6606,-8.8517,3.8994,0.9217,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:39.826,217805,6.5611,4.1789,0.1550,0.5125,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:41.892,219872,4.6526,0.7929,0.1327,0.1742,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:43.952,221932,2.3030,-1.4071,0.1578,-0.9571,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:46.005,223984,-0.1606,-4.8059,-0.2688,-0.2663,-0.0954,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:48.043,226022,-3.3899,-3.0723,0.2247,0.4231,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:50.103,228083,-4.2202,-2.7452,-0.3349,0.5055,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:52.149,230129,-3.4591,0.5553,0.1691,0.3995,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:54.186,232165,-2.3553,4.5123,0.1757,0.9652,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:56.236,234216,-3.7244,5.8108,0.1352,0.1213,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:29:58.275,236254,0.4491,6.6721,-0.0262,-0.4674,0.4558,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:00.318,238298,0.4578,6.0364,-0.3609,-0.5074,0.5512,False,True,Rocket Launcher
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:02.370,240350,1.2758,3.4250,-0.4618,-0.0583,1.5708,False,True,Rocket Launcher
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:04.400,242380,3.8177,6.2914,0.1823,-0.8251,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:06.458,244438,2.3669,5.9978,1.1773,-0.4214,1.5708,False,True,Rocket Launcher
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:08.502,246481,-0.2064,5.7252,0.0364,-0.1910,-0.2130,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:10.541,248521,-2.9063,5.7366,0.1809,0.7412,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:12.596,250576,-6.6117,6.7797,0.5342,-0.7943,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:14.656,252636,-9.2586,3.9022,2.3071,0.9798,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:16.711,254691,-10.1433,3.6225,-0.9833,-0.9973,-1.5708,False,True,Rocket Launcher
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:18.750,256729,-10.2766,3.4452,-0.9947,0.5112,-1.5708,False,True,Shotgun
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:20.788,258767,-10.1547,6.6028,0.1625,-0.8994,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:22.856,260836,-8.2252,4.9558,0.1570,-0.0203,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:24.909,262889,-9.8964,8.0883,0.6120,-0.7009,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:26.944,264924,-13.8042,8.4461,0.1529,-0.6274,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:28.990,266969,-9.8156,8.0175,0.2407,-0.5324,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:31.045,269024,-7.2004,4.7554,1.4424,-0.4145,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:33.071,271051,-6.6580,1.7676,0.1714,-0.7857,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:35.128,273108,-7.7832,-1.4120,0.1786,-0.9904,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:37.167,275146,-9.5577,-3.2018,0.1567,0.3142,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:45.365,283345,5.4943,0.1504,0.1560,0.4462,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:47.406,285386,1.3198,0.1670,-0.3721,0.6114,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:49.445,287424,-1.5014,-1.8930,0.7761,0.8510,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:55.542,293522,14.2225,4.8868,0.1728,0.7454,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:57.584,295563,10.4730,5.5178,0.1606,-0.1293,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:30:59.618,297597,9.4172,5.8081,0.1415,-0.9864,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:01.659,299639,10.7367,4.7431,0.1427,-0.5013,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:03.680,301660,10.5912,6.4150,0.1391,-0.9065,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:05.707,303687,8.9823,6.5874,0.1582,-0.9995,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:07.731,305711,8.3056,2.9695,0.1652,-0.9876,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:09.767,307746,8.1312,-1.4754,0.1652,-0.9944,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:11.788,309767,8.7252,-4.8353,1.8089,0.0950,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:13.815,311795,10.6751,-2.4171,2.3249,0.3528,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:15.854,313833,9.6203,-1.6923,2.1968,0.4684,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:17.907,315887,9.5198,-3.0949,2.3471,0.6899,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:19.929,317909,7.7855,-1.3635,0.6519,0.4098,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:21.964,319943,3.7604,0.6945,0.1559,0.3076,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:24.013,321993,0.0083,0.3061,-0.4166,0.9959,0.0105,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:26.042,324021,-3.7646,0.1833,0.1696,0.2579,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:28.084,326064,-2.7725,0.1301,0.1474,0.2623,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:30.131,328111,-2.0816,-2.5089,0.4639,-0.3528,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:32.162,330141,0.4519,-1.8435,2.8106,-0.8060,0.4559,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:34.197,332177,2.4748,-0.6579,1.7988,-0.9974,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:42.323,340302,19.2806,0.3263,0.1829,-0.8244,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:44.366,342346,-19.2709,1.1600,0.1653,0.8287,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:46.391,344370,-16.3350,4.2089,0.1784,0.0857,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:48.427,346407,-13.7228,4.4634,0.1719,0.5094,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:50.480,348460,-11.2345,7.5143,0.1507,-0.5376,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:52.530,350509,-10.9349,6.8416,0.1188,-0.2608,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:54.571,352551,-10.3716,7.7185,0.1506,-0.2206,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:31:56.617,354596,-7.0271,8.9101,1.3638,-0.0908,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:02.724,360703,15.8469,-3.2960,0.1739,0.0740,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:04.743,362723,12.1588,-3.1457,0.1609,-0.0589,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:06.775,364755,9.9807,-0.4060,0.1606,0.9988,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:08.799,366779,7.3843,0.7916,0.1417,0.8112,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:10.835,368814,7.0023,0.9726,0.1372,0.2105,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:12.880,370860,6.4077,4.7228,0.1756,0.7272,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:20.996,378976,-14.3351,5.7322,0.1554,0.8295,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:23.035,381015,-10.9840,7.3210,0.1548,-0.1133,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:25.070,383050,-10.1791,7.1003,0.1268,0.1478,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:27.131,385110,-7.8157,9.4369,1.0274,-0.9998,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:29.187,387166,-4.0251,7.5480,2.6194,-0.2402,-1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:31.223,389202,0.2018,7.9664,3.3082,-0.0808,0.3016,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:33.260,391239,2.1195,5.3648,4.0793,-0.9865,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:35.315,393294,1.7765,5.1234,3.8414,-0.3873,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:37.345,395324,3.6231,4.7741,5.2192,0.8725,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:39.363,397342,4.2503,4.1363,5.6858,-0.6074,1.5708,False,True,Battle Rifle
+Beaver Creek,           Rocky,_game_team_red,58,0,11,1,1,0,2025-12-07 20:32:41.378,399357,6.1487,0.9732,1.9219,-0.8010,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:02.025,5,10.6617,-4.5280,0.1642,-0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:04.052,2031,9.9654,-6.7926,0.1553,-0.7080,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:06.078,4057,7.1937,-6.8952,0.1271,0.3913,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:08.096,6076,10.0005,-7.4364,0.1490,0.3540,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:10.131,8110,9.4686,-6.3972,1.2651,0.5781,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:12.174,10153,9.7955,-4.3753,2.6207,0.6998,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:14.205,12184,11.5318,-1.4775,2.0740,0.9870,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:16.241,14221,11.4869,0.7343,1.8442,0.5295,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:18.261,16240,11.5963,1.0572,1.8533,0.5693,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:20.296,18275,11.4108,1.5688,1.8349,0.4222,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:22.318,20297,10.3833,3.1804,2.3435,0.1121,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:28.412,26392,-5.4726,3.2375,0.1611,-0.6713,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:30.447,28426,-7.3085,4.6057,1.4368,-0.2568,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:32.467,30447,-11.0270,2.6523,2.2908,-0.9273,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:34.487,32466,-14.2955,3.7431,2.8678,0.1736,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:42.634,40613,6.5749,4.2610,0.1678,0.9540,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:44.666,42646,4.3912,5.8445,0.1437,0.7242,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:46.697,44677,2.6058,6.5363,0.0596,0.3078,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:54.842,52822,9.6879,-1.6657,0.1684,0.9720,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:56.887,54866,7.8292,-1.0977,0.1333,0.6132,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:26:58.933,56912,7.4184,1.9432,0.2023,0.6639,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:00.979,58958,5.2598,3.8943,0.1762,0.6258,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:03.039,61019,4.8939,5.1218,0.1812,-0.9937,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:05.098,63078,4.1030,2.6870,0.1527,-0.9169,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:07.138,65117,5.8722,3.4870,0.1543,-0.4630,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:09.171,67151,8.4957,2.7867,-1.0065,-0.7745,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:11.212,69192,9.9589,-0.6159,-1.2083,-0.9953,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:13.282,71262,11.9311,-3.5186,-0.9970,-0.9115,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:19.432,77411,12.4939,-1.3164,-0.5890,0.9716,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:21.495,79475,9.9493,-1.4056,-0.9892,-0.9975,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:23.547,81526,12.0899,-4.3790,-0.7739,-0.0537,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:25.584,83563,9.5686,-5.9354,1.2512,0.9610,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:27.624,85604,10.4614,-3.5044,2.5737,0.6365,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:29.647,87627,9.4629,-2.6196,2.3387,-0.2179,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:31.675,89654,8.8826,-1.7896,1.8375,0.2980,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:33.741,91721,5.4430,-2.4833,0.1665,-0.5158,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:35.758,93738,2.2083,-4.8575,-0.2452,-0.0495,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:37.797,95777,-1.7347,-4.6021,0.1660,0.3581,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:39.829,97808,-2.7874,-2.6663,0.1771,0.2475,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:41.850,99830,-2.1025,-2.9991,0.1624,0.8502,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:43.872,101851,-2.1238,-2.4613,0.1830,-0.0046,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:45.917,103896,-0.7501,-2.9843,1.2508,0.6619,-0.9182,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:47.941,105920,0.7538,-0.2626,3.9014,0.9911,0.8726,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:49.963,107943,2.1591,3.2350,5.0400,0.9902,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:52.007,109987,3.7234,4.8884,5.2548,-0.9944,1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:54.034,112014,3.3504,4.6505,5.2391,-0.9978,1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:56.070,114049,4.3258,5.0464,5.1542,-0.5573,1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:27:58.106,116085,3.9607,4.4921,5.2440,-0.6979,1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:00.140,118120,3.4653,5.7088,4.8954,-0.6747,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:02.174,120153,3.0448,6.2050,4.8311,-0.7240,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:04.224,122203,2.9614,3.3552,5.2527,-0.8130,1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:06.262,124241,1.5997,0.6347,4.6128,-0.9987,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:08.295,126274,0.9789,0.6131,4.3029,-0.7555,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:10.313,128293,1.3794,2.0710,4.5809,-0.9998,1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:12.345,130325,2.0029,0.7066,4.5439,-0.9979,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:14.368,132347,0.0219,-0.3232,3.3971,-0.9226,0.0746,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:16.417,134396,-1.8117,-1.9747,0.1709,-0.9609,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:18.446,136426,-4.6626,-2.8535,-0.5604,-0.0556,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:20.482,138462,-7.7802,-1.3524,-0.7771,0.9267,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:22.512,140491,-10.4616,-0.9584,-0.7631,-0.9999,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:24.540,142520,-8.3310,-2.8532,0.1572,0.9030,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:26.592,144572,-7.0035,0.0870,0.1323,-0.6659,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:28.642,146621,-6.2791,1.6136,0.1675,0.9714,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:30.684,148663,-7.0610,4.8906,1.4352,-0.0027,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:32.706,150686,-6.4619,6.3474,0.9030,-0.1774,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:34.744,152723,-6.6837,6.6531,0.1714,-0.9565,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:36.777,154757,-5.9991,2.9465,0.1370,-0.9705,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:38.824,156804,-7.6630,-0.2775,0.1764,-0.6582,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:40.851,158830,-9.6536,-3.3421,0.1756,0.0217,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:42.875,160854,-9.6639,0.0140,-1.0006,0.4873,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:44.909,162889,-7.0853,-2.4901,-1.0000,-0.2645,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:46.927,164907,-7.3131,-2.1663,-0.9981,0.9604,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:48.952,166932,-7.8891,1.8653,-0.9911,0.9885,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:50.981,168960,-9.7803,4.7145,0.0397,0.5737,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:53.007,170986,-10.4480,5.4084,0.5819,0.1452,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:28:55.064,173044,-10.2006,5.0610,0.1039,-0.9983,-1.5708,False,True,Rocket Launcher
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:03.199,181179,-17.8456,1.2432,0.1509,-0.9986,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:05.241,183220,-16.6215,4.9751,0.1756,0.8849,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:07.292,185272,-13.3434,7.7161,0.1473,0.1815,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:09.337,187317,-9.9710,8.9438,0.3190,-0.9228,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:11.358,189337,-6.5081,9.0956,1.5751,-0.1475,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:13.380,191359,-4.1171,7.7534,2.5288,-0.9939,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:15.416,193395,-2.8954,7.5705,3.0417,-0.8872,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:17.458,195437,-0.4022,7.9349,3.2809,0.1648,-0.5030,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:19.485,197464,0.9391,7.2794,3.2074,0.4791,1.3074,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:27.602,205582,14.2862,3.3473,0.1710,0.2245,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:29.623,207602,12.1671,0.5522,-0.9311,-0.8393,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:31.668,209647,9.7079,-1.9184,-0.9989,-0.9280,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:33.700,211679,12.1229,-4.8107,-0.4923,-0.9966,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:35.732,213711,12.2521,-5.1551,-0.2873,-0.0720,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:37.765,215745,11.9582,-8.2169,0.1670,-0.7946,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:39.826,217805,8.9720,-8.9885,2.0099,0.1612,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:41.892,219872,5.5317,-8.3116,3.7262,-0.2702,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:43.952,221932,2.0983,-8.2332,5.0498,0.6570,1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:46.005,223984,-1.4067,-7.3949,4.8677,0.9196,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:48.043,226022,-1.8832,-7.0576,4.7406,0.7711,-1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:50.103,228083,-2.0486,-6.8121,4.5966,0.7896,-1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:52.149,230129,-4.2302,-3.1330,0.2316,0.8646,-1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:54.186,232165,-7.4885,-1.8399,-0.9943,0.9990,-1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:56.236,234216,-9.3186,0.1242,-0.9844,-0.1584,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:29:58.275,236254,-10.8040,-3.1784,0.1301,0.5018,-1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:00.318,238298,-11.4382,-3.5320,0.1545,0.7374,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:02.370,240350,-8.5104,-2.9850,0.1567,0.2443,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:04.400,242380,-6.9665,0.0222,0.1331,-0.0633,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:06.458,244438,-7.2088,0.0552,0.1401,-0.9561,-1.5708,False,True,Sniper Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:08.502,246481,-9.0981,-3.3974,0.8744,0.8406,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:10.541,248521,-10.9305,-3.2827,0.1385,0.8420,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:12.596,250576,-13.8543,-2.6891,0.1884,-0.8886,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:14.656,252636,-13.4611,1.0579,0.2763,-0.9939,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:22.856,260836,-10.3897,-0.8169,-0.9424,-0.9967,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:24.909,262889,-12.4167,-3.2713,0.1550,-0.2101,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:26.944,264924,-15.4536,-1.4641,0.1553,0.9909,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:28.990,266969,-13.2785,1.4243,0.1551,0.9332,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:31.045,269024,-10.1099,3.1919,0.1828,0.1756,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:33.071,271051,-8.0674,1.7293,0.1793,-0.8750,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:35.128,273108,-7.9911,1.2778,0.1484,-0.9545,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:37.167,275146,-10.2192,2.9055,0.1813,-0.9234,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:39.215,277194,-9.7925,3.1894,0.1457,-0.9925,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:41.268,279247,-8.0072,1.1724,0.8048,-0.9998,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:47.406,285386,11.3974,3.0441,0.1823,-0.3108,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:49.445,287424,11.6470,0.1092,-1.0006,-0.0676,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:51.465,289444,9.2346,2.2098,-0.9945,0.2068,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:53.514,291494,5.7509,2.5983,-0.0161,-0.9881,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:55.542,293522,5.8354,3.0717,0.1211,0.1074,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:57.584,295563,5.8354,3.0717,0.1211,0.1074,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:30:59.618,297597,5.8354,3.0717,0.1211,0.1074,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:05.707,303687,19.6188,-1.4481,0.1538,0.6448,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:07.731,305711,18.1489,-4.8809,0.1608,-0.2906,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:09.767,307746,14.2392,-4.4122,0.1822,0.1297,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:11.788,309767,13.2009,-3.9485,0.1734,-0.2826,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:13.815,311795,13.0558,-4.5787,0.1400,0.4906,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:15.854,313833,10.8861,-7.7398,0.5288,0.1842,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:17.907,315887,8.7808,-8.9657,2.1202,0.4168,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:26.042,324021,7.6671,-3.9008,0.1574,0.9833,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:28.084,326064,8.6726,-1.7190,0.1628,0.7938,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:30.131,328111,8.4734,-0.0072,0.1613,0.2901,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:32.162,330141,10.0484,-1.9095,0.1524,-0.9554,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:34.197,332177,9.9660,2.1073,0.0938,0.8137,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:36.223,334203,10.0462,3.1315,0.1471,0.6465,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:38.256,336236,10.6775,3.1790,0.1396,-0.3884,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:40.303,338283,12.1395,0.5141,-0.9665,-0.9032,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:42.323,340302,9.6022,-1.7628,-0.9988,-0.9995,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:44.366,342346,12.1521,-4.6199,-0.6185,-0.3096,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:46.391,344370,13.7437,-5.3766,0.1614,0.2976,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:48.427,346407,17.8919,-5.0725,0.1614,0.5354,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:50.480,348460,19.8009,-2.3812,0.1604,0.9939,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:52.530,350509,-17.0400,1.1115,0.1469,-0.9213,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:54.571,352551,-17.9078,-2.3566,0.9653,-0.8609,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:56.617,354596,-15.7526,-5.3887,1.2530,0.0054,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:31:58.654,356633,-12.0263,-3.9802,1.7810,0.9095,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:00.690,358669,-10.4311,-3.2480,2.3635,0.6762,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:02.724,360703,-8.7012,-3.3797,2.3658,0.7622,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:10.835,368814,18.3771,-5.1652,0.1641,-0.6538,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:12.880,370860,14.6790,-7.2337,0.1652,0.1313,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:14.905,372884,10.9138,-5.9250,0.3570,0.3553,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:16.924,374903,9.1665,-4.6768,2.6186,0.9633,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:18.944,376923,10.9478,-1.7006,2.2160,0.3959,1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:25.070,383050,-15.1952,-0.0887,0.1846,0.0000,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:27.131,385110,-12.5548,2.5909,0.1558,0.3399,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:29.187,387166,-8.8391,3.3078,0.1607,-0.4942,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:31.223,389202,-7.3277,-0.1290,0.1674,-0.1929,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:33.260,391239,-7.1822,-0.0008,0.1442,0.0199,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:35.315,393294,-6.8494,-0.1031,0.1783,0.0973,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:37.345,395324,-3.0926,0.3194,0.6538,0.1163,-1.5708,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:39.363,397342,0.6036,-0.2161,-0.4604,-0.7775,0.5952,False,True,Battle Rifle
+Beaver Creek,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 20:32:41.378,399357,2.3286,-2.2973,0.5767,-0.6722,1.5708,False,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:02.025,5,-8.1619,3.1354,0.1579,0.0495,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:04.052,2031,-8.1619,3.1354,0.1579,0.0495,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:06.078,4057,-7.9019,1.6851,0.1755,-0.9743,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:08.096,6076,-6.0699,-0.0628,0.1820,0.9688,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:10.131,8110,-2.7275,1.8893,0.1824,-0.0714,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:12.174,10153,-3.6671,2.5820,1.2723,-0.4681,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:14.205,12184,-5.2704,1.0221,0.1186,0.0370,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:16.241,14221,-5.8816,-2.6150,0.1172,0.1680,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:18.261,16240,-6.7621,-4.7396,0.1529,0.7573,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:20.296,18275,-10.8681,-5.6256,0.1654,-0.2123,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:22.318,20297,-15.2874,-6.4398,0.1784,0.3347,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:24.342,22322,-16.7874,-3.2598,0.1784,0.9986,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:26.373,24353,-19.5889,-1.4902,0.1440,0.3619,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:28.412,26392,-18.6885,0.4780,0.0824,0.9631,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:30.447,28426,-18.8644,0.6699,0.1560,0.3413,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:32.467,30447,-19.3777,1.6496,0.1363,0.2821,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:34.487,32466,-18.7284,2.7432,0.1706,-0.0141,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:36.515,34494,-18.7983,1.6920,0.1514,-0.0169,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:38.548,36527,-19.7248,3.2385,0.1476,0.1778,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:40.574,38554,-16.5852,5.8973,0.1607,0.7007,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:42.634,40613,-19.6163,4.2420,0.1367,-0.8648,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:44.666,42646,-19.4885,3.5356,0.1582,0.0396,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:46.697,44677,-19.7039,3.5450,0.1340,-0.5161,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:48.744,46723,-19.6665,3.5678,0.1471,0.0889,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:50.778,48757,-19.8034,3.0534,0.1342,-0.8328,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:52.808,50787,-19.6302,3.5972,0.0719,-0.9239,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:54.842,52822,-19.5290,0.9381,0.1755,-0.9992,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:56.887,54866,-18.4123,-2.9644,0.1474,0.1678,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:26:58.933,56912,-15.7964,-5.4460,1.2561,0.0207,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:00.979,58958,-12.0485,-3.6049,1.7739,0.7521,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:03.039,61019,-8.0369,-3.2828,3.4897,0.6001,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:05.098,63078,-9.1250,-4.1759,3.0149,-0.7982,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:07.138,65117,-11.4333,-5.6639,0.1556,0.2180,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:09.171,67151,-14.1818,-4.7079,0.3693,-0.1510,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:11.212,69192,-16.8821,-2.3207,0.1557,0.7907,-1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:13.282,71262,19.6212,0.5942,0.3028,0.7887,1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:15.330,73309,19.2748,0.6102,0.1669,-0.8279,1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:17.366,75346,-17.5690,0.1029,0.1614,0.9742,-1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:19.432,77411,-16.4771,4.4656,0.1543,0.8077,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:21.495,79475,-13.3664,7.6260,0.1550,0.5861,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:23.547,81526,-16.8895,6.8848,0.1756,-0.3710,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:25.584,83563,-18.5020,3.5162,0.1674,-0.8877,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:27.624,85604,-19.6683,-0.3982,0.3168,-0.7973,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:29.647,87627,-19.1546,-3.9585,0.7228,0.0130,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:31.675,89654,-19.2892,-3.4246,0.1463,0.9943,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:33.741,91721,-16.5218,-5.6054,1.0390,0.0988,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:35.758,93738,-15.4018,-5.4700,0.6411,0.0406,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:37.797,95777,-17.7399,-5.6970,0.1499,0.2095,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:39.829,97808,-17.3043,-6.3768,1.0937,0.3628,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:47.941,105920,12.7978,5.6186,0.1566,-0.3173,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:56.070,114049,4.8154,-0.8831,0.1565,-0.2169,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:27:58.106,116085,3.6608,-2.5194,1.2561,-0.1281,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:00.140,118120,-0.0255,-3.4913,1.3299,0.9422,-0.1167,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:02.174,120153,-0.4589,-1.7098,2.1130,-0.5178,-0.4925,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:04.224,122203,1.0394,-1.6437,-0.4906,0.6891,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:10.313,128293,8.3874,4.1932,0.1713,0.0004,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:12.345,130325,7.2220,5.2229,0.1472,-0.8035,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:14.368,132347,4.1990,2.4449,0.1823,-0.9331,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:16.417,134396,3.4665,1.8017,0.1182,-0.9697,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:18.446,136426,6.3618,3.0672,-0.4081,-0.9653,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:20.482,138462,9.5702,1.6745,-0.9771,-0.9993,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:22.512,140491,10.1401,-2.5546,-0.9731,-0.7233,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:24.540,142520,11.9520,-5.5492,0.0204,-0.9991,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:30.684,148663,5.2029,-1.6197,0.1699,0.9598,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:32.706,150686,6.2120,-3.3076,0.1806,-0.4390,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:34.744,152723,6.1981,-4.4341,0.5949,0.9404,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:36.777,154757,7.0322,-5.2679,0.2073,-0.6946,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:38.824,156804,4.7654,-5.7422,0.1824,0.7674,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:40.851,158830,0.8758,-4.9974,-0.4216,0.0027,1.2364,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:42.875,160854,-1.4568,-3.2385,0.6733,0.3476,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:44.909,162889,-3.8511,-2.8556,-0.0340,-0.2966,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:53.007,170986,16.1509,-7.0022,0.1755,-0.5704,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:55.064,173044,12.2391,-9.1704,0.5192,-0.5413,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:57.089,175069,8.3612,-8.8054,2.3535,0.4502,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:28:59.112,177091,4.6040,-7.4328,3.9019,0.2958,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:07.292,185272,-10.0418,-5.9259,0.1609,-0.2953,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:09.337,187317,-5.9256,-5.3764,0.1564,-0.1882,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:11.358,189337,-1.6677,-4.2936,0.1557,-0.0161,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:13.380,191359,0.9148,-2.6668,1.9169,0.6092,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:15.416,193395,2.2239,-2.9323,0.1674,0.5299,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:21.523,199503,-5.9791,4.4466,0.2123,0.0000,-1.5708,True,True,Guardians
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:23.542,201522,-6.0856,6.1904,0.1824,-0.4542,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:25.572,203551,-9.0269,6.8815,0.1454,-0.3581,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:27.602,205582,-8.8070,5.7724,0.1796,-0.9082,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:29.623,207602,-8.1125,4.7361,0.1475,0.9370,-1.5708,True,True,Carbine
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:31.668,209647,-8.8501,5.3930,0.1758,0.7262,-1.5708,True,True,Carbine
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:33.700,211679,-12.6285,6.1360,0.1639,-0.2695,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:35.732,213711,-16.7650,4.4174,0.1784,-0.7178,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:37.765,215745,-18.1430,0.4150,0.1827,-0.9934,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:39.826,217805,-17.3764,-2.8366,0.1254,0.9996,-1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:41.892,219872,-19.2585,0.2882,0.1205,-0.8331,-1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:43.952,221932,-19.6692,1.2590,0.1402,-0.2251,-1.5708,True,True,Shotgun
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:46.005,223984,-18.8297,4.5970,0.1401,0.1148,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:48.043,226022,-18.7600,6.1943,0.1299,-0.9688,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:50.103,228083,-18.4154,5.4825,0.1788,-0.8109,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:52.149,230129,-18.1654,4.9928,0.1673,0.4835,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:54.186,232165,-18.7624,5.9073,0.1626,-0.9726,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:56.236,234216,-18.6479,5.9077,0.1349,-0.9100,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:29:58.275,236254,-18.6496,6.3170,0.1584,-0.9444,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:00.318,238298,-18.5598,6.2028,0.1378,-0.2535,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:02.370,240350,-18.3451,5.1496,0.1418,-0.0138,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:04.400,242380,-16.4723,2.3293,0.1519,0.7049,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:06.458,244438,-18.2425,-0.0891,0.1558,-0.3398,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:08.502,246481,-18.9863,-3.7242,0.1493,0.7280,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:10.541,248521,-16.6788,-6.5452,0.1452,0.9971,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:12.596,250576,-16.9220,-6.2240,0.1319,0.4434,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:14.656,252636,-14.9824,-5.4739,1.1371,0.4585,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:16.711,254691,-12.3168,-2.9427,1.8755,0.1635,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:18.750,256729,-15.4414,-1.4957,2.8399,0.9497,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:20.788,258767,-14.6973,2.3565,2.8786,0.1528,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:22.856,260836,-13.9504,2.9545,2.8699,-0.0238,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:24.909,262889,-15.4131,2.2045,2.8452,-0.9243,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:26.944,264924,-15.9070,0.9780,2.6212,0.9440,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:28.990,266969,-16.5829,2.2837,1.1888,0.9271,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:31.045,269024,-15.4385,5.0590,0.1651,-0.4717,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:33.071,271051,-12.5816,7.2115,0.1817,0.7318,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:35.128,273108,-9.2224,9.4749,0.5283,-0.9498,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:37.167,275146,-5.3922,8.3622,1.9239,-0.9953,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:39.215,277194,-1.6991,7.8933,3.2923,0.1710,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:41.268,279247,1.5901,6.1601,4.3801,-0.6688,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:43.323,281302,2.0154,5.5536,3.9613,0.4904,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:45.365,283345,2.6781,5.6020,4.4741,-0.0839,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:47.406,285386,3.4046,5.6701,4.8870,-0.4077,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:49.445,287424,3.5735,5.2771,5.1574,-0.6330,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:51.465,289444,1.7544,1.5039,6.1991,-0.6826,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:53.514,291494,-0.4756,-1.9782,3.9937,-0.4479,-0.5009,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:55.542,293522,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:57.584,295563,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:30:59.618,297597,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:01.659,299639,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:03.680,301660,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:05.707,303687,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:07.731,305711,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:09.767,307746,-3.3576,-4.1331,0.2841,-0.8736,-1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:17.907,315887,-17.1007,-5.7760,0.2685,0.0583,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:19.929,317909,-13.3167,-4.3426,1.8950,-0.0544,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:21.964,319943,-11.7374,-4.5239,1.2742,0.0621,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:24.013,321993,-11.4665,-5.3173,1.1306,0.9868,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:26.042,324021,-13.9357,-4.2405,0.1784,0.1729,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:28.084,326064,-16.6410,-2.5060,0.1824,0.9420,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:30.131,328111,-17.1655,-2.3483,0.1489,1.0000,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:32.162,330141,-16.4063,-4.8554,0.1444,0.9855,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:34.197,332177,-18.3056,-3.7057,0.1211,0.9720,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:36.223,334203,-17.5667,-6.4953,0.1330,0.9389,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:38.256,336236,-19.2623,-2.6895,0.1807,0.4814,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:40.303,338283,-19.3678,1.1215,0.1256,-0.5250,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:42.323,340302,-18.2805,4.3942,0.1609,-0.0008,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:44.366,342346,-17.7836,5.4129,0.8027,-0.6001,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:52.530,350509,-1.7007,-5.2934,0.1327,0.9568,-1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:54.571,352551,-0.0493,-2.3493,2.2132,0.9087,-0.0762,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:56.617,354596,1.2973,0.6675,4.5028,0.9464,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:31:58.654,356633,1.6210,2.8402,4.7799,0.9950,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:00.690,358669,3.2311,5.9591,4.8606,-0.3649,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:02.724,360703,4.9003,5.4464,3.1823,-0.9438,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:04.743,362723,4.6844,5.2834,0.1771,0.6424,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:06.775,364755,2.3546,4.4316,-0.2268,-0.9746,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:08.799,366779,1.8515,4.0728,-0.2423,-0.9968,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:10.835,368814,2.6672,2.6923,0.0291,-0.8961,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:12.880,370860,2.1327,4.9873,-0.4029,0.5870,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:14.905,372884,0.8522,4.1288,0.6485,0.5454,1.0286,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:16.924,374903,0.4431,5.9171,-0.3893,-0.4614,0.5369,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:18.944,376923,2.0644,4.4596,-0.3752,-0.8618,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:20.996,378976,1.5240,3.3066,-0.4308,-0.9986,1.5708,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:23.035,381015,0.9049,2.7981,-0.4675,-0.2451,1.2488,True,True,Rocket Launcher
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:25.070,383050,-0.1724,1.5668,-0.0682,0.8459,-0.1370,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:27.131,385110,2.5371,1.3991,0.0501,0.4360,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:29.187,387166,5.6168,4.0588,0.1755,0.8696,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:31.223,389202,9.7701,4.7861,1.2411,-0.1354,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:33.260,391239,14.0826,5.4520,0.6090,-0.2475,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:35.315,393294,15.5547,4.6462,0.6605,0.0705,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:37.345,395324,18.1572,4.3792,0.1629,0.2158,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:39.363,397342,20.0270,3.5145,-0.0154,-0.7996,1.5708,True,True,Battle Rifle
+Beaver Creek,roasted,_game_team_blue,22,14,1,2,0,2,2025-12-07 20:32:41.378,399357,20.0563,3.4971,0.1601,-0.8101,1.5708,True,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:02.025,5,-6.3274,-1.6277,0.1699,0.0491,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:04.052,2031,-3.9439,-1.4462,0.1561,-0.2939,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:06.078,4057,-0.9955,-1.4949,0.8386,0.6207,-1.4309,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:12.174,10153,-7.7238,2.3406,0.1682,-0.9999,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:14.205,12184,-5.8732,-0.5623,0.9534,0.3297,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:16.241,14221,-2.0421,-2.4716,1.2214,-0.3340,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:18.261,16240,0.1797,-1.3874,2.9818,-0.6013,0.2179,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:26.373,24353,-18.6554,2.1189,0.1697,0.9119,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:28.412,26392,-17.1854,1.3766,0.1735,-0.9942,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:30.447,28426,-18.7929,-1.3327,0.1379,0.9852,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:32.467,30447,-17.2813,-3.1494,0.1325,-0.9851,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:34.487,32466,-15.0279,-5.8388,0.7945,0.4782,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:36.515,34494,-11.7838,-4.0443,1.2622,0.9208,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:38.548,36527,-11.1117,-2.5591,2.5914,0.2452,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:40.574,38554,-8.1283,-0.1304,3.1792,0.6427,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:42.634,40613,-7.9921,2.2500,2.3521,0.0130,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:44.666,42646,-8.2008,2.3381,2.3464,-0.4123,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:46.697,44677,-11.2621,3.5152,3.4466,0.1710,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:54.842,52822,-12.1975,5.3604,0.1577,-0.2837,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:56.887,54866,-8.6860,6.3211,0.5321,-0.6824,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:26:58.933,56912,-5.6013,3.9027,2.1777,-0.7879,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:00.979,58958,-4.1796,-0.2269,1.0678,-0.8037,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:03.039,61019,-1.6974,-4.0160,0.1780,-0.7642,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:05.098,63078,1.2995,-7.2213,-0.4491,-0.8428,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:07.138,65117,2.0580,-7.4315,-0.4914,0.9979,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:09.171,67151,4.9093,-6.6059,0.1456,0.9280,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:11.212,69192,8.4200,-7.5365,0.1652,0.4531,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:13.282,71262,12.0316,-4.8267,-0.1400,0.9894,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:15.330,73309,11.3060,-6.1733,0.1828,-0.2104,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:17.366,75346,9.4673,-4.6214,2.3853,0.8964,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:19.432,77411,11.0245,-2.2231,2.3246,0.8398,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:21.495,79475,9.6261,-1.2586,3.2227,0.4609,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:23.547,81526,5.5968,0.6062,0.2576,0.1668,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:25.584,83563,1.5033,2.5519,-0.4268,0.9332,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:27.624,85604,-1.1681,5.3400,0.1812,0.1215,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:29.647,87627,-5.1263,6.9111,0.4378,-0.2300,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:31.675,89654,-8.8540,5.5787,0.1736,-0.3461,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:33.741,91721,-9.2529,3.1914,-1.0012,-0.3148,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:35.758,93738,-7.5487,-0.2795,-1.0172,0.8169,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:41.850,99830,8.0898,4.1930,0.1578,0.0004,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:43.872,101851,5.2547,1.8636,0.3521,-0.1887,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:45.917,103896,5.0877,-2.0965,0.1401,-0.2359,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:47.941,105920,1.8045,-3.8920,0.0174,-0.0035,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:49.963,107943,-0.2781,-4.7770,-0.2294,0.6252,-0.2908,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:52.007,109987,0.0463,-4.1785,-0.4289,0.9157,0.0683,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:54.034,112014,0.1815,-4.1117,-0.3181,-0.9801,0.1801,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:56.070,114049,0.1652,-4.1174,-0.4968,0.4081,0.1884,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:27:58.106,116085,-0.1520,-4.4873,-0.2882,-0.0472,-0.1954,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:00.140,118120,0.1807,-4.0696,-0.3301,0.7444,0.1978,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:02.174,120153,0.6268,-3.6417,-0.4037,-0.9819,0.6691,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:04.224,122203,0.6264,-3.6415,-0.4078,-0.9642,0.6691,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:06.262,124241,0.6265,-3.6415,-0.4069,-0.9917,0.6691,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:08.295,126274,1.4665,-6.7274,-0.2694,-0.8165,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:10.313,128293,0.5681,-5.7800,0.5301,0.9912,0.6063,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:12.345,130325,1.0898,-4.0200,-0.4371,-0.8893,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:20.482,138462,16.8804,6.1034,1.2143,-0.0142,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:22.512,140491,19.3365,3.4482,0.1673,-0.9932,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:24.540,142520,-17.4779,-0.0566,0.9168,0.9972,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:26.592,144572,-19.5215,0.6313,0.1656,0.9831,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:28.642,146621,-17.6052,4.5278,0.1785,0.5034,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:30.684,148663,-13.7073,6.4959,0.1825,0.4356,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:32.706,150686,-9.7325,5.2343,0.0263,0.5683,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:40.851,158830,-17.0998,5.8248,0.1265,-0.8302,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:42.875,160854,-13.9932,8.3406,0.1546,0.0790,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:44.909,162889,-9.7427,8.8093,1.2524,-0.8119,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:46.927,164907,-5.9702,8.6515,2.0810,-0.9127,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:48.952,166932,-5.7640,8.7875,1.7909,-0.2448,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:50.981,168960,-5.7083,7.2720,2.7906,-0.9709,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:53.007,170986,-9.3775,5.5052,0.1786,-0.1091,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:28:59.112,177091,-7.6141,-2.6573,0.2290,0.0000,-1.5708,False,True,Guardians
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:01.164,179143,-6.3380,-0.2102,0.1825,-0.5523,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:03.199,181179,-3.5721,-2.7952,0.0868,0.8038,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:05.241,183220,-1.3593,-5.1754,0.1505,0.9730,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:07.292,185272,0.9715,-6.5793,-0.4633,0.9950,1.3606,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:09.337,187317,2.0821,-6.7586,-0.3908,0.9985,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:11.358,189337,2.1786,-4.3566,-0.2236,0.9534,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:13.380,191359,3.7022,-1.1352,0.3437,0.8010,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:15.416,193395,4.5867,1.4032,1.3196,0.6273,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:17.458,195437,6.0701,4.8392,0.7654,-0.0360,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:19.485,197464,7.8933,4.5008,0.1670,-0.4726,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:21.523,199503,3.5750,5.4644,0.1827,0.3688,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:23.542,201522,3.5630,5.5996,0.1817,0.1360,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:25.572,203551,5.6515,2.6463,0.1383,-0.8772,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:31.668,209647,-8.7888,4.5364,0.1664,0.9962,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:33.700,211679,-7.8711,5.3592,1.2676,-0.6380,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:35.732,213711,-6.7998,4.7282,1.7190,-0.5122,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:37.765,215745,-3.6710,1.7218,0.1516,-0.8777,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:39.826,217805,-2.6219,-0.8706,0.1861,0.5082,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:48.043,226022,-16.6523,-2.7158,0.1703,-0.9742,-1.5708,False,True,Carbine
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:50.103,228083,-14.2037,-5.3268,0.9456,0.7404,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:52.149,230129,-11.9432,-4.1525,0.4552,0.8212,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:54.186,232165,-11.7754,-4.0639,0.8510,0.8929,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:56.236,234216,-11.6482,-3.3364,1.8602,0.9710,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:29:58.275,236254,-11.7072,0.4392,1.8371,0.5620,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:00.318,238298,-13.6511,3.1411,2.8337,-0.5874,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:02.370,240350,-13.2900,6.0694,3.0652,-0.5871,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:04.400,242380,-11.1589,8.9618,1.1940,-0.9805,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:06.458,244438,-7.8400,8.8253,1.0729,-0.5364,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:08.502,246481,-5.0963,8.2867,2.0696,-0.8077,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:16.711,254691,9.7341,0.7851,0.1721,-0.9969,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:18.750,256729,6.7856,-1.0413,0.9489,-0.6622,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:20.788,258767,4.3865,-3.2606,0.1571,-0.2111,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:22.856,260836,4.2469,-4.1189,0.1323,-0.1083,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:24.909,262889,4.5345,-1.9099,0.1550,0.1751,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:26.944,264924,3.2817,-5.0776,1.0477,0.3293,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:28.990,266969,-0.5588,-5.3036,-0.0902,0.1518,-0.5133,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:31.045,269024,-2.7984,-3.4219,0.1553,0.7950,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:33.071,271051,-4.8237,-2.8491,-0.5022,-0.2075,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:35.128,273108,-7.8742,-0.8787,-0.9775,0.9767,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:37.167,275146,-10.3346,-1.9556,0.1552,-0.8530,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:39.215,277194,-7.9105,-2.6467,0.1785,0.9105,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:41.268,279247,-8.2333,-2.9136,0.7506,0.9988,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:43.323,281302,-8.0819,-1.8205,0.1324,0.9997,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:45.365,283345,-8.1411,-0.1425,0.1141,-0.0100,-1.5708,False,True,Sniper Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:53.514,291494,11.8912,-7.8959,0.1673,0.5510,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:55.542,293522,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:57.584,295563,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:30:59.618,297597,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:01.659,299639,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:03.680,301660,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:05.707,303687,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:07.731,305711,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:09.767,307746,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:11.788,309767,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:13.815,311795,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:15.854,313833,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:17.907,315887,8.9333,-5.9682,1.5034,0.8214,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:26.042,324021,19.5408,-0.1888,0.1815,-0.9137,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:28.084,326064,18.8270,-4.6245,0.1755,-0.7395,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:30.131,328111,15.7314,-7.1257,0.8460,0.8389,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:32.162,330141,12.2251,-8.2068,0.1712,0.5211,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:34.197,332177,9.7512,-9.2960,1.5860,0.7194,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:36.223,334203,6.8529,-6.3402,1.6077,0.1494,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:38.256,336236,3.8669,-4.7572,0.1558,0.9044,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:40.303,338283,7.3806,-4.2802,0.1741,0.6191,1.5708,False,True,Shotgun
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:42.323,340302,8.3352,-0.2182,0.1670,-0.0661,1.5708,False,True,Shotgun
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:50.480,348460,-5.0098,-5.5580,0.1680,0.9906,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:52.530,350509,-7.0803,-4.7746,0.1609,0.2130,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:54.571,352551,-11.0932,-4.1301,1.0588,0.8876,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:56.617,354596,-13.3241,-2.6095,2.7850,0.8602,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:31:58.654,356633,-12.7502,1.5983,2.2809,0.6084,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:00.690,358669,-15.0895,3.4774,2.8432,0.9968,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:02.724,360703,-15.7007,3.3161,2.5138,-0.5735,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:04.743,362723,-13.9109,1.9958,2.8507,-0.7784,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:06.775,364755,-14.2474,3.8710,2.7950,-0.1186,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:08.799,366779,-15.8549,3.1670,2.3908,0.8306,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:10.835,368814,-15.9619,3.0622,2.3528,-0.9725,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:12.880,370860,-16.0093,-1.0287,2.5836,-0.6237,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:14.905,372884,-14.5738,-3.3112,2.8606,-0.0589,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:16.924,374903,-10.5262,-3.0432,2.9739,-0.1763,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:18.944,376923,-6.5091,-1.4245,2.3115,0.1903,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:20.996,378976,-2.6120,-3.1627,0.1982,-0.8190,-1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:23.035,381015,0.5191,-6.3196,-0.2035,-0.4234,0.5521,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:25.070,383050,2.2468,-5.7779,0.5179,0.8087,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:27.131,385110,5.6798,-3.9520,1.2330,-0.4884,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:29.187,387166,9.6430,-3.5978,2.9080,0.9575,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:31.223,389202,12.6573,-0.4488,2.3161,0.9670,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:33.260,391239,14.7801,3.1955,2.8624,0.3778,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:35.315,393294,17.9639,2.1534,2.8405,-0.1760,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:37.345,395324,20.1470,3.7038,0.1597,-0.6521,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:39.363,397342,18.8880,-0.2501,0.5929,-0.9062,1.5708,False,True,Battle Rifle
+Beaver Creek,SHOW5TOPPER,_game_team_blue,11,15,1,4,2,1,2025-12-07 20:32:41.378,399357,-16.9369,-2.4962,0.1693,-0.9459,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:02.025,5,9.6260,-2.4182,0.1579,0.9993,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:04.052,2031,10.0597,-0.5857,0.1785,0.9905,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:06.078,4057,6.8697,-1.7153,0.1654,-0.8616,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:08.096,6076,4.8269,-3.5344,0.7612,-0.2225,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:10.131,8110,1.7728,-3.4886,-0.2865,0.9956,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:16.241,14221,15.3205,-4.7504,0.1707,-0.9598,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:18.261,16240,15.0804,-7.9120,0.1181,0.2045,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:20.296,18275,14.5227,-8.3623,0.1493,0.6389,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:22.318,20297,16.5810,-6.8664,1.2384,0.1137,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:24.342,22322,18.7451,-3.5089,0.1784,0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:26.373,24353,-17.5841,0.0607,0.4439,-0.2553,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:28.412,26392,-18.6788,0.8249,0.0891,-0.9941,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:36.515,34494,2.0497,-2.8331,-0.0082,-0.2313,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:38.548,36527,-0.5540,-5.1166,-0.0657,0.0917,-0.5083,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:46.697,44677,6.6458,-0.8131,0.1472,0.2322,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:48.744,46723,5.8631,-1.8658,0.1823,-0.3689,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:50.778,48757,3.0082,-4.6813,0.1525,-0.2120,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:52.808,50787,1.7724,-6.9479,-0.4206,-0.7901,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:54.842,52822,1.7024,-7.9600,-0.4264,1.0000,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:56.887,54866,2.4600,-7.2957,-0.3142,0.9188,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:26:58.933,56912,1.9280,-7.8838,-0.4446,0.4696,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:00.979,58958,1.3920,-7.7766,-0.4726,0.8205,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:09.171,67151,16.0686,4.8914,1.2297,0.0976,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:11.212,69192,13.1926,3.5741,1.8187,-0.1977,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:13.282,71262,10.6165,2.2293,2.2872,0.6616,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:15.330,73309,11.7689,0.8858,2.7683,0.2165,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:17.366,75346,11.5366,-0.0296,2.0508,-0.8965,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:19.432,77411,10.4353,-1.7984,2.2103,-0.6768,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:25.584,83563,12.3258,-2.3272,-0.0899,0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:27.624,85604,11.0711,0.0209,-0.9826,0.2225,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:29.647,87627,8.3652,2.9064,-0.9803,0.3912,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:31.675,89654,5.9432,2.7178,-0.1773,-0.6325,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:33.741,91721,4.6510,5.1018,0.1784,0.3567,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:35.758,93738,0.6076,6.1382,-0.4037,-0.1969,0.7403,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:37.797,95777,-2.9474,6.0882,0.1672,0.6087,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:39.829,97808,-6.9592,4.6887,1.3018,-0.1827,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:41.850,99830,-8.4063,3.1850,2.3393,-0.8811,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:49.963,107943,-15.8563,-5.9798,0.2043,0.7454,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:52.007,109987,-15.4521,-5.9555,0.1743,0.9962,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:54.034,112014,-12.4688,-6.1891,0.1642,0.9998,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:56.070,114049,-11.3928,-4.3828,1.0642,-0.0606,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:27:58.106,116085,-12.3330,-2.1809,2.2975,-0.6807,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:00.140,118120,-14.5569,-0.5215,1.7064,-0.7677,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:02.174,120153,-12.2500,-3.2556,0.1692,-0.2623,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:04.224,122203,-10.0215,-0.3108,-0.9736,0.9197,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:06.262,124241,-7.1812,-2.4014,-0.9737,-0.4888,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:08.295,126274,-3.2655,-3.1873,0.2191,-0.3762,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:10.313,128293,-0.1529,-5.7197,-0.1396,-0.1989,-0.1472,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:12.345,130325,0.7925,-4.3300,-0.3791,0.4547,1.0581,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:14.368,132347,1.1697,-3.8001,-0.4698,0.9515,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:16.417,134396,4.2772,-3.8443,0.1458,0.6973,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:18.446,136426,0.5657,-4.1868,-0.3459,-0.3358,0.6815,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:20.482,138462,-3.4970,-4.3389,0.1478,0.4621,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:22.512,140491,-6.8569,-4.9714,0.1511,-0.1401,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:24.540,142520,-10.7994,-4.4899,1.1329,0.1977,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:26.592,144572,-13.7381,-4.6000,1.5732,0.1774,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:28.642,146621,-16.8212,-5.1699,0.1583,0.9741,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:30.684,148663,-15.9496,-4.3648,0.1757,-0.6652,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:36.777,154757,9.6129,6.2868,0.2213,0.0000,1.5708,False,True,Guardians
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:38.824,156804,9.9199,6.0417,0.1471,-0.9113,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:40.851,158830,6.3950,4.6963,0.1785,-0.0306,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:42.875,160854,2.3560,5.0822,-0.1258,-0.8296,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:44.909,162889,0.2888,1.9179,-0.3264,-0.9897,0.3003,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:46.927,164907,-1.3571,-1.4981,1.2070,-0.3646,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:53.007,170986,14.7509,6.3637,0.1756,0.0740,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:55.064,173044,13.0300,6.4343,0.1303,-0.9515,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:57.089,175069,13.1912,3.8166,1.9914,-0.3923,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:28:59.112,177091,14.3318,0.6705,1.8509,-0.4156,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:01.164,179143,13.3478,-1.6078,1.8423,-0.5756,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:09.337,187317,12.2790,6.4419,0.1543,0.3999,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:11.358,189337,8.9530,6.9329,0.1355,-0.8292,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:13.380,191359,9.6356,6.3910,0.1318,-0.7575,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:15.416,193395,12.8469,4.4810,1.2772,-0.0127,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:17.458,195437,16.6478,4.2824,0.1522,0.0042,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:19.485,197464,18.8311,2.4486,1.0272,0.1721,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:21.523,199503,-17.9938,0.2766,0.1980,0.9068,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:23.542,201522,-16.6620,3.2228,0.1636,0.9254,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:25.572,203551,-15.3700,4.5680,0.1509,0.3195,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:31.668,209647,9.6406,2.2512,0.1683,-0.9999,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:33.700,211679,9.0879,0.0407,0.1787,-0.1524,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:35.732,213711,7.7948,2.3031,0.1485,-0.2148,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:37.765,215745,6.2586,6.1587,0.1543,0.5934,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:39.826,217805,3.4661,6.4329,0.1438,-0.7839,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:41.892,219872,2.3832,6.8335,-0.0854,-0.0042,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:43.952,221932,0.8758,7.5117,-0.4444,-0.6269,1.1883,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:46.005,223984,-1.4480,4.7708,0.1539,-0.2235,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:48.043,226022,-5.5819,5.3550,0.1550,-0.2900,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:50.103,228083,-8.7025,3.6252,2.2830,-0.9552,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:52.149,230129,-7.8088,0.9123,2.3336,0.9323,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:54.186,232165,-10.6645,0.4861,1.1733,0.9758,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:56.236,234216,-7.5885,-0.2219,-1.0169,0.9893,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:29:58.275,236254,-9.1668,3.2876,-0.9998,0.4549,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:00.318,238298,-9.8363,4.4489,-0.6477,0.1955,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:02.370,240350,-10.0010,3.8841,-1.0145,0.1985,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:08.502,246481,7.5593,-3.0984,0.2291,0.0000,1.5708,False,True,Guardians
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:10.541,248521,6.6592,-2.6201,0.1455,-0.4892,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:12.596,250576,4.1039,-3.6763,0.1759,-0.5204,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:14.656,252636,1.5663,-6.9707,-0.4860,0.9701,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:16.711,254691,-0.3249,-5.7638,-0.2450,0.6123,-0.3011,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:18.750,256729,-4.2708,-5.4286,0.1169,0.2041,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:20.788,258767,-7.9141,-5.4663,0.1326,0.9471,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:22.856,260836,-7.2468,-6.0831,0.1655,-0.8347,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:24.909,262889,-5.5810,-3.3488,0.1697,-0.0005,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:26.944,264924,-2.7780,-3.4899,0.1305,0.8965,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:28.990,266969,-1.9864,-3.1407,1.0664,0.6249,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:31.045,269024,-0.4222,-0.1163,-0.0573,-0.8922,-0.2560,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:39.215,277194,6.5399,0.5811,0.1827,-0.8152,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:41.268,279247,4.7333,-3.4174,1.1643,-0.0747,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:43.323,281302,1.3154,-5.1728,-0.4429,-0.2618,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:45.365,283345,-2.5559,-5.0954,0.1708,0.3470,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:47.406,285386,-5.8482,-4.0346,0.1324,0.7275,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:49.445,287424,-2.8094,-5.0824,0.1361,-0.2559,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:51.465,289444,-4.3694,-4.0780,0.1823,-0.3205,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:30:53.514,291494,-8.4142,-5.1301,0.3659,0.9695,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:01.659,299639,20.3992,-1.6260,0.1649,0.6632,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:03.680,301660,18.5263,2.1834,0.1604,0.9635,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:05.707,303687,16.4497,4.9632,1.2746,-0.1985,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:07.731,305711,13.7979,2.3561,1.8541,-0.9882,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:09.767,307746,12.5810,-1.4188,2.2255,-0.3481,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:11.788,309767,10.0081,-2.4621,2.2732,-0.8618,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:13.815,311795,7.8599,-4.3065,3.3769,-0.0311,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:15.854,313833,3.4466,-5.4231,0.1756,-0.5463,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:17.907,315887,1.2892,-7.6841,-0.4474,0.9979,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:19.929,317909,3.8448,-5.4780,1.1639,0.9047,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:21.964,319943,6.1487,-3.9400,0.1251,-0.1917,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:24.013,321993,8.0210,-3.9597,1.5440,-0.8948,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:32.162,330141,-6.1882,4.0296,0.1512,-0.9858,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:34.197,332177,-6.6218,6.8403,0.1171,0.8291,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:36.223,334203,-7.8729,6.2258,0.1554,-0.7142,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:38.256,336236,-7.3705,5.5516,1.4681,-0.8096,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:40.303,338283,-8.1997,4.5134,2.2958,-0.9849,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:42.323,340302,-11.6961,3.8247,1.8897,0.2075,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:44.366,342346,-15.2362,2.7660,3.8556,0.7366,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:46.391,344370,-17.6875,1.4346,0.1575,-0.8354,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:48.427,346407,-16.5479,-2.5694,0.1666,-1.0000,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:50.480,348460,-14.6074,-5.1934,0.9716,-0.0291,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:52.530,350509,-16.3895,-4.0063,0.1550,0.5911,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:54.571,352551,-16.9682,0.2678,0.1653,0.9999,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:56.617,354596,-16.4105,4.1041,0.1828,0.9696,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:31:58.654,356633,-16.3302,7.1470,0.1510,-0.2335,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:00.690,358669,-15.3078,5.3509,0.1491,0.2550,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:02.724,360703,-16.5848,2.0891,0.1549,-0.9983,-1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:04.743,362723,20.5562,-0.3937,0.1517,-0.6141,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:06.775,364755,19.0941,2.4548,0.1427,-0.9618,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:08.799,366779,-17.5149,0.6370,0.2085,0.3427,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:10.835,368814,-16.2768,4.1792,0.1550,0.8254,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:12.880,370860,-16.9604,3.9845,0.1614,-0.9958,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:14.905,372884,-16.9054,0.1548,0.1683,-0.3785,-1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:16.924,374903,19.8040,2.1545,0.1671,1.0000,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:18.944,376923,17.5831,4.9581,0.8937,-0.2575,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:20.996,378976,14.3887,4.2892,0.8690,-0.7335,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:23.035,381015,14.3003,4.0306,1.4158,0.1536,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:25.070,383050,13.7339,5.4305,0.1826,0.9211,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:27.131,385110,13.8914,6.5827,0.1459,-0.4928,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:29.187,387166,17.7829,6.4616,0.0840,0.3499,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:31.223,389202,18.6232,4.0106,0.1607,-0.9414,1.5708,False,True,Shotgun
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:33.260,391239,20.6636,3.5553,0.8247,0.8313,1.5708,False,True,Battle Rifle
+Beaver Creek,               s,_game_team_red,31,17,0,0,2,11,2025-12-07 20:32:35.315,393294,19.8432,4.8522,0.1463,-0.1013,1.5708,False,True,Battle Rifle

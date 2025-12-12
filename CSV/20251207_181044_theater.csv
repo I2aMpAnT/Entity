@@ -1,0 +1,930 @@
+﻿MapName,PlayerName,Team,EmblemForeground,EmblemBackground,PrimaryColor,SecondaryColor,TertiaryColor,QuaternaryColor,Timestamp,GameTimeMs,X,Y,Z,FacingYaw,FacingPitch,IsCrouching,IsAirborne,CurrentWeapon
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:05:39.578,2084,-6.6918,10.5285,-2.3922,-0.9963,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:05:41.628,4133,-6.6899,9.6449,-2.4005,-0.7931,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:05:43.673,6179,-4.1383,6.2106,-2.4315,0.6164,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:05:51.853,14359,2.7119,1.2869,-4.1486,-0.9284,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:05:53.893,16399,6.6690,1.1455,-3.2047,0.6296,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:05:55.942,18448,7.5025,1.2795,-3.1259,0.9459,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:04.120,26625,-7.0178,-2.4891,-4.1305,-0.9630,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:06.157,28663,-8.4007,-1.3804,-3.3647,0.6544,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:08.198,30704,-6.6435,-1.4430,-2.3237,0.4674,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:10.246,32752,-5.6909,0.7785,-4.1226,-0.9610,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:12.291,34796,-5.8754,4.3329,-4.1430,0.9986,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:14.352,36858,-6.0771,5.4301,-4.1464,-0.8198,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:16.405,38910,-5.6602,5.6599,-4.1473,-0.9829,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:18.449,40955,-4.0357,4.3310,-4.1385,-0.5919,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:20.490,42995,-1.5032,6.3941,-3.0288,0.3283,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:22.533,45039,-3.7986,6.4473,-2.4152,-0.2497,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:24.582,47088,-3.6209,4.7619,-2.3956,-0.9545,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:26.635,49140,-0.9899,2.1782,-1.9564,-0.7305,-1.1269,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:28.678,51184,-2.5670,0.1833,-1.9444,0.3114,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:30.729,53235,-1.3962,1.6621,-1.9708,0.7125,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:32.774,55280,-2.3344,-0.3324,-1.9472,-0.0217,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:34.818,57324,-2.3423,-0.2086,-1.9204,-0.7686,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:36.881,59387,-1.1713,-0.4471,-1.9719,0.1426,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:38.922,61428,-2.2752,1.4173,-2.0060,-0.8107,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:40.969,63475,-1.6615,-1.5083,-3.3000,-0.4220,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:43.008,65514,2.4281,-2.5968,-4.1208,0.3948,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:51.198,73704,-11.7599,2.7043,-2.4111,-0.0322,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:53.228,75734,-10.8798,2.7282,-2.3951,0.2415,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:55.276,77781,-9.7968,3.2905,-2.4213,0.4200,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:57.325,79830,-10.0527,3.2340,-3.8217,-0.9400,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:06:59.362,81868,-12.1531,3.9541,-2.4032,0.1605,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:01.403,83908,-10.2136,6.7979,-2.4229,-0.7648,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:03.445,85951,-9.6311,7.0623,-2.3739,-0.9096,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:05.489,87995,-6.3880,5.6480,-2.3762,0.9816,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:07.546,90052,-4.7311,8.0634,-2.5751,0.1657,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:09.599,92105,-5.2461,7.8964,-4.1528,-0.9188,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:11.655,94160,-8.8212,5.7397,-4.1410,-0.9212,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:13.699,96205,-9.7067,2.3666,-3.8085,-0.5607,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:15.747,98253,-8.1781,1.5022,-4.1394,-0.4551,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:17.795,100301,-5.3877,-0.2770,-3.6001,-0.5449,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:19.846,102352,-2.8502,-0.3661,-4.1208,-0.9586,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:21.895,104401,-3.2421,-1.2894,-4.1486,-0.8344,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:23.950,106456,-3.4755,-1.5353,-4.1331,-0.9880,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:25.997,108503,-2.3776,-1.2554,-4.1631,-0.6457,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:28.046,110552,-1.7087,-1.0088,-4.1482,-0.8155,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:30.090,112596,-1.7063,-0.9170,-4.1395,0.4049,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:32.129,114635,-1.7605,-0.9098,-4.1401,-0.3838,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:34.176,116682,-2.7518,-0.0789,-4.1582,-0.3602,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:36.218,118724,-1.3927,2.2089,-4.1337,0.7676,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:38.264,120770,2.3983,1.6283,-4.1552,-0.9381,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:40.313,122819,1.9508,1.2071,-4.1244,-0.7818,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:48.500,131006,-9.5111,-3.0554,-4.1157,0.9573,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:50.549,133055,-8.0203,-2.6293,-4.1392,0.9669,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:07:52.595,135101,-5.2435,-4.7734,-4.1155,-0.6941,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:00.783,143288,9.0940,-4.0594,-4.1321,0.9949,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:02.829,145335,10.3258,-0.3958,-4.1395,0.8612,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:04.876,147382,-9.2153,2.0256,-4.1668,-0.2497,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:06.923,149429,-9.4768,1.5101,-4.2386,-0.9999,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:08.967,151472,10.3952,-0.2611,-3.9045,-0.5105,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:17.172,159677,-7.1485,9.0597,-2.3890,-0.9981,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:19.208,161713,-6.2738,4.8552,-2.3780,-0.6602,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:21.250,163756,-5.1139,3.5262,-2.4198,-0.9561,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:23.302,165808,-7.8913,4.1243,-2.4823,-0.2571,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:25.355,167861,-7.1805,7.6834,-4.1685,-0.3751,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:27.412,169918,-3.6734,8.4585,-4.1552,0.1513,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:29.462,171968,-4.9999,8.8710,-4.1572,0.5179,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:31.515,174021,-8.0223,5.9348,-4.1145,-0.7626,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:33.571,176077,-9.3215,1.7362,-4.1195,-0.9892,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:41.770,184276,8.9164,-6.8607,-2.3744,-0.4580,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:43.806,186311,5.6105,-9.5278,-2.3780,-0.1176,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:45.854,188360,3.5103,-7.8549,-4.1212,0.9996,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:47.901,190407,2.9612,-5.1777,-4.1700,0.3792,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:49.954,192460,6.6898,-3.0701,-4.1662,0.7069,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:51.997,194502,8.5805,-5.2749,-4.1646,-0.0456,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:54.042,196548,9.7756,-1.4138,-4.1668,0.1782,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:56.095,198601,9.7627,-2.9980,-3.5593,-0.4397,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:08:58.142,200648,8.7952,-2.6108,-3.8987,-0.0824,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:00.189,202695,6.4594,0.1574,-3.1897,-0.3958,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:02.242,204748,3.7962,-1.2106,-4.1800,-0.7479,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:04.289,206795,4.4308,-3.3383,-4.1673,-0.2980,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:12.498,215004,9.7590,-6.8441,-2.3808,-0.0579,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:14.541,217046,6.7864,-4.0482,-2.3617,0.8347,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:16.591,219097,7.4811,-5.2312,-2.4069,0.8907,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:18.636,221142,6.2197,-7.9864,-4.1265,-0.1834,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:20.682,223188,8.3432,-5.9528,-4.1519,0.7751,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:26.833,229339,0.1418,2.5606,-4.1417,0.6195,0.1147,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:28.870,231376,-1.4696,5.2816,-3.0436,0.5444,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:30.920,233426,-3.4347,5.0759,-4.1442,-0.1677,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:32.966,235472,-3.6450,2.4666,-4.1481,-0.5726,-1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:39.118,241623,4.7530,8.9088,-4.1997,-0.6576,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:41.156,243662,4.2844,8.2436,-4.2632,0.0839,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:43.201,245707,6.8154,6.7042,-3.7696,0.2449,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:45.250,247756,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:47.298,249804,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:49.346,251851,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:51.395,253901,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:53.439,255944,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:55.479,257985,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:57.526,260032,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:09:59.571,262077,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:01.620,264126,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:03.659,266165,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:05.706,268212,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:07.752,270257,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:09.802,272308,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:11.838,274344,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:13.896,276402,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:15.949,278455,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:18.001,280506,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:20.057,282562,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:22.108,284614,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:24.162,286668,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:26.208,288714,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:28.265,290770,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:30.313,292819,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:32.365,294871,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,roasted,_game_team_red,22,14,1,2,0,2,2025-12-07 18:10:34.417,296923,6.9094,7.1402,-4.3096,0.9767,1.5708,True,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:39.578,2084,7.5952,6.4105,-4.2717,-0.7115,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:41.628,4133,8.2019,6.5815,-4.2793,-0.9695,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:43.673,6179,9.7358,2.7716,-3.4312,-0.6599,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:45.722,8227,10.3698,-0.2651,-4.1462,-0.3910,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:47.764,10269,-10.4594,-1.2520,-4.1501,0.9083,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:49.803,12309,-8.7217,-0.2386,-4.1556,0.5450,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:51.853,14359,-9.9618,0.6312,-4.1519,0.2571,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:53.893,16399,-6.9823,-0.7550,-3.2215,0.4338,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:55.942,18448,-6.3561,-1.0845,-3.2268,0.8800,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:05:57.988,20494,-8.8086,0.2273,-4.1476,0.9904,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:00.026,22532,11.1202,-0.8535,-3.9927,0.8785,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:02.067,24573,11.2672,-0.6453,-4.1751,-0.9090,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:04.120,26625,11.6324,-1.2275,-4.1636,0.7484,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:06.157,28663,10.2491,-0.0738,-4.1710,0.5832,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:08.198,30704,8.9360,-1.8557,-3.4537,0.4735,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:10.246,32752,11.2355,-3.4198,-1.8847,0.2900,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:12.291,34796,11.7611,-3.7869,-2.4391,0.1380,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:14.352,36858,10.9738,-3.6936,-2.2455,-0.1646,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:16.405,38910,8.3142,-3.8862,-4.1215,0.5023,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:18.449,40955,9.4128,-3.7157,-4.1256,0.7772,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:20.490,42995,12.1947,-2.7745,-1.8884,-0.3301,1.5708,False,True,Shotgun
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:22.533,45039,9.1441,-2.9853,-2.8815,0.6071,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:24.582,47088,9.5713,0.5049,-4.1539,0.4679,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:26.635,49140,-11.0377,-1.0984,-4.1360,0.9873,-1.5708,False,True,Shotgun
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:34.818,57324,8.6463,-9.7341,-2.4750,0.9999,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:36.881,59387,6.2437,-9.8334,-2.4003,0.7277,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:38.922,61428,6.2179,-7.1549,-4.1875,-0.1739,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:40.969,63475,8.1209,-3.8676,-4.1395,0.8358,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:43.008,65514,5.1678,-1.8661,-4.1490,0.8342,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:45.053,67559,1.9782,1.3263,-4.1471,0.5489,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:47.092,69597,-1.2634,4.0689,-4.1404,0.8350,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:49.144,71650,-3.8297,5.0132,-4.1239,0.0749,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:51.198,73704,-4.9398,4.9972,-3.7906,-0.5724,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:06:59.362,81868,3.4465,8.9087,-4.1387,0.3183,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:01.403,83908,1.7149,6.7156,-4.1223,-0.9943,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:03.445,85951,-0.1835,4.6957,-4.0831,0.5072,-0.1886,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:05.489,87995,-2.9970,7.1027,-4.1777,0.6080,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:07.546,90052,-2.4308,8.4215,-3.5636,0.2586,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:15.747,98253,6.3709,-7.2909,-4.1717,0.6192,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:17.795,100301,3.7072,-9.7213,-3.2204,0.0403,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:19.846,102352,2.1434,-6.5234,-4.1363,0.8789,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:21.895,104401,1.7148,-6.4663,-4.1491,0.9866,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:23.950,106456,2.0888,-6.7039,-4.1455,0.7992,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:30.090,112596,10.9257,-6.5334,-2.3459,0.1479,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:32.129,114635,10.1225,-7.3419,-2.4188,0.9647,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:34.176,116682,6.6399,-9.4563,-2.3744,-0.0510,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:36.218,118724,2.5545,-9.4689,-4.1820,0.9833,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:38.264,120770,-0.4675,-10.8342,-4.1524,-0.1480,-0.4686,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:40.313,122819,0.1189,11.0014,-4.1608,-0.4404,0.0706,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:42.367,124872,0.5171,8.8967,-4.1450,-0.4774,0.6067,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:44.406,126911,-3.1703,7.6980,-4.1459,0.1290,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:46.450,128955,-5.4358,7.8531,-4.1163,-0.7167,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:48.500,131006,-7.3036,6.3637,-4.1193,-0.9252,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:50.549,133055,-9.5512,3.0633,-3.1843,-0.9672,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:56.689,139194,-8.8933,-4.9040,-4.0802,0.0000,-1.5708,False,True,Guardians
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:07:58.739,141244,-8.6100,-5.6826,-4.1482,0.9530,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:00.783,143288,-9.6684,-2.8273,-3.0373,0.6050,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:02.829,145335,-6.7554,-1.0111,-3.2469,0.7598,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:04.876,147382,-7.8500,0.4391,-3.9323,0.9535,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:13.069,155574,3.0027,-3.2111,-4.1367,0.6759,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:15.116,157622,1.3557,-4.7856,-3.3131,-0.7820,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:17.172,159677,0.6095,-6.6571,-3.4266,0.1846,0.7035,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:19.208,161713,-0.8037,-6.3904,-4.0876,0.4966,-0.8217,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:21.250,163756,-4.5276,-5.0622,-4.1162,0.7612,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:23.302,165808,-5.8098,-2.4977,-4.1425,0.0120,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:25.355,167861,-5.2330,-3.8621,-4.1348,0.0878,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:31.515,174021,9.7645,-8.6922,-2.3900,0.2449,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:33.571,176077,8.7923,-5.9068,-2.1115,0.4070,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:35.620,178126,4.5389,-4.3990,-2.3747,0.3101,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:37.669,180175,2.3028,-6.9485,-2.6079,-0.9297,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:45.854,188360,-8.5096,-9.6086,-2.3900,0.9999,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:47.901,190407,-6.7246,-9.3294,-2.3894,0.6862,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:49.954,192460,-2.3407,-9.1802,-4.1161,-0.1250,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:51.997,194502,-0.1407,11.0499,-3.7979,-0.9460,-0.0857,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:54.042,196548,-1.2736,10.4669,-4.1268,-0.7353,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:56.095,198601,-1.1908,10.4333,-4.2586,-0.5846,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:08:58.142,200648,-0.1368,10.3874,-4.1765,0.2769,-0.1775,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:00.189,202695,0.0845,-10.8833,-3.8147,0.9748,0.0368,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:02.242,204748,-0.3256,-11.3331,-4.1597,1.0000,-0.3039,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:04.289,206795,0.5309,8.0827,-4.1244,-0.9930,0.5555,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:06.346,208852,-0.8145,5.9923,-3.3602,-0.7064,-0.8790,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:08.393,210899,-1.3517,4.1622,-3.6049,-0.2922,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:10.445,212951,-2.9273,1.5721,-4.1681,0.8954,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:12.498,215004,0.2201,2.4089,-4.1352,0.0130,0.1542,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:14.541,217046,2.7898,0.7076,-4.1211,-0.8510,1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:16.591,219097,-0.5332,0.0729,-4.1187,0.3720,-0.4897,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:24.779,227285,-10.3805,7.4892,-2.3894,0.4261,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:26.833,229339,-6.7427,8.5354,-2.4062,-0.2691,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:28.870,231376,-6.7601,6.5430,-4.1320,0.6739,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:35.021,237527,-6.6851,10.5357,-2.3835,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:37.071,239576,-6.6901,9.6960,-2.4036,-0.0657,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:39.118,241623,-7.2771,9.8320,-2.3867,-0.8667,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:41.156,243662,-5.5339,7.7390,-4.1166,0.6455,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:43.201,245707,-5.0345,9.4569,-4.1467,-0.6468,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:45.250,247756,-5.4796,8.6930,-3.5984,-0.6445,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:53.439,255944,-6.6853,10.5361,-2.3882,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:55.479,257985,-6.6853,10.5361,-2.3882,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:57.526,260032,-7.5657,9.9211,-2.4007,-0.8114,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:09:59.571,262077,-10.2827,6.6268,-2.4387,-0.0435,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:01.620,264126,-10.2494,6.5650,-2.4163,-0.0230,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:03.659,266165,-6.1825,7.5688,-4.1441,0.7421,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:05.706,268212,-3.1761,8.9875,-4.1475,-0.9567,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:07.752,270257,-3.5687,5.0838,-4.1435,-0.9380,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:09.802,272308,-2.0772,1.9135,-4.1456,-0.9783,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:11.838,274344,-2.0791,1.8634,-4.1698,-0.0584,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:13.896,276402,-3.3504,-1.3144,-4.1825,0.8021,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:20.057,282562,-9.5914,-8.5810,-2.3866,-0.0245,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:22.108,284614,-6.4987,-8.9104,-1.9163,0.0950,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:24.162,286668,-3.0589,-8.0351,-4.1267,0.9289,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:26.208,288714,-3.8240,-6.8833,-3.4092,0.4531,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:32.365,294871,-9.5812,-8.5828,-2.3211,0.0000,-1.5708,False,True,Guardians
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:34.417,296923,-7.6704,-8.6429,-1.6056,0.1672,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:36.461,298966,-7.5347,-9.6933,-2.4112,0.3137,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:38.504,301010,-5.0455,-9.1933,-2.5807,0.4775,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:40.550,303055,-4.1686,-8.2962,-4.1300,0.8918,-1.5708,False,True,Battle Rifle
+Warlock,I2aMpAnT,_game_team_blue,8,4,11,0,1,0,2025-12-07 18:10:42.593,305099,-5.0884,-8.3467,-4.1281,0.1186,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:39.578,2084,-7.4869,10.3675,-2.3922,-0.9938,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:41.628,4133,-6.9981,9.5176,-2.4015,-0.6429,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:43.673,6179,-4.4762,6.3017,-2.3645,-0.0307,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:45.722,8227,-5.7249,8.1729,-2.5221,-0.6135,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:47.764,10269,-4.9884,8.1840,-4.1317,0.1584,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:49.803,12309,-1.6304,5.8692,-4.1700,0.9166,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:51.853,14359,0.7894,3.9601,-3.9551,0.7968,0.8421,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:53.893,16399,3.9937,4.4457,-3.3837,-0.4996,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:55.942,18448,8.0230,3.9171,-4.2002,0.7492,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:05:57.988,20494,7.1988,7.7900,-4.2636,0.9999,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:00.026,22532,8.8263,5.8063,-3.5598,0.8451,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:02.067,24573,9.7696,2.3023,-4.1510,0.9537,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:04.120,26625,9.7308,0.6440,-4.1596,0.9232,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:06.157,28663,11.4516,-0.3482,-4.1588,0.1812,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:08.198,30704,11.0617,-1.1927,-3.7162,0.4335,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:10.246,32752,12.4654,-1.1301,-4.1544,-0.5130,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:12.291,34796,9.4658,-1.0637,-4.1429,-0.9702,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:14.352,36858,10.7829,-3.9929,-2.3539,0.5415,1.5708,False,True,Shotgun
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:16.405,38910,10.9833,-2.4668,-2.3856,-0.7290,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:24.582,47088,-4.4530,9.4073,-2.9337,-0.9371,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:26.635,49140,-2.4269,6.7895,-4.1458,-0.9989,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:28.678,51184,-4.6582,3.4431,-4.1334,-0.9871,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:30.729,53235,-3.3383,-0.5409,-4.1337,-0.9390,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:32.774,55280,-1.4178,-2.6609,-4.1634,-0.8886,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:40.969,63475,-5.4296,9.3973,-2.4372,-0.5344,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:43.008,65514,-3.0411,8.5399,-4.1419,0.7387,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:51.198,73704,-5.3948,9.5060,-2.4521,0.5141,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:53.228,75734,-4.9781,8.4847,-4.1473,0.9130,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:55.276,77781,-5.0195,7.9319,-4.1177,-0.1526,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:57.325,79830,-8.5482,5.7312,-4.1243,-0.9990,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:06:59.362,81868,-8.4403,4.9117,-4.1332,-0.9970,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:01.403,83908,-5.6213,4.6979,-4.1158,0.4583,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:03.445,85951,-2.7757,7.8259,-4.1331,0.3453,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:05.489,87995,1.4689,8.9349,-4.1366,0.2941,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:07.546,90052,3.4212,9.8666,-3.0858,-0.2760,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:09.599,92105,3.5527,11.5747,-2.2135,-0.6111,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:11.655,94160,7.2676,10.0440,-2.5290,-0.6076,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:13.699,96205,10.0606,6.8836,-2.5001,-0.7256,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:15.747,98253,10.1568,6.4058,-2.4050,-0.9629,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:17.795,100301,7.5075,9.4577,-2.4881,0.4313,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:19.846,102352,4.0863,8.4660,-4.2683,0.7829,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:21.895,104401,0.0889,10.1302,-4.1470,0.4899,0.1529,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:23.950,106456,-0.5348,-10.8306,-3.9958,0.8303,-0.5554,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:25.997,108503,-0.4074,-10.8788,-4.1769,0.8159,-0.3814,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:28.046,110552,-0.1703,10.8652,-3.8332,-0.9917,-0.1252,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:30.090,112596,1.0043,10.9739,-4.1421,-0.8615,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:32.129,114635,-0.3103,10.2771,-4.1651,-0.4282,-0.2822,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:34.176,116682,-0.6820,10.4404,-4.1323,-0.4490,-0.8335,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:36.218,118724,0.4465,11.4285,-4.1420,0.6453,0.4787,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:44.406,126911,-6.0660,-5.0416,-4.1299,0.1740,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:46.450,128955,-4.5469,-6.0008,-4.1455,0.5194,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:48.500,131006,-3.8115,-8.2649,-4.1476,0.2390,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:50.549,133055,-1.4689,-6.8534,-4.1342,0.1626,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:52.595,135101,1.6824,-4.1121,-3.8889,0.9706,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:54.636,137142,2.5888,-4.9106,-4.1371,-0.9499,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:56.689,139194,3.6621,-7.5199,-4.1402,-0.9755,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:07:58.739,141244,7.6363,-7.3304,-4.1465,0.9631,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:00.783,143288,7.6278,-7.2900,-4.1592,0.4816,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:02.829,145335,4.7974,-9.4016,-3.3051,-0.1335,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:04.876,147382,2.5968,-9.0179,-3.3065,-0.6059,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:06.923,149429,-1.2421,-8.7653,-3.1545,-0.9985,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:08.967,151472,-0.0111,-10.3283,-4.1497,0.9603,-0.0280,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:17.172,159677,-9.2617,6.5206,-2.4001,-0.8769,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:19.208,161713,-8.0070,5.0487,-4.1365,-0.9621,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:21.250,163756,-7.6482,6.2531,-4.1337,-0.8052,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:23.302,165808,-9.3587,2.2163,-4.1290,-0.9858,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:25.355,167861,-11.7971,1.2269,-4.1487,-0.6255,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:27.412,169918,-11.9488,-1.0204,-4.1435,-0.7046,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:29.462,171968,-10.6420,-1.2057,-4.1479,-0.2565,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:31.515,174021,-8.0999,-2.6599,-4.1400,-0.5201,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:33.571,176077,-6.0373,-5.5264,-4.1148,-0.9993,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:35.620,178126,-3.4371,-7.1673,-3.3193,-0.7469,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:41.770,184276,10.9041,-6.5330,-2.3828,0.1479,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:43.806,186311,8.5664,-5.5025,-3.2047,0.9645,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:45.854,188360,9.5007,-1.2961,-4.1260,0.9888,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:47.901,190407,12.2983,1.2171,-4.1570,-0.3986,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:49.954,192460,11.7815,0.9847,-4.1514,-0.4459,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:51.997,194502,10.8504,0.9155,-4.1556,-0.1759,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:54.042,196548,-11.7842,1.2297,-4.1478,-0.6231,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:56.095,198601,-9.6289,1.9756,-4.1540,0.1951,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:08:58.142,200648,-9.8508,3.4141,-3.9652,-0.6882,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:00.189,202695,-11.7697,3.5441,-2.4026,-0.3261,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:02.242,204748,-9.8298,2.8878,-2.4039,-0.9811,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:10.445,212951,-3.1036,-10.1173,-2.3994,0.8558,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:12.498,215004,-0.9980,-10.6384,-4.1376,-0.6356,-1.1814,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:14.541,217046,-0.8750,-12.3696,-4.1311,0.9979,-1.2714,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:16.591,219097,-1.1869,-11.7731,-4.1375,0.7379,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:18.636,221142,-0.9101,11.0017,-4.1592,-0.9092,-1.0739,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:20.682,223188,0.6838,9.5309,-3.3939,-0.9725,0.7485,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:22.735,225241,-2.1255,8.9199,-4.1185,-0.4058,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:24.779,227285,-3.9663,6.2656,-4.1449,-0.6764,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:26.833,229339,-6.7467,3.7815,-4.1408,0.2881,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:28.870,231376,-10.6805,3.4564,-2.4880,-0.4745,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:37.071,239576,4.8524,5.3274,-4.2550,-0.1259,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:39.118,241623,4.9398,6.3881,-4.3129,-0.1962,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:47.298,249804,-8.0302,-6.8658,-3.2039,-0.3735,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:49.346,251851,-4.4790,-9.2575,-4.1196,-0.1516,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:51.395,253901,-0.2780,-10.1495,-4.1416,-0.9488,-0.3169,False,True,Shotgun
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:53.439,255944,1.1840,11.0473,-4.1676,-0.0088,1.5708,False,True,Shotgun
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:55.479,257985,2.9049,9.7230,-4.1791,0.1395,1.5708,False,True,Shotgun
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:57.526,260032,4.5652,11.6527,-1.6012,-0.8251,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:09:59.571,262077,6.5544,8.9267,-2.4861,0.9194,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:01.620,264126,9.5294,5.9727,-2.4422,-0.7896,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:03.659,266165,7.9423,2.9224,-4.1579,0.3808,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:09.802,272308,-10.1544,6.4867,-2.3893,0.2028,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:11.838,274344,-9.0368,5.5253,-2.4617,-0.9678,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:13.896,276402,-7.5491,3.1064,-4.1137,-0.9999,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:15.949,278455,-5.8206,5.5231,-4.1509,-0.7342,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:18.001,280506,-1.5587,4.6343,-4.1253,-0.6339,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:20.057,282562,1.4167,1.4725,-3.0886,-0.3246,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:22.108,284614,2.4055,0.5006,-4.1635,0.1003,1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:24.162,286668,-0.9804,2.9547,-4.1256,0.3014,-1.1580,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:26.208,288714,-2.8889,2.6571,-4.1515,-0.6185,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:28.265,290770,-4.1177,-1.2307,-4.1331,-0.9184,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:30.313,292819,-4.7557,-2.2140,-4.1578,0.0679,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:36.461,298966,-6.6359,10.0439,-2.3988,-0.4596,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:38.504,301010,-8.6757,7.0695,-2.3809,-0.7337,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:40.550,303055,-9.4866,2.7955,-4.1226,-0.9304,-1.5708,False,True,Battle Rifle
+Warlock,getitoutdaFLUD,_game_team_red,6,13,13,4,13,4,2025-12-07 18:10:42.593,305099,-11.4335,-0.9361,-4.1118,-0.4906,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:39.578,2084,6.2451,5.1383,-4.2683,-0.2210,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:41.628,4133,5.0844,4.9656,-4.2599,0.0885,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:43.673,6179,5.9314,5.5752,-4.3272,0.9606,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:45.722,8227,4.9723,1.6762,-4.1453,0.2301,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:53.893,16399,9.9716,6.7908,-2.5043,-0.8792,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:55.942,18448,9.1826,8.0710,-2.4952,-0.7861,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:05:57.988,20494,9.0996,7.8624,-2.4992,-0.9995,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:00.026,22532,7.6648,10.6024,-2.5247,0.9567,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:08.198,30704,-6.7460,9.0714,-2.3750,-0.9999,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:10.246,32752,-6.6191,5.1667,-1.9041,-0.9596,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:12.291,34796,-7.4507,6.5227,-2.5749,-0.9228,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:18.449,40955,6.0388,3.4777,-4.2242,0.9580,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:20.490,42995,8.8620,1.0485,-4.1807,-0.7857,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:22.533,45039,9.4709,-1.9079,-4.1296,-0.9950,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:24.582,47088,8.8310,-1.8898,-4.1579,-0.6144,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:26.635,49140,7.6332,-2.8982,-4.1701,-0.7995,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:28.678,51184,4.3796,-2.5585,-4.1497,-0.9300,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:30.729,53235,3.6347,-6.8854,-4.1773,-0.9222,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:32.774,55280,1.1646,-9.0890,-4.1357,-0.3300,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:34.818,57324,1.0588,-8.0643,-4.1550,0.7510,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:36.881,59387,0.5774,-9.3993,-4.1437,0.8853,0.5855,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:38.922,61428,-0.2365,10.4837,-4.1478,-0.5652,-0.2383,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:40.969,63475,-2.2106,9.4414,-4.1543,-0.9895,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:43.008,65514,-3.6985,7.5970,-4.1374,-0.9407,-1.5708,False,True,Shotgun
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:45.053,67559,-3.9127,7.9390,-4.1357,0.6786,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:47.092,69597,-2.4768,7.8266,-4.1326,0.8014,-1.5708,False,True,Shotgun
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:49.144,71650,-0.5893,10.2107,-4.1382,0.9790,-0.6554,False,True,Shotgun
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:51.198,73704,1.2042,-11.7992,-4.1654,0.9502,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:53.228,75734,1.2068,-10.3980,-4.2637,0.8705,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:55.276,77781,-0.1782,-10.9078,-4.1686,-0.5834,-0.1871,False,True,Shotgun
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:57.325,79830,-0.0108,11.0089,-4.1273,-0.9492,-0.0111,False,True,Shotgun
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:06:59.362,81868,1.1927,11.1487,-4.1398,-0.9706,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:01.403,83908,1.1664,12.2210,-4.1458,-0.8900,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:03.445,85951,1.0317,11.9899,-4.1267,-0.9967,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:11.655,94160,2.9132,-8.1167,-4.1412,-0.7985,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:13.699,96205,3.5088,-6.6148,-4.1751,-0.9318,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:15.747,98253,2.7035,-3.5646,-4.1582,-0.0870,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:17.795,100301,2.8835,-7.0715,-3.7574,-0.1373,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:19.846,102352,5.8419,-8.4906,-4.0443,-0.8796,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:21.895,104401,8.4421,-6.0125,-4.1509,0.9969,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:23.950,106456,6.1174,-3.4938,-4.1399,-0.6837,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:25.997,108503,3.4073,-6.2437,-4.1221,-0.9995,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:34.176,116682,10.0123,-6.1964,-2.4159,-0.3083,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:36.218,118724,10.9338,-5.5768,-2.4299,0.7431,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:38.264,120770,10.6453,-3.1708,-2.3044,0.4119,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:40.313,122819,11.7164,-4.3499,-2.4016,0.4953,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:42.367,124872,8.9955,-4.1557,-2.8454,0.2217,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:44.406,126911,6.7183,-7.8062,-4.1464,-0.5798,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:46.450,128955,3.4351,-6.8117,-4.1435,0.7235,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:48.500,131006,2.1116,-3.5916,-4.1240,0.8040,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:50.549,133055,2.7994,-0.0249,-4.1280,-0.0831,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:07:58.739,141244,-6.0529,-7.7844,-4.1303,-0.4271,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:00.783,143288,-3.2274,-9.3103,-4.1361,-0.0340,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:02.829,145335,0.5136,-10.1061,-4.1067,0.2452,0.5463,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:04.876,147382,0.5258,-10.0467,-4.1689,0.4200,0.5922,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:13.069,155574,5.3193,-4.4589,-4.1494,0.8391,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:15.116,157622,8.9973,-2.0328,-4.1423,0.9454,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:17.172,159677,8.9482,1.6712,-4.1514,0.0881,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:19.208,161713,5.5134,2.0215,-4.1993,0.6536,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:21.250,163756,2.8911,2.7115,-4.1485,0.5778,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:23.302,165808,2.5555,4.7581,-4.1641,-0.3438,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:31.515,174021,9.4432,1.3398,-4.1526,-0.9860,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:33.571,176077,-11.4158,-0.0534,-4.1446,-0.7068,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:35.620,178126,-10.8181,1.0395,-4.1447,-0.8403,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:37.669,180175,-10.5479,0.6768,-4.1122,-0.9606,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:39.715,182221,-11.8737,-0.0966,-4.1373,0.2582,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:41.770,184276,11.2102,1.2132,-4.1553,-0.4946,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:43.806,186311,11.7999,1.2296,-4.1445,-0.4541,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:45.854,188360,-10.7720,-1.2552,-4.1411,0.6818,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:47.901,190407,-9.9716,0.0583,-4.1503,-0.6818,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:49.954,192460,-10.7252,0.4465,-4.1602,-0.5789,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:08:58.142,200648,-10.6781,-6.7745,-2.5673,0.1725,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:00.189,202695,-7.9534,-5.7351,-3.1993,0.9554,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:02.242,204748,-8.9761,-2.8056,-4.1559,0.4052,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:04.289,206795,-8.9121,-1.9368,-4.1490,0.9187,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:06.346,208852,11.0311,0.1662,-3.7851,0.7702,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:08.393,210899,11.6337,1.1985,-3.7130,-0.2277,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:10.445,212951,12.4672,1.0679,-4.1568,-0.3005,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:12.498,215004,11.1198,-0.0338,-4.1715,0.9986,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:14.541,217046,10.7334,-0.4391,-4.1578,-0.1022,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:22.735,225241,-9.7398,2.8010,-2.3854,-0.9609,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:24.779,227285,-11.5724,-0.0295,-4.1326,-0.0801,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:26.833,229339,12.4765,-1.2012,-4.1621,0.9994,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:28.870,231376,11.7131,-1.2185,-4.1684,0.6430,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:30.920,233426,11.4982,-1.1772,-4.1307,0.1596,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:32.966,235472,-10.7905,-0.6824,-4.1442,0.3556,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:35.021,237527,-10.4590,-1.2449,-4.1193,0.7856,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:37.071,239576,-11.8576,0.1616,-4.1144,0.1920,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:39.118,241623,10.4939,-1.0830,-4.1654,0.7738,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:41.156,243662,8.8244,1.3442,-4.1428,0.6938,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:43.201,245707,6.2240,3.8756,-4.2207,0.9135,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:45.250,247756,5.7828,4.9077,-4.2864,0.9354,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:47.298,249804,5.7828,4.9077,-4.2864,0.9354,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:49.346,251851,5.7828,4.9077,-4.2864,0.9354,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:51.395,253901,5.7828,4.9077,-4.2864,0.9354,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:53.439,255944,5.7828,4.9077,-4.2864,0.9354,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:09:59.571,262077,-6.6831,10.5348,-2.3735,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:01.620,264126,-6.4540,10.0415,-2.4081,-0.6273,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:03.659,266165,-6.4855,8.3814,-2.4995,-0.9981,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:05.706,268212,-2.2108,9.4403,-4.1264,0.0803,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:13.896,276402,8.5445,-4.4974,-4.1496,0.8859,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:15.949,278455,8.3145,-3.5974,-4.1552,0.9308,1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:24.162,286668,-10.2266,-7.7238,-2.4190,0.5767,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:26.208,288714,-9.6394,-6.8684,-2.3776,0.0306,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:28.265,290770,-9.5117,-7.5961,-2.4226,-0.0849,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:30.313,292819,-7.5580,-9.7103,-2.3822,0.2011,-1.5708,False,True,Battle Rifle
+Warlock,           Rocky,_game_team_blue,58,0,11,1,1,0,2025-12-07 18:10:32.365,294871,-3.7872,-9.1517,-3.8587,0.2296,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:39.578,2084,-10.4836,7.4373,-2.3866,0.4531,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:41.628,4133,-10.4833,7.4369,-2.3918,-0.5016,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:43.673,6179,-9.8745,6.0530,-2.3979,0.1172,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:45.722,8227,-7.9001,4.1424,-2.2301,-0.1853,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:47.764,10269,-9.7274,2.5773,-4.1449,-0.9440,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:49.803,12309,-11.7313,3.4067,-0.9337,0.1217,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:51.853,14359,-10.7556,3.0420,-2.3696,-0.5998,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:53.893,16399,-7.0857,2.9302,-4.1250,-0.9615,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:05:55.942,18448,-8.5836,4.0323,-4.1563,-0.8942,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:04.120,26625,-5.1400,-4.4725,-4.1409,0.6227,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:06.157,28663,-4.9557,-1.2241,-4.1398,0.6711,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:08.198,30704,-2.2126,-1.2770,-4.1478,-0.7887,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:10.246,32752,-3.5853,-1.7493,-4.1675,0.9661,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:12.291,34796,-2.6128,-3.0647,-3.5284,0.8804,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:14.352,36858,-2.6506,-4.3023,-4.1233,-0.9435,-1.5708,False,True,Carbine
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:16.405,38910,-3.8630,-7.3384,-4.1487,-1.0000,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:18.449,40955,-2.1370,-9.2750,-4.1675,0.9362,-1.5708,False,True,Carbine
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:20.490,42995,1.0773,-9.4768,-4.1403,0.0054,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:22.533,45039,2.1190,-6.4976,-4.1237,0.9907,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:24.582,47088,3.2075,-6.6290,-3.3941,0.6671,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:26.635,49140,3.4746,-7.5309,-3.9903,0.6935,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:28.678,51184,4.9093,-8.0434,-4.1498,0.9998,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:36.881,59387,-6.6634,10.3649,-2.3860,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:38.922,61428,-5.8932,9.5719,-2.4060,-0.9997,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:40.969,63475,-8.0648,6.1445,-4.1574,-0.7109,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:43.008,65514,-6.7970,3.5441,-4.1348,0.1270,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:45.053,67559,-3.3556,5.0210,-4.1543,0.9840,-1.5708,False,True,Carbine
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:47.092,69597,-2.0254,7.0608,-4.1687,0.6047,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:53.228,75734,-6.6853,10.5361,-2.3882,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:55.276,77781,-6.2622,9.4087,-2.4129,-0.9879,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:57.325,79830,-5.6856,9.5378,-2.3714,-0.5036,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:06:59.362,81868,-2.3054,7.6321,-4.1481,-0.7181,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:01.403,83908,-2.3829,5.0801,-4.1509,0.9656,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:09.599,92105,-9.2316,-7.0449,-2.4242,0.9744,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:11.655,94160,-6.6796,-4.8109,-2.3053,0.9124,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:13.699,96205,-3.7192,-6.4407,-2.4236,-0.4930,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:15.747,98253,-3.8715,-4.3626,-2.4079,0.1437,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:21.895,104401,-3.3425,-11.6059,-2.3864,0.8741,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:23.950,106456,-2.3678,-9.7443,-2.9406,-0.0429,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:25.997,108503,-0.4524,-8.9181,-4.1470,0.5933,-0.4216,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:28.046,110552,-3.6220,-8.9941,-4.1186,0.7872,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:30.090,112596,-4.4401,-7.9251,-4.1410,0.1346,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:32.129,114635,-3.6316,-4.9257,-4.1722,-0.0560,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:34.176,116682,-0.1400,-2.9979,-4.1185,0.2704,-0.0778,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:36.218,118724,3.0040,-0.3954,-4.1220,1.0000,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:38.264,120770,1.2625,1.4243,-4.1240,0.3312,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:40.313,122819,-2.0869,1.2986,-4.1441,-0.1566,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:42.367,124872,-1.8132,-1.6077,-4.1722,-0.8187,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:44.406,126911,-2.0937,-1.4034,-4.1824,-0.9646,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:46.450,128955,-2.6464,0.0607,-4.1541,-0.7507,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:48.500,131006,-0.9616,1.6885,-4.1561,0.9867,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:50.549,133055,-1.4455,5.0540,-4.1254,0.7995,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:52.595,135101,-2.5676,4.7430,-4.1544,-0.8929,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:54.636,137142,-1.2531,5.6658,-4.1715,-0.6435,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:56.689,139194,-1.2358,5.6537,-4.1372,-0.9371,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:07:58.739,141244,-3.2937,4.9058,-4.1540,-0.8365,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:00.783,143288,-1.8682,3.5596,-4.1602,0.0725,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:02.829,145335,-2.3334,4.5368,-4.1489,-0.7877,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:04.876,147382,-4.3841,4.2403,-3.2886,-0.7738,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:11.014,153519,-6.5254,10.4041,-2.3911,-0.9963,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:13.069,155574,-3.5275,8.5553,-4.1457,-0.9194,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:15.116,157622,-2.2147,4.4918,-4.1391,-0.9987,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:17.172,159677,-1.0321,3.9868,-4.1180,-0.6264,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:25.355,167861,-6.6956,10.0474,-2.3818,-0.6684,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:27.412,169918,-2.8840,9.1293,-4.1325,-0.4981,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:29.462,171968,-5.1986,9.2203,-4.1502,-0.4748,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:31.515,174021,-7.8614,7.1319,-4.1479,-0.5272,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:33.571,176077,-7.9515,4.0052,-4.1262,-0.9990,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:35.620,178126,-5.6943,3.6536,-4.1222,-0.1543,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:37.669,180175,-4.2366,5.3062,-3.8943,-0.9495,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:43.806,186311,10.4963,-7.6878,-2.3698,0.2449,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:45.854,188360,8.7841,-4.7545,-3.4896,0.8564,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:47.901,190407,6.3129,-3.0242,-4.1681,0.5518,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:49.954,192460,4.1443,-3.2515,-4.1543,0.4137,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:51.997,194502,1.7931,-1.4990,-4.1607,-0.9361,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:54.042,196548,-1.2852,-1.5893,-4.1448,0.7155,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:56.095,198601,-2.5662,0.7708,-4.1213,1.0000,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:08:58.142,200648,-3.0653,-0.5106,-4.1631,-0.9978,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:00.189,202695,-2.5756,0.4682,-4.1486,-0.6605,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:02.242,204748,-2.9919,1.8949,-4.1691,-0.3775,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:04.289,206795,-1.5214,1.6105,-4.1550,-0.5521,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:06.346,208852,-1.1739,2.0245,-4.1505,-0.1789,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:12.498,215004,10.9257,-6.5334,-2.3289,0.0000,1.5708,False,True,Guardians
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:14.541,217046,8.3702,-4.9959,-3.1565,0.9385,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:16.591,219097,8.3122,-2.7080,-4.1249,0.3141,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:18.636,221142,9.6060,0.9242,-4.1266,0.9397,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:20.682,223188,9.4804,2.7762,-4.1576,-0.7014,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:22.735,225241,7.4512,5.8165,-4.2174,0.5578,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:24.779,227285,6.1391,7.1057,-4.2260,0.6174,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:26.833,229339,2.9914,9.3845,-4.1240,-0.1419,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:28.870,231376,3.5654,9.4265,-4.1543,-0.1849,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:30.920,233426,3.2410,8.8539,-4.1475,-0.9983,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:32.966,235472,3.4923,6.9164,-4.1382,-0.3080,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:35.021,237527,3.4679,8.8640,-4.1616,-0.0280,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:37.071,239576,2.9983,8.1843,-4.1517,-0.1798,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:39.118,241623,0.0331,9.7254,-4.1394,-0.4438,0.0773,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:41.156,243662,-1.6198,9.6406,-4.1202,-0.1774,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:43.201,245707,-3.4783,7.3868,-4.1708,0.4726,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:49.346,251851,-6.3138,-7.6832,-4.1335,-0.9927,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:51.395,253901,-3.5437,-7.0779,-4.1309,0.9899,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:53.439,255944,-5.8397,-3.8767,-4.1184,0.4785,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:55.479,257985,-7.8566,-3.5746,-4.1704,-0.6993,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:57.526,260032,-6.2513,-4.2512,-4.1444,-0.3980,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:09:59.571,262077,-4.1111,-3.1002,-4.1339,0.9998,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:01.620,264126,-3.1997,-2.4094,-4.1692,-0.9352,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:03.659,266165,-1.7242,-2.1559,-4.1388,0.6903,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:05.706,268212,-4.6609,-1.9080,-4.1316,-0.0208,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:07.752,270257,-7.7262,-1.2221,-4.1421,0.1112,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:13.896,276402,8.6065,9.2572,-2.4745,-0.9966,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:15.949,278455,9.2703,5.2502,-1.9619,-0.9839,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:18.001,280506,8.7598,1.4938,-4.1613,0.5410,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:20.057,282562,5.2740,1.1930,-4.1301,-0.9984,1.5708,False,True,Shotgun
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:22.108,284614,2.7058,0.2469,-4.1218,-0.2929,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:28.265,290770,4.9440,-8.8734,-4.0865,0.0000,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:30.313,292819,2.6286,-6.6953,-4.1202,0.9975,1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:32.365,294871,0.1992,-4.2351,-4.1466,0.9771,0.2133,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:34.417,296923,-2.7824,-1.1937,-4.1440,0.4862,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:36.461,298966,-5.9139,-3.1468,-4.1575,-0.8482,-1.5708,False,True,Battle Rifle
+Warlock,iSiS RiNsY iSiS,_game_team_red,41,14,10,0,2,3,2025-12-07 18:10:38.504,301010,-3.8399,-6.0763,-4.1302,-0.9945,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:39.578,2084,-8.6654,9.6804,-2.3922,-0.9525,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:41.628,4133,-7.9386,9.8009,-2.4408,-0.7400,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:43.673,6179,-6.4511,9.6361,-2.4203,0.4569,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:45.722,8227,-5.7351,9.6689,-2.3742,-0.3248,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:47.764,10269,-2.6417,9.5642,-4.1452,0.0255,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:49.803,12309,-4.4718,9.7568,-4.1573,0.4608,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:51.853,14359,-0.3674,8.9137,-4.1413,0.7017,-0.4294,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:53.893,16399,1.2317,12.2645,-4.1620,-0.6753,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:55.942,18448,0.9834,9.2334,-4.1421,-0.2527,1.1558,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:05:57.988,20494,4.0657,7.9930,-4.1961,0.9424,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:00.026,22532,3.4571,9.6984,-3.5798,0.9222,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:02.067,24573,2.7872,12.2092,-2.3983,-0.3364,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:04.120,26625,3.7856,11.4702,-2.3904,-0.0276,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:06.157,28663,6.4683,11.4136,-2.4118,-0.5269,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:08.198,30704,6.5352,10.2938,-2.4840,0.4555,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:10.246,32752,7.3719,9.9541,-2.5073,-0.3445,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:12.291,34796,7.5809,9.3445,-2.4694,-0.2270,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:14.352,36858,9.6394,8.3857,-2.4981,-0.9792,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:16.405,38910,10.6176,6.3899,-2.5087,0.2232,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:18.449,40955,10.3141,7.5089,-2.5239,0.4675,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:20.490,42995,9.9267,8.7107,-2.5026,0.3958,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:22.533,45039,8.6330,10.2907,-2.5558,-0.9853,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:24.582,47088,9.5218,6.8391,-2.4732,-0.9949,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:32.774,55280,-10.7704,6.5609,-2.3786,0.1966,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:34.818,57324,-8.7330,4.7358,-2.9128,-0.9985,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:36.881,59387,-9.2586,1.2327,-4.1406,-0.9604,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:38.922,61428,-8.7146,-1.6445,-4.1282,-0.9067,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:40.969,63475,-9.3312,-2.0669,-4.1549,0.3380,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:43.008,65514,-9.7485,-1.5454,-4.1746,0.5819,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:45.053,67559,-10.7611,-1.2589,-4.1564,0.7374,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:47.092,69597,-9.5419,1.1282,-4.1276,0.9248,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:49.144,71650,-7.9581,3.2573,-4.1659,0.9997,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:57.325,79830,-10.5747,-6.5465,-2.3947,0.9216,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:06:59.362,81868,-9.7701,-6.1264,-2.4099,0.7641,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:01.403,83908,-8.8203,-7.1593,-2.3918,-0.2335,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:03.445,85951,-6.9139,-9.1625,-2.4172,0.2280,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:05.489,87995,-9.5739,-6.7083,-2.4130,0.8049,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:07.546,90052,-9.4480,-6.0532,-2.3874,0.9766,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:09.599,92105,-8.0188,-7.0594,-1.3653,0.8578,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:11.655,94160,-7.0291,-9.5957,-2.4251,-0.1341,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:13.699,96205,-6.8869,-10.7517,-2.4259,0.2290,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:15.747,98253,-7.3879,-11.0274,-2.4127,0.6884,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:17.795,100301,-7.0418,-9.1821,-2.4009,-0.0368,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:19.846,102352,-7.2435,-11.2001,-2.4270,0.8424,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:21.895,104401,-8.4404,-9.5890,-2.4310,0.0644,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:28.046,110552,-2.5549,0.0060,-4.0865,0.0000,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:30.090,112596,-5.6747,0.5831,-3.4205,0.9971,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:32.129,114635,-7.2535,3.3782,-4.1590,-0.7877,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:34.176,116682,-9.2319,2.9978,-4.1392,-0.9995,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:36.218,118724,-11.5703,-0.0033,-4.1278,-0.2575,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:38.264,120770,10.8305,-0.6736,-4.1748,0.1676,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:40.313,122819,9.1660,-0.9331,-4.1307,-0.8881,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:42.367,124872,-10.6661,-0.3685,-4.1229,0.9137,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:44.406,126911,-10.8613,-0.2878,-4.1378,0.3064,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:46.450,128955,-11.0424,1.2188,-4.1614,-0.7886,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:48.500,131006,-12.5091,1.1168,-4.1513,0.1947,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:50.549,133055,-10.7381,-0.1677,-4.1153,-0.5732,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:52.595,135101,-10.2646,-0.4598,-4.1429,-0.9569,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:54.636,137142,-11.6024,0.0536,-4.1247,0.9166,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:56.689,139194,12.4513,-1.2078,-4.1603,0.4028,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:07:58.739,141244,11.5994,-1.2109,-4.1584,0.6300,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:00.783,143288,11.2975,-1.2083,-4.1550,0.4163,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:02.829,145335,11.1070,-1.2297,-4.1600,0.5399,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:04.876,147382,12.5087,-0.8977,-4.2636,0.8425,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:13.069,155574,-6.6170,9.2946,-2.3780,-0.2660,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:15.116,157622,-7.0169,9.5437,-2.4109,0.4332,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:17.172,159677,-4.9414,9.0565,-3.3696,-0.4802,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:19.208,161713,-2.0539,6.3641,-4.1335,-0.9904,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:21.250,163756,-1.7217,4.1086,-4.1829,0.6909,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:23.302,165808,-0.6436,3.1039,-4.1640,0.3450,-0.7091,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:31.515,174021,-5.1888,8.4511,-4.1234,0.7184,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:33.571,176077,-2.3952,6.4998,-4.1335,-0.1372,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:35.620,178126,1.2162,4.9913,-4.1729,-0.9960,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:37.669,180175,2.8414,1.3810,-4.1474,-0.8290,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:39.715,182221,1.5707,-2.8597,-4.1435,-0.9906,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:41.770,184276,2.1669,-3.9315,-4.1490,-0.3632,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:49.954,192460,8.0948,-3.5539,-4.1558,0.5230,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:51.997,194502,8.2526,-5.1401,-4.1513,-0.9997,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:54.042,196548,5.9389,-7.8568,-4.1504,-0.1940,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:56.095,198601,4.8659,-8.7883,-4.1492,0.1068,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:08:58.142,200648,2.2394,-9.6613,-4.1460,0.0433,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:06.346,208852,-6.6205,8.4919,-2.3954,-0.6808,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:08.393,210899,-3.5427,8.7066,-4.1179,-0.9708,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:10.445,212951,-2.2468,6.2716,-4.1516,-0.9940,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:16.591,219097,10.1027,-6.6669,-2.3893,0.2539,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:18.636,221142,8.4630,-6.3602,-1.7999,0.8236,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:20.682,223188,6.4816,-2.4919,-2.4161,0.9906,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:22.735,225241,6.8097,-0.4630,-3.9944,0.6028,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:24.779,227285,3.6921,1.8029,-4.0989,0.3387,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:26.833,229339,1.9724,5.1452,-4.1236,0.2357,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:28.870,231376,0.1018,7.9979,-4.1331,-0.1165,0.1726,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:30.920,233426,-1.8071,6.8193,-4.1430,-0.9900,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:32.966,235472,-1.7373,6.6543,-4.1374,-0.6095,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:41.156,243662,-10.0120,-6.4412,-2.3807,0.0305,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:43.201,245707,-8.9796,-7.0174,-2.3810,-0.4251,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:45.250,247756,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:47.298,249804,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:49.346,251851,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:51.395,253901,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:53.439,255944,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:55.479,257985,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:57.526,260032,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:09:59.571,262077,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:01.620,264126,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:03.659,266165,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:05.706,268212,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:07.752,270257,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:09.802,272308,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:11.838,274344,-8.3620,-7.0375,-2.4142,0.7264,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:20.057,282562,-2.7908,-2.2595,-4.1701,0.7182,-1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:22.108,284614,0.3639,-2.9100,-4.1335,0.3275,0.3051,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:24.162,286668,0.5363,-2.0878,-4.1584,-0.5107,0.6456,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:26.208,288714,2.1292,-4.7068,-4.1478,-0.9294,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:28.265,290770,3.8061,-7.8132,-3.5877,0.7910,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:30.313,292819,3.2848,-7.3507,-4.1621,0.9880,1.5708,False,True,Battle Rifle
+Warlock,Tetracide,_game_team_red,22,14,1,12,4,3,2025-12-07 18:10:32.365,294871,3.8615,-7.7740,-4.1544,-0.1759,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:39.578,2084,3.1911,2.9690,-4.1399,-0.7772,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:41.628,4133,3.1654,2.9693,-4.1393,-0.9991,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:43.673,6179,0.2351,4.2614,-4.1379,0.9944,0.2892,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:45.722,8227,2.9369,2.6025,-4.1543,0.1910,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:47.764,10269,-0.5965,4.7089,-4.1200,0.2435,-0.5585,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:55.942,18448,-10.2835,-7.5661,-2.4043,0.8582,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:05:57.988,20494,-9.0439,-6.4742,-2.4004,-0.1671,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:00.026,22532,-4.6125,-7.0922,-2.4024,-0.1633,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:02.067,24573,-6.9771,-4.9943,-2.4357,0.6657,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:04.120,26625,-5.5487,-4.3702,-2.4053,0.5231,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:06.157,28663,-3.2314,-0.7943,-1.4661,0.8190,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:08.198,30704,-0.9573,1.7167,-1.9432,0.7374,-1.2869,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:16.405,38910,4.1960,5.6989,-4.2545,0.4843,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:18.449,40955,3.0041,7.5345,-4.1224,0.9306,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:20.490,42995,6.1025,7.5463,-3.2023,-0.0567,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:22.533,45039,8.2278,4.9354,-3.1572,0.9621,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:24.582,47088,8.5475,1.4197,-3.8809,0.9918,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:30.729,53235,8.6385,-9.7312,-2.3869,0.9999,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:32.774,55280,9.7497,-8.0594,-2.4199,0.8023,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:34.818,57324,11.2727,-4.6437,-2.3960,0.9167,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:36.881,59387,11.5457,-3.2437,-2.4168,0.0255,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:38.922,61428,11.5561,-3.5860,-2.3886,0.9912,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:40.969,63475,11.8241,-3.8766,-2.4043,0.9533,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:43.008,65514,11.4933,-3.1437,-2.3907,0.6967,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:45.053,67559,11.1686,-3.8217,-2.4124,0.5295,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:47.092,69597,8.9494,-1.7720,-4.1787,0.6785,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:49.144,71650,-10.8155,-0.4147,-3.9454,0.0130,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:51.198,73704,-10.5845,-1.2536,-4.1553,0.8105,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:53.228,75734,-10.0715,-0.7364,-4.1155,-0.0298,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:55.276,77781,-10.1288,-0.5273,-4.1506,0.9369,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:57.325,79830,-7.8537,-2.1145,-4.1671,0.7491,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:06:59.362,81868,-6.1660,-3.2812,-4.1468,0.2742,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:01.403,83908,-3.6201,-6.8259,-4.1223,-0.9956,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:09.599,92105,2.6373,-2.9384,-4.1370,0.9767,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:11.655,94160,4.3597,0.4442,-4.0418,0.5270,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:13.699,96205,7.1060,3.3957,-2.4016,0.4005,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:21.895,104401,8.9293,-5.8554,-4.1604,0.7968,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:23.950,106456,9.7485,-1.5953,-4.1939,0.1350,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:25.997,108503,11.5111,-0.7294,-4.1613,0.0533,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:28.046,110552,10.4440,1.2706,-4.1489,-0.7570,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:30.090,112596,11.2076,-0.3669,-4.1678,0.0372,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:32.129,114635,-10.4562,-1.1122,-4.1470,0.9046,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:40.313,122819,9.3391,-7.6631,-2.3808,0.8595,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:42.367,124872,6.9483,-7.7647,-4.1039,0.9493,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:44.406,126911,3.1524,-9.7526,-4.1351,-0.2856,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:52.595,135101,6.2193,-9.7157,-2.3930,0.5636,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:54.636,137142,6.3216,-9.6292,-2.3878,0.4084,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:56.689,139194,6.9259,-6.8209,-1.3054,0.8484,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:07:58.739,141244,5.2386,-3.3246,-2.4095,0.4901,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:00.783,143288,3.2317,-0.3114,-4.1846,-0.3454,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:02.829,145335,3.0650,-0.3389,-4.1642,-0.0276,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:04.876,147382,4.4081,-1.1501,-4.1815,-0.8860,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:06.923,149429,5.1615,0.2030,-3.6585,0.1285,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:08.967,151472,1.0895,0.2080,-4.1354,0.2009,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:11.014,153519,2.7027,-0.1407,-4.1229,0.1831,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:13.069,155574,1.7099,2.1995,-4.1486,0.7664,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:15.116,157622,-2.2234,2.9940,-4.1453,-0.5671,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:17.172,159677,-3.3620,1.8390,-4.1352,-0.1065,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:19.208,161713,-2.9540,1.7077,-4.1621,0.8567,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:27.412,169918,-9.8125,-6.1143,-2.4178,0.8652,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:29.462,171968,-8.8390,-3.3214,-4.1478,0.9440,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:31.515,174021,-8.0505,-5.6869,-4.1427,0.8928,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:33.571,176077,-7.0761,-6.2009,-3.4122,0.9547,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:35.620,178126,-4.1843,-8.1722,-4.1219,-0.1246,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:37.669,180175,-4.3036,-8.4340,-4.1402,0.6264,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:39.715,182221,-2.2311,-6.2117,-4.1432,0.7201,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:41.770,184276,-1.7532,-5.5955,-4.1721,0.3521,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:43.806,186311,-4.7543,-4.9033,-4.1415,0.7541,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:45.854,188360,-3.4228,-0.8864,-4.1444,0.9917,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:47.901,190407,-2.7990,0.8606,-4.1465,-0.9600,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:56.095,198601,-6.4289,-10.0917,-2.3935,0.9551,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:08:58.142,200648,-6.3604,-9.4368,-2.4088,-0.0291,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:00.189,202695,-3.3984,-7.8267,-4.1321,0.0071,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:02.242,204748,-0.1442,-6.4105,-3.8327,0.8408,-0.0887,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:04.289,206795,1.0704,-4.5206,-4.1488,0.2311,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:06.346,208852,1.3133,-3.1571,-4.1433,0.8968,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:08.393,210899,3.0495,0.3541,-4.1435,0.6167,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:10.445,212951,1.1054,1.9822,-4.1474,0.0066,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:12.498,215004,1.5906,2.3365,-4.1697,-0.9989,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:14.541,217046,2.7945,1.9667,-4.1582,-0.8466,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:16.591,219097,2.3194,4.6207,-4.1727,-0.8777,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:18.636,221142,0.1841,4.6730,-3.4750,-0.7856,0.0651,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:20.682,223188,-2.9753,2.2071,-4.1476,-0.9073,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:22.735,225241,-4.5732,4.1887,-4.1734,-0.4254,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:30.920,233426,8.3725,-5.3047,-4.1311,0.8581,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:32.966,235472,7.9569,-6.7888,-4.1505,-0.6726,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:35.021,237527,4.1810,-8.6011,-4.1490,0.6245,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:37.071,239576,4.3463,-5.4697,-4.1386,0.3218,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:39.118,241623,4.5497,-3.4791,-4.1845,0.9996,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:41.156,243662,4.8250,-2.0075,-4.1490,0.9953,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:43.201,245707,2.6310,1.0497,-4.1456,0.5074,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:45.250,247756,1.5983,1.4894,-4.1209,0.3880,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:47.298,249804,1.5983,1.4894,-4.1209,0.3880,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:49.346,251851,1.5983,1.4894,-4.1209,0.3880,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:51.395,253901,1.5983,1.4894,-4.1209,0.3880,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:09:53.439,255944,1.5983,1.4894,-4.1209,0.3880,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:01.620,264126,-11.0562,5.5556,-2.4003,-0.5387,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:03.659,266165,-11.2823,4.0159,-2.3976,-0.5492,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:05.706,268212,-11.3013,4.2411,-2.3968,-0.6521,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:07.752,270257,-10.1632,3.2988,-2.2560,-0.9099,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:09.802,272308,-9.6478,1.5857,-4.1387,-0.9996,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:18.001,280506,-10.2459,-7.7092,-2.3866,-0.0245,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:20.057,282562,-9.6191,-6.1276,-2.4002,0.9513,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:22.108,284614,-9.7240,-6.3844,-2.4150,0.9418,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:24.162,286668,-9.4375,-2.1511,-4.1291,0.9995,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:26.208,288714,-11.8331,-0.9224,-4.1514,0.7841,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:28.265,290770,-10.4249,0.4450,-4.1142,0.6344,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:30.313,292819,-8.1037,-2.5890,-4.1168,-0.6868,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:32.365,294871,-9.6213,-0.6266,-4.1290,0.6053,-1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:34.417,296923,10.8139,1.2656,-4.1575,-0.6809,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:36.461,298966,11.2597,-0.4494,-4.1765,-0.2373,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:38.504,301010,11.1715,0.8968,-4.1637,-0.4091,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:40.550,303055,11.7368,0.0048,-4.1426,-0.4852,1.5708,False,True,Battle Rifle
+Warlock,KidMode,_game_team_blue,57,5,1,0,1,0,2025-12-07 18:10:42.593,305099,-11.6786,-1.0112,-4.2641,0.2788,-1.5708,False,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:39.578,2084,5.1319,6.0734,-4.2840,-0.9993,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:41.628,4133,4.8754,5.7989,-4.2867,-0.0441,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:43.673,6179,4.2289,8.8655,-4.3030,-0.2898,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:45.722,8227,2.9805,11.0026,-1.7767,0.9929,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:47.764,10269,4.7409,11.0143,-2.4089,0.2927,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:49.803,12309,6.1867,9.8335,-2.5124,-0.3939,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:51.853,14359,6.8404,10.3112,-2.5191,-0.2671,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:53.893,16399,4.1862,11.7953,-2.4139,0.0920,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:55.942,18448,2.8414,10.7377,-2.3190,-0.9063,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:05:57.988,20494,2.5484,10.9707,-2.4041,-0.7922,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:00.026,22532,6.2383,10.9025,-2.4272,-0.0570,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:02.067,24573,7.1698,9.0636,-2.5124,0.0646,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:10.246,32752,8.4767,3.9909,-4.1533,-0.9874,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:12.291,34796,7.1580,6.6206,-3.5084,0.9671,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:14.352,36858,3.8212,9.1033,-4.2620,-0.0233,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:16.405,38910,2.7335,9.7654,-3.2920,-0.1399,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:18.449,40955,3.2655,11.7215,-1.1821,-0.4483,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:20.490,42995,2.7118,11.5500,-2.4321,-0.9804,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:26.635,49140,-7.1534,-3.2109,-4.1260,-0.1475,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:28.678,51184,-9.0862,-1.5451,-4.1722,0.4304,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:30.729,53235,-7.9288,-1.3008,-4.1459,0.4058,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:32.774,55280,-6.3242,-2.8705,-4.1210,-0.6875,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:34.818,57324,-2.4305,-4.3331,-4.1210,0.3682,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:36.881,59387,-4.9020,-3.5602,-4.1721,0.2467,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:45.053,67559,6.4562,2.6765,-4.2070,0.5465,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:47.092,69597,3.9854,6.3021,-4.2382,0.8824,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:49.144,71650,1.9993,9.4356,-4.1406,-0.1388,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:51.198,73704,1.6329,8.8731,-4.1468,-0.0302,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:53.228,75734,0.6259,9.7831,-4.1528,-0.4067,0.6695,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:55.276,77781,-1.0304,12.4482,-4.1524,-0.9966,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:57.325,79830,-1.2024,10.6269,-4.1496,-0.9474,-1.5708,True,True,Shotgun
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:06:59.362,81868,-1.0829,11.3541,-3.2855,-0.9932,-1.5708,True,True,Shotgun
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:01.403,83908,-2.3203,8.4720,-4.1450,-0.5905,-1.5708,True,True,Shotgun
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:07.546,90052,2.8196,-7.2421,-4.1451,0.9722,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:09.599,92105,0.5260,-10.1845,-4.1618,0.5079,0.5213,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:11.655,94160,1.2654,-12.1658,-4.1463,0.7875,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:13.699,96205,1.2210,-10.7772,-4.1737,-0.0087,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:15.747,98253,1.2739,-11.7672,-4.1559,0.8512,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:17.795,100301,-0.6788,-10.8430,-4.1726,0.9776,-0.7237,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:19.846,102352,-1.0831,-11.6298,-4.1424,0.9774,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:21.895,104401,-1.2021,10.4513,-4.1589,-0.4311,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:28.046,110552,10.3228,7.7900,-2.4175,0.0000,1.5708,True,True,Guardians
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:30.090,112596,8.9372,6.4186,-2.3877,-0.0212,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:32.129,114635,4.8545,6.9378,-2.3930,-0.2195,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:34.176,116682,3.2698,8.5907,-2.7109,0.5256,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:40.313,122819,10.9338,-6.5397,-2.3900,0.1479,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:42.367,124872,9.7847,-6.2479,-2.4024,0.1760,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:44.406,126911,9.2420,-2.8400,-4.1422,0.9699,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:46.450,128955,11.3048,-1.2231,-4.1568,0.7076,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:48.500,131006,10.4846,1.2023,-4.1507,-0.6587,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:50.549,133055,10.5130,0.0981,-4.1576,-0.1411,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:52.595,135101,10.7807,0.4730,-4.1598,-0.0096,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:54.636,137142,-11.0097,0.0313,-4.1360,0.7375,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:56.689,139194,-11.5489,0.9834,-4.1443,-0.4647,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:07:58.739,141244,-10.4562,-1.2579,-4.1232,0.6818,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:00.783,143288,-10.4690,-0.3419,-4.1449,0.8790,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:06.923,149429,5.1402,-6.2538,-4.1379,0.9993,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:08.967,151472,3.5966,-6.5795,-4.1263,-0.8075,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:11.014,153519,2.2554,-6.4279,-4.1532,-0.9205,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:13.069,155574,1.1839,-9.7130,-4.1519,0.9765,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:15.116,157622,1.1984,-12.5185,-4.1488,0.9927,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:17.172,159677,0.0921,-11.2231,-4.1455,-0.1964,0.1612,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:19.208,161713,0.0036,10.6466,-4.1630,-0.6317,-0.0432,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:21.250,163756,-1.0456,9.3495,-4.1703,-0.1037,-1.3459,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:23.302,165808,-2.8649,6.1660,-4.1438,-0.9954,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:25.355,167861,-2.4890,5.5757,-4.1500,-0.9815,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:27.412,169918,-0.6387,8.8885,-4.1718,0.1593,-0.7820,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:35.620,178126,-9.3946,-6.5872,-2.3973,0.9949,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:37.669,180175,-9.7070,-6.0171,-2.3937,0.8795,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:39.715,182221,-8.6121,-8.6457,-2.1389,-0.2977,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:41.770,184276,-5.0796,-10.8478,-2.3751,-0.3216,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:43.806,186311,-5.1560,-10.8821,-2.4049,0.6542,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:45.854,188360,-8.0031,-9.2040,-2.3970,-0.3041,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:47.901,190407,-6.7154,-10.0283,-2.4095,0.2154,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:49.954,192460,-9.6148,-7.7408,-2.4024,0.9834,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:51.997,194502,-9.0955,-7.6596,-1.3918,0.0682,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:54.042,196548,-6.7957,-10.5833,-2.3952,0.4779,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:56.095,198601,-9.6627,-7.4205,-1.8719,1.0000,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:08:58.142,200648,-9.2927,-8.4959,-2.4143,1.0000,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:00.189,202695,-7.8925,-9.1417,-2.4200,0.8237,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:02.242,204748,-6.1047,-10.8825,-2.4190,0.4102,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:04.289,206795,-6.8427,-9.0079,-2.3955,0.9803,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:06.346,208852,-7.7724,-9.7349,-2.4154,0.0736,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:08.393,210899,-9.4862,-6.1231,-2.4017,0.9653,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:10.445,212951,-6.9274,-4.6008,-2.3778,0.9861,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:12.498,215004,-7.1240,-3.4106,-2.4069,0.9719,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:14.541,217046,-9.5733,-1.4365,-4.1386,0.9620,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:16.591,219097,-11.5130,-0.9868,-4.1261,0.3841,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:18.636,221142,10.3759,0.5367,-4.1407,-0.5269,1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:26.833,229339,-10.3252,3.1677,-2.4353,-0.0560,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:28.870,231376,-11.3219,3.4770,-1.4606,-0.4088,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:30.920,233426,-11.4757,4.7767,-2.4147,-0.8533,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:32.966,235472,-11.0054,3.2813,-2.3848,-0.2902,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:35.021,237527,-10.6687,6.2187,-2.4011,0.9280,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:37.071,239576,-8.4826,9.3362,-2.3781,0.2636,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:39.118,241623,-9.5806,7.6419,-2.4047,0.9215,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:41.156,243662,-10.7859,4.9469,-2.4009,-0.9945,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:43.201,245707,-9.7255,3.0870,-2.5019,0.0259,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:45.250,247756,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:47.298,249804,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:49.346,251851,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:51.395,253901,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:53.439,255944,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:55.479,257985,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:57.526,260032,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:09:59.571,262077,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:01.620,264126,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:03.659,266165,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:05.706,268212,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:07.752,270257,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:09.802,272308,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:11.838,274344,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:13.896,276402,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:15.949,278455,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:18.001,280506,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:20.057,282562,-8.9813,2.6686,-3.3159,-0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:28.265,290770,-10.2897,-7.5564,-2.4270,0.5258,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:30.313,292819,-8.2198,-8.6852,-2.3970,-0.2725,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:32.365,294871,-5.3172,-10.7142,-2.3752,-0.2406,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:34.417,296923,-3.2568,-9.7658,-2.6805,0.9973,-1.5708,True,True,Battle Rifle
+Warlock,s tier SIMON,_game_team_blue,39,11,11,11,11,0,2025-12-07 18:10:36.461,298966,-2.1788,-9.2108,-4.1499,0.7142,-1.5708,True,True,Battle Rifle
