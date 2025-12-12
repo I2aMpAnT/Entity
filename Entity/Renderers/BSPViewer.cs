@@ -1759,7 +1759,7 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Paints the player selection list with up/down arrows.
+        /// Paints the player selection carousel - selected centered, neighbors above/below with fade effect.
         /// </summary>
         private void PlayerWheelPanel_Paint(object sender, PaintEventArgs e)
         {
@@ -1768,22 +1768,24 @@ namespace entity.Renderers
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-            int arrowHeight = 30; // Height of arrow buttons
             int titleHeight = 25; // Space for title at top
-            int slotHeight = 40; // Height of each player slot
+            int arrowHeight = 20; // Height of arrow indicators
+            int slotHeight = 36; // Height of each player slot
             int emblemSize = 32;
-            int listTop = titleHeight + arrowHeight;
-            int listBottom = playerWheelPanel.Height - arrowHeight;
-            int listHeight = listBottom - listTop;
             int totalSlots = playerNames.Count + 1; // +1 for "Free Camera"
 
             Color haloBlue = Color.FromArgb(0, 200, 255);
+
+            // Calculate center position for selected player
+            int panelCenter = playerWheelPanel.Height / 2 + 5;
+            int slotX = 8;
+            int slotWidth = playerWheelPanel.Width - 16;
 
             // Draw UP arrow at top
             DrawArrowButton(e.Graphics, playerWheelPanel.Width / 2, titleHeight + arrowHeight / 2, true, haloBlue);
 
             // Draw DOWN arrow at bottom
-            DrawArrowButton(e.Graphics, playerWheelPanel.Width / 2, playerWheelPanel.Height - arrowHeight / 2, false, haloBlue);
+            DrawArrowButton(e.Graphics, playerWheelPanel.Width / 2, playerWheelPanel.Height - arrowHeight / 2 - 5, false, haloBlue);
 
             if (playerNames.Count == 0)
             {
@@ -1795,39 +1797,52 @@ namespace entity.Renderers
                     SizeF sz = e.Graphics.MeasureString(msg, font);
                     e.Graphics.DrawString(msg, font, brush,
                         (playerWheelPanel.Width - sz.Width) / 2,
-                        listTop + (listHeight - sz.Height) / 2);
+                        panelCenter - sz.Height / 2);
                 }
                 return;
             }
 
-            // Calculate how many slots we can show
-            int visibleSlots = Math.Min(totalSlots, listHeight / slotHeight);
+            // Draw slots: -2, -1, 0 (selected), +1, +2 relative to selected
+            // -2 and +2 are faded/clipped, -1 and +1 are fully visible
+            int[] offsets = { -2, -1, 0, 1, 2 };
+            float[] opacities = { 0.3f, 0.7f, 1.0f, 0.7f, 0.3f };
+            float[] scales = { 0.85f, 0.95f, 1.0f, 0.95f, 0.85f };
 
-            // Calculate scroll offset to keep selected item visible
-            int scrollOffset = 0;
-            if (wheelSelectedIndex >= visibleSlots)
+            for (int i = 0; i < offsets.Length; i++)
             {
-                scrollOffset = wheelSelectedIndex - visibleSlots + 1;
-            }
+                int offset = offsets[i];
+                int actualIndex = wheelSelectedIndex + offset;
 
-            // Draw player slots
-            for (int i = 0; i < visibleSlots && (i + scrollOffset) < totalSlots; i++)
-            {
-                int actualIndex = i + scrollOffset;
-                int slotY = listTop + i * slotHeight;
-                int slotX = 8;
-                int slotWidth = playerWheelPanel.Width - 16;
+                // Wrap around
+                if (actualIndex < 0) actualIndex = totalSlots + actualIndex;
+                if (actualIndex >= totalSlots) actualIndex = actualIndex - totalSlots;
+
+                // Skip if we don't have enough players
+                if (totalSlots < 3 && Math.Abs(offset) > 1) continue;
+                if (totalSlots < 2 && offset != 0) continue;
+
+                float opacity = opacities[i];
+                float scale = scales[i];
+                int scaledSlotHeight = (int)(slotHeight * scale);
+                int scaledEmblemSize = (int)(emblemSize * scale);
+
+                // Position: centered slot at panelCenter, others offset above/below
+                int slotY = panelCenter - scaledSlotHeight / 2 + (offset * (slotHeight + 4));
+
+                // Clip check - skip if too far outside visible area
+                if (slotY + scaledSlotHeight < titleHeight + arrowHeight || slotY > playerWheelPanel.Height - arrowHeight - 10)
+                    continue;
 
                 // Get player info
                 string playerName;
                 Color bgColor;
                 PlayerTelemetry playerData = null;
-                bool isSelected = (actualIndex == wheelSelectedIndex);
+                bool isSelected = (offset == 0);
 
                 if (actualIndex == 0)
                 {
                     playerName = "Free Camera";
-                    bgColor = Color.FromArgb(50, 60, 70);
+                    bgColor = Color.FromArgb((int)(50 * opacity), 60, 70, 80);
                 }
                 else
                 {
@@ -1836,12 +1851,12 @@ namespace entity.Renderers
 
                     if (!isTeamGame)
                     {
-                        bgColor = Color.FromArgb(200, 240, 240, 240);
+                        bgColor = Color.FromArgb((int)(200 * opacity), 240, 240, 240);
                     }
                     else
                     {
                         Color teamColor = GetTeamColor(team);
-                        bgColor = Color.FromArgb(200, teamColor.R, teamColor.G, teamColor.B);
+                        bgColor = Color.FromArgb((int)(200 * opacity), teamColor.R, teamColor.G, teamColor.B);
                     }
 
                     if (showLiveTelemetry)
@@ -1858,24 +1873,24 @@ namespace entity.Renderers
                     }
                 }
 
-                // Draw selection highlight
+                // Draw selection highlight for center item
                 if (isSelected)
                 {
                     using (Pen highlightPen = new Pen(haloBlue, 2))
                     {
-                        e.Graphics.DrawRoundedRectangle(highlightPen, slotX - 2, slotY - 2, slotWidth + 4, slotHeight, 6);
+                        e.Graphics.DrawRoundedRectangle(highlightPen, slotX - 2, slotY - 2, slotWidth + 4, scaledSlotHeight + 4, 6);
                     }
                 }
 
                 // Draw slot background
                 using (SolidBrush bgBrush = new SolidBrush(bgColor))
                 {
-                    e.Graphics.FillRoundedRectangle(bgBrush, slotX, slotY, slotWidth, slotHeight - 4, 5);
+                    e.Graphics.FillRoundedRectangle(bgBrush, slotX, slotY, slotWidth, scaledSlotHeight, 5);
                 }
 
                 // Draw emblem
                 int emblemX = slotX + 4;
-                int emblemY = slotY + (slotHeight - 4 - emblemSize) / 2;
+                int emblemY = slotY + (scaledSlotHeight - scaledEmblemSize) / 2;
 
                 if (playerData != null && actualIndex > 0)
                 {
@@ -1884,36 +1899,46 @@ namespace entity.Renderers
 
                     if (emblemImg != null)
                     {
-                        e.Graphics.DrawImage(emblemImg, emblemX, emblemY, emblemSize, emblemSize);
+                        // Apply opacity via ColorMatrix
+                        System.Drawing.Imaging.ColorMatrix cm = new System.Drawing.Imaging.ColorMatrix();
+                        cm.Matrix33 = opacity;
+                        System.Drawing.Imaging.ImageAttributes ia = new System.Drawing.Imaging.ImageAttributes();
+                        ia.SetColorMatrix(cm);
+                        e.Graphics.DrawImage(emblemImg,
+                            new Rectangle(emblemX, emblemY, scaledEmblemSize, scaledEmblemSize),
+                            0, 0, emblemImg.Width, emblemImg.Height,
+                            GraphicsUnit.Pixel, ia);
                     }
                     else
                     {
-                        using (SolidBrush placeholderBrush = new SolidBrush(Color.FromArgb(150, 100, 100, 100)))
+                        using (SolidBrush placeholderBrush = new SolidBrush(Color.FromArgb((int)(150 * opacity), 100, 100, 100)))
                         {
-                            e.Graphics.FillEllipse(placeholderBrush, emblemX, emblemY, emblemSize, emblemSize);
+                            e.Graphics.FillEllipse(placeholderBrush, emblemX, emblemY, scaledEmblemSize, scaledEmblemSize);
                         }
                     }
                 }
                 else if (actualIndex == 0)
                 {
-                    using (System.Drawing.Font iconFont = new System.Drawing.Font("Segoe UI Symbol", 14, FontStyle.Regular))
-                    using (SolidBrush iconBrush = new SolidBrush(haloBlue))
+                    using (System.Drawing.Font iconFont = new System.Drawing.Font("Segoe UI Symbol", (int)(14 * scale), FontStyle.Regular))
+                    using (SolidBrush iconBrush = new SolidBrush(Color.FromArgb((int)(255 * opacity), haloBlue)))
                     {
                         e.Graphics.DrawString("📷", iconFont, iconBrush, emblemX, emblemY);
                     }
                 }
 
                 // Draw player name
-                int textX = emblemX + emblemSize + 6;
-                int textY = slotY + (slotHeight - 4 - 14) / 2;
-                Color textColor = actualIndex == 0 ? haloBlue : Color.White;
+                int textX = emblemX + scaledEmblemSize + 6;
+                int textY = slotY + (scaledSlotHeight - (int)(14 * scale)) / 2;
+                Color textColor = actualIndex == 0 ?
+                    Color.FromArgb((int)(255 * opacity), haloBlue) :
+                    Color.FromArgb((int)(255 * opacity), Color.White);
 
-                using (System.Drawing.Font nameFont = new System.Drawing.Font("Segoe UI", 9, FontStyle.Bold))
+                using (System.Drawing.Font nameFont = new System.Drawing.Font("Segoe UI", 9 * scale, FontStyle.Bold))
                 using (SolidBrush textBrush = new SolidBrush(textColor))
                 {
                     string displayName = playerName;
                     SizeF textSize = e.Graphics.MeasureString(displayName, nameFont);
-                    int maxWidth = slotWidth - emblemSize - 16;
+                    int maxWidth = slotWidth - scaledEmblemSize - 16;
                     while (textSize.Width > maxWidth && displayName.Length > 3)
                     {
                         displayName = displayName.Substring(0, displayName.Length - 1);
