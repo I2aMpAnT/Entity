@@ -1422,6 +1422,13 @@ namespace entity.Renderers
             };
             toolStrip.Items.Add(btnNames);
 
+            // Export 3D Model button
+            ToolStripButton btnExport3D = new ToolStripButton();
+            btnExport3D.Text = "Export 3D";
+            btnExport3D.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnExport3D.Click += (s, e) => { ExportMapTo3D(); };
+            toolStrip.Items.Add(btnExport3D);
+
             // FOV control
             ToolStripLabel lblFOV = new ToolStripLabel();
             lblFOV.Text = "FOV:";
@@ -10750,6 +10757,295 @@ namespace entity.Renderers
             catch
             {
                 // Rendering failed, ignore
+            }
+        }
+
+        /// <summary>
+        /// Exports the current map to a 3D model file (PLY format with colors).
+        /// </summary>
+        private void ExportMapTo3D()
+        {
+            if (bsp == null)
+            {
+                MessageBox.Show("No map loaded to export.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PLY File (*.ply)|*.ply|OBJ File (*.obj)|*.obj";
+                sfd.Title = "Export 3D Model";
+                sfd.FileName = bsp.Name ?? "map";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (sfd.FileName.EndsWith(".ply", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ExportToPLY(sfd.FileName);
+                        }
+                        else
+                        {
+                            ExportToOBJ(sfd.FileName);
+                        }
+                        MessageBox.Show($"Model exported successfully to:\n{sfd.FileName}", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Export failed: {ex.Message}", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Exports the BSP model to PLY format with vertex colors.
+        /// </summary>
+        private void ExportToPLY(string filePath)
+        {
+            // Collect all vertices and faces from BSP chunks
+            List<float[]> allVertices = new List<float[]>(); // x, y, z, r, g, b
+            List<int[]> allFaces = new List<int[]>();
+            int vertexOffset = 0;
+
+            // Define colors for different chunks/materials (cycle through these)
+            Color[] chunkColors = new Color[]
+            {
+                Color.FromArgb(180, 180, 180), // Light gray (default)
+                Color.FromArgb(140, 160, 140), // Greenish gray
+                Color.FromArgb(160, 150, 140), // Brownish
+                Color.FromArgb(120, 140, 160), // Bluish gray
+                Color.FromArgb(160, 140, 140), // Reddish gray
+                Color.FromArgb(150, 150, 130), // Yellowish
+                Color.FromArgb(130, 150, 150), // Cyan-ish
+                Color.FromArgb(150, 130, 150), // Purple-ish
+            };
+
+            // Process main BSP chunks
+            if (bsp.BSPRawDataMetaChunks != null)
+            {
+                for (int chunkIdx = 0; chunkIdx < bsp.BSPRawDataMetaChunks.Length; chunkIdx++)
+                {
+                    var chunk = bsp.BSPRawDataMetaChunks[chunkIdx];
+                    if (chunk == null || chunk.Vertices == null || chunk.VerticeCount == 0)
+                        continue;
+
+                    Color chunkColor = chunkColors[chunkIdx % chunkColors.Length];
+
+                    // Add vertices with color
+                    for (int i = 0; i < chunk.VerticeCount; i++)
+                    {
+                        var v = chunk.Vertices[i];
+                        allVertices.Add(new float[] { v.X, v.Y, v.Z, chunkColor.R, chunkColor.G, chunkColor.B });
+                    }
+
+                    // Process faces from submeshes
+                    if (chunk.SubMeshInfo != null)
+                    {
+                        foreach (var subMesh in chunk.SubMeshInfo)
+                        {
+                            // Handle triangle strips vs triangle lists
+                            if (chunk.FaceCount * 3 != chunk.IndiceCount)
+                            {
+                                // Triangle strip - convert to triangles
+                                int m = subMesh.IndiceStart;
+                                bool flip = false;
+                                while (m < subMesh.IndiceStart + subMesh.IndiceCount - 2)
+                                {
+                                    int i0 = chunk.Indices[m];
+                                    int i1 = chunk.Indices[m + 1];
+                                    int i2 = chunk.Indices[m + 2];
+
+                                    if (i0 != i1 && i0 != i2 && i1 != i2)
+                                    {
+                                        if (flip)
+                                            allFaces.Add(new int[] { vertexOffset + i0, vertexOffset + i2, vertexOffset + i1 });
+                                        else
+                                            allFaces.Add(new int[] { vertexOffset + i0, vertexOffset + i1, vertexOffset + i2 });
+                                        flip = !flip;
+                                    }
+                                    else
+                                    {
+                                        flip = !flip;
+                                    }
+                                    m++;
+                                }
+                            }
+                            else
+                            {
+                                // Triangle list
+                                for (int i = subMesh.IndiceStart; i < subMesh.IndiceStart + subMesh.IndiceCount - 2; i += 3)
+                                {
+                                    if (i + 2 < chunk.IndiceCount)
+                                    {
+                                        allFaces.Add(new int[] {
+                                            vertexOffset + chunk.Indices[i],
+                                            vertexOffset + chunk.Indices[i + 1],
+                                            vertexOffset + chunk.Indices[i + 2]
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    vertexOffset += chunk.VerticeCount;
+                }
+            }
+
+            // Write PLY file
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                // Header
+                sw.WriteLine("ply");
+                sw.WriteLine("format ascii 1.0");
+                sw.WriteLine($"element vertex {allVertices.Count}");
+                sw.WriteLine("property float x");
+                sw.WriteLine("property float y");
+                sw.WriteLine("property float z");
+                sw.WriteLine("property uchar red");
+                sw.WriteLine("property uchar green");
+                sw.WriteLine("property uchar blue");
+                sw.WriteLine($"element face {allFaces.Count}");
+                sw.WriteLine("property list uchar int vertex_indices");
+                sw.WriteLine("end_header");
+
+                // Vertices with colors
+                foreach (var v in allVertices)
+                {
+                    sw.WriteLine($"{v[0]:F6} {v[1]:F6} {v[2]:F6} {(int)v[3]} {(int)v[4]} {(int)v[5]}");
+                }
+
+                // Faces
+                foreach (var f in allFaces)
+                {
+                    sw.WriteLine($"3 {f[0]} {f[1]} {f[2]}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Exports the BSP model to OBJ format with MTL materials.
+        /// </summary>
+        private void ExportToOBJ(string filePath)
+        {
+            string mtlPath = Path.ChangeExtension(filePath, ".mtl");
+            string mtlName = Path.GetFileName(mtlPath);
+
+            // Define colors for different materials
+            Color[] matColors = new Color[]
+            {
+                Color.FromArgb(180, 180, 180),
+                Color.FromArgb(140, 160, 140),
+                Color.FromArgb(160, 150, 140),
+                Color.FromArgb(120, 140, 160),
+                Color.FromArgb(160, 140, 140),
+                Color.FromArgb(150, 150, 130),
+                Color.FromArgb(130, 150, 150),
+                Color.FromArgb(150, 130, 150),
+            };
+
+            // Write MTL file
+            using (StreamWriter sw = new StreamWriter(mtlPath))
+            {
+                for (int i = 0; i < matColors.Length; i++)
+                {
+                    sw.WriteLine($"newmtl material_{i}");
+                    sw.WriteLine($"Kd {matColors[i].R / 255f:F3} {matColors[i].G / 255f:F3} {matColors[i].B / 255f:F3}");
+                    sw.WriteLine($"Ka 0.1 0.1 0.1");
+                    sw.WriteLine($"Ks 0.0 0.0 0.0");
+                    sw.WriteLine();
+                }
+            }
+
+            // Write OBJ file
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                sw.WriteLine($"# Exported from Entity - {bsp.Name}");
+                sw.WriteLine($"mtllib {mtlName}");
+                sw.WriteLine();
+
+                int vertexOffset = 0;
+
+                if (bsp.BSPRawDataMetaChunks != null)
+                {
+                    for (int chunkIdx = 0; chunkIdx < bsp.BSPRawDataMetaChunks.Length; chunkIdx++)
+                    {
+                        var chunk = bsp.BSPRawDataMetaChunks[chunkIdx];
+                        if (chunk == null || chunk.Vertices == null || chunk.VerticeCount == 0)
+                            continue;
+
+                        sw.WriteLine($"# Chunk {chunkIdx}");
+                        sw.WriteLine($"usemtl material_{chunkIdx % matColors.Length}");
+
+                        // Write vertices
+                        for (int i = 0; i < chunk.VerticeCount; i++)
+                        {
+                            var v = chunk.Vertices[i];
+                            sw.WriteLine($"v {v.X:F6} {v.Y:F6} {v.Z:F6}");
+                        }
+
+                        // Write normals if available
+                        if (chunk.Normals != null && chunk.Normals.Count == chunk.VerticeCount)
+                        {
+                            for (int i = 0; i < chunk.VerticeCount; i++)
+                            {
+                                var n = chunk.Normals[i];
+                                sw.WriteLine($"vn {n.X:F6} {n.Y:F6} {n.Z:F6}");
+                            }
+                        }
+
+                        // Process faces from submeshes
+                        if (chunk.SubMeshInfo != null)
+                        {
+                            foreach (var subMesh in chunk.SubMeshInfo)
+                            {
+                                if (chunk.FaceCount * 3 != chunk.IndiceCount)
+                                {
+                                    // Triangle strip
+                                    int m = subMesh.IndiceStart;
+                                    bool flip = false;
+                                    while (m < subMesh.IndiceStart + subMesh.IndiceCount - 2)
+                                    {
+                                        int i0 = chunk.Indices[m];
+                                        int i1 = chunk.Indices[m + 1];
+                                        int i2 = chunk.Indices[m + 2];
+
+                                        if (i0 != i1 && i0 != i2 && i1 != i2)
+                                        {
+                                            // OBJ indices are 1-based
+                                            if (flip)
+                                                sw.WriteLine($"f {vertexOffset + i0 + 1} {vertexOffset + i2 + 1} {vertexOffset + i1 + 1}");
+                                            else
+                                                sw.WriteLine($"f {vertexOffset + i0 + 1} {vertexOffset + i1 + 1} {vertexOffset + i2 + 1}");
+                                            flip = !flip;
+                                        }
+                                        else
+                                        {
+                                            flip = !flip;
+                                        }
+                                        m++;
+                                    }
+                                }
+                                else
+                                {
+                                    // Triangle list
+                                    for (int i = subMesh.IndiceStart; i < subMesh.IndiceStart + subMesh.IndiceCount - 2; i += 3)
+                                    {
+                                        if (i + 2 < chunk.IndiceCount)
+                                        {
+                                            sw.WriteLine($"f {vertexOffset + chunk.Indices[i] + 1} {vertexOffset + chunk.Indices[i + 1] + 1} {vertexOffset + chunk.Indices[i + 2] + 1}");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        vertexOffset += chunk.VerticeCount;
+                        sw.WriteLine();
+                    }
+                }
             }
         }
 
