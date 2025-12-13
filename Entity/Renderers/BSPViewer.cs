@@ -11718,15 +11718,17 @@ namespace entity.Renderers
                                     {
                                         var v = chunk.Vertices[vi];
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
+                                        // Swap Y and Z to convert from Halo Z-up to glTF Y-up
+                                        // glTF: X=right, Y=up, Z=forward | Halo: X=right, Y=forward, Z=up
                                         prim.Positions.Add(v.X);
-                                        prim.Positions.Add(v.Y);
-                                        prim.Positions.Add(v.Z);
+                                        prim.Positions.Add(v.Z);  // Halo Z -> glTF Y (up)
+                                        prim.Positions.Add(v.Y);  // Halo Y -> glTF Z (forward)
                                         prim.MinX = Math.Min(prim.MinX, v.X);
                                         prim.MaxX = Math.Max(prim.MaxX, v.X);
-                                        prim.MinY = Math.Min(prim.MinY, v.Y);
-                                        prim.MaxY = Math.Max(prim.MaxY, v.Y);
-                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
+                                        prim.MinY = Math.Min(prim.MinY, v.Z);  // Track Z as Y
+                                        prim.MaxY = Math.Max(prim.MaxY, v.Z);
+                                        prim.MinZ = Math.Min(prim.MinZ, v.Y);  // Track Y as Z
+                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Y);
 
                                         if (hasUVs)
                                         {
@@ -11888,23 +11890,24 @@ namespace entity.Renderers
                                         var v = chunk.Vertices[vi];
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
 
-                                        // Apply scale, rotation, then translation
+                                        // Apply scale, rotation, then translation (in Halo coordinates)
                                         Vector3 scaledV = new Vector3(v.X * scale, v.Y * scale, v.Z * scale);
                                         Vector4 rotated = Vector3.Transform(scaledV, rotMatrix);
                                         float fx = rotated.X + posX;
                                         float fy = rotated.Y + posY;
                                         float fz = rotated.Z + posZ;
 
+                                        // Swap Y and Z to convert from Halo Z-up to glTF Y-up
                                         prim.Positions.Add(fx);
-                                        prim.Positions.Add(fy);
-                                        prim.Positions.Add(fz);
+                                        prim.Positions.Add(fz);  // Halo Z -> glTF Y (up)
+                                        prim.Positions.Add(fy);  // Halo Y -> glTF Z (forward)
 
                                         prim.MinX = Math.Min(prim.MinX, fx);
                                         prim.MaxX = Math.Max(prim.MaxX, fx);
-                                        prim.MinY = Math.Min(prim.MinY, fy);
-                                        prim.MaxY = Math.Max(prim.MaxY, fy);
-                                        prim.MinZ = Math.Min(prim.MinZ, fz);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, fz);
+                                        prim.MinY = Math.Min(prim.MinY, fz);  // Track Z as Y
+                                        prim.MaxY = Math.Max(prim.MaxY, fz);
+                                        prim.MinZ = Math.Min(prim.MinZ, fy);  // Track Y as Z
+                                        prim.MaxZ = Math.Max(prim.MaxZ, fy);
 
                                         if (hasUVs && vi < chunk.UVs.Count)
                                         {
