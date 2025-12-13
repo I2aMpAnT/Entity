@@ -11718,17 +11718,16 @@ namespace entity.Renderers
                                     {
                                         var v = chunk.Vertices[vi];
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
-                                        // Halo coords with Z negated for correct viewer orientation
-                                        // For CSV overlay: use position (X, Y, -Z)
+                                        // Raw Halo coordinates - X,Y,Z direct match with CSV
                                         prim.Positions.Add(v.X);
                                         prim.Positions.Add(v.Y);
-                                        prim.Positions.Add(-v.Z);  // Negate Z to flip right-side up
+                                        prim.Positions.Add(v.Z);
                                         prim.MinX = Math.Min(prim.MinX, v.X);
                                         prim.MaxX = Math.Max(prim.MaxX, v.X);
                                         prim.MinY = Math.Min(prim.MinY, v.Y);
                                         prim.MaxY = Math.Max(prim.MaxY, v.Y);
-                                        prim.MinZ = Math.Min(prim.MinZ, -v.Z);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, -v.Z);
+                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
 
                                         if (hasUVs)
                                         {
@@ -11895,9 +11894,9 @@ namespace entity.Renderers
                                         Vector4 rotated = Vector3.Transform(scaledV, rotMatrix);
                                         float fx = rotated.X + posX;
                                         float fy = rotated.Y + posY;
-                                        float fz = -(rotated.Z + posZ);  // Negate Z to match BSP
+                                        float fz = rotated.Z + posZ;
 
-                                        // Halo coords with Z negated - CSV overlay: use (X, Y, -Z)
+                                        // Raw Halo coordinates - X,Y,Z direct match with CSV
                                         prim.Positions.Add(fx);
                                         prim.Positions.Add(fy);
                                         prim.Positions.Add(fz);
