@@ -11751,6 +11751,172 @@ namespace entity.Renderers
                 }
             }
 
+            // Add scenery and obstacle models
+            if (bsp.Spawns?.Spawn != null && SpawnModel != null && spawnmodelindex != null)
+            {
+                // Use a separate "scenery" shader index offset to avoid collision with BSP shaders
+                int sceneryShaderOffset = 10000;
+
+                for (int spawnIdx = 0; spawnIdx < bsp.Spawns.Spawn.Count; spawnIdx++)
+                {
+                    var spawn = bsp.Spawns.Spawn[spawnIdx];
+
+                    // Only include Scenery, Obstacle/Crate types
+                    if (spawn.Type != SpawnInfo.SpawnType.Scenery &&
+                        spawn.Type != SpawnInfo.SpawnType.Obstacle)
+                        continue;
+
+                    // Check if this spawn has a model
+                    if (spawnmodelindex[spawnIdx] < 0 || spawnmodelindex[spawnIdx] >= SpawnModel.Count)
+                        continue;
+
+                    var model = SpawnModel[spawnmodelindex[spawnIdx]];
+                    if (model?.RawDataMetaChunks == null)
+                        continue;
+
+                    // Get spawn transform
+                    float posX = spawn.X;
+                    float posY = spawn.Y;
+                    float posZ = spawn.Z;
+
+                    // Get rotation if available
+                    float yaw = 0, pitch = 0, roll = 0;
+                    float scale = 1.0f;
+
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn rotSpawn)
+                    {
+                        yaw = rotSpawn.Yaw;
+                        pitch = rotSpawn.Pitch;
+                        roll = rotSpawn.Roll;
+                    }
+
+                    if (spawn is SpawnInfo.ScaleRotateYawPitchRollSpawn scaleSpawn)
+                    {
+                        scale = scaleSpawn.Scale + 1.0f;
+                    }
+
+                    // Create rotation matrix
+                    Matrix rotMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
+
+                    // Process each chunk in the model
+                    foreach (var chunk in model.RawDataMetaChunks)
+                    {
+                        if (chunk == null || chunk.Vertices == null || chunk.VerticeCount == 0)
+                            continue;
+
+                        bool hasUVs = chunk.UVs != null && chunk.UVs.Count == chunk.VerticeCount;
+
+                        if (chunk.SubMeshInfo == null) continue;
+
+                        foreach (var subMesh in chunk.SubMeshInfo)
+                        {
+                            int shaderIdx = sceneryShaderOffset + subMesh.ShaderNumber;
+
+                            if (!primitivesByShader.ContainsKey(shaderIdx))
+                            {
+                                primitivesByShader[shaderIdx] = new GLBPrimitiveData { ShaderIndex = shaderIdx };
+                                if (!usedShaderIndices.Contains(shaderIdx))
+                                    usedShaderIndices.Add(shaderIdx);
+                            }
+
+                            var prim = primitivesByShader[shaderIdx];
+                            int baseVertex = prim.Positions.Count / 3;
+
+                            // Collect faces - ParsedModel indices are shorts
+                            List<int[]> faces = new List<int[]>();
+                            if (chunk.FaceCount * 3 != chunk.IndiceCount)
+                            {
+                                // Triangle strip
+                                int m = subMesh.IndiceStart;
+                                bool flip = false;
+                                while (m < subMesh.IndiceStart + subMesh.IndiceCount - 2 && m + 2 < chunk.IndiceCount)
+                                {
+                                    int i0 = chunk.Indices[m];
+                                    int i1 = chunk.Indices[m + 1];
+                                    int i2 = chunk.Indices[m + 2];
+                                    if (i0 != i1 && i0 != i2 && i1 != i2 && i0 >= 0 && i1 >= 0 && i2 >= 0)
+                                    {
+                                        if (flip)
+                                            faces.Add(new int[] { i0, i2, i1 });
+                                        else
+                                            faces.Add(new int[] { i0, i1, i2 });
+                                        flip = !flip;
+                                    }
+                                    else
+                                    {
+                                        flip = !flip;
+                                    }
+                                    m++;
+                                }
+                            }
+                            else
+                            {
+                                // Triangle list
+                                for (int i = subMesh.IndiceStart; i < subMesh.IndiceStart + subMesh.IndiceCount - 2; i += 3)
+                                {
+                                    if (i + 2 < chunk.IndiceCount)
+                                        faces.Add(new int[] { chunk.Indices[i], chunk.Indices[i + 1], chunk.Indices[i + 2] });
+                                }
+                            }
+
+                            // Build vertices with transform
+                            Dictionary<int, uint> vertexMap = new Dictionary<int, uint>();
+                            foreach (var face in faces)
+                            {
+                                for (int fi = 0; fi < 3; fi++)
+                                {
+                                    int vi = face[fi];
+                                    if (vi < 0 || vi >= chunk.VerticeCount) continue;
+
+                                    if (!vertexMap.ContainsKey(vi))
+                                    {
+                                        var v = chunk.Vertices[vi];
+                                        vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
+
+                                        // Apply scale, rotation, then translation
+                                        Vector3 scaledV = new Vector3(v.X * scale, v.Y * scale, v.Z * scale);
+                                        Vector4 rotated = Vector3.Transform(scaledV, rotMatrix);
+                                        float fx = rotated.X + posX;
+                                        float fy = rotated.Y + posY;
+                                        float fz = rotated.Z + posZ;
+
+                                        prim.Positions.Add(fx);
+                                        prim.Positions.Add(fy);
+                                        prim.Positions.Add(fz);
+
+                                        prim.MinX = Math.Min(prim.MinX, fx);
+                                        prim.MaxX = Math.Max(prim.MaxX, fx);
+                                        prim.MinY = Math.Min(prim.MinY, fy);
+                                        prim.MaxY = Math.Max(prim.MaxY, fy);
+                                        prim.MinZ = Math.Min(prim.MinZ, fz);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, fz);
+
+                                        if (hasUVs && vi < chunk.UVs.Count)
+                                        {
+                                            var uv = chunk.UVs[vi];
+                                            prim.UVs.Add(uv.X);
+                                            prim.UVs.Add(1.0f - uv.Y);
+                                        }
+                                        else
+                                        {
+                                            prim.UVs.Add(0);
+                                            prim.UVs.Add(0);
+                                        }
+                                    }
+                                }
+
+                                if (vertexMap.ContainsKey(face[0]) && vertexMap.ContainsKey(face[1]) && vertexMap.ContainsKey(face[2]))
+                                {
+                                    prim.Indices.Add(vertexMap[face[0]]);
+                                    prim.Indices.Add(vertexMap[face[1]]);
+                                    prim.Indices.Add(vertexMap[face[2]]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // Extract textures from shaders (upscale 2x for better quality)
             usedShaderIndices.Sort();
             foreach (int shaderIdx in usedShaderIndices)
