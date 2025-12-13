@@ -11409,10 +11409,13 @@ namespace entity.Renderers
                     progressForm.Refresh();
                     Application.DoEvents();
 
+                    Map newMap = null;
+                    BSPModel newBsp = null;
+
                     try
                     {
                         // Load the map
-                        Map newMap = Map.LoadFromFile(mapFilePath);
+                        newMap = Map.LoadFromFile(mapFilePath);
                         if (newMap == null || newMap.BSP?.sbsp == null || newMap.BSP.sbsp.Length == 0)
                         {
                             AddDebugLog($"[SKYBOX] Skipping {mapFileName}: No BSP data");
@@ -11435,7 +11438,7 @@ namespace entity.Renderers
                         Meta meta = new Meta(newMap);
                         meta.TagIndex = BSPId;
                         meta.ScanMetaItems(true, false);
-                        BSPModel newBsp = new BSPModel(ref meta);
+                        newBsp = new BSPModel(ref meta);
 
                         if (newBsp == null)
                         {
@@ -11475,18 +11478,6 @@ namespace entity.Renderers
 
                         AddDebugLog($"[SKYBOX] Exported: {mapFileName}sky");
                         successCount++;
-
-                        // Dispose resources
-                        try
-                        {
-                            if (newBsp.SkyBox?.Shaders?.Shader != null)
-                            {
-                                foreach (var shader in newBsp.SkyBox.Shaders.Shader)
-                                    shader?.Dispose();
-                            }
-                            newBsp.Dispose();
-                        }
-                        catch { }
                     }
                     catch (Exception ex)
                     {
@@ -11494,16 +11485,39 @@ namespace entity.Renderers
                         failedMaps.Add(mapFileName + " (" + ex.Message + ")");
                         failCount++;
                     }
+                    finally
+                    {
+                        // Always dispose resources to prevent memory buildup
+                        try
+                        {
+                            if (newBsp != null)
+                            {
+                                // Dispose skybox shaders
+                                if (newBsp.SkyBox?.Shaders?.Shader != null)
+                                {
+                                    foreach (var shader in newBsp.SkyBox.Shaders.Shader)
+                                        shader?.Dispose();
+                                }
+                                // Dispose BSP shaders
+                                if (newBsp.Shaders?.Shader != null)
+                                {
+                                    foreach (var shader in newBsp.Shaders.Shader)
+                                        shader?.Dispose();
+                                }
+                                newBsp.Dispose();
+                            }
+                            newMap?.CloseMap();
+                        }
+                        catch { }
+
+                        // Force garbage collection after EVERY map to prevent memory buildup
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        GC.Collect();
+                    }
 
                     progressBar.Value++;
                     Application.DoEvents();
-
-                    // Force garbage collection every few maps
-                    if (progressBar.Value % 5 == 0)
-                    {
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                    }
                 }
 
                 progressForm.Close();
