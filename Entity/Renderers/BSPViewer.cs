@@ -12119,9 +12119,8 @@ namespace entity.Renderers
                 json.Append("  \"scene\": 0,\n");
                 json.Append("  \"scenes\": [{ \"nodes\": [0, 1] }],\n");
                 json.Append("  \"nodes\": [\n");
-                // Rotate -90° around X axis to convert from Z-up (Halo 2) to Y-up (glTF)
-                // Quaternion: [sin(-45°), 0, 0, cos(-45°)] = [-0.7071068, 0, 0, 0.7071068]
-                json.Append("    { \"mesh\": 0, \"rotation\": [-0.7071068, 0, 0, 0.7071068] },\n");
+                // No transform - raw Halo 2 coordinates (X, Y horizontal, Z vertical) for direct player position overlay
+                json.Append("    { \"mesh\": 0 },\n");
                 json.AppendFormat("    {{ \"camera\": 0, \"translation\": [{0:F6}, {1:F6}, {2:F6}] }}\n",
                     camPosX, camPosY, camPosZ);
                 json.Append("  ],\n");
