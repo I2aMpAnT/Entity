@@ -4335,6 +4335,14 @@ namespace entity.Renderers
                             continue;
                         }
 
+                        // Check if spawn has a valid model before accessing
+                        if (spawnmodelindex == null || x >= spawnmodelindex.Length ||
+                            spawnmodelindex[x] < 0 || spawnmodelindex[x] >= SpawnModel.Count ||
+                            SpawnModel[spawnmodelindex[x]]?.Display?.Chunk == null)
+                        {
+                            continue;
+                        }
+
                         int tempcount = SpawnModel[spawnmodelindex[x]].Display.Chunk.Count;
                         bool useboundingbox = false;
 
