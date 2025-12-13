@@ -11718,16 +11718,15 @@ namespace entity.Renderers
                                     {
                                         var v = chunk.Vertices[vi];
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
-                                        // Raw Halo coordinates - X,Y,Z direct match with CSV
                                         prim.Positions.Add(v.X);
                                         prim.Positions.Add(v.Y);
-                                        prim.Positions.Add(v.Z);
+                                        prim.Positions.Add(-v.Z);
                                         prim.MinX = Math.Min(prim.MinX, v.X);
                                         prim.MaxX = Math.Max(prim.MaxX, v.X);
                                         prim.MinY = Math.Min(prim.MinY, v.Y);
                                         prim.MaxY = Math.Max(prim.MaxY, v.Y);
-                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
+                                        prim.MinZ = Math.Min(prim.MinZ, -v.Z);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, -v.Z);
 
                                         if (hasUVs)
                                         {
@@ -11894,9 +11893,8 @@ namespace entity.Renderers
                                         Vector4 rotated = Vector3.Transform(scaledV, rotMatrix);
                                         float fx = rotated.X + posX;
                                         float fy = rotated.Y + posY;
-                                        float fz = rotated.Z + posZ;
+                                        float fz = -(rotated.Z + posZ);  // Negate Z to fix inversion
 
-                                        // Raw Halo coordinates - X,Y,Z direct match with CSV
                                         prim.Positions.Add(fx);
                                         prim.Positions.Add(fy);
                                         prim.Positions.Add(fz);
