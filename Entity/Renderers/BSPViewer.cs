@@ -5367,6 +5367,13 @@ namespace entity.Renderers
 
             for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
             {
+                // Skip if arrays are out of bounds
+                if (TranslationMatrix == null || x >= TranslationMatrix.Length ||
+                    BoundingBoxModel == null || x >= BoundingBoxModel.Length)
+                {
+                    continue;
+                }
+
                 // Skip any Spawns that are invisible.
                 if (((int)bsp.Spawns.Spawn[x].Type & visibleSpawnsBitMask) == 0)
                 {
