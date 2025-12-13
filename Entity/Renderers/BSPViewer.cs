@@ -1543,6 +1543,13 @@ namespace entity.Renderers
             btnExportAllMaps.Click += (s, e) => { ExportAllMapsToGLB(); };
             toolStrip.Items.Add(btnExportAllMaps);
 
+            // Batch Export All Skyboxes button
+            ToolStripButton btnExportAllSkyboxes = new ToolStripButton();
+            btnExportAllSkyboxes.Text = "Export All Skyboxes";
+            btnExportAllSkyboxes.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnExportAllSkyboxes.Click += (s, e) => { ExportAllSkyboxesToGLB(); };
+            toolStrip.Items.Add(btnExportAllSkyboxes);
+
             // FOV control
             ToolStripLabel lblFOV = new ToolStripLabel();
             lblFOV.Text = "FOV:";
@@ -11326,6 +11333,623 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Exports all map skyboxes to GLB files.
+        /// </summary>
+        private void ExportAllSkyboxesToGLB()
+        {
+            // Check render device availability
+            if (render?.device == null)
+            {
+                MessageBox.Show("Render device not available. Please load a map first.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get maps folder
+            string mapsFolder = Prefs.pathMapsFolder;
+            if (string.IsNullOrEmpty(mapsFolder) || !Directory.Exists(mapsFolder))
+            {
+                MessageBox.Show("Maps folder not configured or doesn't exist.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get all map files (including DLC maps in subdirectories)
+            string[] mapFiles = Directory.GetFiles(mapsFolder, "*.map", SearchOption.AllDirectories);
+            if (mapFiles.Length == 0)
+            {
+                MessageBox.Show("No .map files found in the maps folder.", "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Let user select output folder
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select folder to save skybox GLB files";
+                fbd.ShowNewFolderButton = true;
+
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                string outputFolder = fbd.SelectedPath;
+
+                int successCount = 0;
+                int failCount = 0;
+                int skippedCount = 0;
+                List<string> failedMaps = new List<string>();
+
+                // Create a progress form
+                Form progressForm = new Form();
+                progressForm.Text = "Exporting Skyboxes...";
+                progressForm.Size = new Size(400, 150);
+                progressForm.StartPosition = FormStartPosition.CenterParent;
+                progressForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                progressForm.MaximizeBox = false;
+                progressForm.MinimizeBox = false;
+
+                Label progressLabel = new Label();
+                progressLabel.Location = new Point(20, 20);
+                progressLabel.Size = new Size(350, 40);
+                progressLabel.Text = "Starting export...";
+                progressForm.Controls.Add(progressLabel);
+
+                ProgressBar progressBar = new ProgressBar();
+                progressBar.Location = new Point(20, 70);
+                progressBar.Size = new Size(350, 25);
+                progressBar.Minimum = 0;
+                progressBar.Maximum = mapFiles.Length;
+                progressBar.Value = 0;
+                progressForm.Controls.Add(progressBar);
+
+                progressForm.Show();
+                progressForm.Refresh();
+
+                foreach (string mapFilePath in mapFiles)
+                {
+                    string mapFileName = Path.GetFileNameWithoutExtension(mapFilePath);
+                    progressLabel.Text = $"Exporting skybox: {mapFileName}\n({progressBar.Value + 1} of {mapFiles.Length})";
+                    progressForm.Refresh();
+                    Application.DoEvents();
+
+                    try
+                    {
+                        // Load the map
+                        Map newMap = Map.LoadFromFile(mapFilePath);
+                        if (newMap == null || newMap.BSP?.sbsp == null || newMap.BSP.sbsp.Length == 0)
+                        {
+                            AddDebugLog($"[SKYBOX] Skipping {mapFileName}: No BSP data");
+                            skippedCount++;
+                            progressBar.Value++;
+                            continue;
+                        }
+
+                        // Get BSP meta
+                        int BSPId = newMap.Functions.ForMeta.FindMetaByID(newMap.BSP.sbsp[0].ident);
+                        if (BSPId < 0)
+                        {
+                            AddDebugLog($"[SKYBOX] Skipping {mapFileName}: Could not find BSP meta");
+                            skippedCount++;
+                            progressBar.Value++;
+                            continue;
+                        }
+
+                        // Load BSP model
+                        Meta BSPMeta = new Meta(newMap);
+                        BSPMeta.ReadMetaFromMap(BSPId, false);
+                        BSPModel newBsp = new BSPModel(ref BSPMeta);
+
+                        if (newBsp == null)
+                        {
+                            AddDebugLog($"[SKYBOX] Skipping {mapFileName}: Failed to create BSP model");
+                            skippedCount++;
+                            progressBar.Value++;
+                            continue;
+                        }
+
+                        // Check if skybox exists
+                        if (newBsp.SkyBox == null || newBsp.SkyBox.RawDataMetaChunks == null || newBsp.SkyBox.RawDataMetaChunks.Length == 0)
+                        {
+                            AddDebugLog($"[SKYBOX] Skipping {mapFileName}: No skybox data");
+                            skippedCount++;
+                            progressBar.Value++;
+                            try { newBsp.Dispose(); } catch { }
+                            continue;
+                        }
+
+                        // Load DirectX textures for skybox
+                        ParsedModel.DisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp.SkyBox);
+
+                        // Export skybox
+                        string outputPath = Path.Combine(outputFolder, mapFileName + "sky.glb");
+
+                        // Delete existing file if it exists
+                        if (File.Exists(outputPath))
+                        {
+                            try { File.Delete(outputPath); }
+                            catch { /* Ignore delete errors */ }
+                        }
+
+                        ExportSkyboxToGLB(newBsp.SkyBox, outputPath);
+
+                        AddDebugLog($"[SKYBOX] Exported: {mapFileName}sky");
+                        successCount++;
+
+                        // Dispose resources
+                        try
+                        {
+                            if (newBsp.SkyBox?.Shaders?.Shader != null)
+                            {
+                                foreach (var shader in newBsp.SkyBox.Shaders.Shader)
+                                    shader?.Dispose();
+                            }
+                            newBsp.Dispose();
+                        }
+                        catch { }
+                    }
+                    catch (Exception ex)
+                    {
+                        AddDebugLog($"[SKYBOX] Failed to export {mapFileName}: {ex.Message}");
+                        failedMaps.Add(mapFileName + " (" + ex.Message + ")");
+                        failCount++;
+                    }
+
+                    progressBar.Value++;
+                    Application.DoEvents();
+
+                    // Force garbage collection every few maps
+                    if (progressBar.Value % 5 == 0)
+                    {
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                    }
+                }
+
+                progressForm.Close();
+
+                // Show summary
+                string summary = $"Skybox Export Complete!\n\nSuccessful: {successCount}\nSkipped (no skybox): {skippedCount}\nFailed: {failCount}";
+                if (failedMaps.Count > 0 && failedMaps.Count <= 10)
+                {
+                    summary += "\n\nFailed maps:\n" + string.Join("\n", failedMaps);
+                }
+                else if (failedMaps.Count > 10)
+                {
+                    summary += $"\n\nFailed maps: {failedMaps.Count} (see debug log for details)";
+                }
+                summary += $"\n\nOutput folder: {outputFolder}";
+
+                MessageBox.Show(summary, "Skybox Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        /// <summary>
+        /// Exports a skybox ParsedModel to GLB format.
+        /// </summary>
+        private void ExportSkyboxToGLB(ParsedModel skybox, string filePath)
+        {
+            if (skybox == null || skybox.RawDataMetaChunks == null)
+                throw new ArgumentException("Invalid skybox data");
+
+            // Rotation matrix to convert from Halo Z-up to Three.js Y-up
+            float rotX = -90f * (float)Math.PI / 180f;
+            float rotY = -180f * (float)Math.PI / 180f;
+            float rotZ = 0f;
+            Matrix exportRotation = Matrix.RotationX(rotX) * Matrix.RotationY(rotY) * Matrix.RotationZ(rotZ);
+
+            // Collect primitives grouped by shader
+            Dictionary<int, GLBPrimitiveData> primitivesByShader = new Dictionary<int, GLBPrimitiveData>();
+            Dictionary<int, byte[]> textureData = new Dictionary<int, byte[]>();
+            List<int> usedShaderIndices = new List<int>();
+
+            // Process all chunks in the skybox
+            for (int chunkIdx = 0; chunkIdx < skybox.RawDataMetaChunks.Length; chunkIdx++)
+            {
+                var chunk = skybox.RawDataMetaChunks[chunkIdx];
+                if (chunk == null || chunk.Vertices == null || chunk.VerticeCount == 0)
+                    continue;
+
+                bool hasUVs = chunk.UVs != null && chunk.UVs.Count == chunk.VerticeCount;
+
+                if (chunk.SubMeshInfo != null)
+                {
+                    foreach (var subMesh in chunk.SubMeshInfo)
+                    {
+                        int shaderIdx = subMesh.ShaderNumber;
+                        if (shaderIdx < 0) shaderIdx = 0;
+
+                        if (!primitivesByShader.ContainsKey(shaderIdx))
+                        {
+                            primitivesByShader[shaderIdx] = new GLBPrimitiveData { ShaderIndex = shaderIdx };
+                            if (!usedShaderIndices.Contains(shaderIdx))
+                                usedShaderIndices.Add(shaderIdx);
+                        }
+
+                        var prim = primitivesByShader[shaderIdx];
+                        int baseVertex = prim.Positions.Count / 3;
+
+                        // Collect faces
+                        List<int[]> faces = new List<int[]>();
+                        if (chunk.FaceCount * 3 != chunk.IndiceCount)
+                        {
+                            // Triangle strip
+                            int m = subMesh.IndiceStart;
+                            bool flip = false;
+                            while (m < subMesh.IndiceStart + subMesh.IndiceCount - 2)
+                            {
+                                if (m + 2 >= chunk.IndiceCount) break;
+                                int i0 = chunk.Indices[m];
+                                int i1 = chunk.Indices[m + 1];
+                                int i2 = chunk.Indices[m + 2];
+                                if (i0 != i1 && i0 != i2 && i1 != i2)
+                                {
+                                    if (flip)
+                                        faces.Add(new int[] { i0, i2, i1 });
+                                    else
+                                        faces.Add(new int[] { i0, i1, i2 });
+                                    flip = !flip;
+                                }
+                                else
+                                {
+                                    flip = !flip;
+                                }
+                                m++;
+                            }
+                        }
+                        else
+                        {
+                            // Triangle list
+                            for (int i = subMesh.IndiceStart; i < subMesh.IndiceStart + subMesh.IndiceCount - 2; i += 3)
+                            {
+                                if (i + 2 < chunk.IndiceCount)
+                                    faces.Add(new int[] { chunk.Indices[i], chunk.Indices[i + 1], chunk.Indices[i + 2] });
+                            }
+                        }
+
+                        // Build vertices
+                        Dictionary<int, uint> vertexMap = new Dictionary<int, uint>();
+                        foreach (var face in faces)
+                        {
+                            for (int fi = 0; fi < 3; fi++)
+                            {
+                                int vi = face[fi];
+                                if (!vertexMap.ContainsKey(vi) && vi >= 0 && vi < chunk.VerticeCount)
+                                {
+                                    var v = chunk.Vertices[vi];
+                                    vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
+
+                                    // Apply rotation for Y-up Three.js export
+                                    Vector4 rotatedV = Vector3.Transform(new Vector3(v.X, v.Y, v.Z), exportRotation);
+                                    float rx = rotatedV.X;
+                                    float ry = rotatedV.Y;
+                                    float rz = rotatedV.Z;
+
+                                    prim.Positions.Add(rx);
+                                    prim.Positions.Add(ry);
+                                    prim.Positions.Add(rz);
+                                    prim.MinX = Math.Min(prim.MinX, rx);
+                                    prim.MaxX = Math.Max(prim.MaxX, rx);
+                                    prim.MinY = Math.Min(prim.MinY, ry);
+                                    prim.MaxY = Math.Max(prim.MaxY, ry);
+                                    prim.MinZ = Math.Min(prim.MinZ, rz);
+                                    prim.MaxZ = Math.Max(prim.MaxZ, rz);
+
+                                    if (hasUVs)
+                                    {
+                                        var uv = chunk.UVs[vi];
+                                        prim.UVs.Add(uv.X);
+                                        prim.UVs.Add(1.0f - uv.Y);
+                                    }
+                                    else
+                                    {
+                                        prim.UVs.Add(0);
+                                        prim.UVs.Add(0);
+                                    }
+                                }
+                            }
+
+                            // Reverse winding order for correct face orientation
+                            if (vertexMap.ContainsKey(face[0]) && vertexMap.ContainsKey(face[1]) && vertexMap.ContainsKey(face[2]))
+                            {
+                                prim.Indices.Add(vertexMap[face[0]]);
+                                prim.Indices.Add(vertexMap[face[2]]);
+                                prim.Indices.Add(vertexMap[face[1]]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Extract textures from skybox shaders
+            usedShaderIndices.Sort();
+            foreach (int shaderIdx in usedShaderIndices)
+            {
+                if (skybox.Shaders?.Shader != null && shaderIdx >= 0 && shaderIdx < skybox.Shaders.Shader.Length)
+                {
+                    var shader = skybox.Shaders.Shader[shaderIdx];
+                    Bitmap textureBitmap = null;
+
+                    if (shader?.MainBitmap != null)
+                    {
+                        textureBitmap = shader.MainBitmap;
+                    }
+                    else if (shader?.MainTexture != null && render?.device != null)
+                    {
+                        try
+                        {
+                            string tempPath = Path.GetTempFileName() + ".png";
+                            TextureLoader.Save(tempPath, ImageFileFormat.Png, shader.MainTexture);
+                            if (File.Exists(tempPath))
+                            {
+                                using (var fs = new FileStream(tempPath, FileMode.Open, FileAccess.Read))
+                                {
+                                    textureBitmap = new Bitmap(fs);
+                                }
+                                File.Delete(tempPath);
+                            }
+                        }
+                        catch { }
+                    }
+
+                    if (textureBitmap != null)
+                    {
+                        try
+                        {
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                textureBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                textureData[shaderIdx] = ms.ToArray();
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+
+            // Build GLB binary data
+            using (MemoryStream binStream = new MemoryStream())
+            using (BinaryWriter binWriter = new BinaryWriter(binStream))
+            {
+                List<(int offset, int length, int target)> bufferViews = new List<(int, int, int)>();
+                List<(int bufferView, int componentType, int count, string type, float[] min, float[] max)> accessors =
+                    new List<(int, int, int, string, float[], float[])>();
+
+                List<(int posAccessor, int uvAccessor, int indexAccessor, int material)> primitiveInfo =
+                    new List<(int, int, int, int)>();
+
+                int materialIndex = 0;
+                Dictionary<int, int> shaderToMaterial = new Dictionary<int, int>();
+                foreach (int shaderIdx in usedShaderIndices)
+                {
+                    shaderToMaterial[shaderIdx] = materialIndex++;
+                }
+
+                foreach (int shaderIdx in usedShaderIndices)
+                {
+                    if (!primitivesByShader.ContainsKey(shaderIdx))
+                        continue;
+
+                    var prim = primitivesByShader[shaderIdx];
+                    if (prim.Positions.Count == 0)
+                        continue;
+
+                    // Positions
+                    int posOffset = (int)binStream.Position;
+                    foreach (float f in prim.Positions)
+                        binWriter.Write(f);
+                    while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                    int posLength = (int)binStream.Position - posOffset;
+                    int posBufferView = bufferViews.Count;
+                    bufferViews.Add((posOffset, posLength, 34962));
+                    int posAccessor = accessors.Count;
+                    accessors.Add((posBufferView, 5126, prim.Positions.Count / 3, "VEC3",
+                        new float[] { prim.MinX, prim.MinY, prim.MinZ },
+                        new float[] { prim.MaxX, prim.MaxY, prim.MaxZ }));
+
+                    // UVs
+                    int uvOffset = (int)binStream.Position;
+                    foreach (float f in prim.UVs)
+                        binWriter.Write(f);
+                    while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                    int uvLength = (int)binStream.Position - uvOffset;
+                    int uvBufferView = bufferViews.Count;
+                    bufferViews.Add((uvOffset, uvLength, 34962));
+                    int uvAccessor = accessors.Count;
+                    accessors.Add((uvBufferView, 5126, prim.UVs.Count / 2, "VEC2", null, null));
+
+                    // Indices
+                    int idxOffset = (int)binStream.Position;
+                    foreach (uint idx in prim.Indices)
+                        binWriter.Write(idx);
+                    while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                    int idxLength = (int)binStream.Position - idxOffset;
+                    int idxBufferView = bufferViews.Count;
+                    bufferViews.Add((idxOffset, idxLength, 34963));
+                    int idxAccessor = accessors.Count;
+                    accessors.Add((idxBufferView, 5125, prim.Indices.Count, "SCALAR", null, null));
+
+                    primitiveInfo.Add((posAccessor, uvAccessor, idxAccessor, shaderToMaterial[shaderIdx]));
+                }
+
+                // Write texture images
+                Dictionary<int, int> textureImageIndex = new Dictionary<int, int>();
+                List<(int offset, int length)> imageBufferViews = new List<(int, int)>();
+                int imageIdx = 0;
+                foreach (int shaderIdx in usedShaderIndices)
+                {
+                    if (textureData.ContainsKey(shaderIdx))
+                    {
+                        int imgOffset = (int)binStream.Position;
+                        binWriter.Write(textureData[shaderIdx]);
+                        while (binStream.Position % 4 != 0) binWriter.Write((byte)0);
+                        int imgLength = textureData[shaderIdx].Length;
+                        textureImageIndex[shaderIdx] = imageIdx++;
+                        imageBufferViews.Add((imgOffset, imgLength));
+                    }
+                }
+
+                byte[] binData = binStream.ToArray();
+
+                // Calculate camera position from mesh bounds
+                float meshMinX = float.MaxValue, meshMinY = float.MaxValue, meshMinZ = float.MaxValue;
+                float meshMaxX = float.MinValue, meshMaxY = float.MinValue, meshMaxZ = float.MinValue;
+                foreach (var prim in primitivesByShader.Values)
+                {
+                    if (prim.Positions.Count > 0)
+                    {
+                        meshMinX = Math.Min(meshMinX, prim.MinX);
+                        meshMaxX = Math.Max(meshMaxX, prim.MaxX);
+                        meshMinY = Math.Min(meshMinY, prim.MinY);
+                        meshMaxY = Math.Max(meshMaxY, prim.MaxY);
+                        meshMinZ = Math.Min(meshMinZ, prim.MinZ);
+                        meshMaxZ = Math.Max(meshMaxZ, prim.MaxZ);
+                    }
+                }
+
+                float camDistance = Math.Max(meshMaxX - meshMinX, Math.Max(meshMaxY - meshMinY, meshMaxZ - meshMinZ)) * 1.5f;
+                float camPosX = (meshMinX + meshMaxX) / 2;
+                float camPosY = (meshMinY + meshMaxY) / 2;
+                float camPosZ = (meshMinZ + meshMaxZ) / 2 + camDistance;
+
+                // Build JSON
+                StringBuilder json = new StringBuilder();
+                json.Append("{\n");
+                json.Append("  \"asset\": { \"version\": \"2.0\", \"generator\": \"Entity\" },\n");
+                json.Append("  \"scene\": 0,\n");
+                json.Append("  \"scenes\": [{ \"nodes\": [0, 1] }],\n");
+                json.Append("  \"nodes\": [\n");
+                json.Append("    { \"mesh\": 0 },\n");
+                json.AppendFormat("    {{ \"camera\": 0, \"translation\": [{0:F6}, {1:F6}, {2:F6}] }}\n",
+                    camPosX, camPosY, camPosZ);
+                json.Append("  ],\n");
+                json.Append("  \"cameras\": [{\n");
+                json.Append("    \"type\": \"perspective\",\n");
+                json.Append("    \"perspective\": { \"yfov\": 0.7854, \"znear\": 0.01, \"zfar\": 10000.0 }\n");
+                json.Append("  }],\n");
+
+                // Buffer views
+                json.Append("  \"bufferViews\": [\n");
+                for (int i = 0; i < bufferViews.Count; i++)
+                {
+                    var bv = bufferViews[i];
+                    json.AppendFormat("    {{ \"buffer\": 0, \"byteOffset\": {0}, \"byteLength\": {1}, \"target\": {2} }}",
+                        bv.offset, bv.length, bv.target);
+                    if (i < bufferViews.Count - 1 || imageBufferViews.Count > 0) json.Append(",");
+                    json.Append("\n");
+                }
+                int imgBvStart = bufferViews.Count;
+                for (int i = 0; i < imageBufferViews.Count; i++)
+                {
+                    var ibv = imageBufferViews[i];
+                    json.AppendFormat("    {{ \"buffer\": 0, \"byteOffset\": {0}, \"byteLength\": {1} }}",
+                        ibv.offset, ibv.length);
+                    if (i < imageBufferViews.Count - 1) json.Append(",");
+                    json.Append("\n");
+                }
+                json.Append("  ],\n");
+
+                // Accessors
+                json.Append("  \"accessors\": [\n");
+                for (int i = 0; i < accessors.Count; i++)
+                {
+                    var acc = accessors[i];
+                    json.AppendFormat("    {{ \"bufferView\": {0}, \"componentType\": {1}, \"count\": {2}, \"type\": \"{3}\"",
+                        acc.bufferView, acc.componentType, acc.count, acc.type);
+                    if (acc.min != null && acc.max != null)
+                    {
+                        json.AppendFormat(", \"min\": [{0:F6}, {1:F6}, {2:F6}], \"max\": [{3:F6}, {4:F6}, {5:F6}]",
+                            acc.min[0], acc.min[1], acc.min[2], acc.max[0], acc.max[1], acc.max[2]);
+                    }
+                    json.Append(" }");
+                    if (i < accessors.Count - 1) json.Append(",");
+                    json.Append("\n");
+                }
+                json.Append("  ],\n");
+
+                // Materials with textures
+                json.Append("  \"materials\": [\n");
+                for (int i = 0; i < usedShaderIndices.Count; i++)
+                {
+                    int shaderIdx = usedShaderIndices[i];
+                    json.Append("    {\n");
+                    json.Append("      \"pbrMetallicRoughness\": {\n");
+                    if (textureImageIndex.ContainsKey(shaderIdx))
+                    {
+                        json.AppendFormat("        \"baseColorTexture\": {{ \"index\": {0} }},\n", textureImageIndex[shaderIdx]);
+                    }
+                    json.Append("        \"metallicFactor\": 0.0,\n");
+                    json.Append("        \"roughnessFactor\": 1.0\n");
+                    json.Append("      },\n");
+                    json.Append("      \"doubleSided\": true\n");
+                    json.Append("    }");
+                    if (i < usedShaderIndices.Count - 1) json.Append(",");
+                    json.Append("\n");
+                }
+                json.Append("  ],\n");
+
+                // Textures and images
+                if (textureImageIndex.Count > 0)
+                {
+                    json.Append("  \"textures\": [\n");
+                    for (int i = 0; i < textureImageIndex.Count; i++)
+                    {
+                        json.AppendFormat("    {{ \"source\": {0} }}", i);
+                        if (i < textureImageIndex.Count - 1) json.Append(",");
+                        json.Append("\n");
+                    }
+                    json.Append("  ],\n");
+
+                    json.Append("  \"images\": [\n");
+                    for (int i = 0; i < imageBufferViews.Count; i++)
+                    {
+                        json.AppendFormat("    {{ \"mimeType\": \"image/png\", \"bufferView\": {0} }}", imgBvStart + i);
+                        if (i < imageBufferViews.Count - 1) json.Append(",");
+                        json.Append("\n");
+                    }
+                    json.Append("  ],\n");
+                }
+
+                // Mesh with primitives
+                json.Append("  \"meshes\": [{\n");
+                json.Append("    \"primitives\": [\n");
+                for (int i = 0; i < primitiveInfo.Count; i++)
+                {
+                    var pi = primitiveInfo[i];
+                    json.AppendFormat("      {{ \"attributes\": {{ \"POSITION\": {0}, \"TEXCOORD_0\": {1} }}, \"indices\": {2}, \"material\": {3} }}",
+                        pi.posAccessor, pi.uvAccessor, pi.indexAccessor, pi.material);
+                    if (i < primitiveInfo.Count - 1) json.Append(",");
+                    json.Append("\n");
+                }
+                json.Append("    ]\n");
+                json.Append("  }],\n");
+
+                // Buffer
+                json.AppendFormat("  \"buffers\": [{{ \"byteLength\": {0} }}]\n", binData.Length);
+                json.Append("}");
+
+                byte[] jsonBytes = Encoding.UTF8.GetBytes(json.ToString());
+                while (jsonBytes.Length % 4 != 0)
+                {
+                    json.Append(" ");
+                    jsonBytes = Encoding.UTF8.GetBytes(json.ToString());
+                }
+                byte[] paddedJson = jsonBytes;
+
+                // Write GLB
+                using (FileStream fs = new FileStream(filePath, FileMode.Create))
+                using (BinaryWriter bw = new BinaryWriter(fs))
+                {
+                    bw.Write(0x46546C67); // "glTF"
+                    bw.Write((uint)2);
+                    bw.Write((uint)(12 + 8 + paddedJson.Length + 8 + binData.Length));
+                    bw.Write((uint)paddedJson.Length);
+                    bw.Write(0x4E4F534A); // "JSON"
+                    bw.Write(paddedJson);
+                    bw.Write((uint)binData.Length);
+                    bw.Write(0x004E4942); // "BIN\0"
+                    bw.Write(binData);
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks if a vertex is within export bounds.
         /// </summary>
         private bool IsVertexInBounds(float x, float y, float z, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds)
@@ -11642,6 +12266,13 @@ namespace entity.Renderers
         /// </summary>
         private void ExportToGLB(string filePath, (float minX, float maxX, float minY, float maxY, float minZ, float maxZ)? bounds = null)
         {
+            // Rotation matrix to convert from Halo Z-up to Three.js Y-up
+            // X: -90°, Y: -180°, Z: 0°
+            float rotX = -90f * (float)Math.PI / 180f;  // -90 degrees
+            float rotY = -180f * (float)Math.PI / 180f; // -180 degrees
+            float rotZ = 0f;
+            Matrix exportRotation = Matrix.RotationX(rotX) * Matrix.RotationY(rotY) * Matrix.RotationZ(rotZ);
+
             // Collect primitives grouped by shader
             Dictionary<int, GLBPrimitiveData> primitivesByShader = new Dictionary<int, GLBPrimitiveData>();
 
@@ -11725,15 +12356,22 @@ namespace entity.Renderers
                                     {
                                         var v = chunk.Vertices[vi];
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
-                                        prim.Positions.Add(v.X);
-                                        prim.Positions.Add(v.Y);
-                                        prim.Positions.Add(v.Z);
-                                        prim.MinX = Math.Min(prim.MinX, v.X);
-                                        prim.MaxX = Math.Max(prim.MaxX, v.X);
-                                        prim.MinY = Math.Min(prim.MinY, v.Y);
-                                        prim.MaxY = Math.Max(prim.MaxY, v.Y);
-                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
+
+                                        // Apply rotation for Y-up Three.js export
+                                        Vector4 rotatedV = Vector3.Transform(new Vector3(v.X, v.Y, v.Z), exportRotation);
+                                        float rx = rotatedV.X;
+                                        float ry = rotatedV.Y;
+                                        float rz = rotatedV.Z;
+
+                                        prim.Positions.Add(rx);
+                                        prim.Positions.Add(ry);
+                                        prim.Positions.Add(rz);
+                                        prim.MinX = Math.Min(prim.MinX, rx);
+                                        prim.MaxX = Math.Max(prim.MaxX, rx);
+                                        prim.MinY = Math.Min(prim.MinY, ry);
+                                        prim.MaxY = Math.Max(prim.MaxY, ry);
+                                        prim.MinZ = Math.Min(prim.MinZ, rz);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, rz);
 
                                         if (hasUVs)
                                         {
@@ -11903,16 +12541,22 @@ namespace entity.Renderers
                                         float fy = rotated.Y + posY;
                                         float fz = rotated.Z + posZ;
 
-                                        prim.Positions.Add(fx);
-                                        prim.Positions.Add(fy);
-                                        prim.Positions.Add(fz);
+                                        // Apply export rotation for Y-up Three.js
+                                        Vector4 exportRotated = Vector3.Transform(new Vector3(fx, fy, fz), exportRotation);
+                                        float rx = exportRotated.X;
+                                        float ry = exportRotated.Y;
+                                        float rz = exportRotated.Z;
 
-                                        prim.MinX = Math.Min(prim.MinX, fx);
-                                        prim.MaxX = Math.Max(prim.MaxX, fx);
-                                        prim.MinY = Math.Min(prim.MinY, fy);
-                                        prim.MaxY = Math.Max(prim.MaxY, fy);
-                                        prim.MinZ = Math.Min(prim.MinZ, fz);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, fz);
+                                        prim.Positions.Add(rx);
+                                        prim.Positions.Add(ry);
+                                        prim.Positions.Add(rz);
+
+                                        prim.MinX = Math.Min(prim.MinX, rx);
+                                        prim.MaxX = Math.Max(prim.MaxX, rx);
+                                        prim.MinY = Math.Min(prim.MinY, ry);
+                                        prim.MaxY = Math.Max(prim.MaxY, ry);
+                                        prim.MinZ = Math.Min(prim.MinZ, rz);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, rz);
 
                                         if (hasUVs && vi < chunk.UVs.Count)
                                         {
