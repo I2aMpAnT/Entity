@@ -11795,8 +11795,12 @@ namespace entity.Renderers
                         scale = scaleSpawn.Scale + 1.0f;
                     }
 
-                    // Create rotation matrix
-                    Matrix rotMatrix = Matrix.RotationYawPitchRoll(yaw, pitch, roll);
+                    // Create rotation matrix using Halo 2's specific rotation order
+                    // Matches MakeMatrixForSpawn: m3 * m2 * m1 where m1=RotateX(Yaw), m2=RotateY(-Pitch), m3=RotateZ(Roll)
+                    Matrix m1 = Matrix.RotationX(yaw);
+                    Matrix m2 = Matrix.RotationY(-pitch); // Pitch is backwards in game
+                    Matrix m3 = Matrix.RotationZ(roll);
+                    Matrix rotMatrix = m3 * m2 * m1;
 
                     // Process each chunk in the model
                     foreach (var chunk in model.RawDataMetaChunks)
