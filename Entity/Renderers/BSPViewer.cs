@@ -11759,8 +11759,9 @@ namespace entity.Renderers
                 }
             }
 
-            // Add scenery and obstacle models
-            if (bsp.Spawns?.Spawn != null && SpawnModel != null && spawnmodelindex != null)
+            // Add scenery and obstacle models (only if spawn models are loaded for this map)
+            if (bsp.Spawns?.Spawn != null && SpawnModel != null && SpawnModel.Count > 0 &&
+                spawnmodelindex != null && spawnmodelindex.Length == bsp.Spawns.Spawn.Count)
             {
                 // Use a separate "scenery" shader index offset to avoid collision with BSP shaders
                 int sceneryShaderOffset = 10000;
@@ -11774,8 +11775,10 @@ namespace entity.Renderers
                         spawn.Type != SpawnInfo.SpawnType.Obstacle)
                         continue;
 
-                    // Check if this spawn has a model
-                    if (spawnmodelindex[spawnIdx] < 0 || spawnmodelindex[spawnIdx] >= SpawnModel.Count)
+                    // Check if this spawn has a valid model
+                    if (spawnIdx >= spawnmodelindex.Length ||
+                        spawnmodelindex[spawnIdx] < 0 ||
+                        spawnmodelindex[spawnIdx] >= SpawnModel.Count)
                         continue;
 
                     var model = SpawnModel[spawnmodelindex[spawnIdx]];
