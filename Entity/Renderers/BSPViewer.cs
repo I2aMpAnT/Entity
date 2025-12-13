@@ -11720,13 +11720,13 @@ namespace entity.Renderers
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
                                         prim.Positions.Add(v.X);
                                         prim.Positions.Add(v.Y);
-                                        prim.Positions.Add(-v.Z);
+                                        prim.Positions.Add(v.Z);
                                         prim.MinX = Math.Min(prim.MinX, v.X);
                                         prim.MaxX = Math.Max(prim.MaxX, v.X);
                                         prim.MinY = Math.Min(prim.MinY, v.Y);
                                         prim.MaxY = Math.Max(prim.MaxY, v.Y);
-                                        prim.MinZ = Math.Min(prim.MinZ, -v.Z);
-                                        prim.MaxZ = Math.Max(prim.MaxZ, -v.Z);
+                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
 
                                         if (hasUVs)
                                         {
@@ -11741,9 +11741,10 @@ namespace entity.Renderers
                                         }
                                     }
                                 }
+                                // Reverse winding order for correct face orientation
                                 prim.Indices.Add(vertexMap[face[0]]);
-                                prim.Indices.Add(vertexMap[face[1]]);
                                 prim.Indices.Add(vertexMap[face[2]]);
+                                prim.Indices.Add(vertexMap[face[1]]);
                             }
                         }
                     }
@@ -11893,7 +11894,7 @@ namespace entity.Renderers
                                         Vector4 rotated = Vector3.Transform(scaledV, rotMatrix);
                                         float fx = rotated.X + posX;
                                         float fy = rotated.Y + posY;
-                                        float fz = -(rotated.Z + posZ);  // Negate Z to fix inversion
+                                        float fz = rotated.Z + posZ;
 
                                         prim.Positions.Add(fx);
                                         prim.Positions.Add(fy);
@@ -11922,9 +11923,10 @@ namespace entity.Renderers
 
                                 if (vertexMap.ContainsKey(face[0]) && vertexMap.ContainsKey(face[1]) && vertexMap.ContainsKey(face[2]))
                                 {
+                                    // Reverse winding order for correct face orientation
                                     prim.Indices.Add(vertexMap[face[0]]);
-                                    prim.Indices.Add(vertexMap[face[1]]);
                                     prim.Indices.Add(vertexMap[face[2]]);
+                                    prim.Indices.Add(vertexMap[face[1]]);
                                 }
                             }
                         }
