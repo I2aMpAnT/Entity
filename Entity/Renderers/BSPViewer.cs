@@ -11718,17 +11718,17 @@ namespace entity.Renderers
                                     {
                                         var v = chunk.Vertices[vi];
                                         vertexMap[vi] = (uint)(baseVertex + vertexMap.Count);
-                                        // Swap Y and Z to convert from Halo Z-up to glTF Y-up
-                                        // glTF: X=right, Y=up, Z=forward | Halo: X=right, Y=forward, Z=up
+                                        // Raw Halo coordinates - X,Y horizontal, Z vertical (up)
+                                        // Matches CSV player data: position = (X, Y, Z) directly
                                         prim.Positions.Add(v.X);
-                                        prim.Positions.Add(v.Z);  // Halo Z -> glTF Y (up)
-                                        prim.Positions.Add(v.Y);  // Halo Y -> glTF Z (forward)
+                                        prim.Positions.Add(v.Y);
+                                        prim.Positions.Add(v.Z);
                                         prim.MinX = Math.Min(prim.MinX, v.X);
                                         prim.MaxX = Math.Max(prim.MaxX, v.X);
-                                        prim.MinY = Math.Min(prim.MinY, v.Z);  // Track Z as Y
-                                        prim.MaxY = Math.Max(prim.MaxY, v.Z);
-                                        prim.MinZ = Math.Min(prim.MinZ, v.Y);  // Track Y as Z
-                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Y);
+                                        prim.MinY = Math.Min(prim.MinY, v.Y);
+                                        prim.MaxY = Math.Max(prim.MaxY, v.Y);
+                                        prim.MinZ = Math.Min(prim.MinZ, v.Z);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, v.Z);
 
                                         if (hasUVs)
                                         {
@@ -11897,17 +11897,17 @@ namespace entity.Renderers
                                         float fy = rotated.Y + posY;
                                         float fz = rotated.Z + posZ;
 
-                                        // Swap Y and Z to convert from Halo Z-up to glTF Y-up
+                                        // Raw Halo coordinates - matches CSV player data directly
                                         prim.Positions.Add(fx);
-                                        prim.Positions.Add(fz);  // Halo Z -> glTF Y (up)
-                                        prim.Positions.Add(fy);  // Halo Y -> glTF Z (forward)
+                                        prim.Positions.Add(fy);
+                                        prim.Positions.Add(fz);
 
                                         prim.MinX = Math.Min(prim.MinX, fx);
                                         prim.MaxX = Math.Max(prim.MaxX, fx);
-                                        prim.MinY = Math.Min(prim.MinY, fz);  // Track Z as Y
-                                        prim.MaxY = Math.Max(prim.MaxY, fz);
-                                        prim.MinZ = Math.Min(prim.MinZ, fy);  // Track Y as Z
-                                        prim.MaxZ = Math.Max(prim.MaxZ, fy);
+                                        prim.MinY = Math.Min(prim.MinY, fy);
+                                        prim.MaxY = Math.Max(prim.MaxY, fy);
+                                        prim.MinZ = Math.Min(prim.MinZ, fz);
+                                        prim.MaxZ = Math.Max(prim.MaxZ, fz);
 
                                         if (hasUVs && vi < chunk.UVs.Count)
                                         {
