@@ -11431,10 +11431,11 @@ namespace entity.Renderers
                             continue;
                         }
 
-                        // Load BSP model
-                        Meta BSPMeta = new Meta(newMap);
-                        BSPMeta.ReadMetaFromMap(BSPId, false);
-                        BSPModel newBsp = new BSPModel(ref BSPMeta);
+                        // Load BSP model (same pattern as batch map export)
+                        Meta meta = new Meta(newMap);
+                        meta.TagIndex = BSPId;
+                        meta.ScanMetaItems(true, false);
+                        BSPModel newBsp = new BSPModel(ref meta);
 
                         if (newBsp == null)
                         {
@@ -11443,6 +11444,9 @@ namespace entity.Renderers
                             progressBar.Value++;
                             continue;
                         }
+
+                        // Load DirectX textures for BSP (needed for skybox)
+                        BSPModel.BSPDisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp);
 
                         // Check if skybox exists
                         if (newBsp.SkyBox == null || newBsp.SkyBox.RawDataMetaChunks == null || newBsp.SkyBox.RawDataMetaChunks.Length == 0)
@@ -11454,7 +11458,7 @@ namespace entity.Renderers
                             continue;
                         }
 
-                        // Load DirectX textures for skybox
+                        // Load DirectX textures for skybox model
                         ParsedModel.DisplayedInfo.LoadDirectXTexturesAndBuffers(ref render.device, ref newBsp.SkyBox);
 
                         // Export skybox
