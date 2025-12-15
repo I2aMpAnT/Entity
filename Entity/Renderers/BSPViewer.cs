@@ -12434,9 +12434,10 @@ namespace entity.Renderers
                 {
                     var spawn = bsp.Spawns.Spawn[spawnIdx];
 
-                    // Only include Scenery, Obstacle/Crate types
+                    // Only include Scenery, Obstacle/Crate, Collection (weapons/items) types
                     if (spawn.Type != SpawnInfo.SpawnType.Scenery &&
-                        spawn.Type != SpawnInfo.SpawnType.Obstacle)
+                        spawn.Type != SpawnInfo.SpawnType.Obstacle &&
+                        spawn.Type != SpawnInfo.SpawnType.Collection)
                         continue;
 
                     // Check if this spawn has a valid model
