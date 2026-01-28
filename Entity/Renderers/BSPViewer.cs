@@ -9241,24 +9241,39 @@ namespace entity.Renderers
                         // Only draw if the death has occurred by current timestamp
                         if (deathPt.Timestamp > pathCurrentTimestamp) continue;
 
-                        // Draw red X marker at death location
+                        // Draw red X marker at death location (thick lines using triangle strips)
                         float xSize = 0.3f;
+                        float thickness = 0.1f; // Line thickness (10x thicker than original thin lines)
                         float zOffset = 0.1f; // Slightly above ground
                         Color deathColor = Color.Red;
                         int argb = deathColor.ToArgb();
 
-                        // Create X shape with two lines
+                        // Create thick X shape using triangles for each diagonal
+                        // First diagonal (bottom-left to top-right) as a thick line
+                        float diagLen = xSize * 1.414f; // diagonal length
+                        float perpX = thickness * 0.707f; // perpendicular offset X (normalized)
+                        float perpY = thickness * 0.707f; // perpendicular offset Y (normalized)
+
                         CustomVertex.PositionColored[] xVerts = new CustomVertex.PositionColored[]
                         {
-                            // First diagonal line
-                            new CustomVertex.PositionColored(deathPt.X - xSize, deathPt.Y - xSize, deathPt.Z + zOffset, argb),
-                            new CustomVertex.PositionColored(deathPt.X + xSize, deathPt.Y + xSize, deathPt.Z + zOffset, argb),
-                            // Second diagonal line
-                            new CustomVertex.PositionColored(deathPt.X - xSize, deathPt.Y + xSize, deathPt.Z + zOffset, argb),
-                            new CustomVertex.PositionColored(deathPt.X + xSize, deathPt.Y - xSize, deathPt.Z + zOffset, argb),
+                            // First diagonal thick line (4 vertices for triangle strip)
+                            new CustomVertex.PositionColored(deathPt.X - xSize - perpY, deathPt.Y - xSize + perpX, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X - xSize + perpY, deathPt.Y - xSize - perpX, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize - perpY, deathPt.Y + xSize + perpX, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize + perpY, deathPt.Y + xSize - perpX, deathPt.Z + zOffset, argb),
                         };
 
-                        render.device.DrawUserPrimitives(PrimitiveType.LineList, 2, xVerts);
+                        CustomVertex.PositionColored[] xVerts2 = new CustomVertex.PositionColored[]
+                        {
+                            // Second diagonal thick line (4 vertices for triangle strip)
+                            new CustomVertex.PositionColored(deathPt.X - xSize + perpY, deathPt.Y + xSize + perpX, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X - xSize - perpY, deathPt.Y + xSize - perpX, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize + perpY, deathPt.Y - xSize + perpX, deathPt.Z + zOffset, argb),
+                            new CustomVertex.PositionColored(deathPt.X + xSize - perpY, deathPt.Y - xSize - perpX, deathPt.Z + zOffset, argb),
+                        };
+
+                        render.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, xVerts);
+                        render.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, xVerts2);
                     }
                 }
                 render.device.RenderState.Lighting = true;
