@@ -2829,6 +2829,7 @@ namespace entity.MetaEditor2
         /// </summary>
         private MetaSplitter splitCurrentMeta()
         {
+            map.OpenMap(MapTypes.Internal);
             Meta m = new Meta(map);
             m.ReadMetaFromMap(meta.TagIndex, false);
             IFPIO ifpx = IFPHashMap.GetIfp(m.type, map.HaloVersion);
