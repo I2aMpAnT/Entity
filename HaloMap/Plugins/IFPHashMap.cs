@@ -60,13 +60,19 @@ namespace HaloMap.Plugins
                     string temps = Prefs.pathPluginsFolder + "\\" + TagType.Trim() + ".ent";
                     temps = temps.Replace("<", "_");
                     temps = temps.Replace(">", "_");
+                    if (!System.IO.File.Exists(temps))
+                    {
+                        Global.ShowErrorMsg("Plugin file not found: " + temps, new System.IO.FileNotFoundException(temps));
+                        return tempifp;
+                    }
+
                     try
                     {
                         tempifp.ReadIFP(temps);
                     }
                     catch (Exception e)
                     {
-                        throw new Exception("Error Reading Ent: " + TagType, e);
+                        Global.ShowErrorMsg("Error Reading Ent: " + TagType, e);
                     }
 
                     // IFPHashMap.H2IFPHash.Remove(TagType);
