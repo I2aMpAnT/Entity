@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using HaloMap.ChunkCloning;
 using HaloMap.Map;
 using HaloMap.Meta;
 using HaloMap.Plugins;
@@ -2820,6 +2821,230 @@ namespace entity.MetaEditor2
             }
 
         }
+
+        #region Chunk Add/Delete/Duplicate
+
+        /// <summary>
+        /// Splits the current meta using MetaSplitter, the same way ChunkClonerWindow does.
+        /// </summary>
+        private MetaSplitter splitCurrentMeta()
+        {
+            Meta m = new Meta(map);
+            m.ReadMetaFromMap(meta.TagIndex, false);
+            IFPIO ifpx = IFPHashMap.GetIfp(m.type, map.HaloVersion);
+            m.headersize = ifpx.headerSize;
+            m.scanner.ScanWithIFP(ref ifpx);
+            MetaSplitter ms = new MetaSplitter();
+            ms.SplitWithIFP(ref ifpx, ref m, map);
+            return ms;
+        }
+
+        /// <summary>
+        /// Builds the path of reflexive offsets from MAIN down to the target reflexiveData.
+        /// </summary>
+        private List<reflexiveData> buildReflexivePath(reflexiveData target)
+        {
+            List<reflexiveData> path = new List<reflexiveData>();
+            reflexiveData current = target;
+            while (current != null && current.reflexive != null)
+            {
+                path.Insert(0, current);
+                current = current.parent;
+            }
+            return path;
+        }
+
+        /// <summary>
+        /// Navigates the MetaSplitter tree to find the Container SplitReflexive
+        /// that corresponds to the given reflexiveData.
+        /// </summary>
+        private MetaSplitter.SplitReflexive findSplitContainer(MetaSplitter metasplit, reflexiveData target)
+        {
+            List<reflexiveData> path = buildReflexivePath(target);
+            if (path.Count == 0) return null;
+
+            // Start at the MAIN chunk
+            if (metasplit.Header.Chunks.Count == 0) return null;
+            MetaSplitter.SplitReflexive currentChunk = metasplit.Header.Chunks[0];
+
+            for (int p = 0; p < path.Count; p++)
+            {
+                reflexiveData rd = path[p];
+                // Find the Container in currentChunk's ChunkResources matching this reflexive's offset
+                MetaSplitter.SplitReflexive container = null;
+                foreach (Meta.Item item in currentChunk.ChunkResources)
+                {
+                    if (item.type == Meta.ItemType.Reflexive)
+                    {
+                        MetaSplitter.SplitReflexive sr = (MetaSplitter.SplitReflexive)item;
+                        if (sr.offset == rd.reflexive.offset &&
+                            sr.splitReflexiveType == MetaSplitter.SplitReflexive.SplitReflexiveType.Container)
+                        {
+                            container = sr;
+                            break;
+                        }
+                    }
+                }
+
+                if (container == null) return null;
+
+                // If this is the target, return the container
+                if (p == path.Count - 1)
+                    return container;
+
+                // Otherwise, navigate into the selected chunk of this container
+                int chunkIdx = rd.chunkSelected;
+                if (chunkIdx < 0 || chunkIdx >= container.Chunks.Count) return null;
+                currentChunk = container.Chunks[chunkIdx];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Saves any pending edits to disk, then splits the current meta.
+        /// Must be called before modifying the split tree.
+        /// </summary>
+        private MetaSplitter saveAndSplitMeta()
+        {
+            // Save any pending control edits to memory stream
+            if (CurrentControl != null)
+                CurrentControl.BaseField_Leave(null, null);
+
+            // Write memory stream to the map file so the split reads current data
+            btnSave_Click(null, null);
+
+            // Now split from the saved map data
+            return splitCurrentMeta();
+        }
+
+        /// <summary>
+        /// Writes the modified split back to the map and refreshes everything.
+        /// </summary>
+        private void writeChunkEditAndRefresh(MetaSplitter metasplit)
+        {
+            map.OpenMap(MapTypes.Internal);
+            map.ChunkTools.Add(meta.TagIndex, metasplit);
+
+            // Refresh the map and reload meta through MapForm
+            MapForm.RefreshAfterChunkEdit();
+        }
+
+        private void tsBtnAddChunk_Click(object sender, EventArgs e)
+        {
+            reflexiveData rd = (reflexiveData)treeViewTagReflexives.SelectedNode.Tag;
+            if (rd.reflexive == null)
+            {
+                showInfoBox("Select a reflexive to add a chunk to", 2000);
+                return;
+            }
+
+            try
+            {
+                MetaSplitter metasplit = saveAndSplitMeta();
+                MetaSplitter.SplitReflexive container = findSplitContainer(metasplit, rd);
+
+                if (container == null)
+                {
+                    // Reflexive not in split tree (likely 0 chunks). Need to add it manually.
+                    showInfoBox("Cannot add chunk - use Chunk Cloner for empty reflexives", 3000);
+                    return;
+                }
+
+                // Clone the last chunk to create a new one with the same structure
+                if (container.Chunks.Count > 0)
+                {
+                    container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
+                }
+
+                writeChunkEditAndRefresh(metasplit);
+            }
+            catch (Exception ex)
+            {
+                Globals.Global.ShowErrorMsg("Error adding chunk", ex);
+            }
+        }
+
+        private void tsBtnDeleteChunk_Click(object sender, EventArgs e)
+        {
+            reflexiveData rd = (reflexiveData)treeViewTagReflexives.SelectedNode.Tag;
+            if (rd.reflexive == null)
+            {
+                showInfoBox("Select a reflexive to delete a chunk from", 2000);
+                return;
+            }
+            if (rd.chunkCount <= 0)
+            {
+                showInfoBox("No chunks to delete", 2000);
+                return;
+            }
+
+            if (MessageBox.Show(
+                "Delete chunk " + rd.chunkSelected + " of " + rd.chunkCount + " from \"" + rd.reflexive.name + "\"?",
+                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                return;
+
+            try
+            {
+                MetaSplitter metasplit = saveAndSplitMeta();
+                MetaSplitter.SplitReflexive container = findSplitContainer(metasplit, rd);
+
+                if (container == null || container.Chunks.Count == 0)
+                {
+                    showInfoBox("Could not find reflexive in meta structure", 3000);
+                    return;
+                }
+
+                int chunkIdx = rd.chunkSelected;
+                if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    container.Chunks.RemoveAt(chunkIdx);
+
+                writeChunkEditAndRefresh(metasplit);
+            }
+            catch (Exception ex)
+            {
+                Globals.Global.ShowErrorMsg("Error deleting chunk", ex);
+            }
+        }
+
+        private void tsBtnDuplicateChunk_Click(object sender, EventArgs e)
+        {
+            reflexiveData rd = (reflexiveData)treeViewTagReflexives.SelectedNode.Tag;
+            if (rd.reflexive == null)
+            {
+                showInfoBox("Select a reflexive to duplicate a chunk in", 2000);
+                return;
+            }
+            if (rd.chunkCount <= 0)
+            {
+                showInfoBox("No chunks to duplicate", 2000);
+                return;
+            }
+
+            try
+            {
+                MetaSplitter metasplit = saveAndSplitMeta();
+                MetaSplitter.SplitReflexive container = findSplitContainer(metasplit, rd);
+
+                if (container == null || container.Chunks.Count == 0)
+                {
+                    showInfoBox("Could not find reflexive in meta structure", 3000);
+                    return;
+                }
+
+                int chunkIdx = rd.chunkSelected;
+                if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
+
+                writeChunkEditAndRefresh(metasplit);
+            }
+            catch (Exception ex)
+            {
+                Globals.Global.ShowErrorMsg("Error duplicating chunk", ex);
+            }
+        }
+
+        #endregion
 
     }
 }

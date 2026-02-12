@@ -1830,6 +1830,18 @@ namespace entity.MapForms
         }
 
         /// <summary>
+        /// Refreshes the map and reloads the current meta after a chunk add/delete/duplicate operation.
+        /// </summary>
+        public void RefreshAfterChunkEdit()
+        {
+            int i = map.SelectedMeta.TagIndex;
+            Meta.ItemType me = map.DisplayType;
+            map = Map.Refresh(map);
+            LoadMeta(i);
+            formFuncs.AddReferencesToListView(map.SelectedMeta, references, me);
+        }
+
+        /// <summary>
         /// The clear tag quick list tool strip menu item_ click.
         /// </summary>
         /// <param name="sender">The sender.</param>
