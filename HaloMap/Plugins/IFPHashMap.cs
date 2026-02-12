@@ -11,6 +11,7 @@ namespace HaloMap.Plugins
 {
     using System;
     using System.Collections;
+    using System.IO;
 
     using Globals;
 
@@ -57,12 +58,12 @@ namespace HaloMap.Plugins
                     tempifp = new IFPIO();
 
                     // string temps = Global.StartupPath + "\\plugins\\" + TagType.Trim() + ".ifp";
-                    string temps = Prefs.pathPluginsFolder + "\\" + TagType.Trim() + ".ent";
+                    string temps = Path.Combine(Prefs.pathPluginsFolder, TagType.Trim() + ".ent");
                     temps = temps.Replace("<", "_");
                     temps = temps.Replace(">", "_");
-                    if (!System.IO.File.Exists(temps))
+                    if (!File.Exists(temps))
                     {
-                        Global.ShowErrorMsg("Plugin file not found: " + temps, new System.IO.FileNotFoundException(temps));
+                        Global.ShowErrorMsg("Plugin file not found: " + temps, new FileNotFoundException(temps));
                         return tempifp;
                     }
 
