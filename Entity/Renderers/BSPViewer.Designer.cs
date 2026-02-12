@@ -81,6 +81,10 @@ namespace entity.Renderers
         private ToolStripDropDownButton ToolStripDropDownButtonRotatePitch;
         private ToolStripDropDownButton toolStripDropDownButtonRotateRoll;
         private ToolStripDropDownButton ToolStripDropDownButtonRotateYaw;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton tsBtnDeleteChunk;
+        private ToolStripButton tsBtnDuplicateChunk;
+        private ToolStripButton tsBtnAddChunk;
         private ToolStripLabel toolStripLabel2;
         private ToolStripMenuItem ToolStripMenuItemRP180;
         private ToolStripMenuItem ToolStripMenuItemRP45CCW;
@@ -261,6 +265,10 @@ namespace entity.Renderers
             this.ToolStripMenuItemRR180 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemRR90CW = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemRR45CW = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsBtnDeleteChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnDuplicateChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnAddChunk = new System.Windows.Forms.ToolStripButton();
             this.cbBSPTextures = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.identContext.SuspendLayout();
@@ -1146,7 +1154,11 @@ namespace entity.Renderers
             this.toolStripButtonReset,
             this.ToolStripDropDownButtonRotateYaw,
             this.ToolStripDropDownButtonRotatePitch,
-            this.toolStripDropDownButtonRotateRoll});
+            this.toolStripDropDownButtonRotateRoll,
+            this.toolStripSeparator1,
+            this.tsBtnDeleteChunk,
+            this.tsBtnDuplicateChunk,
+            this.tsBtnAddChunk});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip.Location = new System.Drawing.Point(254, 0);
             this.toolStrip.Name = "toolStrip";
@@ -1320,7 +1332,39 @@ namespace entity.Renderers
             this.ToolStripMenuItemRR45CW.Size = new System.Drawing.Size(143, 22);
             this.ToolStripMenuItemRR45CW.Text = "45* CW";
             this.ToolStripMenuItemRR45CW.Click += new System.EventHandler(this.ToolStripMenuItemRotate_Click);
-            // 
+            //
+            // toolStripSeparator1
+            //
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            //
+            // tsBtnDeleteChunk
+            //
+            this.tsBtnDeleteChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnDeleteChunk.Name = "tsBtnDeleteChunk";
+            this.tsBtnDeleteChunk.Size = new System.Drawing.Size(48, 20);
+            this.tsBtnDeleteChunk.Text = "Delete";
+            this.tsBtnDeleteChunk.ToolTipText = "Delete selected spawn chunk (Del)";
+            this.tsBtnDeleteChunk.Click += new System.EventHandler(this.tsBtnDeleteChunk_Click);
+            //
+            // tsBtnDuplicateChunk
+            //
+            this.tsBtnDuplicateChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnDuplicateChunk.Name = "tsBtnDuplicateChunk";
+            this.tsBtnDuplicateChunk.Size = new System.Drawing.Size(64, 20);
+            this.tsBtnDuplicateChunk.Text = "Duplicate";
+            this.tsBtnDuplicateChunk.ToolTipText = "Duplicate selected spawn chunk";
+            this.tsBtnDuplicateChunk.Click += new System.EventHandler(this.tsBtnDuplicateChunk_Click);
+            //
+            // tsBtnAddChunk
+            //
+            this.tsBtnAddChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnAddChunk.Name = "tsBtnAddChunk";
+            this.tsBtnAddChunk.Size = new System.Drawing.Size(33, 20);
+            this.tsBtnAddChunk.Text = "Add";
+            this.tsBtnAddChunk.ToolTipText = "Add a new spawn chunk (clones last)";
+            this.tsBtnAddChunk.Click += new System.EventHandler(this.tsBtnAddChunk_Click);
+            //
             // cbBSPTextures
             // 
             this.cbBSPTextures.AutoSize = true;

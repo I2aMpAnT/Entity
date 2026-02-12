@@ -36,6 +36,8 @@ namespace entity.Renderers
     using Microsoft.DirectX.DirectInput;
 
     using HaloMap;
+    using HaloMap.ChunkCloning;
+    using HaloMap.Plugins;
 
     /// <summary>
     /// The bsp viewer.
@@ -64,7 +66,7 @@ namespace entity.Renderers
         /// <summary>
         /// The map.
         /// </summary>
-        private readonly Map map;
+        private Map map;
 
         /// <summary>
         /// The render.
@@ -3634,6 +3636,12 @@ namespace entity.Renderers
         /// </summary>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (keyData == Keys.Delete && SelectedSpawn.Count > 0)
+            {
+                tsBtnDeleteChunk_Click(this, EventArgs.Empty);
+                return true;
+            }
+
             if (theaterMode)
             {
                 switch (keyData)
@@ -5518,6 +5526,393 @@ namespace entity.Renderers
 
             MessageBox.Show("Done");
         }
+
+        #region Spawn Chunk Add/Delete/Duplicate
+
+        /// <summary>
+        /// Returns the SCNR reflexive offset and chunk size for a given spawn type.
+        /// </summary>
+        private bool GetSpawnReflexiveInfo(SpawnInfo.SpawnType type, out int scnrOffset, out int chunkSize)
+        {
+            switch (type)
+            {
+                case SpawnInfo.SpawnType.Player:     scnrOffset = 256; chunkSize = 52; return true;
+                case SpawnInfo.SpawnType.Scenery:    scnrOffset = 80;  chunkSize = 92; return true;
+                case SpawnInfo.SpawnType.Obstacle:   scnrOffset = 808; chunkSize = 76; return true;
+                case SpawnInfo.SpawnType.Vehicle:    scnrOffset = 112; chunkSize = 84; return true;
+                case SpawnInfo.SpawnType.Weapon:     scnrOffset = 144; chunkSize = 84; return true;
+                case SpawnInfo.SpawnType.Equipment:  scnrOffset = 128; chunkSize = 56; return true;
+                case SpawnInfo.SpawnType.Biped:      scnrOffset = 96;  chunkSize = 84; return true;
+                case SpawnInfo.SpawnType.Machine:    scnrOffset = 168; chunkSize = 72; return true;
+                case SpawnInfo.SpawnType.Control:    scnrOffset = 184; chunkSize = 68; return true;
+                case SpawnInfo.SpawnType.Sound:      scnrOffset = 216; chunkSize = 80; return true;
+                case SpawnInfo.SpawnType.Light:      scnrOffset = 232; chunkSize = 108; return true;
+                case SpawnInfo.SpawnType.Objective:  scnrOffset = 280; chunkSize = 32; return true;
+                case SpawnInfo.SpawnType.DeathZone:  scnrOffset = 264; chunkSize = 68; return true;
+                case SpawnInfo.SpawnType.Collection: scnrOffset = 288; chunkSize = 144; return true;
+                case SpawnInfo.SpawnType.Camera:     scnrOffset = 488; chunkSize = 64; return true;
+                default: scnrOffset = 0; chunkSize = 0; return false;
+            }
+        }
+
+        /// <summary>
+        /// Splits the SCNR tag meta using MetaSplitter.
+        /// </summary>
+        private MetaSplitter SplitScnrMeta(int scnrTagIndex)
+        {
+            map.OpenMap(MapTypes.Internal);
+            Meta m = new Meta(map);
+            m.ReadMetaFromMap(scnrTagIndex, false);
+            IFPIO ifpx = IFPHashMap.GetIfp(m.type, map.HaloVersion);
+            m.headersize = ifpx.headerSize;
+            m.scanner.ScanWithIFP(ref ifpx);
+            MetaSplitter ms = new MetaSplitter();
+            ms.SplitWithIFP(ref ifpx, ref m, map);
+            return ms;
+        }
+
+        /// <summary>
+        /// Finds the reflexive container in the split tree matching the given SCNR reflexive offset.
+        /// </summary>
+        private MetaSplitter.SplitReflexive FindReflexiveByOffset(MetaSplitter metasplit, int reflexiveOffset)
+        {
+            if (metasplit.Header.Chunks.Count == 0) return null;
+            MetaSplitter.SplitReflexive mainChunk = metasplit.Header.Chunks[0];
+
+            foreach (Meta.Item item in mainChunk.ChunkResources)
+            {
+                if (item.type == Meta.ItemType.Reflexive)
+                {
+                    MetaSplitter.SplitReflexive sr = (MetaSplitter.SplitReflexive)item;
+                    if (sr.offset == reflexiveOffset &&
+                        sr.splitReflexiveType == MetaSplitter.SplitReflexive.SplitReflexiveType.Container)
+                    {
+                        return sr;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Computes the chunk index for a spawn within its SCNR reflexive.
+        /// </summary>
+        private int GetSpawnChunkIndex(SpawnInfo.BaseSpawn spawn, int scnrReflexiveOffset, int chunkSize)
+        {
+            map.OpenMap(MapTypes.Internal);
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + scnrReflexiveOffset;
+            int count = map.BR.ReadInt32();
+            int dataStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (chunkSize <= 0) return -1;
+            int idx = (spawn.offset - dataStart) / chunkSize;
+            if (idx < 0 || idx >= count) return -1;
+            return idx;
+        }
+
+        /// <summary>
+        /// Refreshes spawn data and treeview in-place after a chunk operation.
+        /// Reuses existing 3D models.
+        /// </summary>
+        private void RefreshSpawnsInPlace()
+        {
+            // Build lookup from ModelTagNumber to SpawnModel index and bounding box info
+            Dictionary<int, int> modelToIdx = new Dictionary<int, int>();
+            Dictionary<int, float[]> modelToBBDiff = new Dictionary<int, float[]>();
+            Dictionary<int, Mesh> modelToBBMesh = new Dictionary<int, Mesh>();
+
+            for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
+            {
+                SpawnInfo.RotationSpawn rs = bsp.Spawns.Spawn[x] as SpawnInfo.RotationSpawn;
+                if (rs != null && !modelToIdx.ContainsKey(rs.ModelTagNumber))
+                {
+                    modelToIdx[rs.ModelTagNumber] = spawnmodelindex[x];
+                    modelToBBDiff[rs.ModelTagNumber] = new float[] {
+                        bsp.Spawns.Spawn[x].bbXDiff,
+                        bsp.Spawns.Spawn[x].bbYDiff,
+                        bsp.Spawns.Spawn[x].bbZDiff
+                    };
+                    modelToBBMesh[rs.ModelTagNumber] = BoundingBoxModel[x];
+                }
+            }
+
+            // Reload spawns from the updated map (SpawnInfo opens/closes map internally)
+            bsp.Spawns = new SpawnInfo(map);
+
+            // Rebuild arrays
+            spawnmodelindex = new int[bsp.Spawns.Spawn.Count];
+            BoundingBoxModel = new Mesh[bsp.Spawns.Spawn.Count];
+
+            int blockCount = 0, scenCount = 0;
+            for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
+            {
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn)
+                    ((SpawnInfo.ObstacleSpawn)bsp.Spawns.Spawn[x]).BlocNumber = blockCount++;
+                else if (bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn)
+                    ((SpawnInfo.ScenerySpawn)bsp.Spawns.Spawn[x]).ScenNumber = scenCount++;
+
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.BoundingBoxSpawn)
+                {
+                    BoundingBoxModel[x] = loadBoundingBoxSpawn(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.CameraSpawn)
+                {
+                    BoundingBoxModel[x] = loadCameraSpawn(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.LightSpawn)
+                {
+                    BoundingBoxModel[x] = Mesh.Cylinder(render.device, 0.5f, 0.0f, 1f, 10, 10);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.SoundSpawn)
+                {
+                    BoundingBoxModel[x] = loadSoundSpawn(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.SpawnZone)
+                {
+                    BoundingBoxModel[x] = loadSpawnZone(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+
+                SpawnInfo.RotationSpawn rs = bsp.Spawns.Spawn[x] as SpawnInfo.RotationSpawn;
+                if (rs != null && modelToIdx.ContainsKey(rs.ModelTagNumber))
+                {
+                    spawnmodelindex[x] = modelToIdx[rs.ModelTagNumber];
+                    BoundingBoxModel[x] = modelToBBMesh[rs.ModelTagNumber];
+                    bsp.Spawns.Spawn[x].bbXDiff = modelToBBDiff[rs.ModelTagNumber][0];
+                    bsp.Spawns.Spawn[x].bbYDiff = modelToBBDiff[rs.ModelTagNumber][1];
+                    bsp.Spawns.Spawn[x].bbZDiff = modelToBBDiff[rs.ModelTagNumber][2];
+                }
+            }
+
+            // Clear selection and rebuild treeview
+            SelectedSpawn.Clear();
+            toolStrip.Visible = false;
+            RebuildSpawnTreeView();
+        }
+
+        /// <summary>
+        /// Rebuilds the treeView1 spawn tree from current bsp.Spawns data.
+        /// </summary>
+        private void RebuildSpawnTreeView()
+        {
+            treeView1.Nodes.Clear();
+            string[] strings = Enum.GetNames(typeof(SpawnInfo.SpawnType));
+
+            int CameraCount = 0;
+            int DeathZoneCount = 0;
+            int ObjectiveCount = 0;
+            int PlayerCount = 0;
+
+            foreach (string s in strings)
+            {
+                TreeNode tn = new TreeNode();
+                bool SpawnFound = false;
+                for (int i = 0; i < bsp.Spawns.Spawn.Count; i++)
+                {
+                    if (s == bsp.Spawns.Spawn[i].Type.ToString())
+                    {
+                        if (!SpawnFound)
+                        {
+                            SpawnFound = true;
+                        }
+
+                        TreeNode tn2 = new TreeNode();
+                        tn2.Text = string.Empty;
+                        tn2.ToolTipText = " X: " + bsp.Spawns.Spawn[i].X.ToString("#0.0##").PadRight(9) + "  Y: " +
+                                          bsp.Spawns.Spawn[i].Y.ToString("#0.0##").PadRight(9) + "  Z: " +
+                                          bsp.Spawns.Spawn[i].Z.ToString("#0.0##").PadRight(9);
+
+                        if (bsp.Spawns.Spawn[i].Type.ToString() == "Camera")
+                        {
+                            tn2.Text = bsp.Spawns.Spawn[i].Type + " {" + CameraCount + "}";
+                            CameraCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "DeathZone")
+                        {
+                            SpawnInfo.DeathZone tempspawn = (SpawnInfo.DeathZone)bsp.Spawns.Spawn[i];
+                            tn2.Text = tempspawn.Name;
+                            DeathZoneCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "Objective")
+                        {
+                            SpawnInfo.ObjectiveSpawn tempspawn = (SpawnInfo.ObjectiveSpawn)bsp.Spawns.Spawn[i];
+                            tn2.Text = tempspawn.ObjectiveType + " (" + tempspawn.Team + ") #" + tempspawn.number;
+                            ObjectiveCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "Player")
+                        {
+                            tn2.Text = bsp.Spawns.Spawn[i].Type + " {" + PlayerCount + "}";
+                            PlayerCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "SpawnZone")
+                        {
+                            SpawnInfo.SpawnZone tempSpawnZone = (SpawnInfo.SpawnZone)bsp.Spawns.Spawn[i];
+                            if (tempSpawnZone.Name == string.Empty)
+                                tn2.Text = "(" + tempSpawnZone.ZoneType.ToString() + ") Spawn Zone";
+                            else
+                                tn2.Text = "(" + tempSpawnZone.ZoneType.ToString() + ") " + tempSpawnZone.Name;
+                        }
+                        else if (bsp.Spawns.Spawn[i].TagPath != null)
+                        {
+                            string[] temps = bsp.Spawns.Spawn[i].TagPath.Split('\\');
+                            tn2.Text = temps[temps.Length - 1];
+                        }
+                        else
+                        {
+                            tn2.Text = bsp.Spawns.Spawn[i].Type.ToString();
+                        }
+
+                        if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            SpawnInfo.RotateYawPitchRollBaseSpawn tempspawn =
+                                (SpawnInfo.RotateYawPitchRollBaseSpawn)bsp.Spawns.Spawn[i];
+                            if (tn2.Text == null || tn2.Text == string.Empty)
+                            {
+                                if (tempspawn.TagPath != null)
+                                {
+                                    string[] temps = tempspawn.TagPath.Split('\\');
+                                    tn2.Text = temps[temps.Length - 1];
+                                }
+                            }
+                            tn2.ToolTipText += "\n Yaw: " + tempspawn.Yaw.ToString("#0.0##") + "  Pitch: " +
+                                               tempspawn.Pitch.ToString("#0.0##") + " Roll: " +
+                                               tempspawn.Roll.ToString("#0.0##");
+                        }
+                        else if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            SpawnInfo.RotateDirectionBaseSpawn tempspawn =
+                                (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[i];
+                            if (tn2.Text == null || tn2.Text == string.Empty)
+                            {
+                                if (tempspawn.TagPath != null)
+                                {
+                                    string[] temps = tempspawn.TagPath.Split('\\');
+                                    tn2.Text = temps[temps.Length - 1];
+                                }
+                                else
+                                {
+                                    tn2.Text = tempspawn.Type.ToString();
+                                }
+                            }
+                            tn2.ToolTipText += "\n Rotation: " + tempspawn.RotationDirection.ToString("#0.0##");
+                        }
+
+                        tn2.Tag = i;
+                        tn.Nodes.Add(tn2);
+                    }
+                }
+
+                tn.Text = s;
+                tn.Tag = -1;
+                treeView1.Nodes.Add(tn);
+            }
+        }
+
+        /// <summary>
+        /// Performs a chunk operation on the selected spawn and refreshes in-place.
+        /// </summary>
+        private void DoSpawnChunkOperation(string operation)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.");
+                return;
+            }
+
+            int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[spawnIdx];
+
+            int scnrRefOffset, chunkSize;
+            if (!GetSpawnReflexiveInfo(spawn.Type, out scnrRefOffset, out chunkSize))
+            {
+                MessageBox.Show("Unsupported spawn type: " + spawn.Type);
+                return;
+            }
+
+            int chunkIdx = GetSpawnChunkIndex(spawn, scnrRefOffset, chunkSize);
+            if (chunkIdx < 0)
+            {
+                MessageBox.Show("Could not determine chunk index for this spawn.");
+                return;
+            }
+
+            try
+            {
+                int scnrTagIndex = 3;
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+                if (container == null || container.Chunks.Count == 0)
+                {
+                    MessageBox.Show("Could not find reflexive in SCNR meta structure.");
+                    return;
+                }
+
+                if (operation == "delete")
+                {
+                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                        container.Chunks.RemoveAt(chunkIdx);
+                }
+                else if (operation == "duplicate")
+                {
+                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                        container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
+                }
+                else if (operation == "add")
+                {
+                    // Clone the last chunk
+                    if (container.Chunks.Count > 0)
+                        container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
+                }
+
+                // Write back to map
+                map.OpenMap(MapTypes.Internal);
+                map.ChunkTools.Add(scnrTagIndex, ms);
+
+                // Refresh map to get consistent state
+                map = Map.Refresh(map);
+
+                // Refresh spawns in-place
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during " + operation + " chunk operation", ex);
+            }
+        }
+
+        private void tsBtnDeleteChunk_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0) return;
+
+            int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            string typeName = bsp.Spawns.Spawn[spawnIdx].Type.ToString();
+
+            if (MessageBox.Show(
+                "Delete this " + typeName + " spawn?",
+                "Confirm Delete",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button1) != DialogResult.OK)
+                return;
+
+            DoSpawnChunkOperation("delete");
+        }
+
+        private void tsBtnDuplicateChunk_Click(object sender, EventArgs e)
+        {
+            DoSpawnChunkOperation("duplicate");
+        }
+
+        private void tsBtnAddChunk_Click(object sender, EventArgs e)
+        {
+            DoSpawnChunkOperation("add");
+        }
+
+        #endregion
 
         /// <summary>
         /// The select all spawns_ click.
