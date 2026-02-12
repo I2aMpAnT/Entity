@@ -35,6 +35,109 @@ namespace HaloMap.Plugins
         /// </summary>
         public static Hashtable H2IFPHash = new Hashtable();
 
+        /// <summary>
+        /// Cached resolved path to Halo 2 plugins folder.
+        /// </summary>
+        private static string resolvedH2PluginsFolder = null;
+
+        /// <summary>
+        /// Cached resolved path to Halo 1 plugins folder.
+        /// </summary>
+        private static string resolvedH1PluginsFolder = null;
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Searches up from the exe directory to find a Plugins subfolder.
+        /// </summary>
+        private static string FindPluginsFolder(string subPath)
+        {
+            string searchDir = Global.StartupPath;
+            for (int i = 0; i < 8; i++)
+            {
+                string candidate = Path.Combine(searchDir, subPath);
+                if (Directory.Exists(candidate))
+                    return candidate;
+                string parent = Directory.GetParent(searchDir) != null
+                    ? Directory.GetParent(searchDir).FullName
+                    : null;
+                if (parent == null || parent == searchDir) break;
+                searchDir = parent;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the resolved Halo 2 plugins folder, searching if needed.
+        /// </summary>
+        private static string GetH2PluginsFolder()
+        {
+            if (resolvedH2PluginsFolder != null)
+                return resolvedH2PluginsFolder;
+
+            // Try the configured path first
+            if (Directory.Exists(Prefs.pathPluginsFolder))
+            {
+                resolvedH2PluginsFolder = Prefs.pathPluginsFolder;
+                return resolvedH2PluginsFolder;
+            }
+
+            // Search up from exe directory
+            string found = FindPluginsFolder(Path.Combine("Plugins", "Halo 2", "ent"));
+            if (found != null)
+            {
+                resolvedH2PluginsFolder = found;
+                return resolvedH2PluginsFolder;
+            }
+
+            // Also check inside an "Entity" subfolder (repo structure)
+            found = FindPluginsFolder(Path.Combine("Entity", "Plugins", "Halo 2", "ent"));
+            if (found != null)
+            {
+                resolvedH2PluginsFolder = found;
+                return resolvedH2PluginsFolder;
+            }
+
+            // Fall back to configured path
+            resolvedH2PluginsFolder = Prefs.pathPluginsFolder;
+            return resolvedH2PluginsFolder;
+        }
+
+        /// <summary>
+        /// Gets the resolved Halo 1 plugins folder, searching if needed.
+        /// </summary>
+        private static string GetH1PluginsFolder()
+        {
+            if (resolvedH1PluginsFolder != null)
+                return resolvedH1PluginsFolder;
+
+            string defaultPath = Path.Combine(Global.StartupPath, "Plugins", "Halo 1", "ent");
+            if (Directory.Exists(defaultPath))
+            {
+                resolvedH1PluginsFolder = defaultPath;
+                return resolvedH1PluginsFolder;
+            }
+
+            string found = FindPluginsFolder(Path.Combine("Plugins", "Halo 1", "ent"));
+            if (found != null)
+            {
+                resolvedH1PluginsFolder = found;
+                return resolvedH1PluginsFolder;
+            }
+
+            found = FindPluginsFolder(Path.Combine("Entity", "Plugins", "Halo 1", "ent"));
+            if (found != null)
+            {
+                resolvedH1PluginsFolder = found;
+                return resolvedH1PluginsFolder;
+            }
+
+            resolvedH1PluginsFolder = defaultPath;
+            return resolvedH1PluginsFolder;
+        }
+
         #endregion
 
         #region Public Methods
@@ -57,10 +160,11 @@ namespace HaloMap.Plugins
                 {
                     tempifp = new IFPIO();
 
-                    // string temps = Global.StartupPath + "\\plugins\\" + TagType.Trim() + ".ifp";
-                    string temps = Path.Combine(Prefs.pathPluginsFolder, TagType.Trim() + ".ent");
-                    temps = temps.Replace("<", "_");
-                    temps = temps.Replace(">", "_");
+                    string pluginsDir = GetH2PluginsFolder();
+                    string fileName = TagType.Trim() + ".ent";
+                    fileName = fileName.Replace("<", "_");
+                    fileName = fileName.Replace(">", "_");
+                    string temps = Path.Combine(pluginsDir, fileName);
                     if (!File.Exists(temps))
                     {
                         Global.ShowErrorMsg("Plugin file not found: " + temps, new FileNotFoundException(temps));
@@ -76,7 +180,6 @@ namespace HaloMap.Plugins
                         Global.ShowErrorMsg("Error Reading Ent: " + TagType, e);
                     }
 
-                    // IFPHashMap.H2IFPHash.Remove(TagType);
                     H2IFPHash.Add(TagType, tempifp);
                 }
             }
@@ -88,13 +191,14 @@ namespace HaloMap.Plugins
                 {
                     tempifp = new IFPIO();
 
-                    // string temps = Global.StartupPath + "\\plugins\\" + TagType.Trim() + ".ifp";
-                    string temps = Global.StartupPath + "\\Plugins\\Halo 1\\ent\\" + TagType.Trim() + ".ent";
-                    temps = temps.Replace("<", "_");
-                    temps = temps.Replace(">", "_");
+                    string pluginsDir = GetH1PluginsFolder();
+                    string fileName = TagType.Trim() + ".ent";
+                    fileName = fileName.Replace("<", "_");
+                    fileName = fileName.Replace(">", "_");
+                    string temps = Path.Combine(pluginsDir, fileName);
                     try
                     {
-                        tempifp.ReadIFP(temps /* + "2"*/);
+                        tempifp.ReadIFP(temps);
                     }
                     catch (Exception ex)
                     {
