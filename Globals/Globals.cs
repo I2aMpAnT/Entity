@@ -53,14 +53,21 @@ namespace Globals
         /// <remarks></remarks>
         public static void ShowErrorMsg(string informativeError, Exception e)
         {
+            string stackInfo = string.Empty;
+            if (e.StackTrace != null)
+            {
+                int idx = e.StackTrace.LastIndexOf(" at ");
+                stackInfo = idx >= 0 ? e.StackTrace.Substring(idx + 1) : e.StackTrace;
+            }
+
             MessageBox.Show(
                 string.Format(
-                    "{0}\r\n\r\nInternal Error:\r\n\r\n{1}\r\n---\r\n{2}", 
-                    informativeError, 
-                    e.Message, 
-                    e.StackTrace.Substring(e.StackTrace.LastIndexOf(" at ") + 1)), 
-                "Error", 
-                MessageBoxButtons.OK, 
+                    "{0}\r\n\r\nInternal Error:\r\n\r\n{1}\r\n---\r\n{2}",
+                    informativeError,
+                    e.Message,
+                    stackInfo),
+                "Error",
+                MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
         }
 
