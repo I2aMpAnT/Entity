@@ -69,6 +69,11 @@ namespace entity.Renderers
         private Map map;
 
         /// <summary>
+        /// Indicates that the map file was modified by chunk operations and needs reloading.
+        /// </summary>
+        public bool MapWasModified { get; private set; }
+
+        /// <summary>
         /// The render.
         /// </summary>
         private readonly Renderer render = new Renderer();
@@ -162,6 +167,18 @@ namespace entity.Renderers
         /// The yellow material.
         /// </summary>
         private Material YellowMaterial;
+
+        #region Spawn Property Controls
+        private GroupBox spawnPropsGB;
+        private NumericUpDown nudX, nudY, nudZ, nudYaw, nudPitch, nudRoll;
+        private TrackBar sliderX, sliderY, sliderZ, sliderYaw, sliderPitch, sliderRoll;
+        private Label lblPropX, lblPropY, lblPropZ, lblPropYaw, lblPropPitch, lblPropRoll;
+        private bool spawnPropsUpdating = false; // prevents recursive updates
+        private float sliderCenterX, sliderCenterY, sliderCenterZ;
+        private float sliderCenterYaw, sliderCenterPitch, sliderCenterRoll;
+        private const float SliderPosRange = 10.0f;  // +/- range for position sliders
+        private const float SliderRotRange = 180.0f;  // +/- range for rotation sliders
+        #endregion
 
         /// <summary>
         /// The aspect.
@@ -1107,6 +1124,9 @@ namespace entity.Renderers
                 this.Text = "Theater Mode - " + map.filePath;
             }
 
+            // Initialize spawn property sliders and up/down controls
+            InitializeSpawnPropertyControls();
+
             // Clean up telemetry listener on close
             this.FormClosing += BSPViewer_FormClosing;
 
@@ -1121,6 +1141,372 @@ namespace entity.Renderers
                 StopTelemetryListener();
             }
         }
+
+        #region Spawn Property Panel (Sliders + Up/Down)
+
+        /// <summary>
+        /// Creates the Spawn Properties panel with NumericUpDown (up/down arrows) and
+        /// TrackBar (slider) controls for X, Y, Z, Yaw, Pitch, Roll in dockControl4.
+        /// </summary>
+        private void InitializeSpawnPropertyControls()
+        {
+            spawnPropsGB = new GroupBox();
+            spawnPropsGB.Text = "Spawn Properties";
+            spawnPropsGB.Location = new Point(3, 135);
+            spawnPropsGB.Size = new Size(244, 280);
+            spawnPropsGB.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+            string[] names = { "X", "Y", "Z", "Yaw", "Pitch", "Roll" };
+            NumericUpDown[] nuds = new NumericUpDown[6];
+            TrackBar[] sliders = new TrackBar[6];
+            Label[] labels = new Label[6];
+
+            for (int i = 0; i < 6; i++)
+            {
+                int y = 20 + i * 42;
+                bool isRotation = i >= 3;
+
+                // Label
+                labels[i] = new Label();
+                labels[i].Text = names[i] + ":";
+                labels[i].Location = new Point(6, y + 3);
+                labels[i].Size = new Size(38, 16);
+                labels[i].Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
+                spawnPropsGB.Controls.Add(labels[i]);
+
+                // NumericUpDown (up/down arrows for fine tuning)
+                nuds[i] = new NumericUpDown();
+                nuds[i].Location = new Point(46, y);
+                nuds[i].Size = new Size(85, 20);
+                nuds[i].DecimalPlaces = 4;
+                nuds[i].Minimum = isRotation ? -360m : -500m;
+                nuds[i].Maximum = isRotation ? 360m : 500m;
+                nuds[i].Increment = isRotation ? 1.0m : 0.1m;
+                nuds[i].Value = 0;
+                nuds[i].Tag = i; // 0=X, 1=Y, 2=Z, 3=Yaw, 4=Pitch, 5=Roll
+                nuds[i].ValueChanged += spawnPropNud_ValueChanged;
+                spawnPropsGB.Controls.Add(nuds[i]);
+
+                // TrackBar (slider for coarse adjustment)
+                sliders[i] = new TrackBar();
+                sliders[i].Location = new Point(134, y - 2);
+                sliders[i].Size = new Size(105, 30);
+                sliders[i].Minimum = 0;
+                sliders[i].Maximum = 1000;
+                sliders[i].Value = 500; // center
+                sliders[i].TickFrequency = 100;
+                sliders[i].SmallChange = 1;
+                sliders[i].LargeChange = 50;
+                sliders[i].Tag = i;
+                sliders[i].Scroll += spawnPropSlider_Scroll;
+                sliders[i].MouseUp += spawnPropSlider_MouseUp;
+                spawnPropsGB.Controls.Add(sliders[i]);
+            }
+
+            nudX = nuds[0]; nudY = nuds[1]; nudZ = nuds[2];
+            nudYaw = nuds[3]; nudPitch = nuds[4]; nudRoll = nuds[5];
+            sliderX = sliders[0]; sliderY = sliders[1]; sliderZ = sliders[2];
+            sliderYaw = sliders[3]; sliderPitch = sliders[4]; sliderRoll = sliders[5];
+            lblPropX = labels[0]; lblPropY = labels[1]; lblPropZ = labels[2];
+            lblPropYaw = labels[3]; lblPropPitch = labels[4]; lblPropRoll = labels[5];
+
+            // Add increment selector
+            Label lblStep = new Label();
+            lblStep.Text = "Step:";
+            lblStep.Location = new Point(6, 254);
+            lblStep.Size = new Size(35, 16);
+            spawnPropsGB.Controls.Add(lblStep);
+
+            ComboBox stepCombo = new ComboBox();
+            stepCombo.Location = new Point(46, 251);
+            stepCombo.Size = new Size(85, 20);
+            stepCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            stepCombo.Items.AddRange(new object[] { "0.01", "0.05", "0.1", "0.5", "1.0", "5.0" });
+            stepCombo.SelectedIndex = 2; // default 0.1
+            stepCombo.SelectedIndexChanged += (s, e) =>
+            {
+                decimal step = decimal.Parse(stepCombo.SelectedItem.ToString());
+                nudX.Increment = step;
+                nudY.Increment = step;
+                nudZ.Increment = step;
+                // Rotation uses 10x the step
+                decimal rotStep = step * 10;
+                if (rotStep > 45) rotStep = 45;
+                nudYaw.Increment = rotStep;
+                nudPitch.Increment = rotStep;
+                nudRoll.Increment = rotStep;
+            };
+            spawnPropsGB.Controls.Add(stepCombo);
+
+            dockControl4.Controls.Add(spawnPropsGB);
+            spawnPropsGB.Enabled = false; // disabled until a spawn is selected
+        }
+
+        /// <summary>
+        /// Updates the spawn property controls when a spawn is selected.
+        /// </summary>
+        private void UpdateSpawnPropertyControls()
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                spawnPropsGB.Enabled = false;
+                return;
+            }
+
+            spawnPropsGB.Enabled = true;
+            spawnPropsUpdating = true;
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            // Position
+            nudX.Value = ClampDecimal((decimal)spawn.X, nudX.Minimum, nudX.Maximum);
+            nudY.Value = ClampDecimal((decimal)spawn.Y, nudY.Minimum, nudY.Maximum);
+            nudZ.Value = ClampDecimal((decimal)spawn.Z, nudZ.Minimum, nudZ.Maximum);
+
+            // Store slider centers
+            sliderCenterX = spawn.X;
+            sliderCenterY = spawn.Y;
+            sliderCenterZ = spawn.Z;
+            sliderX.Value = 500;
+            sliderY.Value = 500;
+            sliderZ.Value = 500;
+
+            // Rotation
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                nudYaw.Value = ClampDecimal((decimal)rot.Yaw, nudYaw.Minimum, nudYaw.Maximum);
+                nudPitch.Value = ClampDecimal((decimal)rot.Pitch, nudPitch.Minimum, nudPitch.Maximum);
+                nudRoll.Value = ClampDecimal((decimal)rot.Roll, nudRoll.Minimum, nudRoll.Maximum);
+                nudYaw.Enabled = true; nudPitch.Enabled = true; nudRoll.Enabled = true;
+                sliderYaw.Enabled = true; sliderPitch.Enabled = true; sliderRoll.Enabled = true;
+                sliderCenterYaw = rot.Yaw;
+                sliderCenterPitch = rot.Pitch;
+                sliderCenterRoll = rot.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                SpawnInfo.RotateDirectionBaseSpawn rot = spawn as SpawnInfo.RotateDirectionBaseSpawn;
+                nudYaw.Value = ClampDecimal((decimal)rot.RotationDirection, nudYaw.Minimum, nudYaw.Maximum);
+                nudPitch.Value = 0; nudRoll.Value = 0;
+                nudYaw.Enabled = true; nudPitch.Enabled = false; nudRoll.Enabled = false;
+                sliderYaw.Enabled = true; sliderPitch.Enabled = false; sliderRoll.Enabled = false;
+                sliderCenterYaw = rot.RotationDirection;
+            }
+            else
+            {
+                nudYaw.Value = 0; nudPitch.Value = 0; nudRoll.Value = 0;
+                nudYaw.Enabled = false; nudPitch.Enabled = false; nudRoll.Enabled = false;
+                sliderYaw.Enabled = false; sliderPitch.Enabled = false; sliderRoll.Enabled = false;
+            }
+
+            sliderYaw.Value = 500;
+            sliderPitch.Value = 500;
+            sliderRoll.Value = 500;
+
+            spawnPropsUpdating = false;
+        }
+
+        private decimal ClampDecimal(decimal val, decimal min, decimal max)
+        {
+            if (val < min) return min;
+            if (val > max) return max;
+            return val;
+        }
+
+        /// <summary>
+        /// Handles NumericUpDown value changes - applies to spawn position/rotation.
+        /// </summary>
+        private void spawnPropNud_ValueChanged(object sender, EventArgs e)
+        {
+            if (spawnPropsUpdating || SelectedSpawn.Count == 0) return;
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            float oldX = spawn.X, oldY = spawn.Y, oldZ = spawn.Z;
+            float oldYaw = 0, oldPitch = 0, oldRoll = 0;
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                oldYaw = rot.Yaw; oldPitch = rot.Pitch; oldRoll = rot.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                oldYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+            }
+
+            // Apply new values
+            float newX = (float)nudX.Value, newY = (float)nudY.Value, newZ = (float)nudZ.Value;
+            spawn.X = newX; spawn.Y = newY; spawn.Z = newZ;
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                rot.Yaw = (float)nudYaw.Value;
+                rot.Pitch = (float)nudPitch.Value;
+                rot.Roll = (float)nudRoll.Value;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = (float)nudYaw.Value;
+            }
+
+            TranslationMatrix[lastIdx] = MakeMatrixForSpawn(lastIdx);
+
+            // Move other selected spawns by the same delta
+            float diffX = newX - oldX, diffY = newY - oldY, diffZ = newZ - oldZ;
+            for (int i = 0; i < SelectedSpawn.Count - 1; i++)
+            {
+                bsp.Spawns.Spawn[SelectedSpawn[i]].X += diffX;
+                bsp.Spawns.Spawn[SelectedSpawn[i]].Y += diffY;
+                bsp.Spawns.Spawn[SelectedSpawn[i]].Z += diffZ;
+                TranslationMatrix[SelectedSpawn[i]] = MakeMatrixForSpawn(SelectedSpawn[i]);
+            }
+
+            // Sync status bar
+            spawnPropsUpdating = true;
+            updateXYZYPR = true;
+            updateStatusPosition();
+            // Re-center sliders
+            sliderCenterX = newX; sliderCenterY = newY; sliderCenterZ = newZ;
+            sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot2 = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                sliderCenterYaw = rot2.Yaw; sliderCenterPitch = rot2.Pitch; sliderCenterRoll = rot2.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                sliderCenterYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+            }
+            sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
+            spawnPropsUpdating = false;
+        }
+
+        /// <summary>
+        /// Handles TrackBar scroll - applies relative adjustment from center.
+        /// </summary>
+        private void spawnPropSlider_Scroll(object sender, EventArgs e)
+        {
+            if (spawnPropsUpdating || SelectedSpawn.Count == 0) return;
+
+            TrackBar tb = (TrackBar)sender;
+            int idx = (int)tb.Tag;
+            bool isRotation = idx >= 3;
+            float range = isRotation ? SliderRotRange : SliderPosRange;
+
+            // Map slider 0-1000 to center +/- range
+            float offset = (tb.Value - 500) / 500.0f * range;
+            float center = 0;
+            switch (idx)
+            {
+                case 0: center = sliderCenterX; break;
+                case 1: center = sliderCenterY; break;
+                case 2: center = sliderCenterZ; break;
+                case 3: center = sliderCenterYaw; break;
+                case 4: center = sliderCenterPitch; break;
+                case 5: center = sliderCenterRoll; break;
+            }
+
+            float newVal = center + offset;
+
+            spawnPropsUpdating = true;
+            NumericUpDown nud = null;
+            switch (idx)
+            {
+                case 0: nud = nudX; break;
+                case 1: nud = nudY; break;
+                case 2: nud = nudZ; break;
+                case 3: nud = nudYaw; break;
+                case 4: nud = nudPitch; break;
+                case 5: nud = nudRoll; break;
+            }
+
+            decimal clamped = ClampDecimal((decimal)newVal, nud.Minimum, nud.Maximum);
+            nud.Value = clamped;
+            spawnPropsUpdating = false;
+
+            // Apply directly to spawn
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            float oldVal = 0;
+            switch (idx)
+            {
+                case 0: oldVal = spawn.X; spawn.X = (float)clamped; break;
+                case 1: oldVal = spawn.Y; spawn.Y = (float)clamped; break;
+                case 2: oldVal = spawn.Z; spawn.Z = (float)clamped; break;
+                case 3:
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw = (float)clamped; }
+                    else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection; ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = (float)clamped; }
+                    break;
+                case 4:
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch = (float)clamped; }
+                    break;
+                case 5:
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll = (float)clamped; }
+                    break;
+            }
+
+            TranslationMatrix[lastIdx] = MakeMatrixForSpawn(lastIdx);
+
+            // Move other selected spawns by the same delta (position only)
+            if (idx < 3)
+            {
+                float diff = (float)clamped - oldVal;
+                for (int i = 0; i < SelectedSpawn.Count - 1; i++)
+                {
+                    switch (idx)
+                    {
+                        case 0: bsp.Spawns.Spawn[SelectedSpawn[i]].X += diff; break;
+                        case 1: bsp.Spawns.Spawn[SelectedSpawn[i]].Y += diff; break;
+                        case 2: bsp.Spawns.Spawn[SelectedSpawn[i]].Z += diff; break;
+                    }
+                    TranslationMatrix[SelectedSpawn[i]] = MakeMatrixForSpawn(SelectedSpawn[i]);
+                }
+            }
+
+            // Update status bar
+            updateXYZYPR = true;
+            updateStatusPosition();
+        }
+
+        /// <summary>
+        /// Re-centers sliders when mouse is released (optional: can keep position)
+        /// </summary>
+        private void spawnPropSlider_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (SelectedSpawn.Count == 0) return;
+
+            // Update the centers to the current spawn values
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            spawnPropsUpdating = true;
+            sliderCenterX = spawn.X; sliderCenterY = spawn.Y; sliderCenterZ = spawn.Z;
+            sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                sliderCenterYaw = rot.Yaw; sliderCenterPitch = rot.Pitch; sliderCenterRoll = rot.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                sliderCenterYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+            }
+            sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
+            spawnPropsUpdating = false;
+        }
+
+        #endregion
 
         // UI controls that need to be updated when path is loaded
         private ToolStripDropDownButton pathPlayerDropdown;
@@ -3947,8 +4333,11 @@ namespace entity.Renderers
                 {
                     #region CheckSpawnsForIntersection
 
+                    bool spawnFound = false;
                     for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
                     {
+                        if (spawnFound) break;
+
                         // check bitmask for object visibility
                         if (((int)bsp.Spawns.Spawn[x].Type & visibleSpawnsBitMask) == 0)
                         {
@@ -3992,6 +4381,7 @@ namespace entity.Renderers
                             {
                                 if (bsp.Spawns.Spawn[x].frozen)
                                 {
+                                    spawnFound = true;
                                     break;
                                 }
 
@@ -4015,6 +4405,7 @@ namespace entity.Renderers
 
                                 #endregion
 
+                                spawnFound = true;
                                 break;
                             }
                         }
@@ -5687,6 +6078,13 @@ namespace entity.Renderers
                 }
             }
 
+            // Rebuild translation matrices for all spawns
+            TranslationMatrix = new Matrix[bsp.Spawns.Spawn.Count];
+            for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
+            {
+                TranslationMatrix[x] = MakeMatrixForSpawn(x);
+            }
+
             // Clear selection and rebuild treeview
             SelectedSpawn.Clear();
             toolStrip.Visible = false;
@@ -5868,12 +6266,16 @@ namespace entity.Renderers
                         container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
                 }
 
-                // Write back to map
+                // Write back to map (ChunkTools.Add opens/closes the map internally)
                 map.OpenMap(MapTypes.Internal);
                 map.ChunkTools.Add(scnrTagIndex, ms);
 
-                // Refresh map to get consistent state
-                map = Map.Refresh(map);
+                // Load a fresh map from the updated file.
+                // We must NOT use Map.Refresh(map) because it closes the shared Map object
+                // that MapForm also references, which would cause "Stream was not readable" errors.
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
 
                 // Refresh spawns in-place
                 RefreshSpawnsInPlace();
@@ -9051,6 +9453,12 @@ namespace entity.Renderers
 
             // Allow quick update of statusBar, then disable again
             statusStrip.SuspendLayout();
+
+            // Sync spawn property panel (sliders + up/down controls)
+            if (!spawnPropsUpdating)
+            {
+                UpdateSpawnPropertyControls();
+            }
         }
 
         #endregion

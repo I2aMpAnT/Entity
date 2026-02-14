@@ -3080,8 +3080,16 @@ namespace entity.MapForms
             if (bsp.BspNumber != -1)
             {
                 BSPViewer bv = new BSPViewer(bsp, map);
+                bool mapModified = bv.MapWasModified;
                 bv.Dispose();
                 bv = null;
+
+                // If BSPViewer modified the map (chunk add/delete/duplicate),
+                // reload the map from the updated file so MapForm stays in sync.
+                if (mapModified)
+                {
+                    map = Map.LoadFromFile(map.filePath);
+                }
             }
 
             meta.Dispose();
@@ -3104,8 +3112,14 @@ namespace entity.MapForms
             if (bsp.BspNumber != -1)
             {
                 BSPViewer bv = new BSPViewer(bsp, map, theaterMode: true);
+                bool mapModified = bv.MapWasModified;
                 bv.Dispose();
                 bv = null;
+
+                if (mapModified)
+                {
+                    map = Map.LoadFromFile(map.filePath);
+                }
             }
 
             meta.Dispose();
