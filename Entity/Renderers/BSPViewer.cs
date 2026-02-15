@@ -7275,7 +7275,39 @@ namespace entity.Renderers
                 ClearTreeHighlights();
                 RefreshSpawnsInPlace();
 
-                MessageBox.Show(placedCount + " machine spawn(s) placed as crate(s).",
+                // Show diagnostic info: written vs readback coords
+                string msg = placedCount + " machine spawn(s) placed as crate(s).";
+                if (machineSpawns.Count > 0)
+                {
+                    var first = machineSpawns[0];
+                    msg += "\n\nFirst spawn WRITTEN:"
+                         + "\nX=" + first.X.ToString("F4")
+                         + " Y=" + first.Y.ToString("F4")
+                         + " Z=" + first.Z.ToString("F4")
+                         + "\nYaw=" + first.Yaw.ToString("F4")
+                         + " Pitch=" + first.Pitch.ToString("F4")
+                         + " Roll=" + first.Roll.ToString("F4");
+
+                    // Find the last crate spawn in the reloaded spawn list for readback verification
+                    for (int i = bsp.Spawns.Spawn.Count - 1; i >= 0; i--)
+                    {
+                        var os = bsp.Spawns.Spawn[i] as SpawnInfo.ObstacleSpawn;
+                        if (os != null)
+                        {
+                            msg += "\n\nLast crate READBACK:"
+                                 + "\nX=" + os.X.ToString("F4")
+                                 + " Y=" + os.Y.ToString("F4")
+                                 + " Z=" + os.Z.ToString("F4")
+                                 + "\nYaw=" + os.Yaw.ToString("F4")
+                                 + " Pitch=" + os.Pitch.ToString("F4")
+                                 + " Roll=" + os.Roll.ToString("F4")
+                                 + "\nPalIdx=" + os.PaletteIndex
+                                 + " SpawnType=" + (int)os.MetaSpawnType;
+                            break;
+                        }
+                    }
+                }
+                MessageBox.Show(msg,
                     "Place as Crate", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
