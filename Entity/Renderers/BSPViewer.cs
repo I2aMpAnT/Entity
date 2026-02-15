@@ -6362,12 +6362,27 @@ namespace entity.Renderers
             else if (operation == "duplicate")
             {
                 if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
-                    container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
+                {
+                    var copy = container.Chunks[chunkIdx].DeepCopy();
+                    container.Chunks.Insert(chunkIdx + 1, copy);
+                }
             }
             else if (operation == "add")
             {
                 if (container.Chunks.Count > 0)
-                    container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
+                {
+                    var copy = container.Chunks[container.Chunks.Count - 1].DeepCopy();
+
+                    // Zero out position (X, Y, Z) at chunk offsets 8, 12, 16
+                    if (copy.MS != null && copy.MS.Length >= 20)
+                    {
+                        byte[] zeros = new byte[12]; // 3 floats = 12 bytes of zeros
+                        copy.MS.Position = 8;
+                        copy.MS.Write(zeros, 0, 12);
+                    }
+
+                    container.Chunks.Add(copy);
+                }
             }
 
             map.OpenMap(MapTypes.Internal);
