@@ -4560,8 +4560,8 @@ namespace entity.Renderers
                         }
                     }
 
-                    // If nothing was clicked and Ctrl isn't held, clear selection
-                    if (!spawnFound && (Control.ModifierKeys & Keys.Control) == 0)
+                    // If nothing was clicked and no modifier is held, clear selection
+                    if (!spawnFound && (Control.ModifierKeys & (Keys.Control | Keys.Shift)) == 0)
                     {
                         SelectedSpawn.Clear();
                     }
@@ -9376,8 +9376,38 @@ namespace entity.Renderers
             if (clickedIdx < 0) return; // category node
 
             bool ctrl = (Control.ModifierKeys & Keys.Control) != 0;
+            bool shift = (Control.ModifierKeys & Keys.Shift) != 0;
 
-            if (ctrl)
+            if (shift && treeAnchorNode != null && treeAnchorNode.Parent == clicked.Parent && clicked.Parent != null)
+            {
+                // Shift-click: range select between anchor and clicked node
+                ClearTreeHighlights();
+                SelectedSpawn.Clear();
+
+                TreeNode parent = clicked.Parent;
+                int anchorIndex = parent.Nodes.IndexOf(treeAnchorNode);
+                int clickIndex = parent.Nodes.IndexOf(clicked);
+                int start = Math.Min(anchorIndex, clickIndex);
+                int end = Math.Max(anchorIndex, clickIndex);
+
+                for (int n = start; n <= end; n++)
+                {
+                    TreeNode node = parent.Nodes[n];
+                    if (node.Tag is int && (int)node.Tag >= 0)
+                    {
+                        int spawnIdx = (int)node.Tag;
+                        if (!SelectedSpawn.Contains(spawnIdx))
+                            SelectedSpawn.Add(spawnIdx);
+                        node.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                        node.ForeColor = System.Drawing.Color.White;
+                        highlightedTreeNodes.Add(node);
+                    }
+                }
+
+                if (SelectedSpawn.Count > 0)
+                    selectedSpawnType = bsp.Spawns.Spawn[SelectedSpawn[SelectedSpawn.Count - 1]].Type;
+            }
+            else if (ctrl)
             {
                 // Ctrl-click: toggle this spawn in/out of selection
                 int tempi = SelectedSpawn.IndexOf(clickedIdx);
