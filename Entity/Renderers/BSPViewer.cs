@@ -6626,9 +6626,8 @@ namespace entity.Renderers
                     }
                 }
 
-                // Write once
-                map.OpenMap(MapTypes.Internal);
-                map.ChunkTools.Add(scnrTagIndex, ms);
+                // Write rebuilt SCNR directly without touching other tags
+                WriteRebuiltScnrDirect(scnrTagIndex, ms);
 
                 // Reload
                 string filePath = map.filePath;
@@ -6642,6 +6641,95 @@ namespace entity.Renderers
             {
                 Global.ShowErrorMsg("Error during batch delete", ex);
             }
+        }
+
+        /// <summary>
+        /// Writes a rebuilt SCNR tag directly to the map file without touching any other tags.
+        /// This bypasses ChunkAdder which reads/scans/rewrites ALL tags and corrupts them
+        /// when IFP definitions are incomplete or incorrect.
+        /// </summary>
+        private void WriteRebuiltScnrDirect(int scnrTagIndex, MetaSplitter metaSplit)
+        {
+            Meta rebuilt = MetaBuilder.BuildMeta(metaSplit, map);
+
+            int originalOffset = map.MetaInfo.Offset[scnrTagIndex];
+            int originalSize = map.MetaInfo.Size[scnrTagIndex];
+            int newSize = rebuilt.size;
+
+            map.OpenMap(MapTypes.Internal);
+
+            if (newSize <= originalSize)
+            {
+                // SHRINK or SAME SIZE: write in-place, zero-pad to preserve file layout
+                map.BW.BaseStream.Position = originalOffset;
+                map.BW.BaseStream.Write(rebuilt.MS.ToArray(), 0, newSize);
+
+                if (newSize < originalSize)
+                {
+                    byte[] pad = new byte[originalSize - newSize];
+                    map.BW.Write(pad);
+                }
+            }
+            else
+            {
+                // GROW: write at end of meta area so we don't shift other tags
+                int metaAreaStart = map.MapHeader.indexOffset + map.MapHeader.metaStart;
+
+                int endOfMetas = metaAreaStart;
+                for (int x = 0; x < map.IndexHeader.metaCount; x++)
+                {
+                    string tagType = map.MetaInfo.TagType[x];
+                    if (tagType == "sbsp" || tagType == "ltmp")
+                        continue;
+                    int tagEnd = map.MetaInfo.Offset[x] + map.MetaInfo.Size[x];
+                    if (tagEnd > endOfMetas)
+                        endOfMetas = tagEnd;
+                }
+
+                // DWORD-align
+                if (endOfMetas % 4 != 0)
+                    endOfMetas += 4 - (endOfMetas % 4);
+
+                int newOffset = endOfMetas;
+
+                // Update rebuilt meta offset and rewrite reflexive pointers
+                rebuilt.offset = newOffset;
+                rebuilt.WriteReferences();
+
+                // Write rebuilt SCNR at new location
+                map.BW.BaseStream.Position = newOffset;
+                map.BW.BaseStream.Write(rebuilt.MS.ToArray(), 0, newSize);
+
+                // Update tag index entry (offset + size)
+                int tagIndexEntry = map.IndexHeader.tagsOffset + (scnrTagIndex * 16);
+                map.BW.BaseStream.Position = tagIndexEntry + 8;
+                map.BW.Write(newOffset + map.SecondaryMagic);
+                map.BW.Write(newSize);
+
+                map.MetaInfo.Offset[scnrTagIndex] = newOffset;
+                map.MetaInfo.Size[scnrTagIndex] = newSize;
+
+                // Pad to 512-byte boundary and update file header
+                int newHowfar = (newOffset + newSize) - metaAreaStart;
+                int paddingNeeded = map.Functions.Padding(newHowfar, 512);
+                byte[] padBytes = new byte[paddingNeeded];
+                map.BW.BaseStream.Position = newOffset + newSize;
+                map.BW.Write(padBytes);
+
+                int newFileSize = metaAreaStart + newHowfar + paddingNeeded;
+
+                map.BW.BaseStream.Position = 0x0008;
+                map.BW.Write(newFileSize);
+
+                int sizediff = newFileSize - map.MapHeader.fileSize;
+                map.BW.BaseStream.Position = 0x0018;
+                map.BW.Write(map.MapHeader.metaSize + sizediff);
+                map.BW.Write(map.MapHeader.combinedSize + sizediff);
+
+                map.FS.SetLength(newFileSize);
+            }
+
+            map.CloseMap();
         }
 
         /// <summary>
@@ -6690,8 +6778,7 @@ namespace entity.Renderers
                 }
             }
 
-            map.OpenMap(MapTypes.Internal);
-            map.ChunkTools.Add(scnrTagIndex, ms);
+            WriteRebuiltScnrDirect(scnrTagIndex, ms);
         }
 
         /// <summary>
@@ -6740,8 +6827,7 @@ namespace entity.Renderers
                     }
                 }
 
-                map.OpenMap(MapTypes.Internal);
-                map.ChunkTools.Add(scnrTagIndex, ms);
+                WriteRebuiltScnrDirect(scnrTagIndex, ms);
 
                 string filePath = map.filePath;
                 map = Map.LoadFromFile(filePath);
@@ -6903,8 +6989,7 @@ namespace entity.Renderers
                         container.Chunks.Add(blank);
                     }
 
-                    map.OpenMap(MapTypes.Internal);
-                    map.ChunkTools.Add(scnrTagIndex, ms);
+                    WriteRebuiltScnrDirect(scnrTagIndex, ms);
 
                     string filePath = map.filePath;
                     map = Map.LoadFromFile(filePath);
@@ -8497,8 +8582,7 @@ namespace entity.Renderers
                     }
                 }
 
-                map.OpenMap(MapTypes.Internal);
-                map.ChunkTools.Add(scnrTagIndex, ms);
+                WriteRebuiltScnrDirect(scnrTagIndex, ms);
 
                 string filePath = map.filePath;
                 map = Map.LoadFromFile(filePath);
