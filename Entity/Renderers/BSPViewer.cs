@@ -6247,14 +6247,7 @@ namespace entity.Renderers
 
             try
             {
-                if (operation == "delete")
-                {
-                    DoDirectChunkDelete(scnrRefOffset, chunkSize, chunkIdx);
-                }
-                else
-                {
-                    DoMetaSplitterChunkOperation(operation, scnrRefOffset, chunkIdx);
-                }
+                DoMetaSplitterChunkOperation(operation, scnrRefOffset, chunkIdx);
 
                 // Load a fresh map from the updated file.
                 string filePath = map.filePath;
@@ -6271,60 +6264,7 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Deletes a chunk by directly modifying the map bytes.
-        /// Copies the last chunk over the target chunk, then decrements the reflexive count.
-        /// This avoids the MetaSplitter/MetaBuilder/ChunkAdder pipeline entirely.
-        /// </summary>
-        private void DoDirectChunkDelete(int scnrRefOffset, int chunkSize, int chunkIdx)
-        {
-            map.OpenMap(MapTypes.Internal);
-
-            int scnrOffset = map.MetaInfo.Offset[3];
-            int reflexiveAddr = scnrOffset + scnrRefOffset;
-
-            // Read current count and data pointer
-            map.BR.BaseStream.Position = reflexiveAddr;
-            int count = map.BR.ReadInt32();
-            int rawPointer = map.BR.ReadInt32();
-            int dataOffset = rawPointer - map.SecondaryMagic;
-
-            if (chunkIdx < 0 || chunkIdx >= count)
-            {
-                map.CloseMap();
-                MessageBox.Show("Chunk index " + chunkIdx + " is out of range (count=" + count + ").");
-                return;
-            }
-
-            if (count <= 0)
-            {
-                map.CloseMap();
-                MessageBox.Show("Reflexive is already empty.");
-                return;
-            }
-
-            // If not deleting the last chunk, overwrite target with the last chunk's data
-            if (chunkIdx < count - 1)
-            {
-                int targetAddr = dataOffset + (chunkIdx * chunkSize);
-                int lastAddr = dataOffset + ((count - 1) * chunkSize);
-
-                map.BR.BaseStream.Position = lastAddr;
-                byte[] lastChunkData = map.BR.ReadBytes(chunkSize);
-
-                map.BW.BaseStream.Position = targetAddr;
-                map.BW.Write(lastChunkData);
-            }
-
-            // Decrement the reflexive count
-            int newCount = count - 1;
-            map.BW.BaseStream.Position = reflexiveAddr;
-            map.BW.Write(newCount);
-
-            map.CloseMap();
-        }
-
-        /// <summary>
-        /// Performs duplicate/add chunk operations using the MetaSplitter pipeline.
+        /// Performs chunk operations (delete/duplicate/add) using the MetaSplitter pipeline.
         /// </summary>
         private void DoMetaSplitterChunkOperation(string operation, int scnrRefOffset, int chunkIdx)
         {
@@ -6338,7 +6278,12 @@ namespace entity.Renderers
                 return;
             }
 
-            if (operation == "duplicate")
+            if (operation == "delete")
+            {
+                if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    container.Chunks.RemoveAt(chunkIdx);
+            }
+            else if (operation == "duplicate")
             {
                 if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
                     container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
