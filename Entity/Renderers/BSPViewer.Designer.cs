@@ -402,7 +402,7 @@ namespace entity.Renderers
             // 
             // tsLabelYaw
             // 
-            this.tsLabelYaw.AutoSize = false;
+            this.tsLabelYaw.AutoSize = true;
             this.tsLabelYaw.Name = "tsLabelYaw";
             this.tsLabelYaw.Size = new System.Drawing.Size(28, 22);
             this.tsLabelYaw.Text = "tsLabelYaw";
@@ -419,7 +419,7 @@ namespace entity.Renderers
             // 
             // tsLabelPitch
             // 
-            this.tsLabelPitch.AutoSize = false;
+            this.tsLabelPitch.AutoSize = true;
             this.tsLabelPitch.Name = "tsLabelPitch";
             this.tsLabelPitch.Size = new System.Drawing.Size(28, 22);
             this.tsLabelPitch.Text = "tsLabelPitch";
@@ -436,7 +436,7 @@ namespace entity.Renderers
             // 
             // tsLabelRoll
             // 
-            this.tsLabelRoll.AutoSize = false;
+            this.tsLabelRoll.AutoSize = true;
             this.tsLabelRoll.Name = "tsLabelRoll";
             this.tsLabelRoll.Size = new System.Drawing.Size(28, 22);
             this.tsLabelRoll.Text = "tsLabelRoll";
