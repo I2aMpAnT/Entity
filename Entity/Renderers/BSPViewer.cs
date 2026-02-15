@@ -190,6 +190,11 @@ namespace entity.Renderers
         private Gizmo.axis axis;
 
         /// <summary>
+        /// Whether a gizmo rotation drag is in progress.
+        /// </summary>
+        private bool gizmoDragging = false;
+
+        /// <summary>
         /// The bsp.
         /// </summary>
         private BSPModel bsp;
@@ -202,9 +207,7 @@ namespace entity.Renderers
         /// <summary>
         /// The gizmo.
         /// </summary>
-#pragma warning disable CS0649 // Field is never assigned
         private Gizmo gizmo;
-#pragma warning restore CS0649
 
         /// <summary>
         /// The in sizing.
@@ -1777,6 +1780,8 @@ namespace entity.Renderers
             controlsBtn.DropDownItems.Add(new ToolStripMenuItem("P - Cycle Path Mode") { Enabled = false });
             controlsBtn.DropDownItems.Add(new ToolStripMenuItem("WASD - Camera Movement") { Enabled = false });
             controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Mouse - Camera Look") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Q - Move Gizmo") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("E - Rotate Gizmo") { Enabled = false });
 
             controlsBtn.DropDownItems.Add(new ToolStripSeparator());
 
@@ -3133,7 +3138,7 @@ namespace entity.Renderers
 
             #endregion
 
-            // gizmo = new Entity.Renderer.Widget.Gizmo(render.device);
+            gizmo = new Gizmo(render.device);
 
             render.pause = false;
             label3.Visible = false;
@@ -4136,6 +4141,18 @@ namespace entity.Renderers
                 return true;
             }
 
+            // Gizmo mode switching: Q = Move, E = Rotate
+            if (keyData == Keys.Q && gizmo != null)
+            {
+                gizmo.SetGizmoMode(Gizmo.transform.movement);
+                return true;
+            }
+            if (keyData == Keys.E && gizmo != null)
+            {
+                gizmo.SetGizmoMode(Gizmo.transform.rotation);
+                return true;
+            }
+
             if (theaterMode)
             {
                 switch (keyData)
@@ -5056,29 +5073,74 @@ namespace entity.Renderers
                 {
                     float xDiff = (e.X - oldx) / 10.0f;
                     float yDiff = (e.Y - oldy) / 10.0f;
-                    switch (axis)
+
+                    if (gizmo != null && gizmo.CurrentTransform == Gizmo.transform.rotation)
                     {
-                        case Gizmo.axis.X:
-                            bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.Y:
-                            bsp.Spawns.Spawn[i].Y -= yDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.Z:
-                            bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.XY:
-                            bsp.Spawns.Spawn[i].X += yDiff / cam.speed;
-                            bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.YZ:
-                            bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
-                            bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.XZ:
-                            bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
-                            bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                            break;
+                        // Rotation gizmo mode
+                        if (!gizmoDragging)
+                        {
+                            gizmo.BeginDrag(axis);
+                            gizmoDragging = true;
+                        }
+
+                        float rotAmount = (xDiff + yDiff) * 0.05f;
+
+                        if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            SpawnInfo.RotateYawPitchRollBaseSpawn rot =
+                                (SpawnInfo.RotateYawPitchRollBaseSpawn)bsp.Spawns.Spawn[i];
+                            switch (axis)
+                            {
+                                case Gizmo.axis.X:
+                                    rot.Yaw += rotAmount;
+                                    break;
+                                case Gizmo.axis.Y:
+                                    rot.Pitch += rotAmount;
+                                    break;
+                                case Gizmo.axis.Z:
+                                    rot.Roll += rotAmount;
+                                    break;
+                            }
+                        }
+                        else if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            SpawnInfo.RotateDirectionBaseSpawn rot =
+                                (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[i];
+                            rot.RotationDirection += rotAmount;
+                        }
+
+                        gizmo.AddRotation(rotAmount);
+                        TranslationMatrix[i] = MakeMatrixForSpawn(i);
+                    }
+                    else
+                    {
+                        // Movement gizmo mode
+                        switch (axis)
+                        {
+                            case Gizmo.axis.X:
+                                bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
+                                break;
+                            case Gizmo.axis.Y:
+                                bsp.Spawns.Spawn[i].Y -= yDiff / cam.speed;
+                                break;
+                            case Gizmo.axis.Z:
+                                bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
+                                break;
+                            case Gizmo.axis.XY:
+                                bsp.Spawns.Spawn[i].X += yDiff / cam.speed;
+                                bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
+                                break;
+                            case Gizmo.axis.YZ:
+                                bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
+                                bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
+                                break;
+                            case Gizmo.axis.XZ:
+                                bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
+                                bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
+                                break;
+                        }
+
+                        TranslationMatrix[i] = MakeMatrixForSpawn(i);
                     }
 
                     oldx = e.X;
@@ -5239,7 +5301,12 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void ModelViewer_MouseUp(object sender, MouseEventArgs e)
         {
-            
+            // End gizmo rotation drag
+            if (gizmoDragging && gizmo != null)
+            {
+                gizmo.EndDrag();
+                gizmoDragging = false;
+            }
 
             if (itemrotate)
             {
