@@ -166,7 +166,9 @@ namespace entity.MetaEditor2
                 else
                 {
                     meta.MS.Dispose();
-                    meta.MS = new MemoryStream(msBackup.ToArray());
+                    byte[] backup = msBackup.ToArray();
+                    meta.MS = new MemoryStream(backup.Length);
+                    meta.MS.Write(backup, 0, backup.Length);
                 }
             }
         }
@@ -1673,7 +1675,9 @@ namespace entity.MetaEditor2
         {
             // Copy the whole backup stream to the original stream
             meta.MS.Dispose();
-            meta.MS = new MemoryStream(msBackup.ToArray());
+            byte[] backup = msBackup.ToArray();
+            meta.MS = new MemoryStream(backup.Length);
+            meta.MS.Write(backup, 0, backup.Length);
 
             ReloadMetaForSameReflexive(((reflexiveData)treeViewTagReflexives.SelectedNode.Tag).baseOffset);
             this.showInfoBox("Entire tag has been reset to last save / original values", 2000);
@@ -2957,7 +2961,7 @@ namespace entity.MetaEditor2
                 // Clone the last chunk to create a new one with the same structure
                 if (container.Chunks.Count > 0)
                 {
-                    container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
+                    container.Chunks.Add(container.Chunks[container.Chunks.Count - 1].DeepCopy());
                 }
 
                 writeChunkEditAndRefresh(metasplit);
@@ -3037,7 +3041,7 @@ namespace entity.MetaEditor2
 
                 int chunkIdx = rd.chunkSelected;
                 if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
-                    container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
+                    container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx].DeepCopy());
 
                 writeChunkEditAndRefresh(metasplit);
             }
