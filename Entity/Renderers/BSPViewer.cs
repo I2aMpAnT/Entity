@@ -1180,7 +1180,7 @@ namespace entity.Renderers
                 nuds[i].DecimalPlaces = 4;
                 nuds[i].Minimum = isRotation ? -360m : -500m;
                 nuds[i].Maximum = isRotation ? 360m : 500m;
-                nuds[i].Increment = isRotation ? 1.0m : 0.1m;
+                nuds[i].Increment = isRotation ? 1.0m : 0.0001m;
                 nuds[i].Value = 0;
                 nuds[i].Tag = i; // 0=X, 1=Y, 2=Z, 3=Yaw, 4=Pitch, 5=Roll
                 nuds[i].ValueChanged += spawnPropNud_ValueChanged;
@@ -1218,8 +1218,8 @@ namespace entity.Renderers
             stepCombo.Location = new Point(46, 251);
             stepCombo.Size = new Size(85, 20);
             stepCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            stepCombo.Items.AddRange(new object[] { "0.01", "0.05", "0.1", "0.5", "1.0", "5.0" });
-            stepCombo.SelectedIndex = 2; // default 0.1
+            stepCombo.Items.AddRange(new object[] { "0.0001", "0.001", "0.01", "0.05", "0.1", "0.5", "1.0" });
+            stepCombo.SelectedIndex = 0; // default 0.0001
             stepCombo.SelectedIndexChanged += (s, e) =>
             {
                 if (stepCombo.SelectedItem == null) return;
