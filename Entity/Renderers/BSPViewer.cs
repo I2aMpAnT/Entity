@@ -7129,21 +7129,13 @@ namespace entity.Renderers
                 return;
             }
 
-            // Collect selected machine spawns and their chunk indices
+            // Collect selected machine spawns
             var machineSpawns = new List<SpawnInfo.MachineSpawn>();
-            var machineChunkIndices = new List<int>();
             foreach (int idx in SelectedSpawn)
             {
                 var ms = bsp.Spawns.Spawn[idx] as SpawnInfo.MachineSpawn;
                 if (ms != null)
-                {
-                    int chunkIdx = GetSpawnChunkIndex(ms, 168, 72);
-                    if (chunkIdx >= 0)
-                    {
-                        machineSpawns.Add(ms);
-                        machineChunkIndices.Add(chunkIdx);
-                    }
-                }
+                    machineSpawns.Add(ms);
             }
 
             if (machineSpawns.Count == 0)
@@ -8121,10 +8113,23 @@ namespace entity.Renderers
                 this.selectGroupToolStripMenuItem.Visible = false;
                 this.exportSpawnsToolStripMenuItem.Visible = false;
                 this.importSpawnsToolStripMenuItem.Visible = false;
+                this.placeAsCrateToolStripMenuItem.Visible = false;
                 if (c.SelectedNode == null)
                 {
                     this.selectAllToolStripMenuItem.Visible = false;
                     return;
+                }
+
+                // Show "Place as Crate" if the selected tree node is a Machine spawn
+                if (c.SelectedNode.Parent != null && c.SelectedNode.Tag != null)
+                {
+                    int spawnIdx;
+                    if (int.TryParse(c.SelectedNode.Tag.ToString(), out spawnIdx)
+                        && spawnIdx >= 0 && spawnIdx < bsp.Spawns.Spawn.Count
+                        && bsp.Spawns.Spawn[spawnIdx] is SpawnInfo.MachineSpawn)
+                    {
+                        this.placeAsCrateToolStripMenuItem.Visible = true;
+                    }
                 }
 
                 // Show Export/Import on parent nodes (category nodes)
@@ -8242,11 +8247,16 @@ namespace entity.Renderers
                 this.selectGroupToolStripMenuItem.Visible = false;
                 this.exportSpawnsToolStripMenuItem.Visible = false;
                 this.importSpawnsToolStripMenuItem.Visible = false;
+                this.placeAsCrateToolStripMenuItem.Visible = false;
 
                 string tag = null;
                 if (currentObject > -1)
                 {
                     this.selectFreezeMenuItem.Visible = true;
+
+                    // Show "Place as Crate" for Machine spawns
+                    if (bsp.Spawns.Spawn[currentObject] is SpawnInfo.MachineSpawn)
+                        this.placeAsCrateToolStripMenuItem.Visible = true;
                     if (bsp.Spawns.Spawn[currentObject].frozen)
                     {
                         this.selectFreezeMenuItem.Text = "UnFreeze";

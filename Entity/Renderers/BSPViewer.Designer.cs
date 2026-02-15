@@ -75,6 +75,7 @@ namespace entity.Renderers
         private System.Windows.Forms.ToolStripMenuItem selectUnFreezeAllMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportSpawnsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importSpawnsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem placeAsCrateToolStripMenuItem;
         List<SpawnLoads.SceneryInfo> SoundsList; //= new List<SpawnLoads.SceneryInfo>();
         List<ParsedModel> SpawnModel = new List<ParsedModel>();
         private Label speedLabel;
@@ -197,6 +198,7 @@ namespace entity.Renderers
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.placeAsCrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBar = new System.Windows.Forms.TrackBar();
             this.speedLabel = new System.Windows.Forms.Label();
             this.rightSandDock = new TD.SandDock.DockContainer();
@@ -474,7 +476,8 @@ namespace entity.Renderers
             this.selectAllToolStripMenuItem,
             this.selectNoneToolStripMenuItem,
             this.exportSpawnsToolStripMenuItem,
-            this.importSpawnsToolStripMenuItem});
+            this.importSpawnsToolStripMenuItem,
+            this.placeAsCrateToolStripMenuItem});
             this.identContext.Name = "identContext";
             this.identContext.Size = new System.Drawing.Size(189, 158);
             this.identContext.Opening += new System.ComponentModel.CancelEventHandler(this.identContext_Opening);
@@ -550,6 +553,14 @@ namespace entity.Renderers
             this.importSpawnsToolStripMenuItem.Text = "Import Spawns from CSV";
             this.importSpawnsToolStripMenuItem.Visible = false;
             this.importSpawnsToolStripMenuItem.Click += new System.EventHandler(this.importSpawnsToolStripMenuItem_Click);
+            //
+            // placeAsCrateToolStripMenuItem
+            //
+            this.placeAsCrateToolStripMenuItem.Name = "placeAsCrateToolStripMenuItem";
+            this.placeAsCrateToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.placeAsCrateToolStripMenuItem.Text = "Place as Crate";
+            this.placeAsCrateToolStripMenuItem.Visible = false;
+            this.placeAsCrateToolStripMenuItem.Click += new System.EventHandler(this.tsBtnPlaceAsCrate_Click);
             //
             // speedBar
             // 
