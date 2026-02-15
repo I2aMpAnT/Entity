@@ -814,13 +814,28 @@ namespace entity.Renderers
             Vector3 rPosition = s;
             Vector3 rDirection = Vector3.Normalize(d - s);
 
-            List<int> temp = new List<int>();
+            // Collect all intersected subsets with their closest hit distance
+            List<KeyValuePair<int, float>> hits = new List<KeyValuePair<int, float>>();
             for (int i = 0; i < meshSubsetCount; i++)
             {
-                if (mesh.IntersectSubset(i, rPosition, rDirection))
+                IntersectInformation closestHit;
+                IntersectInformation[] allHits;
+                if (mesh.IntersectSubset(i, rPosition, rDirection, out closestHit, out allHits))
                 {
-                    temp.Add(i);
+                    hits.Add(new KeyValuePair<int, float>(i, closestHit.Dist));
                 }
+            }
+
+            // Sort by distance so the closest subset is first
+            hits.Sort(delegate(KeyValuePair<int, float> a, KeyValuePair<int, float> b)
+            {
+                return a.Value.CompareTo(b.Value);
+            });
+
+            List<int> temp = new List<int>();
+            for (int i = 0; i < hits.Count; i++)
+            {
+                temp.Add(hits[i].Key);
             }
 
             return temp;

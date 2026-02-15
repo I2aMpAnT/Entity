@@ -5785,8 +5785,8 @@ namespace entity.Renderers
                             float dx = cam.Position.X - sp.X;
                             float dy = cam.Position.Y - sp.Y;
                             float dz = cam.Position.Z - sp.Z;
-                            float gizmoScale = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz) / 20.0f;
-                            if (gizmoScale < 0.5f) gizmoScale = 0.5f;
+                            float gizmoScale = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz) / 80.0f;
+                            if (gizmoScale < 0.1f) gizmoScale = 0.1f;
 
                             bool oldLighting = render.device.RenderState.Lighting;
                             render.device.RenderState.Lighting = false;
