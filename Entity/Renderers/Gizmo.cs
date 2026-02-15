@@ -663,7 +663,7 @@ namespace entity.Renderers
             bool oldAlpha = device.RenderState.AlphaBlendEnable;
             device.RenderState.AlphaBlendEnable = true;
             device.RenderState.SourceBlend = Blend.SourceAlpha;
-            device.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+            device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
 
             int arcColor = Color.FromArgb(100, 255, 255, 0).ToArgb(); // Semi-transparent yellow
 
