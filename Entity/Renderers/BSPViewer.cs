@@ -4451,9 +4451,16 @@ namespace entity.Renderers
                 #region SpawnSelection (Mouse Left Button)
             else if (e.Button == MouseButtons.Left)
             {
+                // If the cursor is hovering over a gizmo axis, don't re-select spawns.
+                // Just record the drag start so the MouseMove handler can do gizmo movement.
+                if (axis != Gizmo.axis.none && SelectedSpawn.Count > 0)
+                {
+                    oldx = e.X;
+                    oldy = e.Y;
+                }
                 #region DecideUponObjectRotation
 
-                if ((SelectedSpawn.Count > 0) && (rotationBitMask != 0))
+                else if ((SelectedSpawn.Count > 0) && (rotationBitMask != 0))
                 {
                     selectionStart = render.Mark3DCursorPosition(e.X, e.Y, Matrix.Identity);
                     oldx = e.X;
@@ -6153,6 +6160,65 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Returns the sub-reflexive offset within the Spawn Data reflexive for a SpawnZone.
+        /// Initial zones are at sub-offset 88, Respawn zones at sub-offset 80. Chunk size is 48.
+        /// </summary>
+        private int GetSpawnZoneSubOffset(SpawnInfo.SpawnZone zone)
+        {
+            return zone.ZoneType == SpawnInfo.SpawnZoneType.Inital ? 88 : 80;
+        }
+
+        /// <summary>
+        /// Finds a nested reflexive: first finds the parent at parentOffset, then within
+        /// its first chunk finds the child reflexive at childOffset.
+        /// </summary>
+        private MetaSplitter.SplitReflexive FindNestedReflexive(MetaSplitter metasplit, int parentOffset, int childOffset)
+        {
+            MetaSplitter.SplitReflexive parent = FindReflexiveByOffset(metasplit, parentOffset);
+            if (parent == null || parent.Chunks.Count == 0) return null;
+
+            MetaSplitter.SplitReflexive parentChunk = parent.Chunks[0];
+            foreach (Meta.Item item in parentChunk.ChunkResources)
+            {
+                if (item.type == Meta.ItemType.Reflexive)
+                {
+                    MetaSplitter.SplitReflexive sr = (MetaSplitter.SplitReflexive)item;
+                    if (sr.offset == childOffset &&
+                        sr.splitReflexiveType == MetaSplitter.SplitReflexive.SplitReflexiveType.Container)
+                    {
+                        return sr;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Computes the chunk index for a SpawnZone within its nested reflexive.
+        /// </summary>
+        private int GetSpawnZoneChunkIndex(SpawnInfo.SpawnZone zone)
+        {
+            int subOffset = GetSpawnZoneSubOffset(zone);
+
+            map.OpenMap(MapTypes.Internal);
+            // Navigate to Spawn Data reflexive at SCNR + 792
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + 792;
+            int spawnDataCount = map.BR.ReadInt32();
+            int spawnDataStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (spawnDataCount == 0) return -1;
+
+            // Navigate to the sub-reflexive within the first Spawn Data chunk
+            map.BR.BaseStream.Position = spawnDataStart + subOffset;
+            int count = map.BR.ReadInt32();
+            int dataStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (count == 0) return -1;
+
+            int idx = (zone.offset - dataStart) / 48;
+            if (idx < 0 || idx >= count) return -1;
+            return idx;
+        }
+
+        /// <summary>
         /// Splits the SCNR tag meta using MetaSplitter.
         /// </summary>
         private MetaSplitter SplitScnrMeta(int scnrTagIndex)
@@ -6431,6 +6497,13 @@ namespace entity.Renderers
             int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
             SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[spawnIdx];
 
+            // SpawnZones use a nested reflexive (SCNR+792 -> sub-offset 80/88)
+            if (spawn.Type == SpawnInfo.SpawnType.SpawnZone)
+            {
+                DoSpawnZoneChunkOperation(operation, (SpawnInfo.SpawnZone)spawn);
+                return;
+            }
+
             int scnrRefOffset, chunkSize;
             if (!GetSpawnReflexiveInfo(spawn.Type, out scnrRefOffset, out chunkSize))
             {
@@ -6485,33 +6558,64 @@ namespace entity.Renderers
 
                 // Group selected spawns by their reflexive offset
                 var groups = new Dictionary<int, List<int>>(); // scnrRefOffset -> list of chunk indices
+                // SpawnZones are nested: keyed by a combined key to distinguish Initial vs Respawn
+                var spawnZoneGroups = new Dictionary<int, List<int>>(); // subOffset -> list of chunk indices
                 foreach (int spawnIdx in SelectedSpawn)
                 {
                     SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[spawnIdx];
+
+                    if (spawn.Type == SpawnInfo.SpawnType.SpawnZone)
+                    {
+                        SpawnInfo.SpawnZone zone = (SpawnInfo.SpawnZone)spawn;
+                        int subOffset = GetSpawnZoneSubOffset(zone);
+                        int chunkIdx = GetSpawnZoneChunkIndex(zone);
+                        if (chunkIdx < 0) continue;
+
+                        if (!spawnZoneGroups.ContainsKey(subOffset))
+                            spawnZoneGroups[subOffset] = new List<int>();
+                        spawnZoneGroups[subOffset].Add(chunkIdx);
+                        continue;
+                    }
+
                     int scnrRefOffset, chunkSize;
                     if (!GetSpawnReflexiveInfo(spawn.Type, out scnrRefOffset, out chunkSize))
                         continue;
 
-                    int chunkIdx = GetSpawnChunkIndex(spawn, scnrRefOffset, chunkSize);
-                    if (chunkIdx < 0)
+                    int idx = GetSpawnChunkIndex(spawn, scnrRefOffset, chunkSize);
+                    if (idx < 0)
                         continue;
 
                     if (!groups.ContainsKey(scnrRefOffset))
                         groups[scnrRefOffset] = new List<int>();
-                    groups[scnrRefOffset].Add(chunkIdx);
+                    groups[scnrRefOffset].Add(idx);
                 }
 
                 // Split SCNR meta once
                 int scnrTagIndex = 3;
                 MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
 
-                // Remove chunks from each reflexive, highest index first
+                // Remove chunks from each top-level reflexive, highest index first
                 foreach (var kvp in groups)
                 {
                     MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, kvp.Key);
                     if (container == null) continue;
 
-                    // Sort descending so removing doesn't shift lower indices
+                    kvp.Value.Sort();
+                    kvp.Value.Reverse();
+
+                    foreach (int chunkIdx in kvp.Value)
+                    {
+                        if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                            container.Chunks.RemoveAt(chunkIdx);
+                    }
+                }
+
+                // Remove chunks from nested SpawnZone reflexives
+                foreach (var kvp in spawnZoneGroups)
+                {
+                    MetaSplitter.SplitReflexive container = FindNestedReflexive(ms, 792, kvp.Key);
+                    if (container == null) continue;
+
                     kvp.Value.Sort();
                     kvp.Value.Reverse();
 
@@ -6588,6 +6692,67 @@ namespace entity.Renderers
 
             map.OpenMap(MapTypes.Internal);
             map.ChunkTools.Add(scnrTagIndex, ms);
+        }
+
+        /// <summary>
+        /// Performs a chunk operation on a SpawnZone, which lives in a nested reflexive
+        /// (SCNR+792 Spawn Data -> sub-offset 80 Respawn / 88 Initial, chunk size 48).
+        /// </summary>
+        private void DoSpawnZoneChunkOperation(string operation, SpawnInfo.SpawnZone zone)
+        {
+            int chunkIdx = GetSpawnZoneChunkIndex(zone);
+            if (chunkIdx < 0)
+            {
+                MessageBox.Show("Could not determine chunk index for this spawn zone.");
+                return;
+            }
+
+            try
+            {
+                BackupMapForUndo();
+
+                map.OpenMap(MapTypes.Internal);
+                zone.Write(map);
+                map.CloseMap();
+
+                int scnrTagIndex = 3;
+                int subOffset = GetSpawnZoneSubOffset(zone);
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                MetaSplitter.SplitReflexive container = FindNestedReflexive(ms, 792, subOffset);
+
+                if (container == null || container.Chunks.Count == 0)
+                {
+                    MessageBox.Show("Could not find spawn zone reflexive in SCNR meta structure.");
+                    return;
+                }
+
+                if (operation == "delete")
+                {
+                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                        container.Chunks.RemoveAt(chunkIdx);
+                }
+                else if (operation == "duplicate")
+                {
+                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    {
+                        var copy = container.Chunks[chunkIdx].DeepCopy();
+                        container.Chunks.Insert(chunkIdx + 1, copy);
+                    }
+                }
+
+                map.OpenMap(MapTypes.Internal);
+                map.ChunkTools.Add(scnrTagIndex, ms);
+
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during " + operation + " spawn zone operation", ex);
+            }
         }
 
         private void tsBtnDeleteChunk_Click(object sender, EventArgs e)
