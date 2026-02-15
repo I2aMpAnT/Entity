@@ -3412,7 +3412,7 @@ namespace entity.Renderers
 
                 #region ReadSpawnMeta
 
-                if (tempspawn.ModelTagNumber < 0 || tempspawn.ModelTagNumber >= map.MetaInfo.TagCount)
+                if (tempspawn.ModelTagNumber < 0 || tempspawn.ModelTagNumber >= map.IndexHeader.metaCount)
                 {
                     BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
                     continue;
