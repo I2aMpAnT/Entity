@@ -74,6 +74,7 @@ namespace entity.Renderers
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectUnFreezeAllMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportSpawnsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importSpawnsToolStripMenuItem;
         List<SpawnLoads.SceneryInfo> SoundsList; //= new List<SpawnLoads.SceneryInfo>();
         List<ParsedModel> SpawnModel = new List<ParsedModel>();
         private Label speedLabel;
@@ -194,6 +195,7 @@ namespace entity.Renderers
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBar = new System.Windows.Forms.TrackBar();
             this.speedLabel = new System.Windows.Forms.Label();
             this.rightSandDock = new TD.SandDock.DockContainer();
@@ -471,7 +473,8 @@ namespace entity.Renderers
             this.selectGroupToolStripMenuItem,
             this.selectAllToolStripMenuItem,
             this.selectNoneToolStripMenuItem,
-            this.exportSpawnsToolStripMenuItem});
+            this.exportSpawnsToolStripMenuItem,
+            this.importSpawnsToolStripMenuItem});
             this.identContext.Name = "identContext";
             this.identContext.Size = new System.Drawing.Size(189, 158);
             this.identContext.Opening += new System.ComponentModel.CancelEventHandler(this.identContext_Opening);
@@ -539,6 +542,14 @@ namespace entity.Renderers
             this.exportSpawnsToolStripMenuItem.Text = "Export Spawns to CSV";
             this.exportSpawnsToolStripMenuItem.Visible = false;
             this.exportSpawnsToolStripMenuItem.Click += new System.EventHandler(this.exportSpawnsToolStripMenuItem_Click);
+            //
+            // importSpawnsToolStripMenuItem
+            //
+            this.importSpawnsToolStripMenuItem.Name = "importSpawnsToolStripMenuItem";
+            this.importSpawnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.importSpawnsToolStripMenuItem.Text = "Import Spawns from CSV";
+            this.importSpawnsToolStripMenuItem.Visible = false;
+            this.importSpawnsToolStripMenuItem.Click += new System.EventHandler(this.importSpawnsToolStripMenuItem_Click);
             //
             // speedBar
             // 

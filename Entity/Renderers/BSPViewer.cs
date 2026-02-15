@@ -7615,17 +7615,23 @@ namespace entity.Renderers
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
                 this.exportSpawnsToolStripMenuItem.Visible = false;
+                this.importSpawnsToolStripMenuItem.Visible = false;
                 if (c.SelectedNode == null)
                 {
                     this.selectAllToolStripMenuItem.Visible = false;
                     return;
                 }
 
-                // Show Export on parent nodes (category nodes with children)
-                if (c.SelectedNode.Parent == null && c.SelectedNode.Nodes.Count > 0)
+                // Show Export/Import on parent nodes (category nodes)
+                if (c.SelectedNode.Parent == null)
                 {
-                    this.exportSpawnsToolStripMenuItem.Visible = true;
-                    this.exportSpawnsToolStripMenuItem.Tag = c.SelectedNode;
+                    if (c.SelectedNode.Nodes.Count > 0)
+                    {
+                        this.exportSpawnsToolStripMenuItem.Visible = true;
+                        this.exportSpawnsToolStripMenuItem.Tag = c.SelectedNode;
+                    }
+                    this.importSpawnsToolStripMenuItem.Visible = true;
+                    this.importSpawnsToolStripMenuItem.Tag = c.SelectedNode;
                 }
                 else
                 {
@@ -7730,6 +7736,7 @@ namespace entity.Renderers
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
                 this.exportSpawnsToolStripMenuItem.Visible = false;
+                this.importSpawnsToolStripMenuItem.Visible = false;
 
                 string tag = null;
                 if (currentObject > -1)
@@ -8116,7 +8123,7 @@ namespace entity.Renderers
                 try
                 {
                     var sb = new StringBuilder();
-                    sb.AppendLine("Index,Name,TagPath,X,Y,Z,Yaw,Pitch,Roll");
+                    sb.AppendLine("Index,Type,Name,TagPath,X,Y,Z,Yaw,Pitch,Roll");
 
                     for (int n = 0; n < parentNode.Nodes.Count; n++)
                     {
@@ -8143,8 +8150,8 @@ namespace entity.Renderers
                             yaw = rot.RotationDirection;
                         }
 
-                        sb.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
-                            n, name, tagPath,
+                        sb.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                            n, sp.Type, name, tagPath,
                             sp.X.ToString("G"), sp.Y.ToString("G"), sp.Z.ToString("G"),
                             yaw.ToString("G"), pitch.ToString("G"), roll.ToString("G")));
                     }
@@ -8158,6 +8165,243 @@ namespace entity.Renderers
                     Global.ShowErrorMsg("Error exporting spawns", ex);
                 }
             }
+        }
+
+        /// <summary>
+        /// Imports spawns from a CSV file into the selected treeview category.
+        /// </summary>
+        private void importSpawnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode parentNode = importSpawnsToolStripMenuItem.Tag as TreeNode;
+            if (parentNode == null) return;
+
+            // Parse spawn type from category node text
+            string typeText = parentNode.Text;
+            int bracket = typeText.IndexOf('[');
+            if (bracket > 0) typeText = typeText.Substring(0, bracket).Trim();
+
+            SpawnInfo.SpawnType targetType;
+            try { targetType = (SpawnInfo.SpawnType)Enum.Parse(typeof(SpawnInfo.SpawnType), typeText); }
+            catch { MessageBox.Show("Unknown spawn type: " + typeText); return; }
+
+            int scnrRefOffset, chunkSize;
+            if (!GetSpawnReflexiveInfo(targetType, out scnrRefOffset, out chunkSize))
+            {
+                MessageBox.Show("Unsupported spawn type for import: " + targetType);
+                return;
+            }
+
+            // Open CSV file
+            string csvPath;
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Import " + typeText + " Spawns from CSV";
+                ofd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+                if (ofd.ShowDialog() != DialogResult.OK) return;
+                csvPath = ofd.FileName;
+            }
+
+            try
+            {
+                string[] lines = File.ReadAllLines(csvPath);
+                if (lines.Length < 2)
+                {
+                    MessageBox.Show("CSV file is empty or has no data rows.");
+                    return;
+                }
+
+                // Parse header to find column indices
+                string[] header = lines[0].Split(',');
+                int colType = Array.IndexOf(header, "Type");
+                int colTagPath = Array.IndexOf(header, "TagPath");
+                int colX = Array.IndexOf(header, "X");
+                int colY = Array.IndexOf(header, "Y");
+                int colZ = Array.IndexOf(header, "Z");
+                int colYaw = Array.IndexOf(header, "Yaw");
+                int colPitch = Array.IndexOf(header, "Pitch");
+                int colRoll = Array.IndexOf(header, "Roll");
+
+                if (colX < 0 || colY < 0 || colZ < 0)
+                {
+                    MessageBox.Show("CSV must have X, Y, Z columns.");
+                    return;
+                }
+
+                // Parse data rows
+                var rows = new List<CsvSpawnRow>();
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(lines[i].Trim())) continue;
+                    string[] cols = lines[i].Split(',');
+
+                    // Validate type column if present
+                    if (colType >= 0 && colType < cols.Length)
+                    {
+                        string rowType = cols[colType].Trim();
+                        if (rowType != targetType.ToString())
+                        {
+                            MessageBox.Show("Row " + i + " has type '" + rowType + "' but expected '" + targetType +
+                                "'. Import aborted.\n\nMake sure you import into the matching category.");
+                            return;
+                        }
+                    }
+
+                    var row = new CsvSpawnRow();
+                    row.TagPath = (colTagPath >= 0 && colTagPath < cols.Length) ? cols[colTagPath].Replace(";", ",").Trim() : null;
+                    row.X = float.Parse(cols[colX]);
+                    row.Y = float.Parse(cols[colY]);
+                    row.Z = float.Parse(cols[colZ]);
+                    row.Yaw = (colYaw >= 0 && colYaw < cols.Length) ? float.Parse(cols[colYaw]) : 0;
+                    row.Pitch = (colPitch >= 0 && colPitch < cols.Length) ? float.Parse(cols[colPitch]) : 0;
+                    row.Roll = (colRoll >= 0 && colRoll < cols.Length) ? float.Parse(cols[colRoll]) : 0;
+                    rows.Add(row);
+                }
+
+                if (rows.Count == 0)
+                {
+                    MessageBox.Show("No valid rows found in CSV.");
+                    return;
+                }
+
+                // Build a map of TagPath -> within-type chunk index for existing spawns
+                var tagPathToTypeIndex = new Dictionary<string, int>();
+                int typeIdx = 0;
+                for (int i = 0; i < bsp.Spawns.Spawn.Count; i++)
+                {
+                    if (bsp.Spawns.Spawn[i].Type == targetType)
+                    {
+                        string tp = bsp.Spawns.Spawn[i].TagPath ?? "";
+                        if (!tagPathToTypeIndex.ContainsKey(tp))
+                            tagPathToTypeIndex[tp] = typeIdx;
+                        typeIdx++;
+                    }
+                }
+
+                int existingCount = typeIdx;
+
+                BackupMapForUndo();
+
+                int scnrTagIndex = 3;
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+                if (container == null)
+                {
+                    MessageBox.Show("Could not find reflexive for " + targetType + " in SCNR.");
+                    return;
+                }
+
+                // Add chunks for each CSV row
+                for (int r = 0; r < rows.Count; r++)
+                {
+                    MetaSplitter.SplitReflexive templateChunk = null;
+
+                    // Try to find a template chunk matching the TagPath
+                    if (rows[r].TagPath != null && tagPathToTypeIndex.ContainsKey(rows[r].TagPath))
+                    {
+                        int chunkIdx = tagPathToTypeIndex[rows[r].TagPath];
+                        if (chunkIdx < container.Chunks.Count)
+                            templateChunk = container.Chunks[chunkIdx];
+                    }
+
+                    // Fall back to last existing chunk
+                    if (templateChunk == null && container.Chunks.Count > 0)
+                        templateChunk = container.Chunks[container.Chunks.Count - 1];
+
+                    if (templateChunk != null)
+                    {
+                        var copy = templateChunk.DeepCopy();
+                        // Zero out position bytes (will be set properly after reload)
+                        if (copy.MS != null && copy.MS.Length >= 20)
+                        {
+                            byte[] zeros = new byte[12];
+                            copy.MS.Position = 8;
+                            copy.MS.Write(zeros, 0, 12);
+                        }
+                        container.Chunks.Add(copy);
+                    }
+                    else
+                    {
+                        // No existing chunks at all - create blank
+                        var blank = new MetaSplitter.SplitReflexive();
+                        blank.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
+                        blank.chunksize = chunkSize;
+                        blank.MS = new MemoryStream(new byte[chunkSize], 0, chunkSize, true, true);
+                        blank.ChunkResources = new List<Meta.Item>();
+                        blank.Chunks = new List<MetaSplitter.SplitReflexive>();
+                        container.Chunks.Add(blank);
+                    }
+                }
+
+                map.OpenMap(MapTypes.Internal);
+                map.ChunkTools.Add(scnrTagIndex, ms);
+
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+
+                // Now set positions on the newly imported spawns and write them back
+                // The new spawns are the last N of their type
+                var newSpawnIndices = new List<int>();
+                int idx = 0;
+                for (int i = 0; i < bsp.Spawns.Spawn.Count; i++)
+                {
+                    if (bsp.Spawns.Spawn[i].Type == targetType)
+                    {
+                        if (idx >= existingCount)
+                            newSpawnIndices.Add(i);
+                        idx++;
+                    }
+                }
+
+                if (newSpawnIndices.Count == rows.Count)
+                {
+                    map.OpenMap(MapTypes.Internal);
+                    for (int r = 0; r < rows.Count; r++)
+                    {
+                        int si = newSpawnIndices[r];
+                        bsp.Spawns.Spawn[si].X = rows[r].X;
+                        bsp.Spawns.Spawn[si].Y = rows[r].Y;
+                        bsp.Spawns.Spawn[si].Z = rows[r].Z;
+
+                        if (bsp.Spawns.Spawn[si] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)bsp.Spawns.Spawn[si];
+                            rot.Yaw = rows[r].Yaw;
+                            rot.Pitch = rows[r].Pitch;
+                            rot.Roll = rows[r].Roll;
+                        }
+                        else if (bsp.Spawns.Spawn[si] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[si];
+                            rot.RotationDirection = rows[r].Yaw;
+                        }
+
+                        bsp.Spawns.Spawn[si].Write(map);
+                    }
+                    map.CloseMap();
+
+                    // Reload to pick up written positions
+                    map = Map.LoadFromFile(filePath);
+                    ClearTreeHighlights();
+                    RefreshSpawnsInPlace();
+                }
+
+                MessageBox.Show("Imported " + rows.Count + " " + targetType + " spawn(s).", "Import Complete");
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error importing spawns from CSV", ex);
+            }
+        }
+
+        private class CsvSpawnRow
+        {
+            public string TagPath;
+            public float X, Y, Z, Yaw, Pitch, Roll;
         }
 
         /// <summary>
