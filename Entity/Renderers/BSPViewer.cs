@@ -172,7 +172,6 @@ namespace entity.Renderers
         private GroupBox spawnPropsGB;
         private NumericUpDown nudX, nudY, nudZ, nudYaw, nudPitch, nudRoll;
         private TrackBar sliderX, sliderY, sliderZ, sliderYaw, sliderPitch, sliderRoll;
-        private Label lblPropX, lblPropY, lblPropZ, lblPropYaw, lblPropPitch, lblPropRoll;
         private bool spawnPropsUpdating = false; // prevents recursive updates
         private float sliderCenterX, sliderCenterY, sliderCenterZ;
         private float sliderCenterYaw, sliderCenterPitch, sliderCenterRoll;
@@ -1171,7 +1170,7 @@ namespace entity.Renderers
                 labels[i].Text = names[i] + ":";
                 labels[i].Location = new Point(6, y + 3);
                 labels[i].Size = new Size(38, 16);
-                labels[i].Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
+                labels[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold);
                 spawnPropsGB.Controls.Add(labels[i]);
 
                 // NumericUpDown (up/down arrows for fine tuning)
@@ -1207,8 +1206,6 @@ namespace entity.Renderers
             nudYaw = nuds[3]; nudPitch = nuds[4]; nudRoll = nuds[5];
             sliderX = sliders[0]; sliderY = sliders[1]; sliderZ = sliders[2];
             sliderYaw = sliders[3]; sliderPitch = sliders[4]; sliderRoll = sliders[5];
-            lblPropX = labels[0]; lblPropY = labels[1]; lblPropZ = labels[2];
-            lblPropYaw = labels[3]; lblPropPitch = labels[4]; lblPropRoll = labels[5];
 
             // Add increment selector
             Label lblStep = new Label();
