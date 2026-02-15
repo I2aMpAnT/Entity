@@ -7116,6 +7116,151 @@ namespace entity.Renderers
             }
         }
 
+        /// <summary>
+        /// Places selected machine spawn(s) as crate spawn(s).
+        /// Copies the machine palette entry to the crate palette and creates
+        /// new crate spawn chunks at the same position/rotation.
+        /// </summary>
+        private void tsBtnPlaceAsCrate_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.");
+                return;
+            }
+
+            // Collect selected machine spawns and their chunk indices
+            var machineSpawns = new List<SpawnInfo.MachineSpawn>();
+            var machineChunkIndices = new List<int>();
+            foreach (int idx in SelectedSpawn)
+            {
+                var ms = bsp.Spawns.Spawn[idx] as SpawnInfo.MachineSpawn;
+                if (ms != null)
+                {
+                    int chunkIdx = GetSpawnChunkIndex(ms, 168, 72);
+                    if (chunkIdx >= 0)
+                    {
+                        machineSpawns.Add(ms);
+                        machineChunkIndices.Add(chunkIdx);
+                    }
+                }
+            }
+
+            if (machineSpawns.Count == 0)
+            {
+                MessageBox.Show("No machine spawns selected. Select one or more Machine spawns first.");
+                return;
+            }
+
+            try
+            {
+                BackupMapForUndo();
+
+                // Save current in-memory positions to the map file
+                map.OpenMap(MapTypes.Internal);
+                foreach (var ms in machineSpawns)
+                    ms.Write(map);
+                map.CloseMap();
+
+                int scnrTagIndex = 3;
+                MetaSplitter metasplit = SplitScnrMeta(scnrTagIndex);
+
+                // Find the reflexives we need
+                MetaSplitter.SplitReflexive machPalette = FindReflexiveByOffset(metasplit, 176);
+                MetaSplitter.SplitReflexive machSpawns = FindReflexiveByOffset(metasplit, 168);
+                MetaSplitter.SplitReflexive cratePalette = FindReflexiveByOffset(metasplit, 816);
+                MetaSplitter.SplitReflexive crateSpawns = FindReflexiveByOffset(metasplit, 808);
+
+                if (machPalette == null || machSpawns == null)
+                {
+                    MessageBox.Show("Could not find Machine reflexives in SCNR meta.");
+                    return;
+                }
+                if (cratePalette == null || crateSpawns == null)
+                {
+                    MessageBox.Show("Could not find Crate reflexives in SCNR meta.");
+                    return;
+                }
+
+                // Track which machine palette indices have already been added to the crate palette
+                // Key: machine palette index, Value: new crate palette index
+                var paletteMap = new Dictionary<int, int>();
+
+                int placedCount = 0;
+                foreach (var ms in machineSpawns)
+                {
+                    int machPalIdx = ms.PaletteIndex;
+                    if (machPalIdx < 0 || machPalIdx >= machPalette.Chunks.Count)
+                        continue;
+
+                    // Add palette entry if not already mapped
+                    int cratePalIdx;
+                    if (!paletteMap.TryGetValue(machPalIdx, out cratePalIdx))
+                    {
+                        var palCopy = machPalette.Chunks[machPalIdx].DeepCopy();
+                        cratePalIdx = cratePalette.Chunks.Count;
+                        cratePalette.Chunks.Add(palCopy);
+                        paletteMap[machPalIdx] = cratePalIdx;
+                    }
+
+                    // Find the machine spawn's chunk to get the raw base data
+                    int machChunkIdx = GetSpawnChunkIndex(ms, 168, 72);
+                    if (machChunkIdx < 0 || machChunkIdx >= machSpawns.Chunks.Count)
+                        continue;
+
+                    // Build a 76-byte crate spawn chunk from the machine spawn's 52-byte common base
+                    byte[] crateData = new byte[76];
+                    var machChunk = machSpawns.Chunks[machChunkIdx];
+                    if (machChunk.MS != null && machChunk.MS.Length >= 52)
+                    {
+                        machChunk.MS.Position = 0;
+                        // Copy the common 52-byte base (palette index, name, flags, position, rotation, scale, etc.)
+                        machChunk.MS.Read(crateData, 0, 52);
+                    }
+
+                    // Overwrite the palette index (bytes 0-1) to point to the new crate palette entry
+                    crateData[0] = (byte)(cratePalIdx & 0xFF);
+                    crateData[1] = (byte)((cratePalIdx >> 8) & 0xFF);
+
+                    // Update MetaSpawnType at byte 46 from Machine (7) to Crate (11)
+                    crateData[46] = 11;
+
+                    // Bytes 52-75 are crate-specific fields, left zeroed (variant name, colors, etc.)
+
+                    var newCrateChunk = new MetaSplitter.SplitReflexive();
+                    newCrateChunk.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
+                    newCrateChunk.chunksize = 76;
+                    newCrateChunk.MS = new MemoryStream(crateData, 0, 76, true, true);
+                    newCrateChunk.ChunkResources = new List<Meta.Item>();
+                    newCrateChunk.Chunks = new List<MetaSplitter.SplitReflexive>();
+                    crateSpawns.Chunks.Add(newCrateChunk);
+                    placedCount++;
+                }
+
+                if (placedCount == 0)
+                {
+                    MessageBox.Show("No machine spawns could be converted.");
+                    return;
+                }
+
+                WriteRebuiltScnrDirect(scnrTagIndex, metasplit);
+
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+
+                MessageBox.Show(placedCount + " machine spawn(s) placed as crate(s).",
+                    "Place as Crate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error placing machines as crates", ex);
+            }
+        }
+
         private void BackupMapForUndo()
         {
             string src = map.filePath;

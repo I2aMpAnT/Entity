@@ -89,6 +89,7 @@ namespace entity.Renderers
         private ToolStripButton tsBtnDeleteChunk;
         private ToolStripButton tsBtnDuplicateChunk;
         private ToolStripButton tsBtnAddChunk;
+        private ToolStripButton tsBtnPlaceAsCrate;
         private ToolStripButton tsBtnUndo;
         private ToolStripLabel toolStripLabel2;
         private ToolStripMenuItem ToolStripMenuItemRP180;
@@ -276,6 +277,7 @@ namespace entity.Renderers
             this.tsBtnDeleteChunk = new System.Windows.Forms.ToolStripButton();
             this.tsBtnDuplicateChunk = new System.Windows.Forms.ToolStripButton();
             this.tsBtnAddChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnPlaceAsCrate = new System.Windows.Forms.ToolStripButton();
             this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
             this.cbBSPTextures = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
@@ -1159,6 +1161,7 @@ namespace entity.Renderers
             this.tsBtnDeleteChunk,
             this.tsBtnDuplicateChunk,
             this.tsBtnAddChunk,
+            this.tsBtnPlaceAsCrate,
             this.tsBtnUndo});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip.Location = new System.Drawing.Point(254, 0);
@@ -1365,6 +1368,15 @@ namespace entity.Renderers
             this.tsBtnAddChunk.Text = "Add";
             this.tsBtnAddChunk.ToolTipText = "Add a new spawn chunk (clones last)";
             this.tsBtnAddChunk.Click += new System.EventHandler(this.tsBtnAddChunk_Click);
+            //
+            // tsBtnPlaceAsCrate
+            //
+            this.tsBtnPlaceAsCrate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnPlaceAsCrate.Name = "tsBtnPlaceAsCrate";
+            this.tsBtnPlaceAsCrate.Size = new System.Drawing.Size(90, 20);
+            this.tsBtnPlaceAsCrate.Text = "Place as Crate";
+            this.tsBtnPlaceAsCrate.ToolTipText = "Place selected machine spawn(s) as crate spawn(s)";
+            this.tsBtnPlaceAsCrate.Click += new System.EventHandler(this.tsBtnPlaceAsCrate_Click);
             //
             // tsBtnUndo
             //
