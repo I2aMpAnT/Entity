@@ -792,7 +792,9 @@ namespace entity.MetaFuncs
                 if (o != null)
                     lbStringIDs.SelectedItem = o;
                 // Make sure selection # & count is up to date
-                lblStringIDNumber.Text = "String ID #" + ((StringID)lbStringIDs.SelectedItem).id.ToString() + " (Total: " + lbStringIDs.Items.Count + ")";
+                StringID sel = lbStringIDs.SelectedItem as StringID;
+                if (sel != null)
+                    lblStringIDNumber.Text = "String ID #" + sel.id.ToString() + " (Total: " + lbStringIDs.Items.Count + ")";
             }
             catch
             { }
