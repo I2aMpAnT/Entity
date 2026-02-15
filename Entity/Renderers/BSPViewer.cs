@@ -855,7 +855,6 @@ namespace entity.Renderers
             dockControl2.LayoutSystem.Collapsed = true;
             dockControl3.LayoutSystem.Collapsed = true;
             dockControl4.LayoutSystem.Collapsed = true;
-            dockControl5.LayoutSystem.Collapsed = true;
 
             Application.DoEvents();
 

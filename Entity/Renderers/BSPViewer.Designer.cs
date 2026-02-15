@@ -281,8 +281,6 @@ namespace entity.Renderers
             this.statusStrip.SuspendLayout();
             this.identContext.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
-            this.dockControl6.SuspendLayout();
-            this.dockControl5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -609,18 +607,6 @@ namespace entity.Renderers
             this.topSandDock.Size = new System.Drawing.Size(541, 0);
             this.topSandDock.TabIndex = 16;
             // 
-            // dockControl6
-            // 
-            this.dockControl6.Controls.Add(this.button5);
-            this.dockControl6.Controls.Add(this.button4);
-            this.dockControl6.Controls.Add(this.checkedListBox2);
-            this.dockControl6.Guid = new System.Guid("8a474c02-64bc-429b-8d89-83c818109d18");
-            this.dockControl6.Location = new System.Drawing.Point(0, 18);
-            this.dockControl6.Name = "dockControl6";
-            this.dockControl6.Size = new System.Drawing.Size(250, 584);
-            this.dockControl6.TabIndex = 5;
-            this.dockControl6.Text = "BSP Selections";
-            this.dockControl6.Enter += new System.EventHandler(this.dockControl6_Enter);
             // 
             // button5
             // 
@@ -656,16 +642,6 @@ namespace entity.Renderers
             // 
             // dockControl5
             // 
-            this.dockControl5.Controls.Add(this.button3);
-            this.dockControl5.Controls.Add(this.groupBox2);
-            this.dockControl5.Controls.Add(this.panel1);
-            this.dockControl5.Controls.Add(this.groupBox1);
-            this.dockControl5.Guid = new System.Guid("f641181f-8274-43e0-8421-3f46471b23a2");
-            this.dockControl5.Location = new System.Drawing.Point(0, 18);
-            this.dockControl5.Name = "dockControl5";
-            this.dockControl5.Size = new System.Drawing.Size(250, 584);
-            this.dockControl5.TabIndex = 4;
-            this.dockControl5.Text = "Lightmap Palettes";
             // 
             // button3
             // 
@@ -1155,8 +1131,6 @@ namespace entity.Renderers
             this.leftSandDock.Controls.Add(this.dockControl2);
             this.leftSandDock.Controls.Add(this.dockControl3);
             this.leftSandDock.Controls.Add(this.dockControl4);
-            this.leftSandDock.Controls.Add(this.dockControl5);
-            this.leftSandDock.Controls.Add(this.dockControl6);
             this.leftSandDock.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftSandDock.Guid = new System.Guid("7b82af44-7394-4006-9310-e7e7e6293930");
             this.leftSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
@@ -1165,8 +1139,7 @@ namespace entity.Renderers
                         this.dockControl2,
                         this.dockControl3,
                         this.dockControl4,
-                        this.dockControl5,
-                        this.dockControl6}, this.dockControl1)))});
+                        }, this.dockControl1)))});
             this.leftSandDock.Location = new System.Drawing.Point(0, 0);
             this.leftSandDock.Manager = this.sandDockManager1;
             this.leftSandDock.Name = "leftSandDock";
@@ -1435,8 +1408,6 @@ namespace entity.Renderers
             this.statusStrip.PerformLayout();
             this.identContext.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).EndInit();
-            this.dockControl6.ResumeLayout(false);
-            this.dockControl5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
