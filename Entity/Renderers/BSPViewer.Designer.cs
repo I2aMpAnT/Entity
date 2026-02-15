@@ -73,6 +73,7 @@ namespace entity.Renderers
         private System.Windows.Forms.ToolStripMenuItem selectGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectUnFreezeAllMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSpawnsToolStripMenuItem;
         List<SpawnLoads.SceneryInfo> SoundsList; //= new List<SpawnLoads.SceneryInfo>();
         List<ParsedModel> SpawnModel = new List<ParsedModel>();
         private Label speedLabel;
@@ -192,6 +193,7 @@ namespace entity.Renderers
             this.selectGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBar = new System.Windows.Forms.TrackBar();
             this.speedLabel = new System.Windows.Forms.Label();
             this.rightSandDock = new TD.SandDock.DockContainer();
@@ -468,7 +470,8 @@ namespace entity.Renderers
             this.selectCurrentToolStripMenuItem,
             this.selectGroupToolStripMenuItem,
             this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem});
+            this.selectNoneToolStripMenuItem,
+            this.exportSpawnsToolStripMenuItem});
             this.identContext.Name = "identContext";
             this.identContext.Size = new System.Drawing.Size(189, 158);
             this.identContext.Opening += new System.ComponentModel.CancelEventHandler(this.identContext_Opening);
@@ -528,7 +531,15 @@ namespace entity.Renderers
             this.selectNoneToolStripMenuItem.Tag = "DES-1";
             this.selectNoneToolStripMenuItem.Text = "Deselect All";
             this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.selectToolStripMenuItem_Click);
-            // 
+            //
+            // exportSpawnsToolStripMenuItem
+            //
+            this.exportSpawnsToolStripMenuItem.Name = "exportSpawnsToolStripMenuItem";
+            this.exportSpawnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.exportSpawnsToolStripMenuItem.Text = "Export Spawns to CSV";
+            this.exportSpawnsToolStripMenuItem.Visible = false;
+            this.exportSpawnsToolStripMenuItem.Click += new System.EventHandler(this.exportSpawnsToolStripMenuItem_Click);
+            //
             // speedBar
             // 
             this.speedBar.Location = new System.Drawing.Point(757, 13);

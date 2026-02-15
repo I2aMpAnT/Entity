@@ -4523,18 +4523,25 @@ namespace entity.Renderers
 
                                 #region TurnSpawnOnOrOff
 
-                                int tempi = SelectedSpawn.IndexOf(x);
-                                if (tempi != -1)
+                                bool ctrlHeld = (Control.ModifierKeys & Keys.Control) != 0;
+                                if (ctrlHeld)
                                 {
-                                    SelectedSpawn.RemoveAt(tempi);
-                                    if (DeselectOne.Checked)
+                                    // Ctrl-click: toggle this spawn in/out of selection
+                                    int tempi = SelectedSpawn.IndexOf(x);
+                                    if (tempi != -1)
                                     {
-                                        updateStatusPosition();
-                                        return;
+                                        SelectedSpawn.RemoveAt(tempi);
+                                    }
+                                    else
+                                    {
+                                        SelectedSpawn.Add(x);
+                                        selectedSpawnType = bsp.Spawns.Spawn[x].Type;
                                     }
                                 }
                                 else
                                 {
+                                    // Normal click: single select only
+                                    SelectedSpawn.Clear();
                                     SelectedSpawn.Add(x);
                                     selectedSpawnType = bsp.Spawns.Spawn[x].Type;
                                 }
@@ -4546,6 +4553,12 @@ namespace entity.Renderers
                             }
                         }
                     }
+                }
+
+                // If nothing was clicked and Ctrl isn't held, clear selection
+                if (!spawnFound && (Control.ModifierKeys & Keys.Control) == 0)
+                {
+                    SelectedSpawn.Clear();
                 }
 
                 #endregion CycleThroughSpawns
@@ -7601,10 +7614,18 @@ namespace entity.Renderers
                 this.selectUnFreezeAllMenuItem.Visible = false;
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
+                this.exportSpawnsToolStripMenuItem.Visible = false;
                 if (c.SelectedNode == null)
                 {
                     this.selectAllToolStripMenuItem.Visible = false;
                     return;
+                }
+
+                // Show Export on parent nodes (category nodes with children)
+                if (c.SelectedNode.Parent == null && c.SelectedNode.Nodes.Count > 0)
+                {
+                    this.exportSpawnsToolStripMenuItem.Visible = true;
+                    this.exportSpawnsToolStripMenuItem.Tag = c.SelectedNode;
                 }
                 else
                 {
@@ -7708,6 +7729,7 @@ namespace entity.Renderers
                 this.selectUnFreezeAllMenuItem.Visible = true;
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
+                this.exportSpawnsToolStripMenuItem.Visible = false;
 
                 string tag = null;
                 if (currentObject > -1)
@@ -8070,6 +8092,72 @@ namespace entity.Renderers
             selectedSpawnType = bsp.Spawns.Spawn[tagNumber].Type;
 
             #endregion
+        }
+
+        /// <summary>
+        /// Exports all spawns under the selected treeview category to a CSV file.
+        /// </summary>
+        private void exportSpawnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode parentNode = exportSpawnsToolStripMenuItem.Tag as TreeNode;
+            if (parentNode == null || parentNode.Nodes.Count == 0) return;
+
+            string typeName = parentNode.Text;
+            int bracket = typeName.IndexOf('[');
+            if (bracket > 0) typeName = typeName.Substring(0, bracket).Trim();
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Title = "Export " + typeName + " Spawns";
+                sfd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+                sfd.FileName = typeName + "_spawns.csv";
+                if (sfd.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine("Index,Name,TagPath,X,Y,Z,Yaw,Pitch,Roll");
+
+                    for (int n = 0; n < parentNode.Nodes.Count; n++)
+                    {
+                        TreeNode child = parentNode.Nodes[n];
+                        int spawnIdx;
+                        if (!int.TryParse(child.Tag.ToString(), out spawnIdx)) continue;
+                        if (spawnIdx < 0 || spawnIdx >= bsp.Spawns.Spawn.Count) continue;
+
+                        SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[spawnIdx];
+                        string name = (child.Text ?? "").Replace(",", ";");
+                        string tagPath = (sp.TagPath ?? "").Replace(",", ";");
+                        float yaw = 0, pitch = 0, roll = 0;
+
+                        if (sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)sp;
+                            yaw = rot.Yaw;
+                            pitch = rot.Pitch;
+                            roll = rot.Roll;
+                        }
+                        else if (sp is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateDirectionBaseSpawn)sp;
+                            yaw = rot.RotationDirection;
+                        }
+
+                        sb.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
+                            n, name, tagPath,
+                            sp.X.ToString("G"), sp.Y.ToString("G"), sp.Z.ToString("G"),
+                            yaw.ToString("G"), pitch.ToString("G"), roll.ToString("G")));
+                    }
+
+                    File.WriteAllText(sfd.FileName, sb.ToString());
+                    MessageBox.Show("Exported " + parentNode.Nodes.Count + " " + typeName + " spawns.",
+                        "Export Complete");
+                }
+                catch (Exception ex)
+                {
+                    Global.ShowErrorMsg("Error exporting spawns", ex);
+                }
+            }
         }
 
         /// <summary>
@@ -8879,30 +8967,26 @@ namespace entity.Renderers
             int clickedIdx = (int)clicked.Tag;
             if (clickedIdx < 0) return; // category node
 
-            bool shift = (Control.ModifierKeys & Keys.Shift) != 0;
+            bool ctrl = (Control.ModifierKeys & Keys.Control) != 0;
 
-            if (shift && treeAnchorNode != null && treeAnchorNode.Parent == clicked.Parent)
+            if (ctrl)
             {
-                // Shift-click: select range from anchor to clicked within same parent
-                TreeNode parent = clicked.Parent;
-                int anchorPos = parent.Nodes.IndexOf(treeAnchorNode);
-                int clickPos = parent.Nodes.IndexOf(clicked);
-                int start = Math.Min(anchorPos, clickPos);
-                int end = Math.Max(anchorPos, clickPos);
-
-                ClearTreeHighlights();
-                SelectedSpawn.Clear();
-
-                for (int i = start; i <= end; i++)
+                // Ctrl-click: toggle this spawn in/out of selection
+                int tempi = SelectedSpawn.IndexOf(clickedIdx);
+                if (tempi != -1)
                 {
-                    TreeNode n = parent.Nodes[i];
-                    if (n.Tag is int && (int)n.Tag >= 0)
-                    {
-                        SelectedSpawn.Add((int)n.Tag);
-                        n.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
-                        n.ForeColor = System.Drawing.Color.White;
-                        highlightedTreeNodes.Add(n);
-                    }
+                    SelectedSpawn.RemoveAt(tempi);
+                    // Remove highlight
+                    clicked.BackColor = treeView1.BackColor;
+                    clicked.ForeColor = treeView1.ForeColor;
+                    highlightedTreeNodes.Remove(clicked);
+                }
+                else
+                {
+                    SelectedSpawn.Add(clickedIdx);
+                    clicked.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                    clicked.ForeColor = System.Drawing.Color.White;
+                    highlightedTreeNodes.Add(clicked);
                 }
 
                 selectedSpawnType = bsp.Spawns.Spawn[clickedIdx].Type;
