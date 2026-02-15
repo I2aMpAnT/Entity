@@ -6839,6 +6839,8 @@ namespace entity.Renderers
                 return;
             }
 
+            if (WeaponsList == null) return;
+
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
             int SpawnModelNum = -1;
@@ -6952,6 +6954,8 @@ namespace entity.Renderers
                 return;
             }
 
+            if (ObstacleList == null) return;
+
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
             int SpawnModelNum = -1;
@@ -7032,6 +7036,8 @@ namespace entity.Renderers
             {
                 return;
             }
+
+            if (SceneryList == null) return;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
