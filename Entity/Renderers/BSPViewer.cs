@@ -2389,7 +2389,7 @@ namespace entity.Renderers
                 RenderSky.Checked = true;
 
             // Enable spawn types that are useful for viewing: Scenery, Collection, Obstacle
-            string[] spawnTypesToEnable = { "Player", "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
+            string[] spawnTypesToEnable = { "Player", "Scenery", "Collection", "Crate", "Vehicle", "Weapon" };
 
             if (checkedListBox1 != null)
             {
@@ -5946,7 +5946,7 @@ namespace entity.Renderers
             {
                 case SpawnInfo.SpawnType.Player:     scnrOffset = 256; chunkSize = 52; return true;
                 case SpawnInfo.SpawnType.Scenery:    scnrOffset = 80;  chunkSize = 92; return true;
-                case SpawnInfo.SpawnType.Obstacle:   scnrOffset = 808; chunkSize = 76; return true;
+                case SpawnInfo.SpawnType.Crate:   scnrOffset = 808; chunkSize = 76; return true;
                 case SpawnInfo.SpawnType.Vehicle:    scnrOffset = 112; chunkSize = 84; return true;
                 case SpawnInfo.SpawnType.Weapon:     scnrOffset = 144; chunkSize = 84; return true;
                 case SpawnInfo.SpawnType.Equipment:  scnrOffset = 128; chunkSize = 56; return true;
@@ -6104,6 +6104,8 @@ namespace entity.Renderers
 
             // Clear selection and rebuild treeview
             SelectedSpawn.Clear();
+            highlightedTreeNodes.Clear();
+            treeAnchorNode = null;
             toolStrip.Visible = false;
             RebuildSpawnTreeView();
         }
@@ -6273,6 +6275,71 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Batch-deletes all currently selected spawns in a single MetaSplitter pass.
+        /// Groups spawns by type/reflexive, removes chunks in reverse order to preserve indices.
+        /// </summary>
+        private void DoBatchDelete()
+        {
+            try
+            {
+                // Group selected spawns by their reflexive offset
+                var groups = new Dictionary<int, List<int>>(); // scnrRefOffset -> list of chunk indices
+                foreach (int spawnIdx in SelectedSpawn)
+                {
+                    SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[spawnIdx];
+                    int scnrRefOffset, chunkSize;
+                    if (!GetSpawnReflexiveInfo(spawn.Type, out scnrRefOffset, out chunkSize))
+                        continue;
+
+                    int chunkIdx = GetSpawnChunkIndex(spawn, scnrRefOffset, chunkSize);
+                    if (chunkIdx < 0)
+                        continue;
+
+                    if (!groups.ContainsKey(scnrRefOffset))
+                        groups[scnrRefOffset] = new List<int>();
+                    groups[scnrRefOffset].Add(chunkIdx);
+                }
+
+                // Split SCNR meta once
+                int scnrTagIndex = 3;
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+
+                // Remove chunks from each reflexive, highest index first
+                foreach (var kvp in groups)
+                {
+                    MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, kvp.Key);
+                    if (container == null) continue;
+
+                    // Sort descending so removing doesn't shift lower indices
+                    kvp.Value.Sort();
+                    kvp.Value.Reverse();
+
+                    foreach (int chunkIdx in kvp.Value)
+                    {
+                        if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                            container.Chunks.RemoveAt(chunkIdx);
+                    }
+                }
+
+                // Write once
+                map.OpenMap(MapTypes.Internal);
+                map.ChunkTools.Add(scnrTagIndex, ms);
+
+                // Reload
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during batch delete", ex);
+            }
+        }
+
+        /// <summary>
         /// Performs chunk operations (delete/duplicate/add) using the MetaSplitter pipeline.
         /// </summary>
         private void DoMetaSplitterChunkOperation(string operation, int scnrRefOffset, int chunkIdx)
@@ -6311,18 +6378,33 @@ namespace entity.Renderers
         {
             if (SelectedSpawn.Count == 0) return;
 
-            int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
-            string typeName = bsp.Spawns.Spawn[spawnIdx].Type.ToString();
+            if (SelectedSpawn.Count == 1)
+            {
+                int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+                string typeName = bsp.Spawns.Spawn[spawnIdx].Type.ToString();
 
-            if (MessageBox.Show(
-                "Delete this " + typeName + " spawn?",
-                "Confirm Delete",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Warning,
-                MessageBoxDefaultButton.Button1) != DialogResult.OK)
-                return;
+                if (MessageBox.Show(
+                    "Delete this " + typeName + " spawn?",
+                    "Confirm Delete",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1) != DialogResult.OK)
+                    return;
 
-            DoSpawnChunkOperation("delete");
+                DoSpawnChunkOperation("delete");
+            }
+            else
+            {
+                if (MessageBox.Show(
+                    "Delete " + SelectedSpawn.Count + " selected spawns?",
+                    "Confirm Batch Delete",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1) != DialogResult.OK)
+                    return;
+
+                DoBatchDelete();
+            }
         }
 
         private void tsBtnDuplicateChunk_Click(object sender, EventArgs e)
@@ -7942,7 +8024,7 @@ namespace entity.Renderers
                     }
 
                     break;
-                case SpawnInfo.SpawnType.Obstacle:
+                case SpawnInfo.SpawnType.Crate:
                     if (ObstacleList == null)
                     {
                         doInfo(bm.ToString());
@@ -8416,6 +8498,70 @@ namespace entity.Renderers
                 TreeNode c = treeView1.GetNodeAt(me.Location);
                 treeView1.SelectedNode = c;
             }
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            TreeNode clicked = e.Node;
+            if (clicked == null || !(clicked.Tag is int)) return;
+            int clickedIdx = (int)clicked.Tag;
+            if (clickedIdx < 0) return; // category node
+
+            bool shift = (Control.ModifierKeys & Keys.Shift) != 0;
+
+            if (shift && treeAnchorNode != null && treeAnchorNode.Parent == clicked.Parent)
+            {
+                // Shift-click: select range from anchor to clicked within same parent
+                TreeNode parent = clicked.Parent;
+                int anchorPos = parent.Nodes.IndexOf(treeAnchorNode);
+                int clickPos = parent.Nodes.IndexOf(clicked);
+                int start = Math.Min(anchorPos, clickPos);
+                int end = Math.Max(anchorPos, clickPos);
+
+                ClearTreeHighlights();
+                SelectedSpawn.Clear();
+
+                for (int i = start; i <= end; i++)
+                {
+                    TreeNode n = parent.Nodes[i];
+                    if (n.Tag is int && (int)n.Tag >= 0)
+                    {
+                        SelectedSpawn.Add((int)n.Tag);
+                        n.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                        n.ForeColor = System.Drawing.Color.White;
+                        highlightedTreeNodes.Add(n);
+                    }
+                }
+
+                selectedSpawnType = bsp.Spawns.Spawn[clickedIdx].Type;
+            }
+            else
+            {
+                // Normal click: single select
+                ClearTreeHighlights();
+                SelectedSpawn.Clear();
+                SelectedSpawn.Add(clickedIdx);
+                selectedSpawnType = bsp.Spawns.Spawn[clickedIdx].Type;
+
+                clicked.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                clicked.ForeColor = System.Drawing.Color.White;
+                highlightedTreeNodes.Add(clicked);
+
+                treeAnchorNode = clicked;
+            }
+
+            updateStatusPosition();
+        }
+
+        private void ClearTreeHighlights()
+        {
+            foreach (TreeNode n in highlightedTreeNodes)
+            {
+                n.BackColor = treeView1.BackColor;
+                n.ForeColor = treeView1.ForeColor;
+            }
+            highlightedTreeNodes.Clear();
         }
 
         /// <summary>

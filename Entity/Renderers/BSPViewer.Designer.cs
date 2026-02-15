@@ -66,6 +66,8 @@ namespace entity.Renderers
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectCurrentToolStripMenuItem;
         List<int> SelectedSpawn = new List<int>();
+        TreeNode treeAnchorNode = null;
+        List<TreeNode> highlightedTreeNodes = new List<TreeNode>();
         private System.Windows.Forms.ToolStripMenuItem selectFreezeAllMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectFreezeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectGroupToolStripMenuItem;
@@ -926,6 +928,7 @@ namespace entity.Renderers
             this.treeView1.TabIndex = 1;
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             this.treeView1.Click += new System.EventHandler(this.treeView1_Click);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
             // dockControl2
             // 
