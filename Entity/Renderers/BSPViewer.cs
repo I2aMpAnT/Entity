@@ -1237,6 +1237,10 @@ namespace entity.Renderers
 
             dockControl4.Controls.Add(spawnPropsGB);
             spawnPropsGB.Enabled = false; // disabled until a spawn is selected
+
+            // Make sure the Tools panel is visible so users can see the controls
+            dockControl4.LayoutSystem.Collapsed = false;
+            dockControl4.Open();
         }
 
         /// <summary>
