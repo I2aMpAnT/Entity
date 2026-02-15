@@ -3193,8 +3193,15 @@ namespace entity.Renderers
                 #region PlayerSpawn
                 if (bsp.Spawns.Spawn[x] is SpawnInfo.PlayerSpawn)
                 {
-                    BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
-                    continue;
+                    // PlayerSpawns have ModelTagNumber set to the biped model.
+                    // Don't skip - fall through to model loading so they render
+                    // as Spartans instead of using SpawnModel[0] (usually a flag).
+                    if (((SpawnInfo.RotationSpawn)bsp.Spawns.Spawn[x]).ModelTagNumber < 0)
+                    {
+                        // No biped model found, use sphere fallback
+                        BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                        continue;
+                    }
                 }
                 #endregion
 
