@@ -5069,7 +5069,18 @@ namespace entity.Renderers
                     axis = Gizmo.axis.none;
                     if (gizmo != null)
                     {
-                        axis = gizmo.checkForIntersection(e, TranslationMatrix[i]);
+                        // Use translation-only matrix for movement gizmo so axes stay world-locked
+                        Matrix gizmoMatrix;
+                        if (gizmo.CurrentTransform == Gizmo.transform.movement)
+                        {
+                            SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[i];
+                            gizmoMatrix = Matrix.Translation(sp.X, sp.Y, sp.Z);
+                        }
+                        else
+                        {
+                            gizmoMatrix = TranslationMatrix[i];
+                        }
+                        axis = gizmo.checkForIntersection(e, gizmoMatrix);
                     }
                 }
 
@@ -5790,7 +5801,11 @@ namespace entity.Renderers
 
                             bool oldLighting = render.device.RenderState.Lighting;
                             render.device.RenderState.Lighting = false;
-                            render.device.Transform.World = TranslationMatrix[x];
+                            // Use translation-only matrix for movement gizmo so axes stay world-locked
+                            if (gizmo.CurrentTransform == Gizmo.transform.movement)
+                                render.device.Transform.World = Matrix.Translation(sp.X, sp.Y, sp.Z);
+                            else
+                                render.device.Transform.World = TranslationMatrix[x];
                             gizmo.draw(gizmoScale);
                             render.device.RenderState.Lighting = oldLighting;
                         }
