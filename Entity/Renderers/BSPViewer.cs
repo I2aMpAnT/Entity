@@ -5751,56 +5751,44 @@ namespace entity.Renderers
                 {
                     if (SelectedSpawn[i] == x)
                     {
-                        // Skip wireframe boxes for obstacles and scenery - just show solid models
-                        if (bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn ||
-                            bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn)
+                        // Only draw wireframe bounding boxes for non-obstacle, non-scenery spawns
+                        if (!(bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn ||
+                              bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn))
                         {
-                            break;
+                            render.device.SetTexture(0, null);
+                            render.device.RenderState.AlphaBlendEnable = false;
+                            render.device.RenderState.AlphaTestEnable = false;
+                            render.device.RenderState.FillMode = FillMode.WireFrame;
+
+                            // Adjust center position of Bounding Boxes to proper offset
+                            Matrix mat = Matrix.Identity;
+                            mat = Matrix.Add(
+                                mat,
+                                Matrix.Translation(
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff,
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff,
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff));
+                            render.device.Transform.World = mat * TranslationMatrix[x];
+                            BoundingBoxModel[x].DrawSubset(0);
                         }
 
-                        render.device.SetTexture(0, null);
-                        render.device.RenderState.AlphaBlendEnable = false;
-                        render.device.RenderState.AlphaTestEnable = false;
-                        render.device.RenderState.FillMode = FillMode.WireFrame;
-
-                        // Adjust center position of Bounding Boxes to proper offset
-                        Matrix mat = Matrix.Identity;
-                        mat = Matrix.Add(
-                            mat,
-                            Matrix.Translation(
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff,
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff,
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff));
-                        render.device.Transform.World = mat * TranslationMatrix[x];
-                        BoundingBoxModel[x].DrawSubset(0);
-
-                        /***************/
-                        float s1 = SpawnModel[spawnmodelindex[x]].BoundingBox.MaxX -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinX;
-                        float s2 = SpawnModel[spawnmodelindex[x]].BoundingBox.MaxY -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinY;
-                        float s3 = SpawnModel[spawnmodelindex[x]].BoundingBox.MaxZ -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinZ;
-                        Vector4 v4 = Vector3.Transform(cam.Position, TranslationMatrix[x]);
-
-                        SpawnInfo.BaseSpawn s = bsp.Spawns.Spawn[x];
-                        Vector3 c = cam.Position;
-                        float scale = (cam.Position.X - s.X) + (cam.Position.Y - s.Y) + (cam.Position.Z - s.Z);
-
-                        scale = (((SpawnModel[spawnmodelindex[x]].BoundingBox.MaxX -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinX) +
-                                  (SpawnModel[spawnmodelindex[x]].BoundingBox.MaxY -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinY) +
-                                  (SpawnModel[spawnmodelindex[x]].BoundingBox.MaxZ -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinZ)) / 3) * 12;
-
-                        scale = (v4.X + v4.Y + v4.Z) / 3;
+                        // Draw gizmo for ALL selected spawn types
                         if (gizmo != null)
                         {
-                            gizmo.draw(scale / 50.0f);
-                        }
+                            // Distance-based scale so gizmo stays a consistent screen size
+                            SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[x];
+                            float dx = cam.Position.X - sp.X;
+                            float dy = cam.Position.Y - sp.Y;
+                            float dz = cam.Position.Z - sp.Z;
+                            float gizmoScale = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz) / 80.0f;
+                            if (gizmoScale < 0.1f) gizmoScale = 0.1f;
 
-                        /**********/
+                            bool oldLighting = render.device.RenderState.Lighting;
+                            render.device.RenderState.Lighting = false;
+                            render.device.Transform.World = TranslationMatrix[x];
+                            gizmo.draw(gizmoScale);
+                            render.device.RenderState.Lighting = oldLighting;
+                        }
                     }
                 }
 
@@ -8730,7 +8718,6 @@ namespace entity.Renderers
                 treeAnchorNode = clicked;
             }
 
-            updateStatusPosition();
         }
 
         private void ClearTreeHighlights()

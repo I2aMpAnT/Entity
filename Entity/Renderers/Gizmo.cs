@@ -359,6 +359,8 @@ namespace entity.Renderers
             device.RenderState.FillMode = FillMode.Solid;
             Cull oldCull = device.RenderState.CullMode;
             device.RenderState.CullMode = Cull.None;
+            bool oldLighting = device.RenderState.Lighting;
+            device.RenderState.Lighting = false;
 
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[18];
 
@@ -493,6 +495,7 @@ namespace entity.Renderers
             // Restore previous world matrix
             device.RenderState.FillMode = oldFill;
             device.RenderState.CullMode = oldCull;
+            device.RenderState.Lighting = oldLighting;
             device.Transform.World = mat;
             this.scale = scale;
         }
@@ -510,6 +513,8 @@ namespace entity.Renderers
             Cull oldCull = device.RenderState.CullMode;
             device.RenderState.CullMode = Cull.None;
             bool oldZWrite = device.RenderState.ZBufferWriteEnable;
+            bool oldLighting = device.RenderState.Lighting;
+            device.RenderState.Lighting = false;
 
             device.SetTexture(0, null);
             device.VertexFormat = CustomVertex.PositionColored.Format;
@@ -645,6 +650,7 @@ namespace entity.Renderers
             device.RenderState.FillMode = oldFill;
             device.RenderState.CullMode = oldCull;
             device.RenderState.ZBufferWriteEnable = oldZWrite;
+            device.RenderState.Lighting = oldLighting;
             device.Transform.World = mat;
             this.scale = scale;
         }
