@@ -74,6 +74,11 @@ namespace entity.Renderers
         public bool MapWasModified { get; private set; }
 
         /// <summary>
+        /// Path to the map file backup for undo. Null when no undo is available.
+        /// </summary>
+        private string undoBackupPath = null;
+
+        /// <summary>
         /// The render.
         /// </summary>
         private readonly Renderer render = new Renderer();
@@ -4141,6 +4146,12 @@ namespace entity.Renderers
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                UndoLastChunkOperation();
+                return true;
+            }
+
             // Gizmo mode switching: Q = Move, E = Rotate
             if (keyData == Keys.Q && gizmo != null)
             {
@@ -6424,6 +6435,9 @@ namespace entity.Renderers
 
             try
             {
+                // Backup map file for undo before modifying
+                BackupMapForUndo();
+
                 // Save current in-memory position/rotation to the map file first,
                 // so the MetaSplitter deep copy picks up gizmo-modified values.
                 map.OpenMap(MapTypes.Internal);
@@ -6454,6 +6468,9 @@ namespace entity.Renderers
         {
             try
             {
+                // Backup map file for undo before modifying
+                BackupMapForUndo();
+
                 // Group selected spawns by their reflexive offset
                 var groups = new Dictionary<int, List<int>>(); // scnrRefOffset -> list of chunk indices
                 foreach (int spawnIdx in SelectedSpawn)
@@ -6601,7 +6618,168 @@ namespace entity.Renderers
 
         private void tsBtnAddChunk_Click(object sender, EventArgs e)
         {
-            DoSpawnChunkOperation("add");
+            if (SelectedSpawn.Count > 0)
+            {
+                DoSpawnChunkOperation("add");
+            }
+            else
+            {
+                AddBlankSpawnByTypePicker();
+            }
+        }
+
+        /// <summary>
+        /// Shows a type picker and adds a blank spawn chunk when no spawn is selected.
+        /// Handles the case where all spawns of a type have been deleted.
+        /// </summary>
+        private void AddBlankSpawnByTypePicker()
+        {
+            var types = new SpawnInfo.SpawnType[]
+            {
+                SpawnInfo.SpawnType.Player,
+                SpawnInfo.SpawnType.Scenery,
+                SpawnInfo.SpawnType.Vehicle,
+                SpawnInfo.SpawnType.Weapon,
+                SpawnInfo.SpawnType.Equipment,
+                SpawnInfo.SpawnType.Biped,
+                SpawnInfo.SpawnType.Machine,
+                SpawnInfo.SpawnType.Control,
+                SpawnInfo.SpawnType.Crate,
+                SpawnInfo.SpawnType.Sound,
+                SpawnInfo.SpawnType.Light,
+                SpawnInfo.SpawnType.Objective,
+                SpawnInfo.SpawnType.DeathZone,
+                SpawnInfo.SpawnType.Collection,
+                SpawnInfo.SpawnType.Camera,
+            };
+
+            string[] typeNames = new string[types.Length];
+            for (int i = 0; i < types.Length; i++)
+                typeNames[i] = types[i].ToString();
+
+            using (var dlg = new Form())
+            {
+                dlg.Text = "Add Spawn";
+                dlg.Size = new Size(220, 320);
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.MaximizeBox = false;
+                dlg.MinimizeBox = false;
+
+                var lb = new ListBox();
+                lb.Dock = DockStyle.Fill;
+                lb.Items.AddRange(typeNames);
+                lb.SelectedIndex = 0;
+                dlg.Controls.Add(lb);
+
+                var btnOk = new System.Windows.Forms.Button();
+                btnOk.Text = "Add";
+                btnOk.Dock = DockStyle.Bottom;
+                btnOk.DialogResult = DialogResult.OK;
+                dlg.Controls.Add(btnOk);
+                dlg.AcceptButton = btnOk;
+
+                if (dlg.ShowDialog(this) != DialogResult.OK || lb.SelectedIndex < 0)
+                    return;
+
+                SpawnInfo.SpawnType selectedType = types[lb.SelectedIndex];
+                int scnrRefOffset, chunkSize;
+                if (!GetSpawnReflexiveInfo(selectedType, out scnrRefOffset, out chunkSize))
+                {
+                    MessageBox.Show("Unsupported spawn type.");
+                    return;
+                }
+
+                try
+                {
+                    BackupMapForUndo();
+
+                    int scnrTagIndex = 3;
+                    MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                    MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+                    if (container == null)
+                    {
+                        MessageBox.Show("Could not find reflexive for " + selectedType + " in SCNR.");
+                        return;
+                    }
+
+                    if (container.Chunks.Count > 0)
+                    {
+                        var copy = container.Chunks[container.Chunks.Count - 1].DeepCopy();
+                        if (copy.MS != null && copy.MS.Length >= 20)
+                        {
+                            byte[] zeros = new byte[12];
+                            copy.MS.Position = 8;
+                            copy.MS.Write(zeros, 0, 12);
+                        }
+                        container.Chunks.Add(copy);
+                    }
+                    else
+                    {
+                        var blank = new MetaSplitter.SplitReflexive();
+                        blank.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
+                        blank.chunksize = chunkSize;
+                        blank.MS = new MemoryStream(new byte[chunkSize], 0, chunkSize, true, true);
+                        blank.ChunkResources = new List<Meta.Item>();
+                        blank.Chunks = new List<MetaSplitter.SplitReflexive>();
+                        container.Chunks.Add(blank);
+                    }
+
+                    map.OpenMap(MapTypes.Internal);
+                    map.ChunkTools.Add(scnrTagIndex, ms);
+
+                    string filePath = map.filePath;
+                    map = Map.LoadFromFile(filePath);
+                    MapWasModified = true;
+
+                    ClearTreeHighlights();
+                    RefreshSpawnsInPlace();
+                }
+                catch (Exception ex)
+                {
+                    Global.ShowErrorMsg("Error adding blank spawn chunk", ex);
+                }
+            }
+        }
+
+        private void BackupMapForUndo()
+        {
+            string src = map.filePath;
+            string backup = src + ".undo_backup";
+            File.Copy(src, backup, true);
+            undoBackupPath = backup;
+        }
+
+        private void UndoLastChunkOperation()
+        {
+            if (undoBackupPath == null || !File.Exists(undoBackupPath))
+            {
+                MessageBox.Show("Nothing to undo.", "Undo");
+                return;
+            }
+
+            try
+            {
+                string filePath = map.filePath;
+                File.Copy(undoBackupPath, filePath, true);
+                File.Delete(undoBackupPath);
+                undoBackupPath = null;
+
+                map = Map.LoadFromFile(filePath);
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during undo", ex);
+            }
+        }
+
+        private void tsBtnUndo_Click(object sender, EventArgs e)
+        {
+            UndoLastChunkOperation();
         }
 
         #endregion

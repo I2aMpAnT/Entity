@@ -87,6 +87,7 @@ namespace entity.Renderers
         private ToolStripButton tsBtnDeleteChunk;
         private ToolStripButton tsBtnDuplicateChunk;
         private ToolStripButton tsBtnAddChunk;
+        private ToolStripButton tsBtnUndo;
         private ToolStripLabel toolStripLabel2;
         private ToolStripMenuItem ToolStripMenuItemRP180;
         private ToolStripMenuItem ToolStripMenuItemRP45CCW;
@@ -271,6 +272,7 @@ namespace entity.Renderers
             this.tsBtnDeleteChunk = new System.Windows.Forms.ToolStripButton();
             this.tsBtnDuplicateChunk = new System.Windows.Forms.ToolStripButton();
             this.tsBtnAddChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
             this.cbBSPTextures = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.identContext.SuspendLayout();
@@ -1161,7 +1163,8 @@ namespace entity.Renderers
             this.toolStripSeparator1,
             this.tsBtnDeleteChunk,
             this.tsBtnDuplicateChunk,
-            this.tsBtnAddChunk});
+            this.tsBtnAddChunk,
+            this.tsBtnUndo});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip.Location = new System.Drawing.Point(254, 0);
             this.toolStrip.Name = "toolStrip";
@@ -1367,6 +1370,15 @@ namespace entity.Renderers
             this.tsBtnAddChunk.Text = "Add";
             this.tsBtnAddChunk.ToolTipText = "Add a new spawn chunk (clones last)";
             this.tsBtnAddChunk.Click += new System.EventHandler(this.tsBtnAddChunk_Click);
+            //
+            // tsBtnUndo
+            //
+            this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnUndo.Name = "tsBtnUndo";
+            this.tsBtnUndo.Size = new System.Drawing.Size(40, 20);
+            this.tsBtnUndo.Text = "Undo";
+            this.tsBtnUndo.ToolTipText = "Undo last chunk operation (Ctrl+Z)";
+            this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
             //
             // cbBSPTextures
             // 
