@@ -1236,6 +1236,22 @@ namespace entity.Renderers
             };
             spawnPropsGB.Controls.Add(stepCombo);
 
+            // Button to copy spawn XYZ into coordinate finder
+            Button btnCopyToFinder = new Button();
+            btnCopyToFinder.Text = "Copy to Finder";
+            btnCopyToFinder.Location = new Point(134, 251);
+            btnCopyToFinder.Size = new Size(105, 23);
+            btnCopyToFinder.FlatStyle = FlatStyle.Flat;
+            btnCopyToFinder.Click += (s, ev) =>
+            {
+                if (SelectedSpawn.Count == 0) return;
+                int idx = SelectedSpawn[SelectedSpawn.Count - 1];
+                fcordx.Text = bsp.Spawns.Spawn[idx].X.ToString("#0.0000####");
+                fcordy.Text = bsp.Spawns.Spawn[idx].Y.ToString("#0.0000####");
+                fcordz.Text = bsp.Spawns.Spawn[idx].Z.ToString("#0.0000####");
+            };
+            spawnPropsGB.Controls.Add(btnCopyToFinder);
+
             // Move coordinate finder below spawn properties
             fcordgb.Location = new Point(3, 290);
 
@@ -1374,24 +1390,31 @@ namespace entity.Renderers
                 TranslationMatrix[SelectedSpawn[i]] = MakeMatrixForSpawn(SelectedSpawn[i]);
             }
 
-            // Sync status bar
+            // Sync status bar - use try/finally so spawnPropsUpdating is always reset
+            // even if updateStatusPosition() throws (e.g. null list references)
             spawnPropsUpdating = true;
-            updateXYZYPR = true;
-            updateStatusPosition();
-            // Re-center sliders
-            sliderCenterX = newX; sliderCenterY = newY; sliderCenterZ = newZ;
-            sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
-            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            try
             {
-                SpawnInfo.RotateYawPitchRollBaseSpawn rot2 = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                sliderCenterYaw = rot2.Yaw; sliderCenterPitch = rot2.Pitch; sliderCenterRoll = rot2.Roll;
+                updateXYZYPR = true;
+                updateStatusPosition();
+                // Re-center sliders
+                sliderCenterX = newX; sliderCenterY = newY; sliderCenterZ = newZ;
+                sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
+                if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                {
+                    SpawnInfo.RotateYawPitchRollBaseSpawn rot2 = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                    sliderCenterYaw = rot2.Yaw; sliderCenterPitch = rot2.Pitch; sliderCenterRoll = rot2.Roll;
+                }
+                else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+                {
+                    sliderCenterYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+                }
+                sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
             }
-            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            finally
             {
-                sliderCenterYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+                spawnPropsUpdating = false;
             }
-            sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
-            spawnPropsUpdating = false;
         }
 
         /// <summary>
