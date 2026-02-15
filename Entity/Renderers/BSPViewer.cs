@@ -7178,6 +7178,16 @@ namespace entity.Renderers
                 // Key: machine palette index, Value: new crate palette index
                 var paletteMap = new Dictionary<int, int>();
 
+                // Find the highest existing unique ID salt across all spawns so new
+                // crate spawns get non-colliding IDs.
+                uint nextSalt = 1;
+                foreach (SpawnInfo.BaseSpawn sp in bsp.Spawns.Spawn)
+                {
+                    uint salt = (uint)sp.UniqueID >> 16;
+                    if (salt >= nextSalt)
+                        nextSalt = salt + 1;
+                }
+
                 int placedCount = 0;
                 foreach (var ms in machineSpawns)
                 {
@@ -7190,6 +7200,19 @@ namespace entity.Renderers
                     if (!paletteMap.TryGetValue(machPalIdx, out cratePalIdx))
                     {
                         var palCopy = machPalette.Chunks[machPalIdx].DeepCopy();
+
+                        // Overwrite the tag class from "mach" to "bloc" so the engine
+                        // recognises this palette entry as a crate object reference.
+                        // Tag classes are stored as a big-endian FourCC in the first 4 bytes.
+                        if (palCopy.MS != null && palCopy.MS.Length >= 4)
+                        {
+                            palCopy.MS.Position = 0;
+                            palCopy.MS.WriteByte(0x63); // 'c'  ┐
+                            palCopy.MS.WriteByte(0x6F); // 'o'  │ "bloc" as big-endian 4CC
+                            palCopy.MS.WriteByte(0x6C); // 'l'  │
+                            palCopy.MS.WriteByte(0x62); // 'b'  ┘
+                        }
+
                         cratePalIdx = cratePalette.Chunks.Count;
                         cratePalette.Chunks.Add(palCopy);
                         paletteMap[machPalIdx] = cratePalIdx;
@@ -7216,6 +7239,15 @@ namespace entity.Renderers
 
                     // Update MetaSpawnType at byte 46 from Machine (7) to Crate (11)
                     crateData[46] = 11;
+
+                    // Assign a unique object datum ID (bytes 40-43) so each crate
+                    // gets its own tracking slot in the engine.
+                    uint newId = (nextSalt << 16) | (uint)(crateSpawns.Chunks.Count & 0xFFFF);
+                    nextSalt++;
+                    crateData[40] = (byte)(newId & 0xFF);
+                    crateData[41] = (byte)((newId >> 8) & 0xFF);
+                    crateData[42] = (byte)((newId >> 16) & 0xFF);
+                    crateData[43] = (byte)((newId >> 24) & 0xFF);
 
                     // Bytes 52-75 are crate-specific fields, left zeroed (variant name, colors, etc.)
 
