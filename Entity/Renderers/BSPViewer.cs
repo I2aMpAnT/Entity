@@ -6409,6 +6409,12 @@ namespace entity.Renderers
 
             try
             {
+                // Save current in-memory position/rotation to the map file first,
+                // so the MetaSplitter deep copy picks up gizmo-modified values.
+                map.OpenMap(MapTypes.Internal);
+                spawn.Write(map);
+                map.CloseMap();
+
                 DoMetaSplitterChunkOperation(operation, scnrRefOffset, chunkIdx);
 
                 // Load a fresh map from the updated file.
