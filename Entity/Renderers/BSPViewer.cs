@@ -1254,89 +1254,8 @@ namespace entity.Renderers
             };
             spawnPropsGB.Controls.Add(btnCopyToFinder);
 
-            // Copy Coords button - copies X,Y,Z,Yaw,Pitch,Roll to clipboard
-            System.Windows.Forms.Button btnCopyCoords = new System.Windows.Forms.Button();
-            btnCopyCoords.Text = "Copy Coords";
-            btnCopyCoords.Location = new Point(6, 278);
-            btnCopyCoords.Size = new Size(75, 23);
-            btnCopyCoords.FlatStyle = FlatStyle.Flat;
-            btnCopyCoords.Click += (s, ev) =>
-            {
-                if (SelectedSpawn.Count == 0) return;
-                int idx = SelectedSpawn[SelectedSpawn.Count - 1];
-                SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[idx];
-                string coords = sp.X.ToString("0.0000####") + ", "
-                              + sp.Y.ToString("0.0000####") + ", "
-                              + sp.Z.ToString("0.0000####");
-                if (sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
-                {
-                    SpawnInfo.RotateYawPitchRollBaseSpawn r = sp as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                    coords += ", " + RadToDeg360(r.Yaw) + ", " + RadToDeg360(r.Pitch) + ", " + RadToDeg360(r.Roll);
-                }
-                else if (sp is SpawnInfo.RotateDirectionBaseSpawn)
-                {
-                    coords += ", " + RadToDeg360(((SpawnInfo.RotateDirectionBaseSpawn)sp).RotationDirection);
-                }
-                Clipboard.SetText(coords);
-            };
-            spawnPropsGB.Controls.Add(btnCopyCoords);
-
-            // Paste Coords button - parses clipboard and applies to selected spawn
-            System.Windows.Forms.Button btnPasteCoords = new System.Windows.Forms.Button();
-            btnPasteCoords.Text = "Paste Coords";
-            btnPasteCoords.Location = new Point(84, 278);
-            btnPasteCoords.Size = new Size(80, 23);
-            btnPasteCoords.FlatStyle = FlatStyle.Flat;
-            btnPasteCoords.Click += (s, ev) =>
-            {
-                if (SelectedSpawn.Count == 0 || !Clipboard.ContainsText()) return;
-                string[] parts = Clipboard.GetText().Split(new[] { ',', '\t', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length < 3) return;
-                float nx, ny, nz;
-                if (!float.TryParse(parts[0].Trim(), out nx) ||
-                    !float.TryParse(parts[1].Trim(), out ny) ||
-                    !float.TryParse(parts[2].Trim(), out nz)) return;
-
-                spawnPropsUpdating = true;
-                int idx = SelectedSpawn[SelectedSpawn.Count - 1];
-                SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[idx];
-                sp.X = nx; sp.Y = ny; sp.Z = nz;
-                nudX.Value = ClampDecimal((decimal)nx, nudX.Minimum, nudX.Maximum);
-                nudY.Value = ClampDecimal((decimal)ny, nudY.Minimum, nudY.Maximum);
-                nudZ.Value = ClampDecimal((decimal)nz, nudZ.Minimum, nudZ.Maximum);
-
-                // Parse rotation if provided
-                if (parts.Length >= 4 && sp is SpawnInfo.RotateDirectionBaseSpawn)
-                {
-                    float deg;
-                    if (float.TryParse(parts[3].Trim(), out deg))
-                    {
-                        ((SpawnInfo.RotateDirectionBaseSpawn)sp).RotationDirection = DegToRad((decimal)deg);
-                        nudYaw.Value = ClampDecimal((decimal)deg, nudYaw.Minimum, nudYaw.Maximum);
-                    }
-                }
-                if (parts.Length >= 6 && sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
-                {
-                    float dy, dp, dr;
-                    SpawnInfo.RotateYawPitchRollBaseSpawn r = sp as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                    if (float.TryParse(parts[3].Trim(), out dy)) { r.Yaw = DegToRad((decimal)dy); nudYaw.Value = ClampDecimal((decimal)dy, nudYaw.Minimum, nudYaw.Maximum); }
-                    if (float.TryParse(parts[4].Trim(), out dp)) { r.Pitch = DegToRad((decimal)dp); nudPitch.Value = ClampDecimal((decimal)dp, nudPitch.Minimum, nudPitch.Maximum); }
-                    if (float.TryParse(parts[5].Trim(), out dr)) { r.Roll = DegToRad((decimal)dr); nudRoll.Value = ClampDecimal((decimal)dr, nudRoll.Minimum, nudRoll.Maximum); }
-                }
-
-                // Re-center sliders and update matrix
-                sliderCenterX = sp.X; sliderCenterY = sp.Y; sliderCenterZ = sp.Z;
-                sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
-                TranslationMatrix[idx] = MakeMatrixForSpawn(idx);
-                spawnPropsUpdating = false;
-            };
-            spawnPropsGB.Controls.Add(btnPasteCoords);
-
-            // Expand GroupBox to fit new buttons
-            spawnPropsGB.Size = new Size(244, 310);
-
             // Move coordinate finder below spawn properties
-            fcordgb.Location = new Point(3, 320);
+            fcordgb.Location = new Point(3, 290);
 
             dockControl4.Controls.Add(spawnPropsGB);
             spawnPropsGB.Enabled = false; // disabled until a spawn is selected
@@ -1348,6 +1267,22 @@ namespace entity.Renderers
             tsBtnSavePosition.Text = "Save Position";
             tsBtnSavePosition.Click += btnSavePosition_Click;
             toolStrip.Items.Add(tsBtnSavePosition);
+
+            // Add Copy Coords button to the top toolbar
+            ToolStripButton tsBtnCopyCoords = new ToolStripButton();
+            tsBtnCopyCoords.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsBtnCopyCoords.Name = "tsBtnCopyCoords";
+            tsBtnCopyCoords.Text = "Copy Coords";
+            tsBtnCopyCoords.Click += btnCopyCoords_Click;
+            toolStrip.Items.Add(tsBtnCopyCoords);
+
+            // Add Paste Coords button to the top toolbar
+            ToolStripButton tsBtnPasteCoords = new ToolStripButton();
+            tsBtnPasteCoords.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsBtnPasteCoords.Name = "tsBtnPasteCoords";
+            tsBtnPasteCoords.Text = "Paste Coords";
+            tsBtnPasteCoords.Click += btnPasteCoords_Click;
+            toolStrip.Items.Add(tsBtnPasteCoords);
         }
 
         /// <summary>
@@ -1684,6 +1619,95 @@ namespace entity.Renderers
             {
                 Global.ShowErrorMsg("Error saving spawn position(s).", ex);
             }
+        }
+
+        private void btnCopyCoords_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.", "Copy Coords");
+                return;
+            }
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            string coords = spawn.X.ToString("R") + ", " + spawn.Y.ToString("R") + ", " + spawn.Z.ToString("R");
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)spawn;
+                coords += ", " + rot.Yaw.ToString("R") + ", " + rot.Pitch.ToString("R") + ", " + rot.Roll.ToString("R");
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                coords += ", " + ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection.ToString("R");
+            }
+
+            Clipboard.SetText(coords);
+        }
+
+        private void btnPasteCoords_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.", "Paste Coords");
+                return;
+            }
+
+            string text = Clipboard.GetText();
+            if (string.IsNullOrEmpty(text))
+            {
+                MessageBox.Show("Clipboard is empty.", "Paste Coords");
+                return;
+            }
+
+            string[] parts = text.Split(',');
+            if (parts.Length < 3)
+            {
+                MessageBox.Show("Expected at least 3 values (X, Y, Z).", "Paste Coords");
+                return;
+            }
+
+            float x, y, z;
+            if (!float.TryParse(parts[0].Trim(), out x) ||
+                !float.TryParse(parts[1].Trim(), out y) ||
+                !float.TryParse(parts[2].Trim(), out z))
+            {
+                MessageBox.Show("Invalid coordinate values.", "Paste Coords");
+                return;
+            }
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            spawn.X = x;
+            spawn.Y = y;
+            spawn.Z = z;
+
+            if (parts.Length >= 6 && spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                float yaw, pitch, roll;
+                if (float.TryParse(parts[3].Trim(), out yaw) &&
+                    float.TryParse(parts[4].Trim(), out pitch) &&
+                    float.TryParse(parts[5].Trim(), out roll))
+                {
+                    SpawnInfo.RotateYawPitchRollBaseSpawn rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)spawn;
+                    rot.Yaw = yaw;
+                    rot.Pitch = pitch;
+                    rot.Roll = roll;
+                }
+            }
+            else if (parts.Length >= 4 && spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                float dir;
+                if (float.TryParse(parts[3].Trim(), out dir))
+                {
+                    ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = dir;
+                }
+            }
+
+            UpdateSpawnPropertyControls();
         }
 
         #endregion
@@ -3388,7 +3412,13 @@ namespace entity.Renderers
 
                 #region ReadSpawnMeta
 
-                if (tempspawn.ModelTagNumber < 0)
+                if (tempspawn.ModelTagNumber < 0 || tempspawn.ModelTagNumber >= map.MetaInfo.TagCount)
+                {
+                    BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                    continue;
+                }
+
+                if (map.BR == null)
                 {
                     BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
                     continue;
