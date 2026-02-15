@@ -1151,7 +1151,7 @@ namespace entity.Renderers
         {
             spawnPropsGB = new GroupBox();
             spawnPropsGB.Text = "Spawn Properties";
-            spawnPropsGB.Location = new Point(3, 135);
+            spawnPropsGB.Location = new Point(3, 3);
             spawnPropsGB.Size = new Size(244, 280);
             spawnPropsGB.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
@@ -1236,12 +1236,11 @@ namespace entity.Renderers
             };
             spawnPropsGB.Controls.Add(stepCombo);
 
+            // Move coordinate finder below spawn properties
+            fcordgb.Location = new Point(3, 290);
+
             dockControl4.Controls.Add(spawnPropsGB);
             spawnPropsGB.Enabled = false; // disabled until a spawn is selected
-
-            // Make sure the Tools panel is visible so users can see the controls
-            dockControl4.LayoutSystem.Collapsed = false;
-            dockControl4.Open();
         }
 
         /// <summary>
@@ -1257,6 +1256,13 @@ namespace entity.Renderers
 
             spawnPropsGB.Enabled = true;
             spawnPropsUpdating = true;
+
+            // Open the Tools panel if it's collapsed
+            if (dockControl4.LayoutSystem.Collapsed)
+            {
+                dockControl4.LayoutSystem.Collapsed = false;
+                dockControl4.Open();
+            }
 
             int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
             SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
@@ -2383,7 +2389,7 @@ namespace entity.Renderers
                 RenderSky.Checked = true;
 
             // Enable spawn types that are useful for viewing: Scenery, Collection, Obstacle
-            string[] spawnTypesToEnable = { "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
+            string[] spawnTypesToEnable = { "Player", "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
 
             if (checkedListBox1 != null)
             {
