@@ -226,7 +226,7 @@
     <float name="unused" offset="32" />
     <float name="unused" offset="36" />
   </struct>
-  <struct name="Vehicles" offset="112" visible="True" size="86" label="Type">
+  <struct name="Vehicles" offset="112" visible="True" size="84" label="Type">
     <short name="Type" offset="0" reflexiveoffset="120" reflexivesize="40" itemoffset="4" itemtype="ident" layer="root" visible="True" />
     <short name="Name" offset="2" reflexiveoffset="72" reflexivesize="36" itemoffset="0" itemtype="string32" layer="root" visible="True" />
     <bitmask32 name="Placement Flags" offset="4" visible="True">
@@ -2070,7 +2070,7 @@
   </struct>
   <tag name="Sound Effect Collection" offset="" visible="True" />
   <id name="Sound Effect Collection" offset="" visible="True" />
-  <struct name="Crates" offset="808" visible="True" size="78" label="Type">
+  <struct name="Crates" offset="808" visible="True" size="76" label="Type">
     <short name="Type" offset="0" reflexiveoffset="816" reflexivesize="40" itemoffset="4" itemtype="ident" layer="root" visible="True" />
     <short name="Name" offset="2" reflexiveoffset="72" reflexivesize="36" itemoffset="0" itemtype="string32" layer="root" visible="True" />
     <bitmask32 name="Placement Flags" offset="4" visible="True">
