@@ -1237,7 +1237,7 @@ namespace entity.Renderers
             spawnPropsGB.Controls.Add(stepCombo);
 
             // Button to copy spawn XYZ into coordinate finder
-            Button btnCopyToFinder = new Button();
+            System.Windows.Forms.Button btnCopyToFinder = new System.Windows.Forms.Button();
             btnCopyToFinder.Text = "Copy to Finder";
             btnCopyToFinder.Location = new Point(134, 251);
             btnCopyToFinder.Size = new Size(105, 23);
