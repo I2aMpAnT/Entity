@@ -4553,12 +4553,12 @@ namespace entity.Renderers
                             }
                         }
                     }
-                }
 
-                // If nothing was clicked and Ctrl isn't held, clear selection
-                if (!spawnFound && (Control.ModifierKeys & Keys.Control) == 0)
-                {
-                    SelectedSpawn.Clear();
+                    // If nothing was clicked and Ctrl isn't held, clear selection
+                    if (!spawnFound && (Control.ModifierKeys & Keys.Control) == 0)
+                    {
+                        SelectedSpawn.Clear();
+                    }
                 }
 
                 #endregion CycleThroughSpawns
