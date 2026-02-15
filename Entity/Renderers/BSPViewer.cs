@@ -7183,7 +7183,9 @@ namespace entity.Renderers
                 uint nextSalt = 1;
                 foreach (SpawnInfo.BaseSpawn sp in bsp.Spawns.Spawn)
                 {
-                    uint salt = (uint)sp.UniqueID >> 16;
+                    var srypr = sp as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                    if (srypr == null) continue;
+                    uint salt = (uint)srypr.UniqueID >> 16;
                     if (salt >= nextSalt)
                         nextSalt = salt + 1;
                 }
