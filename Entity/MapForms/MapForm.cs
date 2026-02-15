@@ -262,6 +262,18 @@ namespace entity.MapForms
         public Map map { get; private set; }
 
         /// <summary>
+        /// Reloads the map from disk and refreshes the current view.
+        /// </summary>
+        public void ReloadMap()
+        {
+            int selectedTag = (map.SelectedMeta != null) ? map.SelectedMeta.TagIndex : -1;
+            string filePath = map.filePath;
+            map = Map.LoadFromFile(filePath);
+            if (selectedTag >= 0 && selectedTag < map.IndexHeader.metaCount)
+                LoadMeta(selectedTag);
+        }
+
+        /// <summary>
         /// Gets or sets pictureBox.
         /// </summary>
         /// <value>The picture box.</value>
