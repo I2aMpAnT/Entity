@@ -1254,8 +1254,89 @@ namespace entity.Renderers
             };
             spawnPropsGB.Controls.Add(btnCopyToFinder);
 
+            // Copy Coords button - copies X,Y,Z,Yaw,Pitch,Roll to clipboard
+            System.Windows.Forms.Button btnCopyCoords = new System.Windows.Forms.Button();
+            btnCopyCoords.Text = "Copy Coords";
+            btnCopyCoords.Location = new Point(6, 278);
+            btnCopyCoords.Size = new Size(75, 23);
+            btnCopyCoords.FlatStyle = FlatStyle.Flat;
+            btnCopyCoords.Click += (s, ev) =>
+            {
+                if (SelectedSpawn.Count == 0) return;
+                int idx = SelectedSpawn[SelectedSpawn.Count - 1];
+                SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[idx];
+                string coords = sp.X.ToString("0.0000####") + ", "
+                              + sp.Y.ToString("0.0000####") + ", "
+                              + sp.Z.ToString("0.0000####");
+                if (sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                {
+                    SpawnInfo.RotateYawPitchRollBaseSpawn r = sp as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                    coords += ", " + RadToDeg360(r.Yaw) + ", " + RadToDeg360(r.Pitch) + ", " + RadToDeg360(r.Roll);
+                }
+                else if (sp is SpawnInfo.RotateDirectionBaseSpawn)
+                {
+                    coords += ", " + RadToDeg360(((SpawnInfo.RotateDirectionBaseSpawn)sp).RotationDirection);
+                }
+                Clipboard.SetText(coords);
+            };
+            spawnPropsGB.Controls.Add(btnCopyCoords);
+
+            // Paste Coords button - parses clipboard and applies to selected spawn
+            System.Windows.Forms.Button btnPasteCoords = new System.Windows.Forms.Button();
+            btnPasteCoords.Text = "Paste Coords";
+            btnPasteCoords.Location = new Point(84, 278);
+            btnPasteCoords.Size = new Size(80, 23);
+            btnPasteCoords.FlatStyle = FlatStyle.Flat;
+            btnPasteCoords.Click += (s, ev) =>
+            {
+                if (SelectedSpawn.Count == 0 || !Clipboard.ContainsText()) return;
+                string[] parts = Clipboard.GetText().Split(new[] { ',', '\t', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length < 3) return;
+                float nx, ny, nz;
+                if (!float.TryParse(parts[0].Trim(), out nx) ||
+                    !float.TryParse(parts[1].Trim(), out ny) ||
+                    !float.TryParse(parts[2].Trim(), out nz)) return;
+
+                spawnPropsUpdating = true;
+                int idx = SelectedSpawn[SelectedSpawn.Count - 1];
+                SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[idx];
+                sp.X = nx; sp.Y = ny; sp.Z = nz;
+                nudX.Value = ClampDecimal((decimal)nx, nudX.Minimum, nudX.Maximum);
+                nudY.Value = ClampDecimal((decimal)ny, nudY.Minimum, nudY.Maximum);
+                nudZ.Value = ClampDecimal((decimal)nz, nudZ.Minimum, nudZ.Maximum);
+
+                // Parse rotation if provided
+                if (parts.Length >= 4 && sp is SpawnInfo.RotateDirectionBaseSpawn)
+                {
+                    float deg;
+                    if (float.TryParse(parts[3].Trim(), out deg))
+                    {
+                        ((SpawnInfo.RotateDirectionBaseSpawn)sp).RotationDirection = DegToRad((decimal)deg);
+                        nudYaw.Value = ClampDecimal((decimal)deg, nudYaw.Minimum, nudYaw.Maximum);
+                    }
+                }
+                if (parts.Length >= 6 && sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                {
+                    float dy, dp, dr;
+                    SpawnInfo.RotateYawPitchRollBaseSpawn r = sp as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                    if (float.TryParse(parts[3].Trim(), out dy)) { r.Yaw = DegToRad((decimal)dy); nudYaw.Value = ClampDecimal((decimal)dy, nudYaw.Minimum, nudYaw.Maximum); }
+                    if (float.TryParse(parts[4].Trim(), out dp)) { r.Pitch = DegToRad((decimal)dp); nudPitch.Value = ClampDecimal((decimal)dp, nudPitch.Minimum, nudPitch.Maximum); }
+                    if (float.TryParse(parts[5].Trim(), out dr)) { r.Roll = DegToRad((decimal)dr); nudRoll.Value = ClampDecimal((decimal)dr, nudRoll.Minimum, nudRoll.Maximum); }
+                }
+
+                // Re-center sliders and update matrix
+                sliderCenterX = sp.X; sliderCenterY = sp.Y; sliderCenterZ = sp.Z;
+                sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
+                TranslationMatrix[idx] = MakeMatrixForSpawn(idx);
+                spawnPropsUpdating = false;
+            };
+            spawnPropsGB.Controls.Add(btnPasteCoords);
+
+            // Expand GroupBox to fit new buttons
+            spawnPropsGB.Size = new Size(244, 310);
+
             // Move coordinate finder below spawn properties
-            fcordgb.Location = new Point(3, 290);
+            fcordgb.Location = new Point(3, 320);
 
             dockControl4.Controls.Add(spawnPropsGB);
             spawnPropsGB.Enabled = false; // disabled until a spawn is selected
