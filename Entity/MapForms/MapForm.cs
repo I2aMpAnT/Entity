@@ -880,7 +880,7 @@ namespace entity.MapForms
 
             Prefs.CustomPluginMask pluginMask = Prefs.CustomPluginMasks[comboBox1.SelectedIndex - 1];
 
-            metaEditor1.pluginName = comboBox1.SelectedItem.ToString();
+            metaEditor1.pluginName = comboBox1.SelectedItem != null ? comboBox1.SelectedItem.ToString() : string.Empty;
 
             // Check quick list
             TreeNode tn = treeView1.Nodes.Count > 1 ? treeView1.Nodes[1] : null;
@@ -1983,7 +1983,7 @@ namespace entity.MapForms
             CustomPluginEditor cpe = new CustomPluginEditor(map);
             cpe.Owner = this;
             cpe.ShowDialog();
-            string tempS = (string)cpe.comboBoxPluginName.SelectedItem;
+            string tempS = cpe.comboBoxPluginName.SelectedItem as string;
             cpe.Dispose();
 
             // Remove all but the Complete Listing
@@ -2209,7 +2209,7 @@ namespace entity.MapForms
         /// <remarks></remarks>
         private void duplicateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (map.SelectedMeta == null)
+            if (map.SelectedMeta == null || treeView1.SelectedNode == null)
             {
                 return;
             }
@@ -3504,7 +3504,9 @@ namespace entity.MapForms
         /// <remarks></remarks>
         private void removeFromQuickListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // If using registry, remove the selected tag 
+            if (treeView1.SelectedNode == null) return;
+
+            // If using registry, remove the selected tag
             if (Prefs.useRegistryEntries)
             {
                 if (treeView1.SelectedNode.FullPath == treeView1.SelectedNode.Name)
@@ -4281,7 +4283,7 @@ namespace entity.MapForms
                     if (tagNum != -1)
                     {
                         // If we are within the <ALL TAGS> listing, add to registry and main tag listing
-                        if (((TreeView)sender).SelectedNode.FullPath.StartsWith(this.treeView1.Nodes[0].Text))
+                        if (e.Node != null && e.Node.FullPath.StartsWith(this.treeView1.Nodes[0].Text))
                         {
                             addToQuickList(map.MetaInfo.TagType[tagNum], map.FileNames.Name[tagNum]);
                         }

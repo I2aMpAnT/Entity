@@ -1222,6 +1222,7 @@ namespace entity.Renderers
             stepCombo.SelectedIndex = 2; // default 0.1
             stepCombo.SelectedIndexChanged += (s, e) =>
             {
+                if (stepCombo.SelectedItem == null) return;
                 decimal step = decimal.Parse(stepCombo.SelectedItem.ToString());
                 nudX.Increment = step;
                 nudY.Increment = step;
@@ -6684,12 +6685,11 @@ namespace entity.Renderers
         private void combo_SelectedIndexChangedCollectionModel(object sender, EventArgs e)
         {
             // We need this here so that when the program changes the box, it doesn't change everything selected!
-            if (!((ToolStripComboBox)sender).Focused)
+            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (cb == null || !cb.Focused || cb.SelectedItem == null)
             {
                 return;
             }
-
-            ToolStripComboBox cb = sender as ToolStripComboBox;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
@@ -6798,13 +6798,11 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void combo_SelectedIndexChangedObstacleModel(object sender, EventArgs e)
         {
-            // We need this here so that when the program changes the box, it doesn't change everything selected!
-            if (!((ToolStripComboBox)sender).Focused)
+            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (cb == null || !cb.Focused || cb.SelectedItem == null)
             {
                 return;
             }
-
-            ToolStripComboBox cb = sender as ToolStripComboBox;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
@@ -6881,13 +6879,11 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void combo_SelectedIndexChangedSceneryModel(object sender, EventArgs e)
         {
-            // We need this here so that when the program changes the box, it doesn't change everything selected!
-            if (!((ToolStripComboBox)sender).Focused)
+            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (cb == null || !cb.Focused || cb.SelectedItem == null)
             {
                 return;
             }
-
-            ToolStripComboBox cb = sender as ToolStripComboBox;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
@@ -8470,7 +8466,9 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
-            int tempint = (int)((TreeView)sender).SelectedNode.Tag;
+            TreeNode node = ((TreeView)sender).SelectedNode;
+            if (node == null || !(node.Tag is int)) return;
+            int tempint = (int)node.Tag;
             if (tempint >= 0)
             {
                 setCameraPosition(

@@ -2440,7 +2440,9 @@ namespace entity.MetaEditor2
             bRemove.Text = "Remove";
             bRemove.Click += (s, ev) =>
                 {
-                    refList.Remove((WinMetaEditor.references)lb.SelectedItem);
+                    WinMetaEditor.references selRef = lb.SelectedItem as WinMetaEditor.references;
+                    if (selRef == null) return;
+                    refList.Remove(selRef);
                     ((CurrencyManager)lb.BindingContext[lb.DataSource]).Refresh();
                 };
             lb.DoubleClick += (s, ev) =>

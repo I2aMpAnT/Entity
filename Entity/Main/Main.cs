@@ -938,6 +938,7 @@ namespace entity.Main
                                      "",
                                      tscbPluginSet.SelectedItem);
             }
+            if (tscbPluginSet.SelectedItem == null) return;
             Prefs.pathPluginsFolder = Globals.PluginSetSelector.getPath(tscbPluginSet.SelectedItem.ToString());
 
             // Make sure to reload all plugins!

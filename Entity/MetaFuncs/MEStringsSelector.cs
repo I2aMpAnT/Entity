@@ -940,7 +940,7 @@ namespace entity.MetaFuncs
 
         private void updateUnicodeFromStringID()
         {
-            StringID SID = (StringID)lbStringIDs.SelectedItem;
+            StringID SID = lbStringIDs.SelectedItem as StringID;
             if (SID == null)
                 return;
             lbUnicodes.Enabled = false;
@@ -965,7 +965,7 @@ namespace entity.MetaFuncs
                     string s = SID.unicodes[0].unicode.ToString();
                     byte[] tempbytes = System.Text.Encoding.Unicode.GetBytes(s);
                     string temps = "Unknown Codes:\n";
-                    for(int i = 0; i < tempbytes.Length; i++)
+                    for(int i = 0; i < tempbytes.Length - 2; i++)
                         if (tempbytes[i] == 238)
                         {
                             temps += tempbytes[i].ToString() + " " + tempbytes[i + 1].ToString() + " " + tempbytes[i + 2].ToString() + "\n";
@@ -979,7 +979,7 @@ namespace entity.MetaFuncs
 
         private void updateStringIDFromUnicode()
         {
-            Unicode uni = (Unicode)lbUnicodes.SelectedItem;
+            Unicode uni = lbUnicodes.SelectedItem as Unicode;
             if (uni == null)
                 return;
             lbStringIDs.Enabled = false;
