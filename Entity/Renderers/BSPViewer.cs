@@ -9304,7 +9304,7 @@ namespace entity.Renderers
 
                 #region ObstacleObjectsOnly
 
-                if (showObstacles)
+                if (showObstacles && ObstacleList != null)
                 {
                     ToolStripComboBox comboBlock;
                     int tempindex;
@@ -9359,7 +9359,7 @@ namespace entity.Renderers
 
                 #region SceneryObjectsOnly
 
-                if (showScenery)
+                if (showScenery && SceneryList != null)
                 {
                     ToolStripComboBox comboScen;
                     int tempindex;
