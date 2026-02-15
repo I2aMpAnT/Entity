@@ -5062,10 +5062,15 @@ namespace entity.Renderers
             if (SelectedSpawn.Count > 0)
             {
                 int i = SelectedSpawn[SelectedSpawn.Count - 1];
-                axis = Gizmo.axis.none;
-                if (e.Button == MouseButtons.None && gizmo != null)
+                // Only update axis selection when hovering (no button held).
+                // When dragging, keep the axis that was selected during hover.
+                if (e.Button == MouseButtons.None)
                 {
-                    axis = gizmo.checkForIntersection(e, TranslationMatrix[i]);
+                    axis = Gizmo.axis.none;
+                    if (gizmo != null)
+                    {
+                        axis = gizmo.checkForIntersection(e, TranslationMatrix[i]);
+                    }
                 }
 
                 // Only Last selection hilights ATM!
