@@ -73,7 +73,6 @@ namespace entity.Renderers
         private System.Windows.Forms.ToolStripMenuItem selectGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectUnFreezeAllMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportSpawnsToolStripMenuItem;
         List<SpawnLoads.SceneryInfo> SoundsList; //= new List<SpawnLoads.SceneryInfo>();
         List<ParsedModel> SpawnModel = new List<ParsedModel>();
         private Label speedLabel;
@@ -88,7 +87,6 @@ namespace entity.Renderers
         private ToolStripButton tsBtnDeleteChunk;
         private ToolStripButton tsBtnDuplicateChunk;
         private ToolStripButton tsBtnAddChunk;
-        private ToolStripButton tsBtnUndo;
         private ToolStripLabel toolStripLabel2;
         private ToolStripMenuItem ToolStripMenuItemRP180;
         private ToolStripMenuItem ToolStripMenuItemRP45CCW;
@@ -193,7 +191,6 @@ namespace entity.Renderers
             this.selectGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBar = new System.Windows.Forms.TrackBar();
             this.speedLabel = new System.Windows.Forms.Label();
             this.rightSandDock = new TD.SandDock.DockContainer();
@@ -274,7 +271,6 @@ namespace entity.Renderers
             this.tsBtnDeleteChunk = new System.Windows.Forms.ToolStripButton();
             this.tsBtnDuplicateChunk = new System.Windows.Forms.ToolStripButton();
             this.tsBtnAddChunk = new System.Windows.Forms.ToolStripButton();
-            this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
             this.cbBSPTextures = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.identContext.SuspendLayout();
@@ -470,8 +466,7 @@ namespace entity.Renderers
             this.selectCurrentToolStripMenuItem,
             this.selectGroupToolStripMenuItem,
             this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem,
-            this.exportSpawnsToolStripMenuItem});
+            this.selectNoneToolStripMenuItem});
             this.identContext.Name = "identContext";
             this.identContext.Size = new System.Drawing.Size(189, 158);
             this.identContext.Opening += new System.ComponentModel.CancelEventHandler(this.identContext_Opening);
@@ -531,15 +526,7 @@ namespace entity.Renderers
             this.selectNoneToolStripMenuItem.Tag = "DES-1";
             this.selectNoneToolStripMenuItem.Text = "Deselect All";
             this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.selectToolStripMenuItem_Click);
-            //
-            // exportSpawnsToolStripMenuItem
-            //
-            this.exportSpawnsToolStripMenuItem.Name = "exportSpawnsToolStripMenuItem";
-            this.exportSpawnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.exportSpawnsToolStripMenuItem.Text = "Export Spawns";
-            this.exportSpawnsToolStripMenuItem.Visible = false;
-            this.exportSpawnsToolStripMenuItem.Click += new System.EventHandler(this.exportSpawnsToolStripMenuItem_Click);
-            //
+            // 
             // speedBar
             // 
             this.speedBar.Location = new System.Drawing.Point(757, 13);
@@ -1174,8 +1161,7 @@ namespace entity.Renderers
             this.toolStripSeparator1,
             this.tsBtnDeleteChunk,
             this.tsBtnDuplicateChunk,
-            this.tsBtnAddChunk,
-            this.tsBtnUndo});
+            this.tsBtnAddChunk});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip.Location = new System.Drawing.Point(254, 0);
             this.toolStrip.Name = "toolStrip";
@@ -1381,15 +1367,6 @@ namespace entity.Renderers
             this.tsBtnAddChunk.Text = "Add";
             this.tsBtnAddChunk.ToolTipText = "Add a new spawn chunk (clones last)";
             this.tsBtnAddChunk.Click += new System.EventHandler(this.tsBtnAddChunk_Click);
-            //
-            // tsBtnUndo
-            //
-            this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsBtnUndo.Name = "tsBtnUndo";
-            this.tsBtnUndo.Size = new System.Drawing.Size(40, 20);
-            this.tsBtnUndo.Text = "Undo";
-            this.tsBtnUndo.ToolTipText = "Undo last chunk operation (Ctrl+Z)";
-            this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
             //
             // cbBSPTextures
             // 

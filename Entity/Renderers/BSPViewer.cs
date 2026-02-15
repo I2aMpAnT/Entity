@@ -74,11 +74,6 @@ namespace entity.Renderers
         public bool MapWasModified { get; private set; }
 
         /// <summary>
-        /// Path to the map file backup for undo. Null when no undo is available.
-        /// </summary>
-        private string undoBackupPath = null;
-
-        /// <summary>
         /// The render.
         /// </summary>
         private readonly Renderer render = new Renderer();
@@ -4146,13 +4141,6 @@ namespace entity.Renderers
                 return true;
             }
 
-            // Ctrl+Z = Undo last chunk operation
-            if (keyData == (Keys.Control | Keys.Z))
-            {
-                UndoLastChunkOperation();
-                return true;
-            }
-
             // Gizmo mode switching: Q = Move, E = Rotate
             if (keyData == Keys.Q && gizmo != null)
             {
@@ -6436,9 +6424,6 @@ namespace entity.Renderers
 
             try
             {
-                // Backup map file for undo before modifying
-                BackupMapForUndo();
-
                 // Save current in-memory position/rotation to the map file first,
                 // so the MetaSplitter deep copy picks up gizmo-modified values.
                 map.OpenMap(MapTypes.Internal);
@@ -6469,9 +6454,6 @@ namespace entity.Renderers
         {
             try
             {
-                // Backup map file for undo before modifying
-                BackupMapForUndo();
-
                 // Group selected spawns by their reflexive offset
                 var groups = new Dictionary<int, List<int>>(); // scnrRefOffset -> list of chunk indices
                 foreach (int spawnIdx in SelectedSpawn)
@@ -6619,178 +6601,7 @@ namespace entity.Renderers
 
         private void tsBtnAddChunk_Click(object sender, EventArgs e)
         {
-            if (SelectedSpawn.Count > 0)
-            {
-                DoSpawnChunkOperation("add");
-            }
-            else
-            {
-                // No spawn selected — let the user pick a type to add a blank chunk
-                AddBlankSpawnByTypePicker();
-            }
-        }
-
-        /// <summary>
-        /// Shows a type picker and adds a blank spawn chunk when no spawn of that type exists.
-        /// </summary>
-        private void AddBlankSpawnByTypePicker()
-        {
-            // Build list of supported types
-            var types = new SpawnInfo.SpawnType[]
-            {
-                SpawnInfo.SpawnType.Player,
-                SpawnInfo.SpawnType.Scenery,
-                SpawnInfo.SpawnType.Vehicle,
-                SpawnInfo.SpawnType.Weapon,
-                SpawnInfo.SpawnType.Equipment,
-                SpawnInfo.SpawnType.Biped,
-                SpawnInfo.SpawnType.Machine,
-                SpawnInfo.SpawnType.Control,
-                SpawnInfo.SpawnType.Crate,
-                SpawnInfo.SpawnType.Sound,
-                SpawnInfo.SpawnType.Light,
-                SpawnInfo.SpawnType.Objective,
-                SpawnInfo.SpawnType.DeathZone,
-                SpawnInfo.SpawnType.Collection,
-                SpawnInfo.SpawnType.Camera,
-            };
-
-            // Use a simple list dialog
-            string[] typeNames = new string[types.Length];
-            for (int i = 0; i < types.Length; i++)
-                typeNames[i] = types[i].ToString();
-
-            using (var dlg = new Form())
-            {
-                dlg.Text = "Add Spawn";
-                dlg.Size = new Size(220, 320);
-                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
-                dlg.StartPosition = FormStartPosition.CenterParent;
-                dlg.MaximizeBox = false;
-                dlg.MinimizeBox = false;
-
-                var lb = new ListBox();
-                lb.Dock = DockStyle.Fill;
-                lb.Items.AddRange(typeNames);
-                lb.SelectedIndex = 0;
-                dlg.Controls.Add(lb);
-
-                var btnOk = new System.Windows.Forms.Button();
-                btnOk.Text = "Add";
-                btnOk.Dock = DockStyle.Bottom;
-                btnOk.DialogResult = DialogResult.OK;
-                dlg.Controls.Add(btnOk);
-                dlg.AcceptButton = btnOk;
-
-                if (dlg.ShowDialog(this) != DialogResult.OK || lb.SelectedIndex < 0)
-                    return;
-
-                SpawnInfo.SpawnType selectedType = types[lb.SelectedIndex];
-                int scnrRefOffset, chunkSize;
-                if (!GetSpawnReflexiveInfo(selectedType, out scnrRefOffset, out chunkSize))
-                {
-                    MessageBox.Show("Unsupported spawn type.");
-                    return;
-                }
-
-                try
-                {
-                    BackupMapForUndo();
-
-                    int scnrTagIndex = 3;
-                    MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
-                    MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
-
-                    if (container == null)
-                    {
-                        MessageBox.Show("Could not find reflexive for " + selectedType + " in SCNR.");
-                        return;
-                    }
-
-                    if (container.Chunks.Count > 0)
-                    {
-                        // Clone last existing chunk and zero position
-                        var copy = container.Chunks[container.Chunks.Count - 1].DeepCopy();
-                        if (copy.MS != null && copy.MS.Length >= 20)
-                        {
-                            byte[] zeros = new byte[12];
-                            copy.MS.Position = 8;
-                            copy.MS.Write(zeros, 0, 12);
-                        }
-                        container.Chunks.Add(copy);
-                    }
-                    else
-                    {
-                        // No chunks exist — create a blank one
-                        var blank = new MetaSplitter.SplitReflexive();
-                        blank.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
-                        blank.chunksize = chunkSize;
-                        blank.MS = new MemoryStream(new byte[chunkSize], 0, chunkSize, true, true);
-                        blank.ChunkResources = new List<Meta.Item>();
-                        blank.Chunks = new List<MetaSplitter.SplitReflexive>();
-                        container.Chunks.Add(blank);
-                    }
-
-                    map.OpenMap(MapTypes.Internal);
-                    map.ChunkTools.Add(scnrTagIndex, ms);
-
-                    string filePath = map.filePath;
-                    map = Map.LoadFromFile(filePath);
-                    MapWasModified = true;
-
-                    ClearTreeHighlights();
-                    RefreshSpawnsInPlace();
-                }
-                catch (Exception ex)
-                {
-                    Global.ShowErrorMsg("Error adding blank spawn chunk", ex);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Backs up the current map file so it can be restored by undo.
-        /// </summary>
-        private void BackupMapForUndo()
-        {
-            string src = map.filePath;
-            string backup = src + ".undo_backup";
-            System.IO.File.Copy(src, backup, true);
-            undoBackupPath = backup;
-        }
-
-        /// <summary>
-        /// Restores the map file from the undo backup and reloads spawns.
-        /// </summary>
-        private void UndoLastChunkOperation()
-        {
-            if (undoBackupPath == null || !System.IO.File.Exists(undoBackupPath))
-            {
-                MessageBox.Show("Nothing to undo.", "Undo");
-                return;
-            }
-
-            try
-            {
-                string filePath = map.filePath;
-                System.IO.File.Copy(undoBackupPath, filePath, true);
-                System.IO.File.Delete(undoBackupPath);
-                undoBackupPath = null;
-
-                map = Map.LoadFromFile(filePath);
-
-                ClearTreeHighlights();
-                RefreshSpawnsInPlace();
-            }
-            catch (Exception ex)
-            {
-                Global.ShowErrorMsg("Error during undo", ex);
-            }
-        }
-
-        private void tsBtnUndo_Click(object sender, EventArgs e)
-        {
-            UndoLastChunkOperation();
+            DoSpawnChunkOperation("add");
         }
 
         #endregion
@@ -7612,18 +7423,10 @@ namespace entity.Renderers
                 this.selectUnFreezeAllMenuItem.Visible = false;
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
-                this.exportSpawnsToolStripMenuItem.Visible = false;
                 if (c.SelectedNode == null)
                 {
                     this.selectAllToolStripMenuItem.Visible = false;
                     return;
-                }
-
-                // Show Export on parent nodes (spawn type categories) that have children
-                if (c.SelectedNode.Parent == null && c.SelectedNode.Nodes.Count > 0)
-                {
-                    this.exportSpawnsToolStripMenuItem.Visible = true;
-                    this.exportSpawnsToolStripMenuItem.Tag = c.SelectedNode;
                 }
                 else
                 {
@@ -7727,7 +7530,6 @@ namespace entity.Renderers
                 this.selectUnFreezeAllMenuItem.Visible = true;
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
-                this.exportSpawnsToolStripMenuItem.Visible = false;
 
                 string tag = null;
                 if (currentObject > -1)
@@ -8090,73 +7892,6 @@ namespace entity.Renderers
             selectedSpawnType = bsp.Spawns.Spawn[tagNumber].Type;
 
             #endregion
-        }
-
-        /// <summary>
-        /// Exports all spawns under the selected treeview category to a CSV file.
-        /// </summary>
-        private void exportSpawnsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TreeNode parentNode = exportSpawnsToolStripMenuItem.Tag as TreeNode;
-            if (parentNode == null || parentNode.Nodes.Count == 0) return;
-
-            // Extract type name from node text (e.g. "Scenery [19]" -> "Scenery")
-            string typeName = parentNode.Text;
-            int bracket = typeName.IndexOf('[');
-            if (bracket > 0) typeName = typeName.Substring(0, bracket).Trim();
-
-            using (SaveFileDialog sfd = new SaveFileDialog())
-            {
-                sfd.Title = "Export " + typeName + " Spawns";
-                sfd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
-                sfd.FileName = typeName + "_spawns.csv";
-                if (sfd.ShowDialog() != DialogResult.OK) return;
-
-                try
-                {
-                    var sb = new StringBuilder();
-                    sb.AppendLine("Index,Name,TagPath,X,Y,Z,Yaw,Pitch,Roll");
-
-                    for (int n = 0; n < parentNode.Nodes.Count; n++)
-                    {
-                        TreeNode child = parentNode.Nodes[n];
-                        int spawnIdx;
-                        if (!int.TryParse(child.Tag.ToString(), out spawnIdx)) continue;
-                        if (spawnIdx < 0 || spawnIdx >= bsp.Spawns.Spawn.Count) continue;
-
-                        SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[spawnIdx];
-                        string name = child.Text.Replace(",", ";");
-                        string tagPath = (sp.TagPath ?? "").Replace(",", ";");
-                        float yaw = 0, pitch = 0, roll = 0;
-
-                        if (sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
-                        {
-                            var rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)sp;
-                            yaw = rot.Yaw;
-                            pitch = rot.Pitch;
-                            roll = rot.Roll;
-                        }
-                        else if (sp is SpawnInfo.RotateDirectionBaseSpawn)
-                        {
-                            var rot = (SpawnInfo.RotateDirectionBaseSpawn)sp;
-                            yaw = rot.RotationDirection;
-                        }
-
-                        sb.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
-                            n, name, tagPath,
-                            sp.X.ToString("G"), sp.Y.ToString("G"), sp.Z.ToString("G"),
-                            yaw.ToString("G"), pitch.ToString("G"), roll.ToString("G")));
-                    }
-
-                    File.WriteAllText(sfd.FileName, sb.ToString());
-                    MessageBox.Show("Exported " + parentNode.Nodes.Count + " " + typeName + " spawns.",
-                        "Export Complete");
-                }
-                catch (Exception ex)
-                {
-                    Global.ShowErrorMsg("Error exporting spawns", ex);
-                }
-            }
         }
 
         /// <summary>
