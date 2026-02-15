@@ -1257,6 +1257,14 @@ namespace entity.Renderers
 
             dockControl4.Controls.Add(spawnPropsGB);
             spawnPropsGB.Enabled = false; // disabled until a spawn is selected
+
+            // Add Save Position button to the top toolbar
+            ToolStripButton tsBtnSavePosition = new ToolStripButton();
+            tsBtnSavePosition.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsBtnSavePosition.Name = "tsBtnSavePosition";
+            tsBtnSavePosition.Text = "Save Position";
+            tsBtnSavePosition.Click += btnSavePosition_Click;
+            toolStrip.Items.Add(tsBtnSavePosition);
         }
 
         /// <summary>
@@ -1535,6 +1543,35 @@ namespace entity.Renderers
             }
             sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
             spawnPropsUpdating = false;
+        }
+
+        /// <summary>
+        /// Saves the selected spawn(s) position/rotation data back to the SCNR tag in the map file.
+        /// </summary>
+        private void btnSavePosition_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawns selected.", "Save Position");
+                return;
+            }
+
+            try
+            {
+                map.OpenMap(MapTypes.Internal);
+
+                for (int i = 0; i < SelectedSpawn.Count; i++)
+                {
+                    bsp.Spawns.Spawn[SelectedSpawn[i]].Write(map);
+                }
+
+                map.CloseMap();
+                MessageBox.Show("Saved " + SelectedSpawn.Count + " spawn position(s).", "Save Position");
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error saving spawn position(s).", ex);
+            }
         }
 
         #endregion
