@@ -9169,7 +9169,7 @@ namespace entity.Renderers
 
                 #region CollectionObjectsOnly
 
-                if (showCollection)
+                if (showCollection && WeaponsList != null)
                 {
                     // Selects Last Spawn Clicked
                     SpawnInfo.Collection os;
@@ -9505,7 +9505,7 @@ namespace entity.Renderers
 
                 #region SoundObjectsOnly
 
-                if (showSounds)
+                if (showSounds && SoundsList != null)
                 {
                     SpawnInfo.SoundSpawn os;
                     os = bsp.Spawns.Spawn[lastSelectedSpawn] as SpawnInfo.SoundSpawn;
