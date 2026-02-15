@@ -1177,9 +1177,9 @@ namespace entity.Renderers
                 nuds[i] = new NumericUpDown();
                 nuds[i].Location = new Point(46, y);
                 nuds[i].Size = new Size(85, 20);
-                nuds[i].DecimalPlaces = 4;
-                nuds[i].Minimum = isRotation ? -360m : -500m;
-                nuds[i].Maximum = isRotation ? 360m : 500m;
+                nuds[i].DecimalPlaces = isRotation ? 0 : 4;
+                nuds[i].Minimum = isRotation ? 0m : -500m;
+                nuds[i].Maximum = isRotation ? 359m : 500m;
                 nuds[i].Increment = isRotation ? 1.0m : 0.0001m;
                 nuds[i].Value = 0;
                 nuds[i].Tag = i; // 0=X, 1=Y, 2=Z, 3=Yaw, 4=Pitch, 5=Roll
@@ -1227,12 +1227,7 @@ namespace entity.Renderers
                 nudX.Increment = step;
                 nudY.Increment = step;
                 nudZ.Increment = step;
-                // Rotation uses 10x the step
-                decimal rotStep = step * 10;
-                if (rotStep > 45) rotStep = 45;
-                nudYaw.Increment = rotStep;
-                nudPitch.Increment = rotStep;
-                nudRoll.Increment = rotStep;
+                // Rotation NUDs are always 1 degree at a time
             };
             spawnPropsGB.Controls.Add(stepCombo);
 
@@ -1304,13 +1299,13 @@ namespace entity.Renderers
             sliderY.Value = 500;
             sliderZ.Value = 500;
 
-            // Rotation
+            // Rotation (NUDs display degrees 0-359, internal values are radians)
             if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
             {
                 SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                nudYaw.Value = ClampDecimal((decimal)rot.Yaw, nudYaw.Minimum, nudYaw.Maximum);
-                nudPitch.Value = ClampDecimal((decimal)rot.Pitch, nudPitch.Minimum, nudPitch.Maximum);
-                nudRoll.Value = ClampDecimal((decimal)rot.Roll, nudRoll.Minimum, nudRoll.Maximum);
+                nudYaw.Value = RadToDeg360(rot.Yaw);
+                nudPitch.Value = RadToDeg360(rot.Pitch);
+                nudRoll.Value = RadToDeg360(rot.Roll);
                 nudYaw.Enabled = true; nudPitch.Enabled = true; nudRoll.Enabled = true;
                 sliderYaw.Enabled = true; sliderPitch.Enabled = true; sliderRoll.Enabled = true;
                 sliderCenterYaw = rot.Yaw;
@@ -1320,7 +1315,7 @@ namespace entity.Renderers
             else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
             {
                 SpawnInfo.RotateDirectionBaseSpawn rot = spawn as SpawnInfo.RotateDirectionBaseSpawn;
-                nudYaw.Value = ClampDecimal((decimal)rot.RotationDirection, nudYaw.Minimum, nudYaw.Maximum);
+                nudYaw.Value = RadToDeg360(rot.RotationDirection);
                 nudPitch.Value = 0; nudRoll.Value = 0;
                 nudYaw.Enabled = true; nudPitch.Enabled = false; nudRoll.Enabled = false;
                 sliderYaw.Enabled = true; sliderPitch.Enabled = false; sliderRoll.Enabled = false;
@@ -1345,6 +1340,26 @@ namespace entity.Renderers
             if (val < min) return min;
             if (val > max) return max;
             return val;
+        }
+
+        /// <summary>
+        /// Converts radians to degrees, normalized to 0-359 range.
+        /// </summary>
+        private decimal RadToDeg360(float radians)
+        {
+            double deg = radians * (180.0 / Math.PI);
+            deg = deg % 360.0;
+            if (deg < 0) deg += 360.0;
+            if (deg >= 360.0) deg = 0;
+            return (decimal)Math.Round(deg);
+        }
+
+        /// <summary>
+        /// Converts degrees (0-359) to radians.
+        /// </summary>
+        private float DegToRad(decimal degrees)
+        {
+            return (float)((double)degrees * Math.PI / 180.0);
         }
 
         /// <summary>
@@ -1374,16 +1389,17 @@ namespace entity.Renderers
             float newX = (float)nudX.Value, newY = (float)nudY.Value, newZ = (float)nudZ.Value;
             spawn.X = newX; spawn.Y = newY; spawn.Z = newZ;
 
+            // NUDs display degrees; convert back to radians for spawn data
             if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
             {
                 SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
-                rot.Yaw = (float)nudYaw.Value;
-                rot.Pitch = (float)nudPitch.Value;
-                rot.Roll = (float)nudRoll.Value;
+                rot.Yaw = DegToRad(nudYaw.Value);
+                rot.Pitch = DegToRad(nudPitch.Value);
+                rot.Roll = DegToRad(nudRoll.Value);
             }
             else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
             {
-                ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = (float)nudYaw.Value;
+                ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = DegToRad(nudYaw.Value);
             }
 
             TranslationMatrix[lastIdx] = MakeMatrixForSpawn(lastIdx);
@@ -1450,7 +1466,7 @@ namespace entity.Renderers
                 case 5: center = sliderCenterRoll; break;
             }
 
-            float newVal = center + offset;
+            float newVal = center + offset; // in world units (position) or radians (rotation)
 
             spawnPropsUpdating = true;
             NumericUpDown nud = null;
@@ -1464,33 +1480,41 @@ namespace entity.Renderers
                 case 5: nud = nudRoll; break;
             }
 
-            decimal clamped = ClampDecimal((decimal)newVal, nud.Minimum, nud.Maximum);
-            nud.Value = clamped;
+            // For rotation, convert radians to degrees for NUD display
+            if (isRotation)
+            {
+                nud.Value = RadToDeg360(newVal);
+            }
+            else
+            {
+                decimal clamped = ClampDecimal((decimal)newVal, nud.Minimum, nud.Maximum);
+                nud.Value = clamped;
+            }
             spawnPropsUpdating = false;
 
-            // Apply directly to spawn
+            // Apply directly to spawn (always in radians/world units)
             int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
             SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
 
             float oldVal = 0;
             switch (idx)
             {
-                case 0: oldVal = spawn.X; spawn.X = (float)clamped; break;
-                case 1: oldVal = spawn.Y; spawn.Y = (float)clamped; break;
-                case 2: oldVal = spawn.Z; spawn.Z = (float)clamped; break;
+                case 0: oldVal = spawn.X; spawn.X = newVal; break;
+                case 1: oldVal = spawn.Y; spawn.Y = newVal; break;
+                case 2: oldVal = spawn.Z; spawn.Z = newVal; break;
                 case 3:
                     if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
-                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw = (float)clamped; }
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw = newVal; }
                     else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
-                    { oldVal = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection; ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = (float)clamped; }
+                    { oldVal = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection; ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = newVal; }
                     break;
                 case 4:
                     if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
-                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch = (float)clamped; }
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch = newVal; }
                     break;
                 case 5:
                     if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
-                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll = (float)clamped; }
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll = newVal; }
                     break;
             }
 
@@ -1499,7 +1523,7 @@ namespace entity.Renderers
             // Move other selected spawns by the same delta (position only)
             if (idx < 3)
             {
-                float diff = (float)clamped - oldVal;
+                float diff = newVal - oldVal;
                 for (int i = 0; i < SelectedSpawn.Count - 1; i++)
                 {
                     switch (idx)
