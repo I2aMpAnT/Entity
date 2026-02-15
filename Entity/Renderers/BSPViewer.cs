@@ -6240,40 +6240,16 @@ namespace entity.Renderers
 
             try
             {
-                int scnrTagIndex = 3;
-                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
-                MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
-
-                if (container == null || container.Chunks.Count == 0)
-                {
-                    MessageBox.Show("Could not find reflexive in SCNR meta structure.");
-                    return;
-                }
-
                 if (operation == "delete")
                 {
-                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
-                        container.Chunks.RemoveAt(chunkIdx);
+                    DoDirectChunkDelete(scnrRefOffset, chunkSize, chunkIdx);
                 }
-                else if (operation == "duplicate")
+                else
                 {
-                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
-                        container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
+                    DoMetaSplitterChunkOperation(operation, scnrRefOffset, chunkIdx);
                 }
-                else if (operation == "add")
-                {
-                    // Clone the last chunk
-                    if (container.Chunks.Count > 0)
-                        container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
-                }
-
-                // Write back to map (ChunkTools.Add opens/closes the map internally)
-                map.OpenMap(MapTypes.Internal);
-                map.ChunkTools.Add(scnrTagIndex, ms);
 
                 // Load a fresh map from the updated file.
-                // We must NOT use Map.Refresh(map) because it closes the shared Map object
-                // that MapForm also references, which would cause "Stream was not readable" errors.
                 string filePath = map.filePath;
                 map = Map.LoadFromFile(filePath);
                 MapWasModified = true;
@@ -6285,6 +6261,89 @@ namespace entity.Renderers
             {
                 Global.ShowErrorMsg("Error during " + operation + " chunk operation", ex);
             }
+        }
+
+        /// <summary>
+        /// Deletes a chunk by directly modifying the map bytes.
+        /// Copies the last chunk over the target chunk, then decrements the reflexive count.
+        /// This avoids the MetaSplitter/MetaBuilder/ChunkAdder pipeline entirely.
+        /// </summary>
+        private void DoDirectChunkDelete(int scnrRefOffset, int chunkSize, int chunkIdx)
+        {
+            map.OpenMap(MapTypes.Internal);
+
+            int scnrOffset = map.MetaInfo.Offset[3];
+            int reflexiveAddr = scnrOffset + scnrRefOffset;
+
+            // Read current count and data pointer
+            map.BR.BaseStream.Position = reflexiveAddr;
+            int count = map.BR.ReadInt32();
+            int rawPointer = map.BR.ReadInt32();
+            int dataOffset = rawPointer - map.SecondaryMagic;
+
+            if (chunkIdx < 0 || chunkIdx >= count)
+            {
+                map.CloseMap();
+                MessageBox.Show("Chunk index " + chunkIdx + " is out of range (count=" + count + ").");
+                return;
+            }
+
+            if (count <= 0)
+            {
+                map.CloseMap();
+                MessageBox.Show("Reflexive is already empty.");
+                return;
+            }
+
+            // If not deleting the last chunk, overwrite target with the last chunk's data
+            if (chunkIdx < count - 1)
+            {
+                int targetAddr = dataOffset + (chunkIdx * chunkSize);
+                int lastAddr = dataOffset + ((count - 1) * chunkSize);
+
+                map.BR.BaseStream.Position = lastAddr;
+                byte[] lastChunkData = map.BR.ReadBytes(chunkSize);
+
+                map.BW.BaseStream.Position = targetAddr;
+                map.BW.Write(lastChunkData);
+            }
+
+            // Decrement the reflexive count
+            int newCount = count - 1;
+            map.BW.BaseStream.Position = reflexiveAddr;
+            map.BW.Write(newCount);
+
+            map.CloseMap();
+        }
+
+        /// <summary>
+        /// Performs duplicate/add chunk operations using the MetaSplitter pipeline.
+        /// </summary>
+        private void DoMetaSplitterChunkOperation(string operation, int scnrRefOffset, int chunkIdx)
+        {
+            int scnrTagIndex = 3;
+            MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+            MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+            if (container == null || container.Chunks.Count == 0)
+            {
+                MessageBox.Show("Could not find reflexive in SCNR meta structure.");
+                return;
+            }
+
+            if (operation == "duplicate")
+            {
+                if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    container.Chunks.Insert(chunkIdx + 1, container.Chunks[chunkIdx]);
+            }
+            else if (operation == "add")
+            {
+                if (container.Chunks.Count > 0)
+                    container.Chunks.Insert(container.Chunks.Count, container.Chunks[container.Chunks.Count - 1]);
+            }
+
+            map.OpenMap(MapTypes.Internal);
+            map.ChunkTools.Add(scnrTagIndex, ms);
         }
 
         private void tsBtnDeleteChunk_Click(object sender, EventArgs e)
