@@ -3167,6 +3167,14 @@ namespace entity.Renderers
                 }
                 #endregion
 
+                #region PlayerSpawn
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.PlayerSpawn)
+                {
+                    BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                    continue;
+                }
+                #endregion
+
                 SpawnInfo.RotationSpawn tempspawn = bsp.Spawns.Spawn[x] as SpawnInfo.RotationSpawn;
 
                 #region ScanForExistingModels
@@ -3199,12 +3207,13 @@ namespace entity.Renderers
 
                 #region ReadSpawnMeta
 
-                Meta m = new Meta(map);
-                if (tempspawn.ModelTagNumber == -1)
+                if (tempspawn.ModelTagNumber < 0)
                 {
-                    MessageBox.Show("Test");
+                    BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                    continue;
                 }
 
+                Meta m = new Meta(map);
                 m.ReadMetaFromMap(tempspawn.ModelTagNumber, false);
 
                 #endregion
