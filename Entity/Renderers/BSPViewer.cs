@@ -7220,38 +7220,35 @@ namespace entity.Renderers
                         paletteMap[machPalIdx] = cratePalIdx;
                     }
 
-                    // Find the machine spawn's chunk to get the raw base data
-                    int machChunkIdx = GetSpawnChunkIndex(ms, 168, 72);
-                    if (machChunkIdx < 0 || machChunkIdx >= machSpawns.Chunks.Count)
-                        continue;
-
-                    // Build a 76-byte crate spawn chunk from the machine spawn's 52-byte common base
+                    // Build a 76-byte crate spawn chunk directly from in-memory spawn
+                    // properties so positions/rotations match what the BSP viewer shows.
                     byte[] crateData = new byte[76];
-                    var machChunk = machSpawns.Chunks[machChunkIdx];
-                    if (machChunk.MS != null && machChunk.MS.Length >= 52)
-                    {
-                        machChunk.MS.Position = 0;
-                        // Copy the common 52-byte base (palette index, name, flags, position, rotation, scale, etc.)
-                        machChunk.MS.Read(crateData, 0, 52);
-                    }
-
-                    // Overwrite the palette index (bytes 0-1) to point to the new crate palette entry
-                    crateData[0] = (byte)(cratePalIdx & 0xFF);
-                    crateData[1] = (byte)((cratePalIdx >> 8) & 0xFF);
-
-                    // Update MetaSpawnType at byte 46 from Machine (7) to Crate (11)
-                    crateData[46] = 11;
-
-                    // Assign a unique object datum ID (bytes 40-43) so each crate
-                    // gets its own tracking slot in the engine.
                     uint newId = (nextSalt << 16) | (uint)(crateSpawns.Chunks.Count & 0xFFFF);
                     nextSalt++;
-                    crateData[40] = (byte)(newId & 0xFF);
-                    crateData[41] = (byte)((newId >> 8) & 0xFF);
-                    crateData[42] = (byte)((newId >> 16) & 0xFF);
-                    crateData[43] = (byte)((newId >> 24) & 0xFF);
 
-                    // Bytes 52-75 are crate-specific fields, left zeroed (variant name, colors, etc.)
+                    using (var bw = new BinaryWriter(new MemoryStream(crateData)))
+                    {
+                        bw.Write((short)cratePalIdx);       // 0-1: palette index
+                        bw.Write((short)-1);                // 2-3: name index (none)
+                        bw.Write((int)ms.Placements);       // 4-7: placement flags
+                        bw.Write(ms.X);                     // 8-11
+                        bw.Write(ms.Y);                     // 12-15
+                        bw.Write(ms.Z);                     // 16-19
+                        bw.Write(ms.Yaw);                   // 20-23
+                        bw.Write(ms.Pitch);                 // 24-27
+                        bw.Write(ms.Roll);                  // 28-31
+                        bw.Write(ms.Scale);                 // 32-35
+                        bw.Write((ushort)ms.Transforms);    // 36-37
+                        bw.Write((ushort)ms.ManualBSPs);    // 38-39
+                        bw.Write(newId);                    // 40-43: unique ID
+                        bw.Write(ms.OriginBSP);             // 44-45
+                        bw.Write((byte)11);                 // 46: MetaSpawnType = Crate
+                        bw.Write((byte)ms.Source);          // 47
+                        bw.Write((byte)ms.BSPPolicy);       // 48
+                        bw.Write((byte)0);                  // 49: unused
+                        bw.Write(ms.EditorFolder);          // 50-51
+                        // Bytes 52-75 are crate-specific, left zeroed
+                    }
 
                     var newCrateChunk = new MetaSplitter.SplitReflexive();
                     newCrateChunk.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
