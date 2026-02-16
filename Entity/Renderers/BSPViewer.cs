@@ -5279,33 +5279,76 @@ namespace entity.Renderers
                     }
                     else
                     {
-                        // Movement gizmo mode
+                        // Movement gizmo mode — project world axis onto screen so
+                        // dragging along the arrow moves the spawn in that direction.
+                        float oldPosX = bsp.Spawns.Spawn[i].X;
+                        float oldPosY = bsp.Spawns.Spawn[i].Y;
+                        float oldPosZ = bsp.Spawns.Spawn[i].Z;
+                        Vector3 spawnPos = new Vector3(oldPosX, oldPosY, oldPosZ);
+                        Matrix viewMat = render.device.Transform.View;
+                        Matrix projMat = render.device.Transform.Projection;
+                        Viewport vp = render.device.Viewport;
+
+                        // Project spawn origin to screen
+                        Vector3 screenOrigin = Vector3.Project(
+                            spawnPos, vp, projMat, viewMat, Matrix.Identity);
+
+                        // Build world-space axis direction(s) for the active axis
+                        Vector3[] worldDirs;
                         switch (axis)
                         {
-                            case Gizmo.axis.X:
-                                bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
-                                break;
-                            case Gizmo.axis.Y:
-                                bsp.Spawns.Spawn[i].Y -= yDiff / cam.speed;
-                                break;
-                            case Gizmo.axis.Z:
-                                bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                                break;
-                            case Gizmo.axis.XY:
-                                bsp.Spawns.Spawn[i].X += yDiff / cam.speed;
-                                bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
-                                break;
-                            case Gizmo.axis.YZ:
-                                bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
-                                bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                                break;
-                            case Gizmo.axis.XZ:
-                                bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
-                                bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                                break;
+                            case Gizmo.axis.X:  worldDirs = new[] { new Vector3(1, 0, 0) }; break;
+                            case Gizmo.axis.Y:  worldDirs = new[] { new Vector3(0, 1, 0) }; break;
+                            case Gizmo.axis.Z:  worldDirs = new[] { new Vector3(0, 0, 1) }; break;
+                            case Gizmo.axis.XY: worldDirs = new[] { new Vector3(1, 0, 0), new Vector3(0, 1, 0) }; break;
+                            case Gizmo.axis.YZ: worldDirs = new[] { new Vector3(0, 1, 0), new Vector3(0, 0, 1) }; break;
+                            case Gizmo.axis.XZ: worldDirs = new[] { new Vector3(1, 0, 0), new Vector3(0, 0, 1) }; break;
+                            default: worldDirs = new Vector3[0]; break;
+                        }
+
+                        Vector2 mouseDelta = new Vector2(e.X - oldx, e.Y - oldy);
+
+                        foreach (Vector3 wdir in worldDirs)
+                        {
+                            // Project a point 1 unit along this axis to screen space
+                            Vector3 screenTip = Vector3.Project(
+                                Vector3.Add(spawnPos, wdir),
+                                vp, projMat, viewMat, Matrix.Identity);
+
+                            // Screen-space direction of this axis
+                            float sdx = screenTip.X - screenOrigin.X;
+                            float sdy = screenTip.Y - screenOrigin.Y;
+                            float screenLen = (float)Math.Sqrt(sdx * sdx + sdy * sdy);
+                            if (screenLen < 0.001f) continue; // axis points at/away from camera
+
+                            // Dot mouse delta with the normalised screen axis direction
+                            // to get pixels of movement along the arrow
+                            float dot = (mouseDelta.X * sdx + mouseDelta.Y * sdy) / screenLen;
+
+                            // Convert pixels back to world units:
+                            // 1 world unit = screenLen pixels, so world delta = dot / screenLen
+                            float worldDelta = dot / screenLen;
+
+                            bsp.Spawns.Spawn[i].X += wdir.X * worldDelta;
+                            bsp.Spawns.Spawn[i].Y += wdir.Y * worldDelta;
+                            bsp.Spawns.Spawn[i].Z += wdir.Z * worldDelta;
                         }
 
                         TranslationMatrix[i] = MakeMatrixForSpawn(i);
+
+                        // Move other selected spawns by the same delta
+                        float diffX = bsp.Spawns.Spawn[i].X - oldPosX;
+                        float diffY = bsp.Spawns.Spawn[i].Y - oldPosY;
+                        float diffZ = bsp.Spawns.Spawn[i].Z - oldPosZ;
+                        for (int si = 0; si < SelectedSpawn.Count; si++)
+                        {
+                            int idx = SelectedSpawn[si];
+                            if (idx == i) continue;
+                            bsp.Spawns.Spawn[idx].X += diffX;
+                            bsp.Spawns.Spawn[idx].Y += diffY;
+                            bsp.Spawns.Spawn[idx].Z += diffZ;
+                            TranslationMatrix[idx] = MakeMatrixForSpawn(idx);
+                        }
                     }
 
                     oldx = e.X;
