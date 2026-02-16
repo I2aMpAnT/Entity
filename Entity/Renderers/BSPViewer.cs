@@ -1371,10 +1371,10 @@ namespace entity.Renderers
         private decimal RadToDeg360(float radians)
         {
             double deg = radians * (180.0 / Math.PI);
-            deg = deg % 360.0;
+            deg = Math.Round(deg) % 360.0;
             if (deg < 0) deg += 360.0;
             if (deg >= 360.0) deg = 0;
-            return (decimal)Math.Round(deg);
+            return (decimal)deg;
         }
 
         /// <summary>
