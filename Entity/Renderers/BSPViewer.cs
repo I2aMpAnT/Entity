@@ -7102,9 +7102,31 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// Places selected machine spawn(s) as crate spawn(s).
-        /// Copies the machine palette entry to the crate palette and creates
-        /// new crate spawn chunks at the same position/rotation.
+        /// Returns the SCNR palette reflexive offset for a given spawn type,
+        /// or -1 if the type is not supported.
+        /// </summary>
+        private static int GetPaletteOffsetForSpawn(SpawnInfo.ScaleRotateYawPitchRollSpawn spawn)
+        {
+            if (spawn is SpawnInfo.ScenerySpawn)   return 88;
+            if (spawn is SpawnInfo.BipedSpawn)      return 104;
+            if (spawn is SpawnInfo.VehicleSpawn)    return 120;
+            if (spawn is SpawnInfo.EquipmentSpawn)  return 136;
+            if (spawn is SpawnInfo.WeaponSpawn)     return 152;
+            if (spawn is SpawnInfo.MachineSpawn)    return 176;
+            if (spawn is SpawnInfo.ControlSpawn)    return 192;
+            if (spawn is SpawnInfo.SoundSpawn)      return 224;
+            if (spawn is SpawnInfo.LightSpawn)      return 240;
+            if (spawn is SpawnInfo.ObstacleSpawn)   return 816;
+            return -1;
+        }
+
+        /// <summary>
+        /// Places selected spawn(s) as crate spawn(s).
+        /// Works with any spawn type that has a palette entry (scenery, machines,
+        /// vehicles, equipment, weapons, controls, bipeds, etc.).
+        /// Copies the source palette entry to the crate palette (rewriting the
+        /// tag class to "bloc") and creates new crate spawn chunks at the same
+        /// position/rotation.
         /// </summary>
         private void tsBtnPlaceAsCrate_Click(object sender, EventArgs e)
         {
@@ -7114,18 +7136,18 @@ namespace entity.Renderers
                 return;
             }
 
-            // Collect selected machine spawns
-            var machineSpawns = new List<SpawnInfo.MachineSpawn>();
+            // Collect selected spawns that have palette entries
+            var sourceSpawns = new List<SpawnInfo.ScaleRotateYawPitchRollSpawn>();
             foreach (int idx in SelectedSpawn)
             {
-                var ms = bsp.Spawns.Spawn[idx] as SpawnInfo.MachineSpawn;
-                if (ms != null)
-                    machineSpawns.Add(ms);
+                var sp = bsp.Spawns.Spawn[idx] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                if (sp != null && GetPaletteOffsetForSpawn(sp) != -1)
+                    sourceSpawns.Add(sp);
             }
 
-            if (machineSpawns.Count == 0)
+            if (sourceSpawns.Count == 0)
             {
-                MessageBox.Show("No machine spawns selected. Select one or more Machine spawns first.");
+                MessageBox.Show("No supported spawns selected.\nSelect scenery, machines, vehicles, equipment, weapons, or other palette-based spawns.");
                 return;
             }
 
@@ -7135,33 +7157,31 @@ namespace entity.Renderers
 
                 // Save current in-memory positions to the map file
                 map.OpenMap(MapTypes.Internal);
-                foreach (var ms in machineSpawns)
-                    ms.Write(map);
+                foreach (var sp in sourceSpawns)
+                    sp.Write(map);
                 map.CloseMap();
 
                 int scnrTagIndex = 3;
                 MetaSplitter metasplit = SplitScnrMeta(scnrTagIndex);
 
-                // Find the reflexives we need
-                MetaSplitter.SplitReflexive machPalette = FindReflexiveByOffset(metasplit, 176);
-                MetaSplitter.SplitReflexive machSpawns = FindReflexiveByOffset(metasplit, 168);
+                // Crate (obstacle) reflexives
                 MetaSplitter.SplitReflexive cratePalette = FindReflexiveByOffset(metasplit, 816);
                 MetaSplitter.SplitReflexive crateSpawns = FindReflexiveByOffset(metasplit, 808);
 
-                if (machPalette == null || machSpawns == null)
-                {
-                    MessageBox.Show("Could not find Machine reflexives in SCNR meta.");
-                    return;
-                }
                 if (cratePalette == null || crateSpawns == null)
                 {
                     MessageBox.Show("Could not find Crate reflexives in SCNR meta.");
                     return;
                 }
 
-                // Track which machine palette indices have already been added to the crate palette
-                // Key: machine palette index, Value: new crate palette index
-                var paletteMap = new Dictionary<int, int>();
+                // Cache source palette reflexives by their SCNR offset so we only
+                // look them up once per spawn type.
+                var paletteCache = new Dictionary<int, MetaSplitter.SplitReflexive>();
+
+                // Track which (sourcePaletteOffset, paletteIndex) pairs have already
+                // been added to the crate palette to avoid duplicates.
+                // Key: "paletteOffset:paletteIndex", Value: new crate palette index
+                var paletteMap = new Dictionary<string, int>();
 
                 // Find the highest existing unique ID salt across all spawns so new
                 // crate spawns get non-colliding IDs.
@@ -7176,37 +7196,52 @@ namespace entity.Renderers
                 }
 
                 int placedCount = 0;
-                foreach (var ms in machineSpawns)
+                foreach (var sp in sourceSpawns)
                 {
-                    int machPalIdx = ms.PaletteIndex;
-                    if (machPalIdx < 0 || machPalIdx >= machPalette.Chunks.Count)
+                    int srcPalOffset = GetPaletteOffsetForSpawn(sp);
+                    if (sp.PaletteIndex < 0)
                         continue;
+
+                    // Get or cache the source palette reflexive
+                    MetaSplitter.SplitReflexive srcPalette;
+                    if (!paletteCache.TryGetValue(srcPalOffset, out srcPalette))
+                    {
+                        srcPalette = FindReflexiveByOffset(metasplit, srcPalOffset);
+                        if (srcPalette == null)
+                            continue;
+                        paletteCache[srcPalOffset] = srcPalette;
+                    }
+
+                    if (sp.PaletteIndex >= srcPalette.Chunks.Count)
+                        continue;
+
+                    // Build a unique key for this source palette entry
+                    string palKey = srcPalOffset + ":" + sp.PaletteIndex;
 
                     // Add palette entry if not already mapped
                     int cratePalIdx;
-                    if (!paletteMap.TryGetValue(machPalIdx, out cratePalIdx))
+                    if (!paletteMap.TryGetValue(palKey, out cratePalIdx))
                     {
-                        var palCopy = machPalette.Chunks[machPalIdx].DeepCopy();
+                        var palCopy = srcPalette.Chunks[sp.PaletteIndex].DeepCopy();
 
-                        // Overwrite the tag class from "mach" to "bloc" so the engine
+                        // Overwrite the tag class to "bloc" so the engine
                         // recognises this palette entry as a crate object reference.
                         // Tag classes are stored as a big-endian FourCC in the first 4 bytes.
                         if (palCopy.MS != null && palCopy.MS.Length >= 4)
                         {
                             palCopy.MS.Position = 0;
-                            palCopy.MS.WriteByte(0x63); // 'c'  ┐
-                            palCopy.MS.WriteByte(0x6F); // 'o'  │ "bloc" as big-endian 4CC
-                            palCopy.MS.WriteByte(0x6C); // 'l'  │
-                            palCopy.MS.WriteByte(0x62); // 'b'  ┘
+                            palCopy.MS.WriteByte(0x63); // 'c'
+                            palCopy.MS.WriteByte(0x6F); // 'o'
+                            palCopy.MS.WriteByte(0x6C); // 'l'
+                            palCopy.MS.WriteByte(0x62); // 'b'
                         }
 
                         cratePalIdx = cratePalette.Chunks.Count;
                         cratePalette.Chunks.Add(palCopy);
-                        paletteMap[machPalIdx] = cratePalIdx;
+                        paletteMap[palKey] = cratePalIdx;
                     }
 
-                    // Build a 76-byte crate spawn chunk directly from in-memory spawn
-                    // properties so positions/rotations match what the BSP viewer shows.
+                    // Build a 76-byte crate spawn chunk from the source spawn's properties
                     byte[] crateData = new byte[76];
                     uint newId = (nextSalt << 16) | (uint)(crateSpawns.Chunks.Count & 0xFFFF);
                     nextSalt++;
@@ -7215,23 +7250,23 @@ namespace entity.Renderers
                     {
                         bw.Write((short)cratePalIdx);       // 0-1: palette index
                         bw.Write((short)-1);                // 2-3: name index (none)
-                        bw.Write((int)ms.Placements);       // 4-7: placement flags
-                        bw.Write(ms.X);                     // 8-11
-                        bw.Write(ms.Y);                     // 12-15
-                        bw.Write(ms.Z);                     // 16-19
-                        bw.Write(ms.Yaw);                   // 20-23
-                        bw.Write(ms.Pitch);                 // 24-27
-                        bw.Write(ms.Roll);                  // 28-31
-                        bw.Write(ms.Scale);                 // 32-35
-                        bw.Write((ushort)ms.Transforms);    // 36-37
-                        bw.Write((ushort)ms.ManualBSPs);    // 38-39
+                        bw.Write((int)sp.Placements);       // 4-7: placement flags
+                        bw.Write(sp.X);                     // 8-11
+                        bw.Write(sp.Y);                     // 12-15
+                        bw.Write(sp.Z);                     // 16-19
+                        bw.Write(sp.Yaw);                   // 20-23
+                        bw.Write(sp.Pitch);                 // 24-27
+                        bw.Write(sp.Roll);                  // 28-31
+                        bw.Write(sp.Scale);                 // 32-35
+                        bw.Write((ushort)sp.Transforms);    // 36-37
+                        bw.Write((ushort)sp.ManualBSPs);    // 38-39
                         bw.Write(newId);                    // 40-43: unique ID
-                        bw.Write(ms.OriginBSP);             // 44-45
+                        bw.Write(sp.OriginBSP);             // 44-45
                         bw.Write((byte)11);                 // 46: MetaSpawnType = Crate
-                        bw.Write((byte)ms.Source);          // 47
-                        bw.Write((byte)ms.BSPPolicy);       // 48
+                        bw.Write((byte)sp.Source);          // 47
+                        bw.Write((byte)sp.BSPPolicy);       // 48
                         bw.Write((byte)0);                  // 49: unused
-                        bw.Write(ms.EditorFolder);          // 50-51
+                        bw.Write(sp.EditorFolder);          // 50-51
                         // Bytes 52-75 are crate-specific, left zeroed
                     }
 
@@ -7247,7 +7282,7 @@ namespace entity.Renderers
 
                 if (placedCount == 0)
                 {
-                    MessageBox.Show("No machine spawns could be converted.");
+                    MessageBox.Show("No spawns could be converted to crates.");
                     return;
                 }
 
@@ -7260,12 +7295,12 @@ namespace entity.Renderers
                 ClearTreeHighlights();
                 RefreshSpawnsInPlace();
 
-                MessageBox.Show(placedCount + " machine spawn(s) placed as crate(s).",
+                MessageBox.Show(placedCount + " spawn(s) placed as crate(s).",
                     "Place as Crate", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                Global.ShowErrorMsg("Error placing machines as crates", ex);
+                Global.ShowErrorMsg("Error placing spawns as crates", ex);
             }
         }
 
@@ -8136,15 +8171,16 @@ namespace entity.Renderers
                     return;
                 }
 
-                // Show "Place as Crate" if the selected tree node is a Machine spawn
+                // Show "Place as Crate" for any palette-based spawn type
                 if (c.SelectedNode.Parent != null && c.SelectedNode.Tag != null)
                 {
                     int spawnIdx;
                     if (int.TryParse(c.SelectedNode.Tag.ToString(), out spawnIdx)
-                        && spawnIdx >= 0 && spawnIdx < bsp.Spawns.Spawn.Count
-                        && bsp.Spawns.Spawn[spawnIdx] is SpawnInfo.MachineSpawn)
+                        && spawnIdx >= 0 && spawnIdx < bsp.Spawns.Spawn.Count)
                     {
-                        this.placeAsCrateToolStripMenuItem.Visible = true;
+                        var srSpawn = bsp.Spawns.Spawn[spawnIdx] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                        if (srSpawn != null && GetPaletteOffsetForSpawn(srSpawn) != -1)
+                            this.placeAsCrateToolStripMenuItem.Visible = true;
                     }
                 }
 
@@ -8270,8 +8306,9 @@ namespace entity.Renderers
                 {
                     this.selectFreezeMenuItem.Visible = true;
 
-                    // Show "Place as Crate" for Machine spawns
-                    if (bsp.Spawns.Spawn[currentObject] is SpawnInfo.MachineSpawn)
+                    // Show "Place as Crate" for any palette-based spawn type
+                    var srObj = bsp.Spawns.Spawn[currentObject] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                    if (srObj != null && GetPaletteOffsetForSpawn(srObj) != -1)
                         this.placeAsCrateToolStripMenuItem.Visible = true;
                     if (bsp.Spawns.Spawn[currentObject].frozen)
                     {
