@@ -1370,11 +1370,17 @@ namespace entity.Renderers
         /// </summary>
         private decimal RadToDeg360(float radians)
         {
+            if (float.IsNaN(radians) || float.IsInfinity(radians))
+                return 0m;
             double deg = radians * (180.0 / Math.PI);
             deg = Math.Round(deg) % 360.0;
             if (deg < 0) deg += 360.0;
             if (deg >= 360.0) deg = 0;
-            return (decimal)deg;
+            decimal result = (decimal)deg;
+            // Clamp to NUD range [0, 359] as a final safety net
+            if (result < 0m) result = 0m;
+            if (result > 359m) result = 0m;
+            return result;
         }
 
         /// <summary>
