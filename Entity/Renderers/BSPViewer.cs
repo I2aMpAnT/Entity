@@ -3754,16 +3754,18 @@ namespace entity.Renderers
                 if (map.HaloVersion == HaloVersionEnum.Halo2 ||
                     map.HaloVersion == HaloVersionEnum.Halo2Vista)
                 {
-                    float tempf3 = tempspawn.Roll;
-
+                    // Halo 2 uses a Z-up coordinate system.
+                    // Yaw = facing direction on the ground plane (around Z / up)
+                    // Pitch = tilt forward/backward (around Y / left)
+                    // Roll  = lean left/right (around X / forward)
                     Matrix m1 = Matrix.Identity;
-                    m1.RotateX(tempspawn.Yaw);
+                    m1.RotateZ(tempspawn.Yaw);
                     Matrix m2 = Matrix.Identity;
                     m2.RotateY(-tempspawn.Pitch); // Pitch is backwards in game
                     Matrix m3 = Matrix.Identity;
-                    m3.RotateZ(tempspawn.Roll); // );
+                    m3.RotateX(tempspawn.Roll);
 
-                    // Do NOT change the order! Finally this is right //
+                    // Do NOT change the multiplication order!
                     // (m3 * m2 * m1) != (m1 * m2 * m3) with matrix calculations
                     rotate = m3 * m2 * m1;
                 }
@@ -5871,14 +5873,11 @@ namespace entity.Renderers
                     render.device.RenderState.FillMode = FillMode.Solid;
                     
                     // Adjust center position of Bounding Boxes to proper offset
-                    Matrix mat = Matrix.Identity;
-                    mat = Matrix.Add(
-                        mat,
+                    render.device.Transform.World =
                         Matrix.Translation(
-                            bsp.Spawns.Spawn[x].bbXDiff,
-                            bsp.Spawns.Spawn[x].bbYDiff,
-                            bsp.Spawns.Spawn[x].bbZDiff));
-                    render.device.Transform.World = mat * TranslationMatrix[x];
+                            bsp.Spawns.Spawn[x].bbXDiff * 0.5f,
+                            bsp.Spawns.Spawn[x].bbYDiff * 0.5f,
+                            bsp.Spawns.Spawn[x].bbZDiff * 0.5f) * TranslationMatrix[x];
 
                     BoundingBoxModel[x].DrawSubset(0);
 
@@ -5918,14 +5917,11 @@ namespace entity.Renderers
                             render.device.RenderState.FillMode = FillMode.WireFrame;
 
                             // Adjust center position of Bounding Boxes to proper offset
-                            Matrix mat = Matrix.Identity;
-                            mat = Matrix.Add(
-                                mat,
+                            render.device.Transform.World =
                                 Matrix.Translation(
-                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff,
-                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff,
-                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff));
-                            render.device.Transform.World = mat * TranslationMatrix[x];
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff * 0.5f,
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff * 0.5f,
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff * 0.5f) * TranslationMatrix[x];
                             BoundingBoxModel[x].DrawSubset(0);
                         }
 
@@ -5956,17 +5952,6 @@ namespace entity.Renderers
                 #endregion
 
                 render.device.Transform.World = TranslationMatrix[x];
-
-                /*  This was an attempt at adding scaling, but not right, so not right now.
-                Entity.Raw.ParsedModel pm = SpawnModel[spawnmodelindex[x]];
-                if (bsp.Spawns.Spawn[x] is Entity.Renderer.BSP_Renderer.SpawnInfo.ScaleRotateYawPitchRollSpawn)
-                {
-                    Entity.Renderer.BSP_Renderer.SpawnInfo.ScaleRotateYawPitchRollSpawn tempBsp = bsp.Spawns.Spawn[x] as Entity.Renderer.BSP_Renderer.SpawnInfo.ScaleRotateYawPitchRollSpawn;
-                    for (int i = 0; i < pm.RawDataMetaChunks.Length; i++)
-                        for (int j = 0; j < pm.RawDataMetaChunks[i].VerticeCount; j++)
-                            pm.RawDataMetaChunks[i].Vertices[j] = Vector3.Scale(SpawnModel[spawnmodelindex[x]].RawDataMetaChunks[i].Vertices[j], tempBsp.Scale + 1.0f);
-                }
-                */
 
                 if (drawModel)
                 {                    
@@ -7275,39 +7260,7 @@ namespace entity.Renderers
                 ClearTreeHighlights();
                 RefreshSpawnsInPlace();
 
-                // Show diagnostic info: written vs readback coords
-                string msg = placedCount + " machine spawn(s) placed as crate(s).";
-                if (machineSpawns.Count > 0)
-                {
-                    var first = machineSpawns[0];
-                    msg += "\n\nFirst spawn WRITTEN:"
-                         + "\nX=" + first.X.ToString("F4")
-                         + " Y=" + first.Y.ToString("F4")
-                         + " Z=" + first.Z.ToString("F4")
-                         + "\nYaw=" + first.Yaw.ToString("F4")
-                         + " Pitch=" + first.Pitch.ToString("F4")
-                         + " Roll=" + first.Roll.ToString("F4");
-
-                    // Find the last crate spawn in the reloaded spawn list for readback verification
-                    for (int i = bsp.Spawns.Spawn.Count - 1; i >= 0; i--)
-                    {
-                        var os = bsp.Spawns.Spawn[i] as SpawnInfo.ObstacleSpawn;
-                        if (os != null)
-                        {
-                            msg += "\n\nLast crate READBACK:"
-                                 + "\nX=" + os.X.ToString("F4")
-                                 + " Y=" + os.Y.ToString("F4")
-                                 + " Z=" + os.Z.ToString("F4")
-                                 + "\nYaw=" + os.Yaw.ToString("F4")
-                                 + " Pitch=" + os.Pitch.ToString("F4")
-                                 + " Roll=" + os.Roll.ToString("F4")
-                                 + "\nPalIdx=" + os.PaletteIndex
-                                 + " SpawnType=" + (int)os.MetaSpawnType;
-                            break;
-                        }
-                    }
-                }
-                MessageBox.Show(msg,
+                MessageBox.Show(placedCount + " machine spawn(s) placed as crate(s).",
                     "Place as Crate", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
