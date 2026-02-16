@@ -7201,20 +7201,17 @@ namespace entity.Renderers
 
         /// <summary>
         /// Returns the SCNR palette reflexive offset for a given spawn type,
-        /// or -1 if the type is not supported.
+        /// or -1 if the type is not supported for Place as Crate.
+        /// Only types whose tags have physics/collision models that the engine
+        /// can use when loaded as a crate are allowed. Scenery, bipeds, equipment,
+        /// weapons, sounds, and lights don't work — the engine loads the original
+        /// tag data which lacks crate physics, resulting in no collision.
         /// </summary>
         private static int GetPaletteOffsetForSpawn(SpawnInfo.ScaleRotateYawPitchRollSpawn spawn)
         {
-            if (spawn is SpawnInfo.ScenerySpawn)   return 88;
-            if (spawn is SpawnInfo.BipedSpawn)      return 104;
-            if (spawn is SpawnInfo.VehicleSpawn)    return 120;
-            if (spawn is SpawnInfo.EquipmentSpawn)  return 136;
-            if (spawn is SpawnInfo.WeaponSpawn)     return 152;
             if (spawn is SpawnInfo.MachineSpawn)    return 176;
+            if (spawn is SpawnInfo.VehicleSpawn)    return 120;
             if (spawn is SpawnInfo.ControlSpawn)    return 192;
-            if (spawn is SpawnInfo.SoundSpawn)      return 224;
-            if (spawn is SpawnInfo.LightSpawn)      return 240;
-            if (spawn is SpawnInfo.ObstacleSpawn)   return 816;
             return -1;
         }
 
@@ -7245,7 +7242,7 @@ namespace entity.Renderers
 
             if (sourceSpawns.Count == 0)
             {
-                MessageBox.Show("No supported spawns selected.\nSelect scenery, machines, vehicles, equipment, weapons, or other palette-based spawns.");
+                MessageBox.Show("No supported spawns selected.\nSelect Machine, Vehicle, or Control spawns (these have physics/collision that work as crates).");
                 return;
             }
 
