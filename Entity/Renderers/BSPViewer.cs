@@ -5248,8 +5248,56 @@ namespace entity.Renderers
                             gizmoDragging = true;
                         }
 
-                        float rotAmount = (xDiff + yDiff) * 0.05f;
+                        // Project the rotation axis onto screen space so dragging
+                        // around the ring feels natural from any camera angle.
+                        Vector3 spawnPos = new Vector3(
+                            bsp.Spawns.Spawn[i].X,
+                            bsp.Spawns.Spawn[i].Y,
+                            bsp.Spawns.Spawn[i].Z);
+                        Matrix viewMat = render.device.Transform.View;
+                        Matrix projMat = render.device.Transform.Projection;
+                        Viewport vp = render.device.Viewport;
+                        Vector3 screenOrigin = Vector3.Project(
+                            spawnPos, vp, projMat, viewMat, Matrix.Identity);
 
+                        // Get the world-space rotation axis for this ring:
+                        // X ring rotates around X, Y ring around Y, Z ring around Z
+                        Vector3 rotAxis = Vector3.Empty;
+                        switch (axis)
+                        {
+                            case Gizmo.axis.X: rotAxis = new Vector3(1, 0, 0); break;
+                            case Gizmo.axis.Y: rotAxis = new Vector3(0, 1, 0); break;
+                            case Gizmo.axis.Z: rotAxis = new Vector3(0, 0, 1); break;
+                        }
+
+                        // Project the rotation axis tip to screen to get its screen direction
+                        Vector3 screenTip = Vector3.Project(
+                            Vector3.Add(spawnPos, rotAxis),
+                            vp, projMat, viewMat, Matrix.Identity);
+                        float axdx = screenTip.X - screenOrigin.X;
+                        float axdy = screenTip.Y - screenOrigin.Y;
+
+                        // The tangent direction for rotation is perpendicular to the
+                        // screen-projected axis: rotate 90 degrees CW → (dy, -dx)
+                        float tdx = axdy;
+                        float tdy = -axdx;
+                        float tlen = (float)Math.Sqrt(tdx * tdx + tdy * tdy);
+
+                        float rotAmount;
+                        if (tlen > 0.001f)
+                        {
+                            tdx /= tlen; tdy /= tlen;
+                            float dot = (e.X - oldx) * tdx + (e.Y - oldy) * tdy;
+                            rotAmount = dot * 0.01f;
+                        }
+                        else
+                        {
+                            // Axis points directly at camera; fall back to simple sum
+                            rotAmount = (xDiff + yDiff) * 0.05f;
+                        }
+
+                        // Gizmo rings: X ring rotates around X axis, Z ring around Z axis.
+                        // Halo 2 (Z-up): Yaw = around Z, Pitch = around Y, Roll = around X.
                         if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateYawPitchRollBaseSpawn)
                         {
                             SpawnInfo.RotateYawPitchRollBaseSpawn rot =
@@ -5257,13 +5305,13 @@ namespace entity.Renderers
                             switch (axis)
                             {
                                 case Gizmo.axis.X:
-                                    rot.Yaw += rotAmount;
+                                    rot.Roll += rotAmount;   // X ring → Roll (around X)
                                     break;
                                 case Gizmo.axis.Y:
-                                    rot.Pitch += rotAmount;
+                                    rot.Pitch += rotAmount;  // Y ring → Pitch (around Y)
                                     break;
                                 case Gizmo.axis.Z:
-                                    rot.Roll += rotAmount;
+                                    rot.Yaw += rotAmount;    // Z ring → Yaw (around Z)
                                     break;
                             }
                         }
@@ -5271,7 +5319,8 @@ namespace entity.Renderers
                         {
                             SpawnInfo.RotateDirectionBaseSpawn rot =
                                 (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[i];
-                            rot.RotationDirection += rotAmount;
+                            if (axis == Gizmo.axis.Z)
+                                rot.RotationDirection += rotAmount;
                         }
 
                         gizmo.AddRotation(rotAmount);
