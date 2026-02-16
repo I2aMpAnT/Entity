@@ -602,6 +602,7 @@ namespace HaloMap.Render
                     Position.X = x;
                     Position.Y = y;
                     Position.Z = z;
+                    ComputePosition();
                 }
 
                 if (gamepadLeftX != 0)
@@ -618,6 +619,7 @@ namespace HaloMap.Render
                     y += strafeJ * effectiveSpeed * gamepadLeftX;
                     Position.X = x;
                     Position.Y = y;
+                    ComputePosition();
                 }
 
                 // Apply right stick to camera look
