@@ -6717,10 +6717,13 @@ namespace entity.Renderers
                 // Backup map file for undo before modifying
                 BackupMapForUndo();
 
-                // Save current in-memory position/rotation to the map file first,
+                // Save ALL in-memory spawn positions to the map file first,
                 // so the MetaSplitter deep copy picks up gizmo-modified values.
+                // Writing only the selected spawn would lose position changes
+                // made to other spawns when the map is reloaded.
                 map.OpenMap(MapTypes.Internal);
-                spawn.Write(map);
+                foreach (SpawnInfo.BaseSpawn s in bsp.Spawns.Spawn)
+                    s.Write(map);
                 map.CloseMap();
 
                 DoMetaSplitterChunkOperation(operation, scnrRefOffset, chunkIdx);
@@ -6783,6 +6786,13 @@ namespace entity.Renderers
                         groups[scnrRefOffset] = new List<int>();
                     groups[scnrRefOffset].Add(idx);
                 }
+
+                // Flush all in-memory spawn positions to the map file so they
+                // survive the SCNR rebuild + map reload.
+                map.OpenMap(MapTypes.Internal);
+                foreach (SpawnInfo.BaseSpawn s in bsp.Spawns.Spawn)
+                    s.Write(map);
+                map.CloseMap();
 
                 // Split SCNR meta once
                 int scnrTagIndex = 3;
