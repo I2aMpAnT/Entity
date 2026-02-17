@@ -6001,10 +6001,13 @@ namespace entity.Renderers
 
                 #region DrawBoxOnSelections
 
+                bool isSelected = false;
                 for (int i = 0; i < SelectedSpawn.Count; i++)
                 {
                     if (SelectedSpawn[i] == x)
                     {
+                        isSelected = true;
+
                         // Only draw wireframe bounding boxes for non-obstacle, non-scenery spawns
                         if (!(bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn ||
                               bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn))
@@ -6022,28 +6025,6 @@ namespace entity.Renderers
                                     bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff * 0.5f) * TranslationMatrix[x];
                             BoundingBoxModel[x].DrawSubset(0);
                         }
-
-                        // Draw gizmo for ALL selected spawn types
-                        if (gizmo != null)
-                        {
-                            // Distance-based scale so gizmo stays a consistent screen size
-                            SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[x];
-                            float dx = cam.Position.X - sp.X;
-                            float dy = cam.Position.Y - sp.Y;
-                            float dz = cam.Position.Z - sp.Z;
-                            float gizmoScale = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz) / 80.0f;
-                            if (gizmoScale < 0.1f) gizmoScale = 0.1f;
-
-                            bool oldLighting = render.device.RenderState.Lighting;
-                            render.device.RenderState.Lighting = false;
-                            // Use translation-only matrix for movement gizmo so axes stay world-locked
-                            if (gizmo.CurrentTransform == Gizmo.transform.movement)
-                                render.device.Transform.World = Matrix.Translation(sp.X, sp.Y, sp.Z);
-                            else
-                                render.device.Transform.World = TranslationMatrix[x];
-                            gizmo.draw(gizmoScale);
-                            render.device.RenderState.Lighting = oldLighting;
-                        }
                     }
                 }
 
@@ -6052,7 +6033,7 @@ namespace entity.Renderers
                 render.device.Transform.World = TranslationMatrix[x];
 
                 if (drawModel)
-                {                    
+                {
                     // Store old cull mode
                     Cull cm = render.device.RenderState.CullMode;
                     render.device.RenderState.CullMode = Cull.None;
@@ -6066,9 +6047,48 @@ namespace entity.Renderers
                         render.device.RenderState.FillMode = FillMode.Solid;
                     }
 
+                    // Force selected objects semi-transparent so the gizmo shows through
+                    if (isSelected)
+                    {
+                        render.device.RenderState.AlphaBlendEnable = true;
+                        render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+                        render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+                        render.device.RenderState.TextureFactor = Color.FromArgb(100, 255, 255, 255).ToArgb();
+                        render.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
+                        render.device.TextureState[0].AlphaArgument1 = TextureArgument.TFactor;
+                    }
+
                     ParsedModel.DisplayedInfo.Draw(ref render.device, SpawnModel[spawnmodelindex[x]]);
+
+                    if (isSelected)
+                    {
+                        render.device.RenderState.AlphaBlendEnable = false;
+                        render.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
+                        render.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
+                    }
+
                     // Restore old cull mode
                     render.device.RenderState.CullMode = cm;
+                }
+
+                // Draw gizmo AFTER the model so it renders on top
+                if (isSelected && gizmo != null)
+                {
+                    SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[x];
+                    float dx = cam.Position.X - sp.X;
+                    float dy = cam.Position.Y - sp.Y;
+                    float dz = cam.Position.Z - sp.Z;
+                    float gizmoScale = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz) / 80.0f;
+                    if (gizmoScale < 0.1f) gizmoScale = 0.1f;
+
+                    bool oldLighting = render.device.RenderState.Lighting;
+                    render.device.RenderState.Lighting = false;
+                    if (gizmo.CurrentTransform == Gizmo.transform.movement)
+                        render.device.Transform.World = Matrix.Translation(sp.X, sp.Y, sp.Z);
+                    else
+                        render.device.Transform.World = TranslationMatrix[x];
+                    gizmo.draw(gizmoScale);
+                    render.device.RenderState.Lighting = oldLighting;
                 }
             }
 
