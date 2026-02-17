@@ -7409,23 +7409,32 @@ namespace entity.Renderers
 
                 WriteRebuiltScnrDirect(scnrTagIndex, metasplit);
 
-                // Patch the tag index class to "bloc" for any source tags that
-                // weren't already bloc.  The engine checks the tag index class
-                // (not just the palette reference class) when deciding whether
-                // to apply crate physics/collision.  Without this, scenery tags
-                // placed as crates have no collision.
+                // Patch tag index class AND obje type for source tags that
+                // weren't already bloc.  The engine checks both the tag index
+                // class and the obje base type field (short at offset 0 of the
+                // tag meta) when deciding physics/collision behaviour.
                 if (tagIdentsToPatch.Count > 0)
                 {
                     byte[] blocReversed = { 0x63, 0x6F, 0x6C, 0x62 }; // "colb" = "bloc" reversed
+                    byte[] crateType = { 0x0B, 0x00 }; // (short)11 = Crate in obje base type enum
                     using (var fs = new FileStream(map.filePath, FileMode.Open, FileAccess.ReadWrite))
                     {
                         for (int t = 0; t < map.IndexHeader.metaCount; t++)
                         {
                             if (tagIdentsToPatch.Contains(map.MetaInfo.Ident[t]))
                             {
+                                // Patch tag index class to "bloc"
                                 long entryOffset = map.IndexHeader.tagsOffset + (t * 16);
                                 fs.Position = entryOffset;
                                 fs.Write(blocReversed, 0, 4);
+
+                                // Patch obje base type (short at meta offset 0) to Crate (11)
+                                int metaOffset = map.MetaInfo.Offset[t];
+                                if (metaOffset > 0)
+                                {
+                                    fs.Position = metaOffset;
+                                    fs.Write(crateType, 0, 2);
+                                }
                             }
                         }
                     }

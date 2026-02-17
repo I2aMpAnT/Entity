@@ -361,6 +361,8 @@ namespace entity.Renderers
             device.RenderState.CullMode = Cull.None;
             bool oldLighting = device.RenderState.Lighting;
             device.RenderState.Lighting = false;
+            bool oldZBuffer = device.RenderState.ZBufferEnable;
+            device.RenderState.ZBufferEnable = false;
 
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[18];
 
@@ -496,6 +498,7 @@ namespace entity.Renderers
             device.RenderState.FillMode = oldFill;
             device.RenderState.CullMode = oldCull;
             device.RenderState.Lighting = oldLighting;
+            device.RenderState.ZBufferEnable = oldZBuffer;
             device.Transform.World = mat;
             this.scale = scale;
         }
@@ -513,6 +516,8 @@ namespace entity.Renderers
             Cull oldCull = device.RenderState.CullMode;
             device.RenderState.CullMode = Cull.None;
             bool oldZWrite = device.RenderState.ZBufferWriteEnable;
+            bool oldZBuffer = device.RenderState.ZBufferEnable;
+            device.RenderState.ZBufferEnable = false;
             bool oldLighting = device.RenderState.Lighting;
             device.RenderState.Lighting = false;
 
@@ -522,88 +527,46 @@ namespace entity.Renderers
             int vertsPerRing = ringSegments + 1;
             CustomVertex.PositionColored[] ringVerts = new CustomVertex.PositionColored[vertsPerRing];
 
+            // Offset for drawing 3-line-thick rings (simulates ~3px)
+            float thickness = (selectedAxis != axis.none) ? 0.25f : 0.15f;
+
             // X ring (YZ plane) - Red
             Color xColor = (selectedAxis == axis.X) ? Color.Yellow : Color.Red;
-            for (int i = 0; i <= ringSegments; i++)
-            {
-                float angle = (float)(2 * Math.PI * i / ringSegments);
-                ringVerts[i].Position = new Vector3(0,
-                    ringRadius * (float)Math.Cos(angle),
-                    ringRadius * (float)Math.Sin(angle));
-                ringVerts[i].Color = xColor.ToArgb();
-            }
-            device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
-
-            // Draw thicker ring for selected axis by drawing offset rings
-            if (selectedAxis == axis.X)
+            float xThick = (selectedAxis == axis.X) ? 0.25f : thickness;
+            for (float off = -xThick; off <= xThick; off += xThick)
             {
                 for (int i = 0; i <= ringSegments; i++)
                 {
                     float angle = (float)(2 * Math.PI * i / ringSegments);
-                    ringVerts[i].Position = new Vector3(0.15f,
+                    ringVerts[i].Position = new Vector3(off,
                         ringRadius * (float)Math.Cos(angle),
                         ringRadius * (float)Math.Sin(angle));
-                }
-                device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
-                for (int i = 0; i <= ringSegments; i++)
-                {
-                    float angle = (float)(2 * Math.PI * i / ringSegments);
-                    ringVerts[i].Position = new Vector3(-0.15f,
-                        ringRadius * (float)Math.Cos(angle),
-                        ringRadius * (float)Math.Sin(angle));
+                    ringVerts[i].Color = xColor.ToArgb();
                 }
                 device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
             }
 
             // Y ring (XZ plane) - Green
             Color yColor = (selectedAxis == axis.Y) ? Color.Yellow : Color.Green;
-            for (int i = 0; i <= ringSegments; i++)
-            {
-                float angle = (float)(2 * Math.PI * i / ringSegments);
-                ringVerts[i].Position = new Vector3(
-                    ringRadius * (float)Math.Cos(angle),
-                    0,
-                    ringRadius * (float)Math.Sin(angle));
-                ringVerts[i].Color = yColor.ToArgb();
-            }
-            device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
-
-            if (selectedAxis == axis.Y)
+            float yThick = (selectedAxis == axis.Y) ? 0.25f : thickness;
+            for (float off = -yThick; off <= yThick; off += yThick)
             {
                 for (int i = 0; i <= ringSegments; i++)
                 {
                     float angle = (float)(2 * Math.PI * i / ringSegments);
                     ringVerts[i].Position = new Vector3(
                         ringRadius * (float)Math.Cos(angle),
-                        0.15f,
+                        off,
                         ringRadius * (float)Math.Sin(angle));
-                }
-                device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
-                for (int i = 0; i <= ringSegments; i++)
-                {
-                    float angle = (float)(2 * Math.PI * i / ringSegments);
-                    ringVerts[i].Position = new Vector3(
-                        ringRadius * (float)Math.Cos(angle),
-                        -0.15f,
-                        ringRadius * (float)Math.Sin(angle));
+                    ringVerts[i].Color = yColor.ToArgb();
                 }
                 device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
             }
 
             // Z ring (XY plane) - Blue
             Color zColor = (selectedAxis == axis.Z) ? Color.Yellow : Color.Blue;
-            for (int i = 0; i <= ringSegments; i++)
-            {
-                float angle = (float)(2 * Math.PI * i / ringSegments);
-                ringVerts[i].Position = new Vector3(
-                    ringRadius * (float)Math.Cos(angle),
-                    ringRadius * (float)Math.Sin(angle),
-                    0);
-                ringVerts[i].Color = zColor.ToArgb();
-            }
-            device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
-
-            if (selectedAxis == axis.Z)
+            float zThick = (selectedAxis == axis.Z) ? 0.25f : thickness;
+            for (float off = -zThick; off <= zThick; off += zThick)
             {
                 for (int i = 0; i <= ringSegments; i++)
                 {
@@ -611,16 +574,8 @@ namespace entity.Renderers
                     ringVerts[i].Position = new Vector3(
                         ringRadius * (float)Math.Cos(angle),
                         ringRadius * (float)Math.Sin(angle),
-                        0.15f);
-                }
-                device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
-                for (int i = 0; i <= ringSegments; i++)
-                {
-                    float angle = (float)(2 * Math.PI * i / ringSegments);
-                    ringVerts[i].Position = new Vector3(
-                        ringRadius * (float)Math.Cos(angle),
-                        ringRadius * (float)Math.Sin(angle),
-                        -0.15f);
+                        off);
+                    ringVerts[i].Color = zColor.ToArgb();
                 }
                 device.DrawUserPrimitives(PrimitiveType.LineStrip, ringSegments, ringVerts);
             }
@@ -650,6 +605,7 @@ namespace entity.Renderers
             device.RenderState.FillMode = oldFill;
             device.RenderState.CullMode = oldCull;
             device.RenderState.ZBufferWriteEnable = oldZWrite;
+            device.RenderState.ZBufferEnable = oldZBuffer;
             device.RenderState.Lighting = oldLighting;
             device.Transform.World = mat;
             this.scale = scale;
