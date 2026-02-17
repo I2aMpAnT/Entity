@@ -7201,16 +7201,16 @@ namespace entity.Renderers
 
         /// <summary>
         /// Returns the SCNR palette reflexive offset for a given spawn type,
-        /// or -1 if the type is not supported for Place as Crate.
-        /// Only types whose tags have physics/collision models that the engine
-        /// can use when loaded as a crate are allowed. Scenery, bipeds, equipment,
-        /// weapons, sounds, and lights don't work — the engine loads the original
-        /// tag data which lacks crate physics, resulting in no collision.
+        /// or -1 if the type is not supported.
         /// </summary>
         private static int GetPaletteOffsetForSpawn(SpawnInfo.ScaleRotateYawPitchRollSpawn spawn)
         {
-            if (spawn is SpawnInfo.MachineSpawn)    return 176;
+            if (spawn is SpawnInfo.ScenerySpawn)   return 88;
+            if (spawn is SpawnInfo.BipedSpawn)      return 104;
             if (spawn is SpawnInfo.VehicleSpawn)    return 120;
+            if (spawn is SpawnInfo.EquipmentSpawn)  return 136;
+            if (spawn is SpawnInfo.WeaponSpawn)     return 152;
+            if (spawn is SpawnInfo.MachineSpawn)    return 176;
             if (spawn is SpawnInfo.ControlSpawn)    return 192;
             return -1;
         }
@@ -7242,7 +7242,7 @@ namespace entity.Renderers
 
             if (sourceSpawns.Count == 0)
             {
-                MessageBox.Show("No supported spawns selected.\nSelect Machine, Vehicle, or Control spawns (these have physics/collision that work as crates).");
+                MessageBox.Show("No supported spawns selected.\nSelect scenery, machines, vehicles, equipment, weapons, bipeds, or controls.");
                 return;
             }
 
@@ -7277,6 +7277,12 @@ namespace entity.Renderers
                 // been added to the crate palette to avoid duplicates.
                 // Key: "paletteOffset:paletteIndex", Value: new crate palette index
                 var paletteMap = new Dictionary<string, int>();
+
+                // Collect tag idents whose tag index class needs patching to "bloc".
+                // When a non-bloc tag (e.g. scenery) is placed as a crate, the engine
+                // checks the tag index class to decide physics/collision behaviour.
+                // Without this patch, scenery-derived crates have no collision.
+                var tagIdentsToPatch = new HashSet<int>();
 
                 // Find the highest existing unique ID salt across all spawns so new
                 // crate spawns get non-colliding IDs.
@@ -7319,9 +7325,19 @@ namespace entity.Renderers
                     {
                         var palCopy = srcPalette.Chunks[sp.PaletteIndex].DeepCopy();
 
+                        // Read the tag ident (bytes 4-7) before overwriting anything,
+                        // so we can patch the tag index class later.
+                        if (palCopy.MS != null && palCopy.MS.Length >= 8)
+                        {
+                            palCopy.MS.Position = 4;
+                            int tagIdent = new BinaryReader(palCopy.MS, System.Text.Encoding.Default, true).ReadInt32();
+                            if (tagIdent != -1 && tagIdent != 0)
+                                tagIdentsToPatch.Add(tagIdent);
+                        }
+
                         // Overwrite the tag class to "bloc" so the engine
                         // recognises this palette entry as a crate object reference.
-                        // Tag classes are stored as a big-endian FourCC in the first 4 bytes.
+                        // Tag classes are stored as a reversed FourCC in the first 4 bytes.
                         if (palCopy.MS != null && palCopy.MS.Length >= 4)
                         {
                             palCopy.MS.Position = 0;
@@ -7382,6 +7398,28 @@ namespace entity.Renderers
                 }
 
                 WriteRebuiltScnrDirect(scnrTagIndex, metasplit);
+
+                // Patch the tag index class to "bloc" for any source tags that
+                // weren't already bloc.  The engine checks the tag index class
+                // (not just the palette reference class) when deciding whether
+                // to apply crate physics/collision.  Without this, scenery tags
+                // placed as crates have no collision.
+                if (tagIdentsToPatch.Count > 0)
+                {
+                    byte[] blocReversed = { 0x63, 0x6F, 0x6C, 0x62 }; // "colb" = "bloc" reversed
+                    using (var fs = new FileStream(map.filePath, FileMode.Open, FileAccess.ReadWrite))
+                    {
+                        for (int t = 0; t < map.IndexHeader.metaCount; t++)
+                        {
+                            if (tagIdentsToPatch.Contains(map.MetaInfo.Ident[t]))
+                            {
+                                long entryOffset = map.IndexHeader.tagsOffset + (t * 16);
+                                fs.Position = entryOffset;
+                                fs.Write(blocReversed, 0, 4);
+                            }
+                        }
+                    }
+                }
 
                 string filePath = map.filePath;
                 map = Map.LoadFromFile(filePath);
