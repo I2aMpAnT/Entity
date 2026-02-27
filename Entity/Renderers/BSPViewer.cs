@@ -36,6 +36,8 @@ namespace entity.Renderers
     using Microsoft.DirectX.DirectInput;
 
     using HaloMap;
+    using HaloMap.ChunkCloning;
+    using HaloMap.Plugins;
 
     /// <summary>
     /// The bsp viewer.
@@ -64,7 +66,17 @@ namespace entity.Renderers
         /// <summary>
         /// The map.
         /// </summary>
-        private readonly Map map;
+        private Map map;
+
+        /// <summary>
+        /// Indicates that the map file was modified by chunk operations and needs reloading.
+        /// </summary>
+        public bool MapWasModified { get; private set; }
+
+        /// <summary>
+        /// Path to the map file backup for undo. Null when no undo is available.
+        /// </summary>
+        private string undoBackupPath = null;
 
         /// <summary>
         /// The render.
@@ -161,6 +173,19 @@ namespace entity.Renderers
         /// </summary>
         private Material YellowMaterial;
 
+        #region Spawn Property Controls
+        private GroupBox spawnPropsGB;
+        private NumericUpDown nudX, nudY, nudZ, nudYaw, nudPitch, nudRoll;
+        private TrackBar sliderX, sliderY, sliderZ, sliderYaw, sliderPitch, sliderRoll;
+        private CheckBox chkCreateAtRest;
+        private CheckBox chkImmovable;
+        private bool spawnPropsUpdating = false; // prevents recursive updates
+        private float sliderCenterX, sliderCenterY, sliderCenterZ;
+        private float sliderCenterYaw, sliderCenterPitch, sliderCenterRoll;
+        private const float SliderPosRange = 10.0f;  // +/- range for position sliders
+        private const float SliderRotRange = 180.0f;  // +/- range for rotation sliders
+        #endregion
+
         /// <summary>
         /// The aspect.
         /// </summary>
@@ -170,6 +195,11 @@ namespace entity.Renderers
         /// The axis.
         /// </summary>
         private Gizmo.axis axis;
+
+        /// <summary>
+        /// Whether a gizmo rotation drag is in progress.
+        /// </summary>
+        private bool gizmoDragging = false;
 
         /// <summary>
         /// The bsp.
@@ -184,9 +214,7 @@ namespace entity.Renderers
         /// <summary>
         /// The gizmo.
         /// </summary>
-#pragma warning disable CS0649 // Field is never assigned
         private Gizmo gizmo;
-#pragma warning restore CS0649
 
         /// <summary>
         /// The in sizing.
@@ -560,6 +588,7 @@ namespace entity.Renderers
             public float Timestamp; // In seconds from start
             public int Team; // 0 = red, 1 = blue, 2 = green, 3 = orange, -1 = unknown
             public float FacingYaw;
+            public float FacingPitch;
             public string PlayerName;
             public string CurrentWeapon;
             public bool IsCrouching;
@@ -575,7 +604,7 @@ namespace entity.Renderers
             public int ColorQuaternary;
 
             public PlayerPathPoint(float x, float y, float z, float timestamp, int team = -1,
-                float facingYaw = 0, string playerName = "", string weapon = "",
+                float facingYaw = 0, float facingPitch = 0, string playerName = "", string weapon = "",
                 bool crouching = false, bool airborne = false, bool isDead = false,
                 int emblemFg = 0, int emblemBg = 0, int colorPrimary = 0, int colorSecondary = 0,
                 int colorTertiary = 0, int colorQuaternary = 0)
@@ -586,6 +615,7 @@ namespace entity.Renderers
                 Timestamp = timestamp;
                 Team = team;
                 FacingYaw = facingYaw;
+                FacingPitch = facingPitch;
                 PlayerName = playerName;
                 CurrentWeapon = weapon;
                 IsCrouching = crouching;
@@ -765,10 +795,6 @@ namespace entity.Renderers
         /// </summary>
         private float wheelSpinOffset = 0f;
 
-        /// <summary>
-        /// Target offset for spin animation.
-        /// </summary>
-        private float wheelTargetOffset = 0f;
 
         /// <summary>
         /// Whether wheel is currently spinning.
@@ -829,7 +855,6 @@ namespace entity.Renderers
             dockControl2.LayoutSystem.Collapsed = true;
             dockControl3.LayoutSystem.Collapsed = true;
             dockControl4.LayoutSystem.Collapsed = true;
-            dockControl5.LayoutSystem.Collapsed = true;
 
             Application.DoEvents();
 
@@ -848,7 +873,7 @@ namespace entity.Renderers
             this.BackColor = Color.Blue;
 
             #region Clear the labels
-            toolStripLabel2.Text = "Camera Position: X: 0 � Y: 0 � Z: 0";
+            toolStripLabel2.Text = "Camera Position: X: 0 � Y: 0 � Z: 0 � Yaw: 0.0 � Pitch: 0.0";
             tsLabel1.Text = "Type: <";
             tsButtonType.Text = string.Empty;
             tsLabel2.Text = "> (";
@@ -1088,15 +1113,7 @@ namespace entity.Renderers
 
             #endregion
 
-            if (map.HaloVersion == HaloVersionEnum.Halo2 ||
-                map.HaloVersion == HaloVersionEnum.Halo2Vista)
-            {
-                this.NoCulling.Checked = false;
-            }
-            else
-            {
-                this.NoCulling.Checked = true;
-            }
+            this.NoCulling.Checked = true;
 
             // Initialize path playback controls (Theater Mode only)
             if (theaterMode)
@@ -1104,6 +1121,9 @@ namespace entity.Renderers
                 InitializePathControls();
                 this.Text = "Theater Mode - " + map.filePath;
             }
+
+            // Initialize spawn property sliders and up/down controls
+            InitializeSpawnPropertyControls();
 
             // Clean up telemetry listener on close
             this.FormClosing += BSPViewer_FormClosing;
@@ -1119,6 +1139,763 @@ namespace entity.Renderers
                 StopTelemetryListener();
             }
         }
+
+        #region Spawn Property Panel (Sliders + Up/Down)
+
+        /// <summary>
+        /// Creates the Spawn Properties panel with NumericUpDown (up/down arrows) and
+        /// TrackBar (slider) controls for X, Y, Z, Yaw, Pitch, Roll in dockControl4.
+        /// </summary>
+        private void InitializeSpawnPropertyControls()
+        {
+            spawnPropsGB = new GroupBox();
+            spawnPropsGB.Text = "Spawn Properties";
+            spawnPropsGB.Location = new Point(3, 3);
+            spawnPropsGB.Size = new Size(244, 280);
+            spawnPropsGB.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+            string[] names = { "X", "Y", "Z", "Yaw", "Pitch", "Roll" };
+            NumericUpDown[] nuds = new NumericUpDown[6];
+            TrackBar[] sliders = new TrackBar[6];
+            Label[] labels = new Label[6];
+
+            for (int i = 0; i < 6; i++)
+            {
+                int y = 20 + i * 42;
+                bool isRotation = i >= 3;
+
+                // Label
+                labels[i] = new Label();
+                labels[i].Text = names[i] + ":";
+                labels[i].Location = new Point(6, y + 3);
+                labels[i].Size = new Size(38, 16);
+                labels[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold);
+                spawnPropsGB.Controls.Add(labels[i]);
+
+                // NumericUpDown (up/down arrows for fine tuning)
+                nuds[i] = new NumericUpDown();
+                nuds[i].Location = new Point(46, y);
+                nuds[i].Size = new Size(85, 20);
+                nuds[i].DecimalPlaces = isRotation ? 0 : 4;
+                nuds[i].Minimum = isRotation ? 0m : -500m;
+                nuds[i].Maximum = isRotation ? 359m : 500m;
+                nuds[i].Increment = isRotation ? 1.0m : 0.0001m;
+                nuds[i].Value = 0;
+                nuds[i].Tag = i; // 0=X, 1=Y, 2=Z, 3=Yaw, 4=Pitch, 5=Roll
+                nuds[i].ValueChanged += spawnPropNud_ValueChanged;
+                spawnPropsGB.Controls.Add(nuds[i]);
+
+                // TrackBar (slider for coarse adjustment)
+                sliders[i] = new TrackBar();
+                sliders[i].Location = new Point(134, y - 2);
+                sliders[i].Size = new Size(105, 30);
+                sliders[i].Minimum = 0;
+                sliders[i].Maximum = 1000;
+                sliders[i].Value = 500; // center
+                sliders[i].TickFrequency = 100;
+                sliders[i].SmallChange = 1;
+                sliders[i].LargeChange = 50;
+                sliders[i].Tag = i;
+                sliders[i].Scroll += spawnPropSlider_Scroll;
+                sliders[i].MouseUp += spawnPropSlider_MouseUp;
+                spawnPropsGB.Controls.Add(sliders[i]);
+            }
+
+            nudX = nuds[0]; nudY = nuds[1]; nudZ = nuds[2];
+            nudYaw = nuds[3]; nudPitch = nuds[4]; nudRoll = nuds[5];
+            sliderX = sliders[0]; sliderY = sliders[1]; sliderZ = sliders[2];
+            sliderYaw = sliders[3]; sliderPitch = sliders[4]; sliderRoll = sliders[5];
+
+            // Add increment selector
+            Label lblStep = new Label();
+            lblStep.Text = "Step:";
+            lblStep.Location = new Point(6, 254);
+            lblStep.Size = new Size(35, 16);
+            spawnPropsGB.Controls.Add(lblStep);
+
+            ComboBox stepCombo = new ComboBox();
+            stepCombo.Location = new Point(46, 251);
+            stepCombo.Size = new Size(85, 20);
+            stepCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            stepCombo.Items.AddRange(new object[] { "0.0001", "0.001", "0.01", "0.05", "0.1", "0.5", "1.0" });
+            stepCombo.SelectedIndex = 0; // default 0.0001
+            stepCombo.SelectedIndexChanged += (s, e) =>
+            {
+                if (stepCombo.SelectedItem == null) return;
+                decimal step = decimal.Parse(stepCombo.SelectedItem.ToString());
+                nudX.Increment = step;
+                nudY.Increment = step;
+                nudZ.Increment = step;
+                // Rotation NUDs are always 1 degree at a time
+            };
+            spawnPropsGB.Controls.Add(stepCombo);
+
+            // Button to copy spawn XYZ into coordinate finder
+            System.Windows.Forms.Button btnCopyToFinder = new System.Windows.Forms.Button();
+            btnCopyToFinder.Text = "Copy to Finder";
+            btnCopyToFinder.Location = new Point(134, 251);
+            btnCopyToFinder.Size = new Size(105, 23);
+            btnCopyToFinder.FlatStyle = FlatStyle.Flat;
+            btnCopyToFinder.Click += (s, ev) =>
+            {
+                if (SelectedSpawn.Count == 0) return;
+                int idx = SelectedSpawn[SelectedSpawn.Count - 1];
+                fcordx.Text = bsp.Spawns.Spawn[idx].X.ToString("#0.0000####");
+                fcordy.Text = bsp.Spawns.Spawn[idx].Y.ToString("#0.0000####");
+                fcordz.Text = bsp.Spawns.Spawn[idx].Z.ToString("#0.0000####");
+            };
+            spawnPropsGB.Controls.Add(btnCopyToFinder);
+
+            // "Create at Rest" checkbox — disables initial physics wobble
+            chkCreateAtRest = new CheckBox();
+            chkCreateAtRest.Text = "Create at Rest";
+            chkCreateAtRest.Location = new Point(6, 278);
+            chkCreateAtRest.Size = new Size(120, 20);
+            chkCreateAtRest.CheckedChanged += chkCreateAtRest_CheckedChanged;
+            spawnPropsGB.Controls.Add(chkCreateAtRest);
+
+            // "Immovable" checkbox — zeros acceleration scale on the tag so the
+            // object cannot be moved by any physics force (stays locked in place)
+            chkImmovable = new CheckBox();
+            chkImmovable.Text = "Immovable";
+            chkImmovable.Location = new Point(130, 278);
+            chkImmovable.Size = new Size(110, 20);
+            chkImmovable.CheckedChanged += chkImmovable_CheckedChanged;
+            spawnPropsGB.Controls.Add(chkImmovable);
+
+            spawnPropsGB.Size = new Size(244, 305);
+
+            // Move coordinate finder below spawn properties
+            fcordgb.Location = new Point(3, 315);
+
+            dockControl4.Controls.Add(spawnPropsGB);
+            spawnPropsGB.Enabled = false; // disabled until a spawn is selected
+
+            // Add Save Position button to the top toolbar
+            ToolStripButton tsBtnSavePosition = new ToolStripButton();
+            tsBtnSavePosition.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsBtnSavePosition.Name = "tsBtnSavePosition";
+            tsBtnSavePosition.Text = "Save Position";
+            tsBtnSavePosition.Click += btnSavePosition_Click;
+            toolStrip.Items.Add(tsBtnSavePosition);
+
+            // Add Copy Coords button to the top toolbar
+            ToolStripButton tsBtnCopyCoords = new ToolStripButton();
+            tsBtnCopyCoords.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsBtnCopyCoords.Name = "tsBtnCopyCoords";
+            tsBtnCopyCoords.Text = "Copy Coords";
+            tsBtnCopyCoords.Click += btnCopyCoords_Click;
+            toolStrip.Items.Add(tsBtnCopyCoords);
+
+            // Add Paste Coords button to the top toolbar
+            ToolStripButton tsBtnPasteCoords = new ToolStripButton();
+            tsBtnPasteCoords.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsBtnPasteCoords.Name = "tsBtnPasteCoords";
+            tsBtnPasteCoords.Text = "Paste Coords";
+            tsBtnPasteCoords.Click += btnPasteCoords_Click;
+            toolStrip.Items.Add(tsBtnPasteCoords);
+        }
+
+        /// <summary>
+        /// Updates the spawn property controls when a spawn is selected.
+        /// </summary>
+        private void UpdateSpawnPropertyControls()
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                spawnPropsGB.Enabled = false;
+                return;
+            }
+
+            spawnPropsGB.Enabled = true;
+            spawnPropsUpdating = true;
+
+            // Open the Tools panel if it's collapsed
+            if (dockControl4.LayoutSystem.Collapsed)
+            {
+                dockControl4.LayoutSystem.Collapsed = false;
+                dockControl4.Open();
+            }
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            // Position
+            nudX.Value = ClampDecimal((decimal)spawn.X, nudX.Minimum, nudX.Maximum);
+            nudY.Value = ClampDecimal((decimal)spawn.Y, nudY.Minimum, nudY.Maximum);
+            nudZ.Value = ClampDecimal((decimal)spawn.Z, nudZ.Minimum, nudZ.Maximum);
+
+            // Store slider centers
+            sliderCenterX = spawn.X;
+            sliderCenterY = spawn.Y;
+            sliderCenterZ = spawn.Z;
+            sliderX.Value = 500;
+            sliderY.Value = 500;
+            sliderZ.Value = 500;
+
+            // Rotation (NUDs display degrees 0-359, internal values are radians)
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                nudYaw.Value = RadToDeg360(rot.Yaw);
+                nudPitch.Value = RadToDeg360(rot.Pitch);
+                nudRoll.Value = RadToDeg360(rot.Roll);
+                nudYaw.Enabled = true; nudPitch.Enabled = true; nudRoll.Enabled = true;
+                sliderYaw.Enabled = true; sliderPitch.Enabled = true; sliderRoll.Enabled = true;
+                sliderCenterYaw = rot.Yaw;
+                sliderCenterPitch = rot.Pitch;
+                sliderCenterRoll = rot.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                SpawnInfo.RotateDirectionBaseSpawn rot = spawn as SpawnInfo.RotateDirectionBaseSpawn;
+                nudYaw.Value = RadToDeg360(rot.RotationDirection);
+                nudPitch.Value = 0; nudRoll.Value = 0;
+                nudYaw.Enabled = true; nudPitch.Enabled = false; nudRoll.Enabled = false;
+                sliderYaw.Enabled = true; sliderPitch.Enabled = false; sliderRoll.Enabled = false;
+                sliderCenterYaw = rot.RotationDirection;
+            }
+            else
+            {
+                nudYaw.Value = 0; nudPitch.Value = 0; nudRoll.Value = 0;
+                nudYaw.Enabled = false; nudPitch.Enabled = false; nudRoll.Enabled = false;
+                sliderYaw.Enabled = false; sliderPitch.Enabled = false; sliderRoll.Enabled = false;
+            }
+
+            sliderYaw.Value = 500;
+            sliderPitch.Value = 500;
+            sliderRoll.Value = 500;
+
+            // CreateAtRest + Immovable checkboxes
+            var srypr = spawn as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+            if (srypr != null)
+            {
+                chkCreateAtRest.Checked = (srypr.Placements & SpawnInfo.ScaleRotateYawPitchRollSpawn.PlacementFlags.CreateAtRest) != 0;
+                chkCreateAtRest.Enabled = true;
+
+                // Read phmo mass from the referenced tag chain to set Immovable state
+                float phmoMass = ReadSpawnPhmoMass(srypr);
+                chkImmovable.Checked = (phmoMass >= 9999999.0f);
+                chkImmovable.Enabled = (phmoMass >= 0f); // disable if tag chain unresolvable
+            }
+            else
+            {
+                chkCreateAtRest.Checked = false;
+                chkCreateAtRest.Enabled = false;
+                chkImmovable.Checked = false;
+                chkImmovable.Enabled = false;
+            }
+
+            spawnPropsUpdating = false;
+        }
+
+        /// <summary>
+        /// Resolves spawn → palette → object tag → hlmt → phmo tag index.
+        /// Returns the phmo tag index, or -1 if unresolvable.
+        /// Map must already be opened.
+        /// </summary>
+        private int ResolveSpawnPhmoTagIndex(SpawnInfo.ScaleRotateYawPitchRollSpawn srypr)
+        {
+            int palOffset = GetPaletteOffsetForSpawn(srypr);
+            if (palOffset == -1)
+            {
+                if (srypr is SpawnInfo.ObstacleSpawn)
+                    palOffset = 816;
+                else
+                    return -1;
+            }
+
+            // Read object tag ident from palette
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + palOffset;
+            int palCount = map.BR.ReadInt32();
+            int palStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (srypr.PaletteIndex < 0 || srypr.PaletteIndex >= palCount)
+                return -1;
+
+            map.BR.BaseStream.Position = palStart + (srypr.PaletteIndex * 40) + 4;
+            int objTagIdent = map.BR.ReadInt32();
+            int objTagIndex = map.Functions.ForMeta.FindMetaByID(objTagIdent);
+            if (objTagIndex < 0) return -1;
+
+            // Read hlmt ident from object tag (bloc offset 56 = Model ident)
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[objTagIndex] + 56;
+            int hlmtIdent = map.BR.ReadInt32();
+            int hlmtIndex = map.Functions.ForMeta.FindMetaByID(hlmtIdent);
+            if (hlmtIndex < 0) return -1;
+
+            // Read phmo ident from hlmt (hlmt offset 36 = Physics Model ident)
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[hlmtIndex] + 36;
+            int phmoIdent = map.BR.ReadInt32();
+            int phmoIndex = map.Functions.ForMeta.FindMetaByID(phmoIdent);
+            return phmoIndex;
+        }
+
+        /// <summary>
+        /// Reads the mass from the first Phmo Variation entry in the phmo tag
+        /// referenced by a spawn's object tag chain.
+        /// Returns -1 if unresolvable.
+        /// </summary>
+        private float ReadSpawnPhmoMass(SpawnInfo.ScaleRotateYawPitchRollSpawn srypr)
+        {
+            try
+            {
+                map.OpenMap(MapTypes.Internal);
+                int phmoIndex = ResolveSpawnPhmoTagIndex(srypr);
+                if (phmoIndex < 0) { map.CloseMap(); return -1f; }
+
+                // Phmo Variations reflexive at phmo header offset 56
+                map.BR.BaseStream.Position = map.MetaInfo.Offset[phmoIndex] + 56;
+                int varCount = map.BR.ReadInt32();
+                int varStart = map.BR.ReadInt32() - map.SecondaryMagic;
+                if (varCount <= 0) { map.CloseMap(); return -1f; }
+
+                // Mass at variation entry offset 60
+                map.BR.BaseStream.Position = varStart + 60;
+                float mass = map.BR.ReadSingle();
+                map.CloseMap();
+                return mass;
+            }
+            catch
+            {
+                try { map.CloseMap(); } catch { }
+                return -1f;
+            }
+        }
+
+        /// <summary>
+        /// Writes mass to ALL Phmo Variation entries in the phmo tag
+        /// referenced by a spawn's object tag chain.
+        /// </summary>
+        private void WriteSpawnPhmoMass(SpawnInfo.ScaleRotateYawPitchRollSpawn srypr, float mass)
+        {
+            try
+            {
+                map.OpenMap(MapTypes.Internal);
+                int phmoIndex = ResolveSpawnPhmoTagIndex(srypr);
+                if (phmoIndex < 0) { map.CloseMap(); return; }
+
+                // Phmo Variations reflexive at phmo header offset 56
+                map.BR.BaseStream.Position = map.MetaInfo.Offset[phmoIndex] + 56;
+                int varCount = map.BR.ReadInt32();
+                int varStart = map.BR.ReadInt32() - map.SecondaryMagic;
+
+                // Write mass at offset 60 in each variation entry (size 144 each)
+                for (int i = 0; i < varCount; i++)
+                {
+                    map.BW.BaseStream.Position = varStart + (i * 144) + 60;
+                    map.BW.Write(mass);
+                }
+
+                // Also write mass in Mass Points reflexive (offset 96, entry size 144, mass at entry offset 24)
+                map.BR.BaseStream.Position = map.MetaInfo.Offset[phmoIndex] + 96;
+                int mpCount = map.BR.ReadInt32();
+                int mpStart = map.BR.ReadInt32() - map.SecondaryMagic;
+                for (int i = 0; i < mpCount; i++)
+                {
+                    map.BW.BaseStream.Position = mpStart + (i * 144) + 24;
+                    map.BW.Write(mass);
+                }
+
+                map.CloseMap();
+            }
+            catch
+            {
+                try { map.CloseMap(); } catch { }
+            }
+        }
+
+        private void chkCreateAtRest_CheckedChanged(object sender, EventArgs e)
+        {
+            if (spawnPropsUpdating || SelectedSpawn.Count == 0) return;
+
+            foreach (int idx in SelectedSpawn)
+            {
+                var srypr = bsp.Spawns.Spawn[idx] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                if (srypr == null) continue;
+
+                if (chkCreateAtRest.Checked)
+                    srypr.Placements |= SpawnInfo.ScaleRotateYawPitchRollSpawn.PlacementFlags.CreateAtRest;
+                else
+                    srypr.Placements &= ~SpawnInfo.ScaleRotateYawPitchRollSpawn.PlacementFlags.CreateAtRest;
+            }
+        }
+
+        private void chkImmovable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (spawnPropsUpdating || SelectedSpawn.Count == 0) return;
+
+            // Immovable: set phmo mass to 10 million so nothing can push it.
+            // Unchecked: restore to a small default mass (50 kg).
+            float mass = chkImmovable.Checked ? 10000000.0f : 50.0f;
+
+            foreach (int idx in SelectedSpawn)
+            {
+                var srypr = bsp.Spawns.Spawn[idx] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                if (srypr == null) continue;
+
+                WriteSpawnPhmoMass(srypr, mass);
+            }
+        }
+
+        private decimal ClampDecimal(decimal val, decimal min, decimal max)
+        {
+            if (val < min) return min;
+            if (val > max) return max;
+            return val;
+        }
+
+        /// <summary>
+        /// Converts radians to degrees, normalized to 0-359 range.
+        /// </summary>
+        private decimal RadToDeg360(float radians)
+        {
+            if (float.IsNaN(radians) || float.IsInfinity(radians))
+                return 0m;
+            double deg = radians * (180.0 / Math.PI);
+            deg = Math.Round(deg) % 360.0;
+            if (deg < 0) deg += 360.0;
+            if (deg >= 360.0) deg = 0;
+            decimal result = (decimal)deg;
+            // Clamp to NUD range [0, 359] as a final safety net
+            if (result < 0m) result = 0m;
+            if (result > 359m) result = 0m;
+            return result;
+        }
+
+        /// <summary>
+        /// Converts degrees (0-359) to radians.
+        /// </summary>
+        private float DegToRad(decimal degrees)
+        {
+            return (float)((double)degrees * Math.PI / 180.0);
+        }
+
+        /// <summary>
+        /// Handles NumericUpDown value changes - applies to spawn position/rotation.
+        /// </summary>
+        private void spawnPropNud_ValueChanged(object sender, EventArgs e)
+        {
+            if (spawnPropsUpdating || SelectedSpawn.Count == 0) return;
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            float oldX = spawn.X, oldY = spawn.Y, oldZ = spawn.Z;
+            float oldYaw = 0, oldPitch = 0, oldRoll = 0;
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                oldYaw = rot.Yaw; oldPitch = rot.Pitch; oldRoll = rot.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                oldYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+            }
+
+            // Apply new values
+            float newX = (float)nudX.Value, newY = (float)nudY.Value, newZ = (float)nudZ.Value;
+            spawn.X = newX; spawn.Y = newY; spawn.Z = newZ;
+
+            // NUDs display degrees; convert back to radians for spawn data
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                rot.Yaw = DegToRad(nudYaw.Value);
+                rot.Pitch = DegToRad(nudPitch.Value);
+                rot.Roll = DegToRad(nudRoll.Value);
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = DegToRad(nudYaw.Value);
+            }
+
+            TranslationMatrix[lastIdx] = MakeMatrixForSpawn(lastIdx);
+
+            // Move other selected spawns by the same delta
+            float diffX = newX - oldX, diffY = newY - oldY, diffZ = newZ - oldZ;
+            for (int i = 0; i < SelectedSpawn.Count - 1; i++)
+            {
+                bsp.Spawns.Spawn[SelectedSpawn[i]].X += diffX;
+                bsp.Spawns.Spawn[SelectedSpawn[i]].Y += diffY;
+                bsp.Spawns.Spawn[SelectedSpawn[i]].Z += diffZ;
+                TranslationMatrix[SelectedSpawn[i]] = MakeMatrixForSpawn(SelectedSpawn[i]);
+            }
+
+            // Sync status bar - use try/finally so spawnPropsUpdating is always reset
+            // even if updateStatusPosition() throws (e.g. null list references)
+            spawnPropsUpdating = true;
+            try
+            {
+                updateXYZYPR = true;
+                updateStatusPosition();
+                // Re-center sliders
+                sliderCenterX = newX; sliderCenterY = newY; sliderCenterZ = newZ;
+                sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
+                if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                {
+                    SpawnInfo.RotateYawPitchRollBaseSpawn rot2 = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                    sliderCenterYaw = rot2.Yaw; sliderCenterPitch = rot2.Pitch; sliderCenterRoll = rot2.Roll;
+                }
+                else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+                {
+                    sliderCenterYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+                }
+                sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
+            }
+            finally
+            {
+                spawnPropsUpdating = false;
+            }
+        }
+
+        /// <summary>
+        /// Handles TrackBar scroll - applies relative adjustment from center.
+        /// </summary>
+        private void spawnPropSlider_Scroll(object sender, EventArgs e)
+        {
+            if (spawnPropsUpdating || SelectedSpawn.Count == 0) return;
+
+            TrackBar tb = (TrackBar)sender;
+            int idx = (int)tb.Tag;
+            bool isRotation = idx >= 3;
+            float range = isRotation ? SliderRotRange : SliderPosRange;
+
+            // Map slider 0-1000 to center +/- range
+            float offset = (tb.Value - 500) / 500.0f * range;
+            float center = 0;
+            switch (idx)
+            {
+                case 0: center = sliderCenterX; break;
+                case 1: center = sliderCenterY; break;
+                case 2: center = sliderCenterZ; break;
+                case 3: center = sliderCenterYaw; break;
+                case 4: center = sliderCenterPitch; break;
+                case 5: center = sliderCenterRoll; break;
+            }
+
+            float newVal = center + offset; // in world units (position) or radians (rotation)
+
+            spawnPropsUpdating = true;
+            NumericUpDown nud = null;
+            switch (idx)
+            {
+                case 0: nud = nudX; break;
+                case 1: nud = nudY; break;
+                case 2: nud = nudZ; break;
+                case 3: nud = nudYaw; break;
+                case 4: nud = nudPitch; break;
+                case 5: nud = nudRoll; break;
+            }
+
+            // For rotation, convert radians to degrees for NUD display
+            if (isRotation)
+            {
+                nud.Value = RadToDeg360(newVal);
+            }
+            else
+            {
+                decimal clamped = ClampDecimal((decimal)newVal, nud.Minimum, nud.Maximum);
+                nud.Value = clamped;
+            }
+            spawnPropsUpdating = false;
+
+            // Apply directly to spawn (always in radians/world units)
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            float oldVal = 0;
+            switch (idx)
+            {
+                case 0: oldVal = spawn.X; spawn.X = newVal; break;
+                case 1: oldVal = spawn.Y; spawn.Y = newVal; break;
+                case 2: oldVal = spawn.Z; spawn.Z = newVal; break;
+                case 3:
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Yaw = newVal; }
+                    else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection; ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = newVal; }
+                    break;
+                case 4:
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Pitch = newVal; }
+                    break;
+                case 5:
+                    if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                    { oldVal = ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll; ((SpawnInfo.RotateYawPitchRollBaseSpawn)spawn).Roll = newVal; }
+                    break;
+            }
+
+            TranslationMatrix[lastIdx] = MakeMatrixForSpawn(lastIdx);
+
+            // Move other selected spawns by the same delta (position only)
+            if (idx < 3)
+            {
+                float diff = newVal - oldVal;
+                for (int i = 0; i < SelectedSpawn.Count - 1; i++)
+                {
+                    switch (idx)
+                    {
+                        case 0: bsp.Spawns.Spawn[SelectedSpawn[i]].X += diff; break;
+                        case 1: bsp.Spawns.Spawn[SelectedSpawn[i]].Y += diff; break;
+                        case 2: bsp.Spawns.Spawn[SelectedSpawn[i]].Z += diff; break;
+                    }
+                    TranslationMatrix[SelectedSpawn[i]] = MakeMatrixForSpawn(SelectedSpawn[i]);
+                }
+            }
+
+            // Update status bar
+            updateXYZYPR = true;
+            updateStatusPosition();
+        }
+
+        /// <summary>
+        /// Re-centers sliders when mouse is released (optional: can keep position)
+        /// </summary>
+        private void spawnPropSlider_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (SelectedSpawn.Count == 0) return;
+
+            // Update the centers to the current spawn values
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            spawnPropsUpdating = true;
+            sliderCenterX = spawn.X; sliderCenterY = spawn.Y; sliderCenterZ = spawn.Z;
+            sliderX.Value = 500; sliderY.Value = 500; sliderZ.Value = 500;
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = spawn as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                sliderCenterYaw = rot.Yaw; sliderCenterPitch = rot.Pitch; sliderCenterRoll = rot.Roll;
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                sliderCenterYaw = ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection;
+            }
+            sliderYaw.Value = 500; sliderPitch.Value = 500; sliderRoll.Value = 500;
+            spawnPropsUpdating = false;
+        }
+
+        /// <summary>
+        /// Saves the selected spawn(s) position/rotation data back to the SCNR tag in the map file.
+        /// </summary>
+        private void btnSavePosition_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawns selected.", "Save Position");
+                return;
+            }
+
+            try
+            {
+                map.OpenMap(MapTypes.Internal);
+
+                for (int i = 0; i < SelectedSpawn.Count; i++)
+                {
+                    bsp.Spawns.Spawn[SelectedSpawn[i]].Write(map);
+                }
+
+                map.CloseMap();
+                MessageBox.Show("Saved " + SelectedSpawn.Count + " spawn position(s).", "Save Position");
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error saving spawn position(s).", ex);
+            }
+        }
+
+        private void btnCopyCoords_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.", "Copy Coords");
+                return;
+            }
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            string coords = spawn.X.ToString("R") + ", " + spawn.Y.ToString("R") + ", " + spawn.Z.ToString("R");
+
+            if (spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                SpawnInfo.RotateYawPitchRollBaseSpawn rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)spawn;
+                coords += ", " + rot.Yaw.ToString("R") + ", " + rot.Pitch.ToString("R") + ", " + rot.Roll.ToString("R");
+            }
+            else if (spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                coords += ", " + ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection.ToString("R");
+            }
+
+            Clipboard.SetText(coords);
+        }
+
+        private void btnPasteCoords_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.", "Paste Coords");
+                return;
+            }
+
+            string text = Clipboard.GetText();
+            if (string.IsNullOrEmpty(text))
+            {
+                MessageBox.Show("Clipboard is empty.", "Paste Coords");
+                return;
+            }
+
+            string[] parts = text.Split(',');
+            if (parts.Length < 3)
+            {
+                MessageBox.Show("Expected at least 3 values (X, Y, Z).", "Paste Coords");
+                return;
+            }
+
+            float x, y, z;
+            if (!float.TryParse(parts[0].Trim(), out x) ||
+                !float.TryParse(parts[1].Trim(), out y) ||
+                !float.TryParse(parts[2].Trim(), out z))
+            {
+                MessageBox.Show("Invalid coordinate values.", "Paste Coords");
+                return;
+            }
+
+            int lastIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[lastIdx];
+
+            spawn.X = x;
+            spawn.Y = y;
+            spawn.Z = z;
+
+            if (parts.Length >= 6 && spawn is SpawnInfo.RotateYawPitchRollBaseSpawn)
+            {
+                float yaw, pitch, roll;
+                if (float.TryParse(parts[3].Trim(), out yaw) &&
+                    float.TryParse(parts[4].Trim(), out pitch) &&
+                    float.TryParse(parts[5].Trim(), out roll))
+                {
+                    SpawnInfo.RotateYawPitchRollBaseSpawn rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)spawn;
+                    rot.Yaw = yaw;
+                    rot.Pitch = pitch;
+                    rot.Roll = roll;
+                }
+            }
+            else if (parts.Length >= 4 && spawn is SpawnInfo.RotateDirectionBaseSpawn)
+            {
+                float dir;
+                if (float.TryParse(parts[3].Trim(), out dir))
+                {
+                    ((SpawnInfo.RotateDirectionBaseSpawn)spawn).RotationDirection = dir;
+                }
+            }
+
+            UpdateSpawnPropertyControls();
+        }
+
+        #endregion
 
         // UI controls that need to be updated when path is loaded
         private ToolStripDropDownButton pathPlayerDropdown;
@@ -1297,6 +2074,8 @@ namespace entity.Renderers
             controlsBtn.DropDownItems.Add(new ToolStripMenuItem("P - Cycle Path Mode") { Enabled = false });
             controlsBtn.DropDownItems.Add(new ToolStripMenuItem("WASD - Camera Movement") { Enabled = false });
             controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Mouse - Camera Look") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("Q - Move Gizmo") { Enabled = false });
+            controlsBtn.DropDownItems.Add(new ToolStripMenuItem("E - Rotate Gizmo") { Enabled = false });
 
             controlsBtn.DropDownItems.Add(new ToolStripSeparator());
 
@@ -1993,7 +2772,7 @@ namespace entity.Renderers
                 RenderSky.Checked = true;
 
             // Enable spawn types that are useful for viewing: Scenery, Collection, Obstacle
-            string[] spawnTypesToEnable = { "Scenery", "Collection", "Obstacle", "Vehicle", "Weapon" };
+            string[] spawnTypesToEnable = { "Player", "Scenery", "Collection", "Crate", "Vehicle", "Weapon" };
 
             if (checkedListBox1 != null)
             {
@@ -2348,7 +3127,7 @@ namespace entity.Renderers
                     {
                         var p = currentPt.Value;
                         sb.AppendLine($"  - {p.PlayerName}: Pos=({p.X:F1}, {p.Y:F1}, {p.Z:F1}) T={p.Timestamp:F1}");
-                        sb.AppendLine($"    Team={p.Team} Yaw={p.FacingYaw:F1}° Dead={p.IsDead}");
+                        sb.AppendLine($"    Team={p.Team} Yaw={p.FacingYaw:F1}° Pitch={p.FacingPitch:F1}° Dead={p.IsDead}");
                         sb.AppendLine($"    Weapon={p.CurrentWeapon} Crouch={p.IsCrouching} Air={p.IsAirborne}");
                         sb.AppendLine($"    Emblem: FG={p.EmblemFg} BG={p.EmblemBg} Colors={p.ColorPrimary},{p.ColorSecondary},{p.ColorTertiary},{p.ColorQuaternary}");
                     }
@@ -2653,7 +3432,7 @@ namespace entity.Renderers
 
             #endregion
 
-            // gizmo = new Entity.Renderer.Widget.Gizmo(render.device);
+            gizmo = new Gizmo(render.device);
 
             render.pause = false;
             label3.Visible = false;
@@ -2771,6 +3550,21 @@ namespace entity.Renderers
                 }
                 #endregion
 
+                #region PlayerSpawn
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.PlayerSpawn)
+                {
+                    // PlayerSpawns have ModelTagNumber set to the biped model.
+                    // Don't skip - fall through to model loading so they render
+                    // as Spartans instead of using SpawnModel[0] (usually a flag).
+                    if (((SpawnInfo.RotationSpawn)bsp.Spawns.Spawn[x]).ModelTagNumber < 0)
+                    {
+                        // No biped model found, use sphere fallback
+                        BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                        continue;
+                    }
+                }
+                #endregion
+
                 SpawnInfo.RotationSpawn tempspawn = bsp.Spawns.Spawn[x] as SpawnInfo.RotationSpawn;
 
                 #region ScanForExistingModels
@@ -2803,12 +3597,19 @@ namespace entity.Renderers
 
                 #region ReadSpawnMeta
 
-                Meta m = new Meta(map);
-                if (tempspawn.ModelTagNumber == -1)
+                if (tempspawn.ModelTagNumber < 0 || tempspawn.ModelTagNumber >= map.IndexHeader.metaCount)
                 {
-                    MessageBox.Show("Test");
+                    BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                    continue;
                 }
 
+                if (map.BR == null)
+                {
+                    BoundingBoxModel[x] = Mesh.Sphere(render.device, 0.3f, 10, 10);
+                    continue;
+                }
+
+                Meta m = new Meta(map);
                 m.ReadMetaFromMap(tempspawn.ModelTagNumber, false);
 
                 #endregion
@@ -3080,6 +3881,7 @@ namespace entity.Renderers
 
                 aspect = this.Width / (float)this.Height;
                 this.speedBar_Update();
+                speedLabel.Text = ((float)((int)(cam.speed * 100)) / 100).ToString();
 
                 // While the form is still valid, render and process messages
                 while (frm.Created)
@@ -3138,16 +3940,18 @@ namespace entity.Renderers
                 if (map.HaloVersion == HaloVersionEnum.Halo2 ||
                     map.HaloVersion == HaloVersionEnum.Halo2Vista)
                 {
-                    float tempf3 = tempspawn.Roll;
-
+                    // Halo 2 uses a Z-up coordinate system.
+                    // Yaw = facing direction on the ground plane (around Z / up)
+                    // Pitch = tilt forward/backward (around Y / left)
+                    // Roll  = lean left/right (around X / forward)
                     Matrix m1 = Matrix.Identity;
-                    m1.RotateX(tempspawn.Yaw);
+                    m1.RotateZ(tempspawn.Yaw);
                     Matrix m2 = Matrix.Identity;
                     m2.RotateY(-tempspawn.Pitch); // Pitch is backwards in game
                     Matrix m3 = Matrix.Identity;
-                    m3.RotateZ(tempspawn.Roll); // );
+                    m3.RotateX(tempspawn.Roll);
 
-                    // Do NOT change the order! Finally this is right //
+                    // Do NOT change the multiplication order!
                     // (m3 * m2 * m1) != (m1 * m2 * m3) with matrix calculations
                     rotate = m3 * m2 * m1;
                 }
@@ -3634,6 +4438,30 @@ namespace entity.Renderers
         /// </summary>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (keyData == Keys.Delete && SelectedSpawn.Count > 0)
+            {
+                tsBtnDeleteChunk_Click(this, EventArgs.Empty);
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                UndoLastChunkOperation();
+                return true;
+            }
+
+            // Gizmo mode switching: Q = Move, E = Rotate
+            if (keyData == Keys.Q && gizmo != null)
+            {
+                gizmo.SetGizmoMode(Gizmo.transform.movement);
+                return true;
+            }
+            if (keyData == Keys.E && gizmo != null)
+            {
+                gizmo.SetGizmoMode(Gizmo.transform.rotation);
+                return true;
+            }
+
             if (theaterMode)
             {
                 switch (keyData)
@@ -3922,9 +4750,16 @@ namespace entity.Renderers
                 #region SpawnSelection (Mouse Left Button)
             else if (e.Button == MouseButtons.Left)
             {
+                // If the cursor is hovering over a gizmo axis, don't re-select spawns.
+                // Just record the drag start so the MouseMove handler can do gizmo movement.
+                if (axis != Gizmo.axis.none && SelectedSpawn.Count > 0)
+                {
+                    oldx = e.X;
+                    oldy = e.Y;
+                }
                 #region DecideUponObjectRotation
 
-                if ((SelectedSpawn.Count > 0) && (rotationBitMask != 0))
+                else if ((SelectedSpawn.Count > 0) && (rotationBitMask != 0))
                 {
                     selectionStart = render.Mark3DCursorPosition(e.X, e.Y, Matrix.Identity);
                     oldx = e.X;
@@ -3939,8 +4774,11 @@ namespace entity.Renderers
                 {
                     #region CheckSpawnsForIntersection
 
+                    bool spawnFound = false;
                     for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
                     {
+                        if (spawnFound) break;
+
                         // check bitmask for object visibility
                         if (((int)bsp.Spawns.Spawn[x].Type & visibleSpawnsBitMask) == 0)
                         {
@@ -3984,32 +4822,47 @@ namespace entity.Renderers
                             {
                                 if (bsp.Spawns.Spawn[x].frozen)
                                 {
+                                    spawnFound = true;
                                     break;
                                 }
 
                                 #region TurnSpawnOnOrOff
 
-                                int tempi = SelectedSpawn.IndexOf(x);
-                                if (tempi != -1)
+                                bool ctrlHeld = (Control.ModifierKeys & Keys.Control) != 0;
+                                if (ctrlHeld)
                                 {
-                                    SelectedSpawn.RemoveAt(tempi);
-                                    if (DeselectOne.Checked)
+                                    // Ctrl-click: toggle this spawn in/out of selection
+                                    int tempi = SelectedSpawn.IndexOf(x);
+                                    if (tempi != -1)
                                     {
-                                        updateStatusPosition();
-                                        return;
+                                        SelectedSpawn.RemoveAt(tempi);
+                                    }
+                                    else
+                                    {
+                                        SelectedSpawn.Add(x);
+                                        selectedSpawnType = bsp.Spawns.Spawn[x].Type;
                                     }
                                 }
                                 else
                                 {
+                                    // Normal click: single select only
+                                    SelectedSpawn.Clear();
                                     SelectedSpawn.Add(x);
                                     selectedSpawnType = bsp.Spawns.Spawn[x].Type;
                                 }
 
                                 #endregion
 
+                                spawnFound = true;
                                 break;
                             }
                         }
+                    }
+
+                    // If nothing was clicked and no modifier is held, clear selection
+                    if (!spawnFound && (Control.ModifierKeys & (Keys.Control | Keys.Shift)) == 0)
+                    {
+                        SelectedSpawn.Clear();
                     }
                 }
 
@@ -4538,10 +5391,26 @@ namespace entity.Renderers
             if (SelectedSpawn.Count > 0)
             {
                 int i = SelectedSpawn[SelectedSpawn.Count - 1];
-                axis = Gizmo.axis.none;
-                if (e.Button == MouseButtons.None && gizmo != null)
+                // Only update axis selection when hovering (no button held).
+                // When dragging, keep the axis that was selected during hover.
+                if (e.Button == MouseButtons.None)
                 {
-                    axis = gizmo.checkForIntersection(e, TranslationMatrix[i]);
+                    axis = Gizmo.axis.none;
+                    if (gizmo != null)
+                    {
+                        // Use translation-only matrix for movement gizmo so axes stay world-locked
+                        Matrix gizmoMatrix;
+                        if (gizmo.CurrentTransform == Gizmo.transform.movement)
+                        {
+                            SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[i];
+                            gizmoMatrix = Matrix.Translation(sp.X, sp.Y, sp.Z);
+                        }
+                        else
+                        {
+                            gizmoMatrix = TranslationMatrix[i];
+                        }
+                        axis = gizmo.checkForIntersection(e, gizmoMatrix);
+                    }
                 }
 
                 // Only Last selection hilights ATM!
@@ -4549,29 +5418,190 @@ namespace entity.Renderers
                 {
                     float xDiff = (e.X - oldx) / 10.0f;
                     float yDiff = (e.Y - oldy) / 10.0f;
-                    switch (axis)
+
+                    if (gizmo != null && gizmo.CurrentTransform == Gizmo.transform.rotation)
                     {
-                        case Gizmo.axis.X:
-                            bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.Y:
-                            bsp.Spawns.Spawn[i].Y -= yDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.Z:
-                            bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.XY:
-                            bsp.Spawns.Spawn[i].X += yDiff / cam.speed;
-                            bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.YZ:
-                            bsp.Spawns.Spawn[i].Y += xDiff / cam.speed;
-                            bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                            break;
-                        case Gizmo.axis.XZ:
-                            bsp.Spawns.Spawn[i].X -= xDiff / cam.speed;
-                            bsp.Spawns.Spawn[i].Z -= yDiff / cam.speed;
-                            break;
+                        // Rotation gizmo mode
+                        if (!gizmoDragging)
+                        {
+                            gizmo.BeginDrag(axis);
+                            gizmoDragging = true;
+                        }
+
+                        // Project the rotation axis onto screen space so dragging
+                        // around the ring feels natural from any camera angle.
+                        Vector3 spawnPos = new Vector3(
+                            bsp.Spawns.Spawn[i].X,
+                            bsp.Spawns.Spawn[i].Y,
+                            bsp.Spawns.Spawn[i].Z);
+                        Matrix viewMat = render.device.Transform.View;
+                        Matrix projMat = render.device.Transform.Projection;
+                        Viewport vp = render.device.Viewport;
+                        Vector3 screenOrigin = Vector3.Project(
+                            spawnPos, vp, projMat, viewMat, Matrix.Identity);
+
+                        // Get the world-space rotation axis for this ring:
+                        // X ring rotates around X, Y ring around Y, Z ring around Z
+                        Vector3 rotAxis = Vector3.Empty;
+                        switch (axis)
+                        {
+                            case Gizmo.axis.X: rotAxis = new Vector3(1, 0, 0); break;
+                            case Gizmo.axis.Y: rotAxis = new Vector3(0, 1, 0); break;
+                            case Gizmo.axis.Z: rotAxis = new Vector3(0, 0, 1); break;
+                        }
+
+                        // Project the rotation axis tip to screen to get its screen direction
+                        Vector3 screenTip = Vector3.Project(
+                            Vector3.Add(spawnPos, rotAxis),
+                            vp, projMat, viewMat, Matrix.Identity);
+                        float axdx = screenTip.X - screenOrigin.X;
+                        float axdy = screenTip.Y - screenOrigin.Y;
+
+                        // The tangent direction for rotation is perpendicular to the
+                        // screen-projected axis: rotate 90 degrees CW → (dy, -dx)
+                        float tdx = axdy;
+                        float tdy = -axdx;
+                        float tlen = (float)Math.Sqrt(tdx * tdx + tdy * tdy);
+
+                        float rotAmount;
+                        if (tlen > 0.001f)
+                        {
+                            tdx /= tlen; tdy /= tlen;
+                            float dot = (e.X - oldx) * tdx + (e.Y - oldy) * tdy;
+                            rotAmount = dot * 0.01f;
+                        }
+                        else
+                        {
+                            // Axis points directly at camera; fall back to simple sum
+                            rotAmount = (xDiff + yDiff) * 0.05f;
+                        }
+
+                        // Gizmo rings: X ring rotates around X axis, Z ring around Z axis.
+                        // Halo 2 (Z-up): Yaw = around Z, Pitch = around Y, Roll = around X.
+                        if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            SpawnInfo.RotateYawPitchRollBaseSpawn rot =
+                                (SpawnInfo.RotateYawPitchRollBaseSpawn)bsp.Spawns.Spawn[i];
+                            switch (axis)
+                            {
+                                case Gizmo.axis.X:
+                                    rot.Roll += rotAmount;   // X ring → Roll (around X)
+                                    break;
+                                case Gizmo.axis.Y:
+                                    rot.Pitch += rotAmount;  // Y ring → Pitch (around Y)
+                                    break;
+                                case Gizmo.axis.Z:
+                                    rot.Yaw += rotAmount;    // Z ring → Yaw (around Z)
+                                    break;
+                            }
+                        }
+                        else if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            SpawnInfo.RotateDirectionBaseSpawn rot =
+                                (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[i];
+                            if (axis == Gizmo.axis.Z)
+                                rot.RotationDirection += rotAmount;
+                        }
+
+                        gizmo.AddRotation(rotAmount);
+                        TranslationMatrix[i] = MakeMatrixForSpawn(i);
+
+                        // Update property controls in real-time during rotation drag
+                        spawnPropsUpdating = true;
+                        if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            SpawnInfo.RotateYawPitchRollBaseSpawn rot2 =
+                                bsp.Spawns.Spawn[i] as SpawnInfo.RotateYawPitchRollBaseSpawn;
+                            nudYaw.Value = RadToDeg360(rot2.Yaw);
+                            nudPitch.Value = RadToDeg360(rot2.Pitch);
+                            nudRoll.Value = RadToDeg360(rot2.Roll);
+                        }
+                        else if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            nudYaw.Value = RadToDeg360(
+                                ((SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[i]).RotationDirection);
+                        }
+                        spawnPropsUpdating = false;
+                    }
+                    else
+                    {
+                        // Movement gizmo mode — project world axis onto screen so
+                        // dragging along the arrow moves the spawn in that direction.
+                        float oldPosX = bsp.Spawns.Spawn[i].X;
+                        float oldPosY = bsp.Spawns.Spawn[i].Y;
+                        float oldPosZ = bsp.Spawns.Spawn[i].Z;
+                        Vector3 spawnPos = new Vector3(oldPosX, oldPosY, oldPosZ);
+                        Matrix viewMat = render.device.Transform.View;
+                        Matrix projMat = render.device.Transform.Projection;
+                        Viewport vp = render.device.Viewport;
+
+                        // Project spawn origin to screen
+                        Vector3 screenOrigin = Vector3.Project(
+                            spawnPos, vp, projMat, viewMat, Matrix.Identity);
+
+                        // Build world-space axis direction(s) for the active axis
+                        Vector3[] worldDirs;
+                        switch (axis)
+                        {
+                            case Gizmo.axis.X:  worldDirs = new[] { new Vector3(1, 0, 0) }; break;
+                            case Gizmo.axis.Y:  worldDirs = new[] { new Vector3(0, 1, 0) }; break;
+                            case Gizmo.axis.Z:  worldDirs = new[] { new Vector3(0, 0, 1) }; break;
+                            case Gizmo.axis.XY: worldDirs = new[] { new Vector3(1, 0, 0), new Vector3(0, 1, 0) }; break;
+                            case Gizmo.axis.YZ: worldDirs = new[] { new Vector3(0, 1, 0), new Vector3(0, 0, 1) }; break;
+                            case Gizmo.axis.XZ: worldDirs = new[] { new Vector3(1, 0, 0), new Vector3(0, 0, 1) }; break;
+                            default: worldDirs = new Vector3[0]; break;
+                        }
+
+                        Vector2 mouseDelta = new Vector2(e.X - oldx, e.Y - oldy);
+
+                        foreach (Vector3 wdir in worldDirs)
+                        {
+                            // Project a point 1 unit along this axis to screen space
+                            Vector3 screenTip = Vector3.Project(
+                                Vector3.Add(spawnPos, wdir),
+                                vp, projMat, viewMat, Matrix.Identity);
+
+                            // Screen-space direction of this axis
+                            float sdx = screenTip.X - screenOrigin.X;
+                            float sdy = screenTip.Y - screenOrigin.Y;
+                            float screenLen = (float)Math.Sqrt(sdx * sdx + sdy * sdy);
+                            if (screenLen < 0.001f) continue; // axis points at/away from camera
+
+                            // Dot mouse delta with the normalised screen axis direction
+                            // to get pixels of movement along the arrow
+                            float dot = (mouseDelta.X * sdx + mouseDelta.Y * sdy) / screenLen;
+
+                            // Convert pixels back to world units:
+                            // 1 world unit = screenLen pixels, so world delta = dot / screenLen
+                            float worldDelta = dot / screenLen;
+
+                            bsp.Spawns.Spawn[i].X += wdir.X * worldDelta;
+                            bsp.Spawns.Spawn[i].Y += wdir.Y * worldDelta;
+                            bsp.Spawns.Spawn[i].Z += wdir.Z * worldDelta;
+                        }
+
+                        TranslationMatrix[i] = MakeMatrixForSpawn(i);
+
+                        // Move other selected spawns by the same delta
+                        float diffX = bsp.Spawns.Spawn[i].X - oldPosX;
+                        float diffY = bsp.Spawns.Spawn[i].Y - oldPosY;
+                        float diffZ = bsp.Spawns.Spawn[i].Z - oldPosZ;
+                        for (int si = 0; si < SelectedSpawn.Count; si++)
+                        {
+                            int idx = SelectedSpawn[si];
+                            if (idx == i) continue;
+                            bsp.Spawns.Spawn[idx].X += diffX;
+                            bsp.Spawns.Spawn[idx].Y += diffY;
+                            bsp.Spawns.Spawn[idx].Z += diffZ;
+                            TranslationMatrix[idx] = MakeMatrixForSpawn(idx);
+                        }
+
+                        // Update property controls in real-time during movement drag
+                        spawnPropsUpdating = true;
+                        nudX.Value = ClampDecimal((decimal)bsp.Spawns.Spawn[i].X, nudX.Minimum, nudX.Maximum);
+                        nudY.Value = ClampDecimal((decimal)bsp.Spawns.Spawn[i].Y, nudY.Minimum, nudY.Maximum);
+                        nudZ.Value = ClampDecimal((decimal)bsp.Spawns.Spawn[i].Z, nudZ.Minimum, nudZ.Maximum);
+                        spawnPropsUpdating = false;
                     }
 
                     oldx = e.X;
@@ -4732,7 +5762,12 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void ModelViewer_MouseUp(object sender, MouseEventArgs e)
         {
-            
+            // End gizmo rotation drag
+            if (gizmoDragging && gizmo != null)
+            {
+                gizmo.EndDrag();
+                gizmoDragging = false;
+            }
 
             if (itemrotate)
             {
@@ -4936,8 +5971,11 @@ namespace entity.Renderers
             render.device.RenderState.Ambient = Color.White;
             // Set camera postion
             string tempstring = toolStripLabel2.Text;
+            float yawDeg = cam.radianh * (180f / (float)Math.PI);
+            float pitchDeg = cam.radianv * (180f / (float)Math.PI);
             string tempstring2 = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " � Y: " +
-                                 cam.y.ToString().PadRight(10) + " � Z: " + cam.z.ToString().PadRight(10);
+                                 cam.y.ToString().PadRight(10) + " � Z: " + cam.z.ToString().PadRight(10) +
+                                 " � Yaw: " + yawDeg.ToString("F1").PadRight(8) + " � Pitch: " + pitchDeg.ToString("F1").PadRight(8);
             if (tempstring != tempstring2)
             {
                 if (statusStrip.Items.IndexOf(toolStripLabel2) == -1)
@@ -5140,14 +6178,11 @@ namespace entity.Renderers
                     render.device.RenderState.FillMode = FillMode.Solid;
                     
                     // Adjust center position of Bounding Boxes to proper offset
-                    Matrix mat = Matrix.Identity;
-                    mat = Matrix.Add(
-                        mat,
+                    render.device.Transform.World =
                         Matrix.Translation(
-                            bsp.Spawns.Spawn[x].bbXDiff,
-                            bsp.Spawns.Spawn[x].bbYDiff,
-                            bsp.Spawns.Spawn[x].bbZDiff));
-                    render.device.Transform.World = mat * TranslationMatrix[x];
+                            bsp.Spawns.Spawn[x].bbXDiff * 0.5f,
+                            bsp.Spawns.Spawn[x].bbYDiff * 0.5f,
+                            bsp.Spawns.Spawn[x].bbZDiff * 0.5f) * TranslationMatrix[x];
 
                     BoundingBoxModel[x].DrawSubset(0);
 
@@ -5173,60 +6208,30 @@ namespace entity.Renderers
 
                 #region DrawBoxOnSelections
 
+                bool isSelected = false;
                 for (int i = 0; i < SelectedSpawn.Count; i++)
                 {
                     if (SelectedSpawn[i] == x)
                     {
-                        // Skip wireframe boxes for obstacles and scenery - just show solid models
-                        if (bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn ||
-                            bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn)
+                        isSelected = true;
+
+                        // Only draw wireframe bounding boxes for non-obstacle, non-scenery spawns
+                        if (!(bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn ||
+                              bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn))
                         {
-                            break;
+                            render.device.SetTexture(0, null);
+                            render.device.RenderState.AlphaBlendEnable = false;
+                            render.device.RenderState.AlphaTestEnable = false;
+                            render.device.RenderState.FillMode = FillMode.WireFrame;
+
+                            // Adjust center position of Bounding Boxes to proper offset
+                            render.device.Transform.World =
+                                Matrix.Translation(
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff * 0.5f,
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff * 0.5f,
+                                    bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff * 0.5f) * TranslationMatrix[x];
+                            BoundingBoxModel[x].DrawSubset(0);
                         }
-
-                        render.device.SetTexture(0, null);
-                        render.device.RenderState.AlphaBlendEnable = false;
-                        render.device.RenderState.AlphaTestEnable = false;
-                        render.device.RenderState.FillMode = FillMode.WireFrame;
-
-                        // Adjust center position of Bounding Boxes to proper offset
-                        Matrix mat = Matrix.Identity;
-                        mat = Matrix.Add(
-                            mat,
-                            Matrix.Translation(
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbXDiff,
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbYDiff,
-                                bsp.Spawns.Spawn[SelectedSpawn[i]].bbZDiff));
-                        render.device.Transform.World = mat * TranslationMatrix[x];
-                        BoundingBoxModel[x].DrawSubset(0);
-
-                        /***************/
-                        float s1 = SpawnModel[spawnmodelindex[x]].BoundingBox.MaxX -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinX;
-                        float s2 = SpawnModel[spawnmodelindex[x]].BoundingBox.MaxY -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinY;
-                        float s3 = SpawnModel[spawnmodelindex[x]].BoundingBox.MaxZ -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinZ;
-                        Vector4 v4 = Vector3.Transform(cam.Position, TranslationMatrix[x]);
-
-                        SpawnInfo.BaseSpawn s = bsp.Spawns.Spawn[x];
-                        Vector3 c = cam.Position;
-                        float scale = (cam.Position.X - s.X) + (cam.Position.Y - s.Y) + (cam.Position.Z - s.Z);
-
-                        scale = (((SpawnModel[spawnmodelindex[x]].BoundingBox.MaxX -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinX) +
-                                  (SpawnModel[spawnmodelindex[x]].BoundingBox.MaxY -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinY) +
-                                  (SpawnModel[spawnmodelindex[x]].BoundingBox.MaxZ -
-                                   SpawnModel[spawnmodelindex[x]].BoundingBox.MinZ)) / 3) * 12;
-
-                        scale = (v4.X + v4.Y + v4.Z) / 3;
-                        if (gizmo != null)
-                        {
-                            gizmo.draw(scale / 50.0f);
-                        }
-
-                        /**********/
                     }
                 }
 
@@ -5234,19 +6239,8 @@ namespace entity.Renderers
 
                 render.device.Transform.World = TranslationMatrix[x];
 
-                /*  This was an attempt at adding scaling, but not right, so not right now.
-                Entity.Raw.ParsedModel pm = SpawnModel[spawnmodelindex[x]];
-                if (bsp.Spawns.Spawn[x] is Entity.Renderer.BSP_Renderer.SpawnInfo.ScaleRotateYawPitchRollSpawn)
-                {
-                    Entity.Renderer.BSP_Renderer.SpawnInfo.ScaleRotateYawPitchRollSpawn tempBsp = bsp.Spawns.Spawn[x] as Entity.Renderer.BSP_Renderer.SpawnInfo.ScaleRotateYawPitchRollSpawn;
-                    for (int i = 0; i < pm.RawDataMetaChunks.Length; i++)
-                        for (int j = 0; j < pm.RawDataMetaChunks[i].VerticeCount; j++)
-                            pm.RawDataMetaChunks[i].Vertices[j] = Vector3.Scale(SpawnModel[spawnmodelindex[x]].RawDataMetaChunks[i].Vertices[j], tempBsp.Scale + 1.0f);
-                }
-                */
-
                 if (drawModel)
-                {                    
+                {
                     // Store old cull mode
                     Cull cm = render.device.RenderState.CullMode;
                     render.device.RenderState.CullMode = Cull.None;
@@ -5260,9 +6254,48 @@ namespace entity.Renderers
                         render.device.RenderState.FillMode = FillMode.Solid;
                     }
 
+                    // Force selected objects semi-transparent so the gizmo shows through
+                    if (isSelected)
+                    {
+                        render.device.RenderState.AlphaBlendEnable = true;
+                        render.device.RenderState.SourceBlend = Blend.SourceAlpha;
+                        render.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+                        render.device.RenderState.TextureFactor = Color.FromArgb(100, 255, 255, 255).ToArgb();
+                        render.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
+                        render.device.TextureState[0].AlphaArgument1 = TextureArgument.TFactor;
+                    }
+
                     ParsedModel.DisplayedInfo.Draw(ref render.device, SpawnModel[spawnmodelindex[x]]);
+
+                    if (isSelected)
+                    {
+                        render.device.RenderState.AlphaBlendEnable = false;
+                        render.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
+                        render.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
+                    }
+
                     // Restore old cull mode
                     render.device.RenderState.CullMode = cm;
+                }
+
+                // Draw gizmo AFTER the model so it renders on top
+                if (isSelected && gizmo != null)
+                {
+                    SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[x];
+                    float dx = cam.Position.X - sp.X;
+                    float dy = cam.Position.Y - sp.Y;
+                    float dz = cam.Position.Z - sp.Z;
+                    float gizmoScale = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz) / 80.0f;
+                    if (gizmoScale < 0.1f) gizmoScale = 0.1f;
+
+                    bool oldLighting = render.device.RenderState.Lighting;
+                    render.device.RenderState.Lighting = false;
+                    if (gizmo.CurrentTransform == Gizmo.transform.movement)
+                        render.device.Transform.World = Matrix.Translation(sp.X, sp.Y, sp.Z);
+                    else
+                        render.device.Transform.World = TranslationMatrix[x];
+                    gizmo.draw(gizmoScale);
+                    render.device.RenderState.Lighting = oldLighting;
                 }
             }
 
@@ -5518,6 +6551,1237 @@ namespace entity.Renderers
 
             MessageBox.Show("Done");
         }
+
+        #region Spawn Chunk Add/Delete/Duplicate
+
+        /// <summary>
+        /// Returns the SCNR reflexive offset and chunk size for a given spawn type.
+        /// </summary>
+        private bool GetSpawnReflexiveInfo(SpawnInfo.SpawnType type, out int scnrOffset, out int chunkSize)
+        {
+            switch (type)
+            {
+                case SpawnInfo.SpawnType.Player:     scnrOffset = 256; chunkSize = 52; return true;
+                case SpawnInfo.SpawnType.Scenery:    scnrOffset = 80;  chunkSize = 92; return true;
+                case SpawnInfo.SpawnType.Crate:   scnrOffset = 808; chunkSize = 76; return true;
+                case SpawnInfo.SpawnType.Vehicle:    scnrOffset = 112; chunkSize = 84; return true;
+                case SpawnInfo.SpawnType.Weapon:     scnrOffset = 144; chunkSize = 84; return true;
+                case SpawnInfo.SpawnType.Equipment:  scnrOffset = 128; chunkSize = 56; return true;
+                case SpawnInfo.SpawnType.Biped:      scnrOffset = 96;  chunkSize = 84; return true;
+                case SpawnInfo.SpawnType.Machine:    scnrOffset = 168; chunkSize = 72; return true;
+                case SpawnInfo.SpawnType.Control:    scnrOffset = 184; chunkSize = 68; return true;
+                case SpawnInfo.SpawnType.Sound:      scnrOffset = 216; chunkSize = 80; return true;
+                case SpawnInfo.SpawnType.Light:      scnrOffset = 232; chunkSize = 108; return true;
+                case SpawnInfo.SpawnType.Objective:  scnrOffset = 280; chunkSize = 32; return true;
+                case SpawnInfo.SpawnType.DeathZone:  scnrOffset = 264; chunkSize = 68; return true;
+                case SpawnInfo.SpawnType.Collection: scnrOffset = 288; chunkSize = 144; return true;
+                case SpawnInfo.SpawnType.Camera:     scnrOffset = 488; chunkSize = 64; return true;
+                default: scnrOffset = 0; chunkSize = 0; return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns the sub-reflexive offset within the Spawn Data reflexive for a SpawnZone.
+        /// Initial zones are at sub-offset 88, Respawn zones at sub-offset 80. Chunk size is 48.
+        /// </summary>
+        private int GetSpawnZoneSubOffset(SpawnInfo.SpawnZone zone)
+        {
+            return zone.ZoneType == SpawnInfo.SpawnZoneType.Inital ? 88 : 80;
+        }
+
+        /// <summary>
+        /// Finds a nested reflexive: first finds the parent at parentOffset, then within
+        /// its first chunk finds the child reflexive at childOffset.
+        /// </summary>
+        private MetaSplitter.SplitReflexive FindNestedReflexive(MetaSplitter metasplit, int parentOffset, int childOffset)
+        {
+            MetaSplitter.SplitReflexive parent = FindReflexiveByOffset(metasplit, parentOffset);
+            if (parent == null || parent.Chunks.Count == 0) return null;
+
+            MetaSplitter.SplitReflexive parentChunk = parent.Chunks[0];
+            foreach (Meta.Item item in parentChunk.ChunkResources)
+            {
+                if (item.type == Meta.ItemType.Reflexive)
+                {
+                    MetaSplitter.SplitReflexive sr = (MetaSplitter.SplitReflexive)item;
+                    if (sr.offset == childOffset &&
+                        sr.splitReflexiveType == MetaSplitter.SplitReflexive.SplitReflexiveType.Container)
+                    {
+                        return sr;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Computes the chunk index for a SpawnZone within its nested reflexive.
+        /// </summary>
+        private int GetSpawnZoneChunkIndex(SpawnInfo.SpawnZone zone)
+        {
+            int subOffset = GetSpawnZoneSubOffset(zone);
+
+            map.OpenMap(MapTypes.Internal);
+            // Navigate to Spawn Data reflexive at SCNR + 792
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + 792;
+            int spawnDataCount = map.BR.ReadInt32();
+            int spawnDataStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (spawnDataCount == 0) return -1;
+
+            // Navigate to the sub-reflexive within the first Spawn Data chunk
+            map.BR.BaseStream.Position = spawnDataStart + subOffset;
+            int count = map.BR.ReadInt32();
+            int dataStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (count == 0) return -1;
+
+            int idx = (zone.offset - dataStart) / 48;
+            if (idx < 0 || idx >= count) return -1;
+            return idx;
+        }
+
+        /// <summary>
+        /// Splits the SCNR tag meta using MetaSplitter.
+        /// </summary>
+        private MetaSplitter SplitScnrMeta(int scnrTagIndex)
+        {
+            map.OpenMap(MapTypes.Internal);
+            Meta m = new Meta(map);
+            m.ReadMetaFromMap(scnrTagIndex, false);
+            IFPIO ifpx = IFPHashMap.GetIfp(m.type, map.HaloVersion);
+            m.headersize = ifpx.headerSize;
+            m.scanner.ScanWithIFP(ref ifpx);
+            MetaSplitter ms = new MetaSplitter();
+            ms.SplitWithIFP(ref ifpx, ref m, map);
+            return ms;
+        }
+
+        /// <summary>
+        /// Finds the reflexive container in the split tree matching the given SCNR reflexive offset.
+        /// </summary>
+        private MetaSplitter.SplitReflexive FindReflexiveByOffset(MetaSplitter metasplit, int reflexiveOffset)
+        {
+            if (metasplit.Header.Chunks.Count == 0) return null;
+            MetaSplitter.SplitReflexive mainChunk = metasplit.Header.Chunks[0];
+
+            foreach (Meta.Item item in mainChunk.ChunkResources)
+            {
+                if (item.type == Meta.ItemType.Reflexive)
+                {
+                    MetaSplitter.SplitReflexive sr = (MetaSplitter.SplitReflexive)item;
+                    if (sr.offset == reflexiveOffset &&
+                        sr.splitReflexiveType == MetaSplitter.SplitReflexive.SplitReflexiveType.Container)
+                    {
+                        return sr;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Computes the chunk index for a spawn within its SCNR reflexive.
+        /// </summary>
+        private int GetSpawnChunkIndex(SpawnInfo.BaseSpawn spawn, int scnrReflexiveOffset, int chunkSize)
+        {
+            map.OpenMap(MapTypes.Internal);
+            map.BR.BaseStream.Position = map.MetaInfo.Offset[3] + scnrReflexiveOffset;
+            int count = map.BR.ReadInt32();
+            int dataStart = map.BR.ReadInt32() - map.SecondaryMagic;
+            if (chunkSize <= 0) return -1;
+            int idx = (spawn.offset - dataStart) / chunkSize;
+            if (idx < 0 || idx >= count) return -1;
+            return idx;
+        }
+
+        /// <summary>
+        /// Refreshes spawn data and treeview in-place after a chunk operation.
+        /// Reuses existing 3D models.
+        /// </summary>
+        private void RefreshSpawnsInPlace()
+        {
+            // Build lookup from ModelTagNumber to SpawnModel index and bounding box info
+            Dictionary<int, int> modelToIdx = new Dictionary<int, int>();
+            Dictionary<int, float[]> modelToBBDiff = new Dictionary<int, float[]>();
+            Dictionary<int, Mesh> modelToBBMesh = new Dictionary<int, Mesh>();
+
+            for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
+            {
+                SpawnInfo.RotationSpawn rs = bsp.Spawns.Spawn[x] as SpawnInfo.RotationSpawn;
+                if (rs != null && !modelToIdx.ContainsKey(rs.ModelTagNumber))
+                {
+                    modelToIdx[rs.ModelTagNumber] = spawnmodelindex[x];
+                    modelToBBDiff[rs.ModelTagNumber] = new float[] {
+                        bsp.Spawns.Spawn[x].bbXDiff,
+                        bsp.Spawns.Spawn[x].bbYDiff,
+                        bsp.Spawns.Spawn[x].bbZDiff
+                    };
+                    modelToBBMesh[rs.ModelTagNumber] = BoundingBoxModel[x];
+                }
+            }
+
+            // Reload spawns from the updated map (SpawnInfo opens/closes map internally)
+            bsp.Spawns = new SpawnInfo(map);
+
+            // Rebuild arrays
+            spawnmodelindex = new int[bsp.Spawns.Spawn.Count];
+            BoundingBoxModel = new Mesh[bsp.Spawns.Spawn.Count];
+
+            int blockCount = 0, scenCount = 0;
+            for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
+            {
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.ObstacleSpawn)
+                    ((SpawnInfo.ObstacleSpawn)bsp.Spawns.Spawn[x]).BlocNumber = blockCount++;
+                else if (bsp.Spawns.Spawn[x] is SpawnInfo.ScenerySpawn)
+                    ((SpawnInfo.ScenerySpawn)bsp.Spawns.Spawn[x]).ScenNumber = scenCount++;
+
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.BoundingBoxSpawn)
+                {
+                    BoundingBoxModel[x] = loadBoundingBoxSpawn(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.CameraSpawn)
+                {
+                    BoundingBoxModel[x] = loadCameraSpawn(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.LightSpawn)
+                {
+                    BoundingBoxModel[x] = Mesh.Cylinder(render.device, 0.5f, 0.0f, 1f, 10, 10);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.SoundSpawn)
+                {
+                    BoundingBoxModel[x] = loadSoundSpawn(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+                if (bsp.Spawns.Spawn[x] is SpawnInfo.SpawnZone)
+                {
+                    BoundingBoxModel[x] = loadSpawnZone(bsp.Spawns.Spawn[x]);
+                    continue;
+                }
+
+                SpawnInfo.RotationSpawn rs = bsp.Spawns.Spawn[x] as SpawnInfo.RotationSpawn;
+                if (rs != null && modelToIdx.ContainsKey(rs.ModelTagNumber))
+                {
+                    spawnmodelindex[x] = modelToIdx[rs.ModelTagNumber];
+                    BoundingBoxModel[x] = modelToBBMesh[rs.ModelTagNumber];
+                    bsp.Spawns.Spawn[x].bbXDiff = modelToBBDiff[rs.ModelTagNumber][0];
+                    bsp.Spawns.Spawn[x].bbYDiff = modelToBBDiff[rs.ModelTagNumber][1];
+                    bsp.Spawns.Spawn[x].bbZDiff = modelToBBDiff[rs.ModelTagNumber][2];
+                }
+            }
+
+            // Rebuild translation matrices for all spawns
+            TranslationMatrix = new Matrix[bsp.Spawns.Spawn.Count];
+            for (int x = 0; x < bsp.Spawns.Spawn.Count; x++)
+            {
+                TranslationMatrix[x] = MakeMatrixForSpawn(x);
+            }
+
+            // Clear selection and rebuild treeview
+            SelectedSpawn.Clear();
+            highlightedTreeNodes.Clear();
+            treeAnchorNode = null;
+            toolStrip.Visible = false;
+            RebuildSpawnTreeView();
+        }
+
+        /// <summary>
+        /// Rebuilds the treeView1 spawn tree from current bsp.Spawns data.
+        /// </summary>
+        private void RebuildSpawnTreeView()
+        {
+            treeView1.Nodes.Clear();
+            string[] strings = Enum.GetNames(typeof(SpawnInfo.SpawnType));
+
+            int CameraCount = 0;
+            int DeathZoneCount = 0;
+            int ObjectiveCount = 0;
+            int PlayerCount = 0;
+
+            foreach (string s in strings)
+            {
+                TreeNode tn = new TreeNode();
+                bool SpawnFound = false;
+                for (int i = 0; i < bsp.Spawns.Spawn.Count; i++)
+                {
+                    if (s == bsp.Spawns.Spawn[i].Type.ToString())
+                    {
+                        if (!SpawnFound)
+                        {
+                            SpawnFound = true;
+                        }
+
+                        TreeNode tn2 = new TreeNode();
+                        tn2.Text = string.Empty;
+                        tn2.ToolTipText = " X: " + bsp.Spawns.Spawn[i].X.ToString("#0.0##").PadRight(9) + "  Y: " +
+                                          bsp.Spawns.Spawn[i].Y.ToString("#0.0##").PadRight(9) + "  Z: " +
+                                          bsp.Spawns.Spawn[i].Z.ToString("#0.0##").PadRight(9);
+
+                        if (bsp.Spawns.Spawn[i].Type.ToString() == "Camera")
+                        {
+                            tn2.Text = bsp.Spawns.Spawn[i].Type + " {" + CameraCount + "}";
+                            CameraCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "DeathZone")
+                        {
+                            SpawnInfo.DeathZone tempspawn = (SpawnInfo.DeathZone)bsp.Spawns.Spawn[i];
+                            tn2.Text = tempspawn.Name;
+                            DeathZoneCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "Objective")
+                        {
+                            SpawnInfo.ObjectiveSpawn tempspawn = (SpawnInfo.ObjectiveSpawn)bsp.Spawns.Spawn[i];
+                            tn2.Text = tempspawn.ObjectiveType + " (" + tempspawn.Team + ") #" + tempspawn.number;
+                            ObjectiveCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "Player")
+                        {
+                            tn2.Text = bsp.Spawns.Spawn[i].Type + " {" + PlayerCount + "}";
+                            PlayerCount++;
+                        }
+                        else if (bsp.Spawns.Spawn[i].Type.ToString() == "SpawnZone")
+                        {
+                            SpawnInfo.SpawnZone tempSpawnZone = (SpawnInfo.SpawnZone)bsp.Spawns.Spawn[i];
+                            if (tempSpawnZone.Name == string.Empty)
+                                tn2.Text = "(" + tempSpawnZone.ZoneType.ToString() + ") Spawn Zone";
+                            else
+                                tn2.Text = "(" + tempSpawnZone.ZoneType.ToString() + ") " + tempSpawnZone.Name;
+                        }
+                        else if (bsp.Spawns.Spawn[i].TagPath != null)
+                        {
+                            string[] temps = bsp.Spawns.Spawn[i].TagPath.Split('\\');
+                            tn2.Text = temps[temps.Length - 1];
+                        }
+                        else
+                        {
+                            tn2.Text = bsp.Spawns.Spawn[i].Type.ToString();
+                        }
+
+                        if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            SpawnInfo.RotateYawPitchRollBaseSpawn tempspawn =
+                                (SpawnInfo.RotateYawPitchRollBaseSpawn)bsp.Spawns.Spawn[i];
+                            if (tn2.Text == null || tn2.Text == string.Empty)
+                            {
+                                if (tempspawn.TagPath != null)
+                                {
+                                    string[] temps = tempspawn.TagPath.Split('\\');
+                                    tn2.Text = temps[temps.Length - 1];
+                                }
+                            }
+                            tn2.ToolTipText += "\n Yaw: " + tempspawn.Yaw.ToString("#0.0##") + "  Pitch: " +
+                                               tempspawn.Pitch.ToString("#0.0##") + " Roll: " +
+                                               tempspawn.Roll.ToString("#0.0##");
+                        }
+                        else if (bsp.Spawns.Spawn[i] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            SpawnInfo.RotateDirectionBaseSpawn tempspawn =
+                                (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[i];
+                            if (tn2.Text == null || tn2.Text == string.Empty)
+                            {
+                                if (tempspawn.TagPath != null)
+                                {
+                                    string[] temps = tempspawn.TagPath.Split('\\');
+                                    tn2.Text = temps[temps.Length - 1];
+                                }
+                                else
+                                {
+                                    tn2.Text = tempspawn.Type.ToString();
+                                }
+                            }
+                            tn2.ToolTipText += "\n Rotation: " + tempspawn.RotationDirection.ToString("#0.0##");
+                        }
+
+                        tn2.Tag = i;
+                        tn.Nodes.Add(tn2);
+                    }
+                }
+
+                tn.Text = s;
+                tn.Tag = -1;
+                treeView1.Nodes.Add(tn);
+            }
+        }
+
+        /// <summary>
+        /// Performs a chunk operation on the selected spawn and refreshes in-place.
+        /// </summary>
+        private void DoSpawnChunkOperation(string operation)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.");
+                return;
+            }
+
+            int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+            SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[spawnIdx];
+
+            // SpawnZones use a nested reflexive (SCNR+792 -> sub-offset 80/88)
+            if (spawn.Type == SpawnInfo.SpawnType.SpawnZone)
+            {
+                DoSpawnZoneChunkOperation(operation, (SpawnInfo.SpawnZone)spawn);
+                return;
+            }
+
+            int scnrRefOffset, chunkSize;
+            if (!GetSpawnReflexiveInfo(spawn.Type, out scnrRefOffset, out chunkSize))
+            {
+                MessageBox.Show("Unsupported spawn type: " + spawn.Type);
+                return;
+            }
+
+            int chunkIdx = GetSpawnChunkIndex(spawn, scnrRefOffset, chunkSize);
+            if (chunkIdx < 0)
+            {
+                MessageBox.Show("Could not determine chunk index for this spawn.");
+                return;
+            }
+
+            try
+            {
+                // Backup map file for undo before modifying
+                BackupMapForUndo();
+
+                // Save ALL in-memory spawn positions to the map file first,
+                // so the MetaSplitter deep copy picks up gizmo-modified values.
+                // Writing only the selected spawn would lose position changes
+                // made to other spawns when the map is reloaded.
+                map.OpenMap(MapTypes.Internal);
+                foreach (SpawnInfo.BaseSpawn s in bsp.Spawns.Spawn)
+                    s.Write(map);
+                map.CloseMap();
+
+                DoMetaSplitterChunkOperation(operation, scnrRefOffset, chunkIdx);
+
+                // Load a fresh map from the updated file.
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                // Refresh spawns in-place
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during " + operation + " chunk operation", ex);
+            }
+        }
+
+        /// <summary>
+        /// Batch-deletes all currently selected spawns in a single MetaSplitter pass.
+        /// Groups spawns by type/reflexive, removes chunks in reverse order to preserve indices.
+        /// </summary>
+        private void DoBatchDelete()
+        {
+            try
+            {
+                // Backup map file for undo before modifying
+                BackupMapForUndo();
+
+                // Group selected spawns by their reflexive offset
+                var groups = new Dictionary<int, List<int>>(); // scnrRefOffset -> list of chunk indices
+                // SpawnZones are nested: keyed by a combined key to distinguish Initial vs Respawn
+                var spawnZoneGroups = new Dictionary<int, List<int>>(); // subOffset -> list of chunk indices
+                foreach (int spawnIdx in SelectedSpawn)
+                {
+                    SpawnInfo.BaseSpawn spawn = bsp.Spawns.Spawn[spawnIdx];
+
+                    if (spawn.Type == SpawnInfo.SpawnType.SpawnZone)
+                    {
+                        SpawnInfo.SpawnZone zone = (SpawnInfo.SpawnZone)spawn;
+                        int subOffset = GetSpawnZoneSubOffset(zone);
+                        int chunkIdx = GetSpawnZoneChunkIndex(zone);
+                        if (chunkIdx < 0) continue;
+
+                        if (!spawnZoneGroups.ContainsKey(subOffset))
+                            spawnZoneGroups[subOffset] = new List<int>();
+                        spawnZoneGroups[subOffset].Add(chunkIdx);
+                        continue;
+                    }
+
+                    int scnrRefOffset, chunkSize;
+                    if (!GetSpawnReflexiveInfo(spawn.Type, out scnrRefOffset, out chunkSize))
+                        continue;
+
+                    int idx = GetSpawnChunkIndex(spawn, scnrRefOffset, chunkSize);
+                    if (idx < 0)
+                        continue;
+
+                    if (!groups.ContainsKey(scnrRefOffset))
+                        groups[scnrRefOffset] = new List<int>();
+                    groups[scnrRefOffset].Add(idx);
+                }
+
+                // Flush all in-memory spawn positions to the map file so they
+                // survive the SCNR rebuild + map reload.
+                map.OpenMap(MapTypes.Internal);
+                foreach (SpawnInfo.BaseSpawn s in bsp.Spawns.Spawn)
+                    s.Write(map);
+                map.CloseMap();
+
+                // Split SCNR meta once
+                int scnrTagIndex = 3;
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+
+                // Remove chunks from each top-level reflexive, highest index first
+                foreach (var kvp in groups)
+                {
+                    MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, kvp.Key);
+                    if (container == null) continue;
+
+                    kvp.Value.Sort();
+                    kvp.Value.Reverse();
+
+                    foreach (int chunkIdx in kvp.Value)
+                    {
+                        if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                            container.Chunks.RemoveAt(chunkIdx);
+                    }
+                }
+
+                // Remove chunks from nested SpawnZone reflexives
+                foreach (var kvp in spawnZoneGroups)
+                {
+                    MetaSplitter.SplitReflexive container = FindNestedReflexive(ms, 792, kvp.Key);
+                    if (container == null) continue;
+
+                    kvp.Value.Sort();
+                    kvp.Value.Reverse();
+
+                    foreach (int chunkIdx in kvp.Value)
+                    {
+                        if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                            container.Chunks.RemoveAt(chunkIdx);
+                    }
+                }
+
+                // Write rebuilt SCNR directly without touching other tags
+                WriteRebuiltScnrDirect(scnrTagIndex, ms);
+
+                // Reload
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during batch delete", ex);
+            }
+        }
+
+        /// <summary>
+        /// Writes a rebuilt SCNR tag directly to the map file without touching any other tags.
+        /// This bypasses ChunkAdder which reads/scans/rewrites ALL tags and corrupts them
+        /// when IFP definitions are incomplete or incorrect.
+        /// </summary>
+        private void WriteRebuiltScnrDirect(int scnrTagIndex, MetaSplitter metaSplit)
+        {
+            Meta rebuilt = MetaBuilder.BuildMeta(metaSplit, map);
+
+            int originalOffset = map.MetaInfo.Offset[scnrTagIndex];
+            int originalSize = map.MetaInfo.Size[scnrTagIndex];
+            int newSize = rebuilt.size;
+
+            map.OpenMap(MapTypes.Internal);
+
+            if (newSize <= originalSize)
+            {
+                // SHRINK or SAME SIZE: write in-place, zero-pad to preserve file layout
+                map.BW.BaseStream.Position = originalOffset;
+                map.BW.BaseStream.Write(rebuilt.MS.ToArray(), 0, newSize);
+
+                if (newSize < originalSize)
+                {
+                    byte[] pad = new byte[originalSize - newSize];
+                    map.BW.Write(pad);
+                }
+            }
+            else
+            {
+                // GROW: write at end of meta area so we don't shift other tags
+                int metaAreaStart = map.MapHeader.indexOffset + map.MapHeader.metaStart;
+
+                int endOfMetas = metaAreaStart;
+                for (int x = 0; x < map.IndexHeader.metaCount; x++)
+                {
+                    string tagType = map.MetaInfo.TagType[x];
+                    if (tagType == "sbsp" || tagType == "ltmp")
+                        continue;
+                    int tagEnd = map.MetaInfo.Offset[x] + map.MetaInfo.Size[x];
+                    if (tagEnd > endOfMetas)
+                        endOfMetas = tagEnd;
+                }
+
+                // DWORD-align
+                if (endOfMetas % 4 != 0)
+                    endOfMetas += 4 - (endOfMetas % 4);
+
+                int newOffset = endOfMetas;
+
+                // Update rebuilt meta offset and rewrite reflexive pointers
+                rebuilt.offset = newOffset;
+                rebuilt.WriteReferences();
+
+                // Write rebuilt SCNR at new location
+                map.BW.BaseStream.Position = newOffset;
+                map.BW.BaseStream.Write(rebuilt.MS.ToArray(), 0, newSize);
+
+                // Update tag index entry (offset + size)
+                int tagIndexEntry = map.IndexHeader.tagsOffset + (scnrTagIndex * 16);
+                map.BW.BaseStream.Position = tagIndexEntry + 8;
+                map.BW.Write(newOffset + map.SecondaryMagic);
+                map.BW.Write(newSize);
+
+                map.MetaInfo.Offset[scnrTagIndex] = newOffset;
+                map.MetaInfo.Size[scnrTagIndex] = newSize;
+
+                // Pad to 512-byte boundary and update file header
+                int newHowfar = (newOffset + newSize) - metaAreaStart;
+                int paddingNeeded = map.Functions.Padding(newHowfar, 512);
+                byte[] padBytes = new byte[paddingNeeded];
+                map.BW.BaseStream.Position = newOffset + newSize;
+                map.BW.Write(padBytes);
+
+                int newFileSize = metaAreaStart + newHowfar + paddingNeeded;
+
+                map.BW.BaseStream.Position = 0x0008;
+                map.BW.Write(newFileSize);
+
+                int sizediff = newFileSize - map.MapHeader.fileSize;
+                map.BW.BaseStream.Position = 0x0018;
+                map.BW.Write(map.MapHeader.metaSize + sizediff);
+                map.BW.Write(map.MapHeader.combinedSize + sizediff);
+
+                map.FS.SetLength(newFileSize);
+            }
+
+            map.CloseMap();
+        }
+
+        /// <summary>
+        /// Performs chunk operations (delete/duplicate/add) using the MetaSplitter pipeline.
+        /// </summary>
+        private void DoMetaSplitterChunkOperation(string operation, int scnrRefOffset, int chunkIdx)
+        {
+            int scnrTagIndex = 3;
+            MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+            MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+            if (container == null || container.Chunks.Count == 0)
+            {
+                MessageBox.Show("Could not find reflexive in SCNR meta structure.");
+                return;
+            }
+
+            // Spawn types that have a UniqueID at chunk offset 40
+            bool hasUniqueId = scnrRefOffset == 80  || scnrRefOffset == 96  ||
+                               scnrRefOffset == 112 || scnrRefOffset == 128 ||
+                               scnrRefOffset == 144 || scnrRefOffset == 168 ||
+                               scnrRefOffset == 184 || scnrRefOffset == 808;
+
+            if (operation == "delete")
+            {
+                if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    container.Chunks.RemoveAt(chunkIdx);
+            }
+            else if (operation == "duplicate")
+            {
+                if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                {
+                    var copy = container.Chunks[chunkIdx].DeepCopy();
+                    if (hasUniqueId)
+                        PatchChunkUniqueId(copy, container);
+                    container.Chunks.Insert(chunkIdx + 1, copy);
+                }
+            }
+            else if (operation == "add")
+            {
+                if (container.Chunks.Count > 0)
+                {
+                    var copy = container.Chunks[container.Chunks.Count - 1].DeepCopy();
+
+                    // Zero out position (X, Y, Z) at chunk offsets 8, 12, 16
+                    if (copy.MS != null && copy.MS.Length >= 20)
+                    {
+                        byte[] zeros = new byte[12]; // 3 floats = 12 bytes of zeros
+                        copy.MS.Position = 8;
+                        copy.MS.Write(zeros, 0, 12);
+                    }
+
+                    if (hasUniqueId)
+                        PatchChunkUniqueId(copy, container);
+                    container.Chunks.Add(copy);
+                }
+            }
+
+            WriteRebuiltScnrDirect(scnrTagIndex, ms);
+        }
+
+        /// <summary>
+        /// Assigns a new UniqueID (salt:index) to a duplicated/added spawn chunk.
+        /// Scans all existing chunks to find the highest salt, then increments.
+        /// UniqueID lives at chunk offset 40 (uint32).
+        /// </summary>
+        private void PatchChunkUniqueId(MetaSplitter.SplitReflexive chunk,
+                                        MetaSplitter.SplitReflexive container)
+        {
+            if (chunk.MS == null || chunk.MS.Length < 44) return;
+
+            // Find highest existing salt across all chunks in this reflexive
+            uint maxSalt = 0;
+            foreach (var c in container.Chunks)
+            {
+                if (c.MS != null && c.MS.Length >= 44)
+                {
+                    c.MS.Position = 40;
+                    uint id = new BinaryReader(c.MS, System.Text.Encoding.Default, true).ReadUInt32();
+                    uint salt = id >> 16;
+                    if (salt > maxSalt) maxSalt = salt;
+                }
+            }
+
+            // Also check the global spawn list for salts from other reflexives
+            foreach (SpawnInfo.BaseSpawn sp in bsp.Spawns.Spawn)
+            {
+                var srypr = sp as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                if (srypr == null) continue;
+                uint salt = srypr.UniqueID >> 16;
+                if (salt > maxSalt) maxSalt = salt;
+            }
+
+            uint newSalt = maxSalt + 1;
+            uint newId = (newSalt << 16) | (uint)(container.Chunks.Count & 0xFFFF);
+            chunk.MS.Position = 40;
+            new BinaryWriter(chunk.MS, System.Text.Encoding.Default, true).Write(newId);
+        }
+
+        /// <summary>
+        /// Performs a chunk operation on a SpawnZone, which lives in a nested reflexive
+        /// (SCNR+792 Spawn Data -> sub-offset 80 Respawn / 88 Initial, chunk size 48).
+        /// </summary>
+        private void DoSpawnZoneChunkOperation(string operation, SpawnInfo.SpawnZone zone)
+        {
+            int chunkIdx = GetSpawnZoneChunkIndex(zone);
+            if (chunkIdx < 0)
+            {
+                MessageBox.Show("Could not determine chunk index for this spawn zone.");
+                return;
+            }
+
+            try
+            {
+                BackupMapForUndo();
+
+                map.OpenMap(MapTypes.Internal);
+                zone.Write(map);
+                map.CloseMap();
+
+                int scnrTagIndex = 3;
+                int subOffset = GetSpawnZoneSubOffset(zone);
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                MetaSplitter.SplitReflexive container = FindNestedReflexive(ms, 792, subOffset);
+
+                if (container == null || container.Chunks.Count == 0)
+                {
+                    MessageBox.Show("Could not find spawn zone reflexive in SCNR meta structure.");
+                    return;
+                }
+
+                if (operation == "delete")
+                {
+                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                        container.Chunks.RemoveAt(chunkIdx);
+                }
+                else if (operation == "duplicate")
+                {
+                    if (chunkIdx >= 0 && chunkIdx < container.Chunks.Count)
+                    {
+                        var copy = container.Chunks[chunkIdx].DeepCopy();
+                        container.Chunks.Insert(chunkIdx + 1, copy);
+                    }
+                }
+
+                WriteRebuiltScnrDirect(scnrTagIndex, ms);
+
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during " + operation + " spawn zone operation", ex);
+            }
+        }
+
+        private void tsBtnDeleteChunk_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0) return;
+
+            if (SelectedSpawn.Count == 1)
+            {
+                int spawnIdx = SelectedSpawn[SelectedSpawn.Count - 1];
+                string typeName = bsp.Spawns.Spawn[spawnIdx].Type.ToString();
+
+                if (MessageBox.Show(
+                    "Delete this " + typeName + " spawn?",
+                    "Confirm Delete",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1) != DialogResult.OK)
+                    return;
+
+                DoSpawnChunkOperation("delete");
+            }
+            else
+            {
+                if (MessageBox.Show(
+                    "Delete " + SelectedSpawn.Count + " selected spawns?",
+                    "Confirm Batch Delete",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1) != DialogResult.OK)
+                    return;
+
+                DoBatchDelete();
+            }
+        }
+
+        private void tsBtnDuplicateChunk_Click(object sender, EventArgs e)
+        {
+            DoSpawnChunkOperation("duplicate");
+        }
+
+        private void tsBtnAddChunk_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count > 0)
+            {
+                DoSpawnChunkOperation("add");
+            }
+            else
+            {
+                AddBlankSpawnByTypePicker();
+            }
+        }
+
+        /// <summary>
+        /// Shows a type picker and adds a blank spawn chunk when no spawn is selected.
+        /// Handles the case where all spawns of a type have been deleted.
+        /// </summary>
+        private void AddBlankSpawnByTypePicker()
+        {
+            var types = new SpawnInfo.SpawnType[]
+            {
+                SpawnInfo.SpawnType.Player,
+                SpawnInfo.SpawnType.Scenery,
+                SpawnInfo.SpawnType.Vehicle,
+                SpawnInfo.SpawnType.Weapon,
+                SpawnInfo.SpawnType.Equipment,
+                SpawnInfo.SpawnType.Biped,
+                SpawnInfo.SpawnType.Machine,
+                SpawnInfo.SpawnType.Control,
+                SpawnInfo.SpawnType.Crate,
+                SpawnInfo.SpawnType.Sound,
+                SpawnInfo.SpawnType.Light,
+                SpawnInfo.SpawnType.Objective,
+                SpawnInfo.SpawnType.DeathZone,
+                SpawnInfo.SpawnType.Collection,
+                SpawnInfo.SpawnType.Camera,
+            };
+
+            string[] typeNames = new string[types.Length];
+            for (int i = 0; i < types.Length; i++)
+                typeNames[i] = types[i].ToString();
+
+            using (var dlg = new Form())
+            {
+                dlg.Text = "Add Spawn";
+                dlg.Size = new Size(220, 320);
+                dlg.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.MaximizeBox = false;
+                dlg.MinimizeBox = false;
+
+                var lb = new ListBox();
+                lb.Dock = DockStyle.Fill;
+                lb.Items.AddRange(typeNames);
+                lb.SelectedIndex = 0;
+                dlg.Controls.Add(lb);
+
+                var btnOk = new System.Windows.Forms.Button();
+                btnOk.Text = "Add";
+                btnOk.Dock = DockStyle.Bottom;
+                btnOk.DialogResult = DialogResult.OK;
+                dlg.Controls.Add(btnOk);
+                dlg.AcceptButton = btnOk;
+
+                if (dlg.ShowDialog(this) != DialogResult.OK || lb.SelectedIndex < 0)
+                    return;
+
+                SpawnInfo.SpawnType selectedType = types[lb.SelectedIndex];
+                int scnrRefOffset, chunkSize;
+                if (!GetSpawnReflexiveInfo(selectedType, out scnrRefOffset, out chunkSize))
+                {
+                    MessageBox.Show("Unsupported spawn type.");
+                    return;
+                }
+
+                try
+                {
+                    BackupMapForUndo();
+
+                    int scnrTagIndex = 3;
+                    MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                    MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+                    if (container == null)
+                    {
+                        MessageBox.Show("Could not find reflexive for " + selectedType + " in SCNR.");
+                        return;
+                    }
+
+                    if (container.Chunks.Count > 0)
+                    {
+                        var copy = container.Chunks[container.Chunks.Count - 1].DeepCopy();
+                        if (copy.MS != null && copy.MS.Length >= 20)
+                        {
+                            byte[] zeros = new byte[12];
+                            copy.MS.Position = 8;
+                            copy.MS.Write(zeros, 0, 12);
+                        }
+
+                        // Assign new UniqueID for spawn types that have one
+                        bool hasUniqueId = scnrRefOffset == 80  || scnrRefOffset == 96  ||
+                                           scnrRefOffset == 112 || scnrRefOffset == 128 ||
+                                           scnrRefOffset == 144 || scnrRefOffset == 168 ||
+                                           scnrRefOffset == 184 || scnrRefOffset == 808;
+                        if (hasUniqueId)
+                            PatchChunkUniqueId(copy, container);
+
+                        container.Chunks.Add(copy);
+                    }
+                    else
+                    {
+                        var blank = new MetaSplitter.SplitReflexive();
+                        blank.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
+                        blank.chunksize = chunkSize;
+                        blank.MS = new MemoryStream(new byte[chunkSize], 0, chunkSize, true, true);
+                        blank.ChunkResources = new List<Meta.Item>();
+                        blank.Chunks = new List<MetaSplitter.SplitReflexive>();
+                        container.Chunks.Add(blank);
+                    }
+
+                    WriteRebuiltScnrDirect(scnrTagIndex, ms);
+
+                    string filePath = map.filePath;
+                    map = Map.LoadFromFile(filePath);
+                    MapWasModified = true;
+
+                    ClearTreeHighlights();
+                    RefreshSpawnsInPlace();
+                }
+                catch (Exception ex)
+                {
+                    Global.ShowErrorMsg("Error adding blank spawn chunk", ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the SCNR palette reflexive offset for a given spawn type,
+        /// or -1 if the type is not supported.
+        /// </summary>
+        private static int GetPaletteOffsetForSpawn(SpawnInfo.ScaleRotateYawPitchRollSpawn spawn)
+        {
+            if (spawn is SpawnInfo.ScenerySpawn)   return 88;
+            if (spawn is SpawnInfo.BipedSpawn)      return 104;
+            if (spawn is SpawnInfo.VehicleSpawn)    return 120;
+            if (spawn is SpawnInfo.EquipmentSpawn)  return 136;
+            if (spawn is SpawnInfo.WeaponSpawn)     return 152;
+            if (spawn is SpawnInfo.MachineSpawn)    return 176;
+            if (spawn is SpawnInfo.ControlSpawn)    return 192;
+            return -1;
+        }
+
+        /// <summary>
+        /// Places selected spawn(s) as crate spawn(s).
+        /// Works with any spawn type that has a palette entry (scenery, machines,
+        /// vehicles, equipment, weapons, controls, bipeds, etc.).
+        /// Copies the source palette entry to the crate palette (rewriting the
+        /// tag class to "bloc") and creates new crate spawn chunks at the same
+        /// position/rotation.
+        /// </summary>
+        private void tsBtnPlaceAsCrate_Click(object sender, EventArgs e)
+        {
+            if (SelectedSpawn.Count == 0)
+            {
+                MessageBox.Show("No spawn selected.");
+                return;
+            }
+
+            // Collect selected spawns that have palette entries
+            var sourceSpawns = new List<SpawnInfo.ScaleRotateYawPitchRollSpawn>();
+            foreach (int idx in SelectedSpawn)
+            {
+                var sp = bsp.Spawns.Spawn[idx] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                if (sp != null && GetPaletteOffsetForSpawn(sp) != -1)
+                    sourceSpawns.Add(sp);
+            }
+
+            if (sourceSpawns.Count == 0)
+            {
+                MessageBox.Show("No supported spawns selected.\nSelect scenery, machines, vehicles, equipment, weapons, bipeds, or controls.");
+                return;
+            }
+
+            try
+            {
+                BackupMapForUndo();
+
+                // Save current in-memory positions to the map file
+                map.OpenMap(MapTypes.Internal);
+                foreach (var sp in sourceSpawns)
+                    sp.Write(map);
+                map.CloseMap();
+
+                int scnrTagIndex = 3;
+                MetaSplitter metasplit = SplitScnrMeta(scnrTagIndex);
+
+                // Crate (obstacle) reflexives
+                MetaSplitter.SplitReflexive cratePalette = FindReflexiveByOffset(metasplit, 816);
+                MetaSplitter.SplitReflexive crateSpawns = FindReflexiveByOffset(metasplit, 808);
+
+                if (cratePalette == null || crateSpawns == null)
+                {
+                    MessageBox.Show("Could not find Crate reflexives in SCNR meta.");
+                    return;
+                }
+
+                // Cache source palette reflexives by their SCNR offset so we only
+                // look them up once per spawn type.
+                var paletteCache = new Dictionary<int, MetaSplitter.SplitReflexive>();
+
+                // Track which (sourcePaletteOffset, paletteIndex) pairs have already
+                // been added to the crate palette to avoid duplicates.
+                // Key: "paletteOffset:paletteIndex", Value: new crate palette index
+                var paletteMap = new Dictionary<string, int>();
+
+                // Collect tag idents whose tag index class needs patching to "bloc".
+                // When a non-bloc tag (e.g. scenery) is placed as a crate, the engine
+                // checks the tag index class to decide physics/collision behaviour.
+                // Without this patch, scenery-derived crates have no collision.
+                var tagIdentsToPatch = new HashSet<int>();
+
+                // Find the highest existing unique ID salt across all spawns so new
+                // crate spawns get non-colliding IDs.
+                uint nextSalt = 1;
+                foreach (SpawnInfo.BaseSpawn sp in bsp.Spawns.Spawn)
+                {
+                    var srypr = sp as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                    if (srypr == null) continue;
+                    uint salt = (uint)srypr.UniqueID >> 16;
+                    if (salt >= nextSalt)
+                        nextSalt = salt + 1;
+                }
+
+                int placedCount = 0;
+                foreach (var sp in sourceSpawns)
+                {
+                    int srcPalOffset = GetPaletteOffsetForSpawn(sp);
+                    if (sp.PaletteIndex < 0)
+                        continue;
+
+                    // Get or cache the source palette reflexive
+                    MetaSplitter.SplitReflexive srcPalette;
+                    if (!paletteCache.TryGetValue(srcPalOffset, out srcPalette))
+                    {
+                        srcPalette = FindReflexiveByOffset(metasplit, srcPalOffset);
+                        if (srcPalette == null)
+                            continue;
+                        paletteCache[srcPalOffset] = srcPalette;
+                    }
+
+                    if (sp.PaletteIndex >= srcPalette.Chunks.Count)
+                        continue;
+
+                    // Build a unique key for this source palette entry
+                    string palKey = srcPalOffset + ":" + sp.PaletteIndex;
+
+                    // Add palette entry if not already mapped
+                    int cratePalIdx;
+                    if (!paletteMap.TryGetValue(palKey, out cratePalIdx))
+                    {
+                        var palCopy = srcPalette.Chunks[sp.PaletteIndex].DeepCopy();
+
+                        // Read the tag ident (bytes 4-7) before overwriting anything,
+                        // so we can patch the tag index class later.
+                        if (palCopy.MS != null && palCopy.MS.Length >= 8)
+                        {
+                            palCopy.MS.Position = 4;
+                            int tagIdent = new BinaryReader(palCopy.MS, System.Text.Encoding.Default, true).ReadInt32();
+                            if (tagIdent != -1 && tagIdent != 0)
+                                tagIdentsToPatch.Add(tagIdent);
+                        }
+
+                        // Overwrite the tag class to "bloc" so the engine
+                        // recognises this palette entry as a crate object reference.
+                        // Tag classes are stored as a reversed FourCC in the first 4 bytes.
+                        if (palCopy.MS != null && palCopy.MS.Length >= 4)
+                        {
+                            palCopy.MS.Position = 0;
+                            palCopy.MS.WriteByte(0x63); // 'c'
+                            palCopy.MS.WriteByte(0x6F); // 'o'
+                            palCopy.MS.WriteByte(0x6C); // 'l'
+                            palCopy.MS.WriteByte(0x62); // 'b'
+                        }
+
+                        cratePalIdx = cratePalette.Chunks.Count;
+                        cratePalette.Chunks.Add(palCopy);
+                        paletteMap[palKey] = cratePalIdx;
+                    }
+
+                    // Build a 76-byte crate spawn chunk from the source spawn's properties
+                    byte[] crateData = new byte[76];
+                    uint newId = (nextSalt << 16) | (uint)(crateSpawns.Chunks.Count & 0xFFFF);
+                    nextSalt++;
+
+                    using (var bw = new BinaryWriter(new MemoryStream(crateData)))
+                    {
+                        bw.Write((short)cratePalIdx);       // 0-1: palette index
+                        bw.Write((short)-1);                // 2-3: name index (none)
+                        bw.Write((int)(sp.Placements | SpawnInfo.ScaleRotateYawPitchRollSpawn.PlacementFlags.CreateAtRest)); // 4-7: placement flags (force CreateAtRest for crates)
+                        bw.Write(sp.X);                     // 8-11
+                        bw.Write(sp.Y);                     // 12-15
+                        bw.Write(sp.Z);                     // 16-19
+                        bw.Write(sp.Yaw);                   // 20-23
+                        bw.Write(sp.Pitch);                 // 24-27
+                        bw.Write(sp.Roll);                  // 28-31
+                        bw.Write(sp.Scale);                 // 32-35
+                        bw.Write((ushort)sp.Transforms);    // 36-37
+                        bw.Write((ushort)sp.ManualBSPs);    // 38-39
+                        bw.Write(newId);                    // 40-43: unique ID
+                        bw.Write(sp.OriginBSP);             // 44-45
+                        bw.Write((byte)11);                 // 46: MetaSpawnType = Crate
+                        bw.Write((byte)sp.Source);          // 47
+                        bw.Write((byte)sp.BSPPolicy);       // 48
+                        bw.Write((byte)0);                  // 49: unused
+                        bw.Write(sp.EditorFolder);          // 50-51
+                        // Bytes 52-75 are crate-specific, left zeroed
+                    }
+
+                    var newCrateChunk = new MetaSplitter.SplitReflexive();
+                    newCrateChunk.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
+                    newCrateChunk.chunksize = 76;
+                    newCrateChunk.MS = new MemoryStream(crateData, 0, 76, true, true);
+                    newCrateChunk.ChunkResources = new List<Meta.Item>();
+                    newCrateChunk.Chunks = new List<MetaSplitter.SplitReflexive>();
+                    crateSpawns.Chunks.Add(newCrateChunk);
+                    placedCount++;
+                }
+
+                if (placedCount == 0)
+                {
+                    MessageBox.Show("No spawns could be converted to crates.");
+                    return;
+                }
+
+                WriteRebuiltScnrDirect(scnrTagIndex, metasplit);
+
+                // Patch tag index class AND obje type for source tags that
+                // weren't already bloc.  The engine checks both the tag index
+                // class and the obje base type field (short at offset 0 of the
+                // tag meta) when deciding physics/collision behaviour.
+                if (tagIdentsToPatch.Count > 0)
+                {
+                    byte[] blocReversed = { 0x63, 0x6F, 0x6C, 0x62 }; // "colb" = "bloc" reversed
+                    byte[] crateType = { 0x0B, 0x00 }; // (short)11 = Crate in obje base type enum
+                    using (var fs = new FileStream(map.filePath, FileMode.Open, FileAccess.ReadWrite))
+                    {
+                        for (int t = 0; t < map.IndexHeader.metaCount; t++)
+                        {
+                            if (tagIdentsToPatch.Contains(map.MetaInfo.Ident[t]))
+                            {
+                                // Patch tag index class to "bloc"
+                                long entryOffset = map.IndexHeader.tagsOffset + (t * 16);
+                                fs.Position = entryOffset;
+                                fs.Write(blocReversed, 0, 4);
+
+                                // Patch obje base type (short at meta offset 0) to Crate (11)
+                                // and acceleration scale (float at meta offset 20) to 0 to
+                                // lock the crate in place — no physics wobble.
+                                int metaOffset = map.MetaInfo.Offset[t];
+                                if (metaOffset > 0)
+                                {
+                                    fs.Position = metaOffset;
+                                    fs.Write(crateType, 0, 2);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+
+                MessageBox.Show(placedCount + " spawn(s) placed as crate(s).",
+                    "Place as Crate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error placing spawns as crates", ex);
+            }
+        }
+
+        private void BackupMapForUndo()
+        {
+            string src = map.filePath;
+            string backup = src + ".undo_backup";
+            File.Copy(src, backup, true);
+            undoBackupPath = backup;
+        }
+
+        private void UndoLastChunkOperation()
+        {
+            if (undoBackupPath == null || !File.Exists(undoBackupPath))
+            {
+                MessageBox.Show("Nothing to undo.", "Undo");
+                return;
+            }
+
+            try
+            {
+                string filePath = map.filePath;
+                File.Copy(undoBackupPath, filePath, true);
+                File.Delete(undoBackupPath);
+                undoBackupPath = null;
+
+                map = Map.LoadFromFile(filePath);
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error during undo", ex);
+            }
+        }
+
+        private void tsBtnUndo_Click(object sender, EventArgs e)
+        {
+            UndoLastChunkOperation();
+        }
+
+        #endregion
 
         /// <summary>
         /// The select all spawns_ click.
@@ -5827,12 +8091,13 @@ namespace entity.Renderers
         private void combo_SelectedIndexChangedCollectionModel(object sender, EventArgs e)
         {
             // We need this here so that when the program changes the box, it doesn't change everything selected!
-            if (!((ToolStripComboBox)sender).Focused)
+            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (cb == null || !cb.Focused || cb.SelectedItem == null)
             {
                 return;
             }
 
-            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (WeaponsList == null) return;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
@@ -5941,13 +8206,13 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void combo_SelectedIndexChangedObstacleModel(object sender, EventArgs e)
         {
-            // We need this here so that when the program changes the box, it doesn't change everything selected!
-            if (!((ToolStripComboBox)sender).Focused)
+            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (cb == null || !cb.Focused || cb.SelectedItem == null)
             {
                 return;
             }
 
-            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (ObstacleList == null) return;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
@@ -6024,13 +8289,13 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void combo_SelectedIndexChangedSceneryModel(object sender, EventArgs e)
         {
-            // We need this here so that when the program changes the box, it doesn't change everything selected!
-            if (!((ToolStripComboBox)sender).Focused)
+            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (cb == null || !cb.Focused || cb.SelectedItem == null)
             {
                 return;
             }
 
-            ToolStripComboBox cb = sender as ToolStripComboBox;
+            if (SceneryList == null) return;
 
             // looks for a model already on the map. if not FOUND, adds it to the SpawnModels
             bool found = false;
@@ -6335,10 +8600,38 @@ namespace entity.Renderers
                 this.selectUnFreezeAllMenuItem.Visible = false;
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
+                this.exportSpawnsToolStripMenuItem.Visible = false;
+                this.importSpawnsToolStripMenuItem.Visible = false;
+                this.placeAsCrateToolStripMenuItem.Visible = false;
                 if (c.SelectedNode == null)
                 {
                     this.selectAllToolStripMenuItem.Visible = false;
                     return;
+                }
+
+                // Show "Place as Crate" for any palette-based spawn type
+                if (c.SelectedNode.Parent != null && c.SelectedNode.Tag != null)
+                {
+                    int spawnIdx;
+                    if (int.TryParse(c.SelectedNode.Tag.ToString(), out spawnIdx)
+                        && spawnIdx >= 0 && spawnIdx < bsp.Spawns.Spawn.Count)
+                    {
+                        var srSpawn = bsp.Spawns.Spawn[spawnIdx] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                        if (srSpawn != null && GetPaletteOffsetForSpawn(srSpawn) != -1)
+                            this.placeAsCrateToolStripMenuItem.Visible = true;
+                    }
+                }
+
+                // Show Export/Import on parent nodes (category nodes)
+                if (c.SelectedNode.Parent == null)
+                {
+                    if (c.SelectedNode.Nodes.Count > 0)
+                    {
+                        this.exportSpawnsToolStripMenuItem.Visible = true;
+                        this.exportSpawnsToolStripMenuItem.Tag = c.SelectedNode;
+                    }
+                    this.importSpawnsToolStripMenuItem.Visible = true;
+                    this.importSpawnsToolStripMenuItem.Tag = c.SelectedNode;
                 }
                 else
                 {
@@ -6442,11 +8735,19 @@ namespace entity.Renderers
                 this.selectUnFreezeAllMenuItem.Visible = true;
                 this.selectCurrentToolStripMenuItem.Visible = false;
                 this.selectGroupToolStripMenuItem.Visible = false;
+                this.exportSpawnsToolStripMenuItem.Visible = false;
+                this.importSpawnsToolStripMenuItem.Visible = false;
+                this.placeAsCrateToolStripMenuItem.Visible = false;
 
                 string tag = null;
                 if (currentObject > -1)
                 {
                     this.selectFreezeMenuItem.Visible = true;
+
+                    // Show "Place as Crate" for any palette-based spawn type
+                    var srObj = bsp.Spawns.Spawn[currentObject] as SpawnInfo.ScaleRotateYawPitchRollSpawn;
+                    if (srObj != null && GetPaletteOffsetForSpawn(srObj) != -1)
+                        this.placeAsCrateToolStripMenuItem.Visible = true;
                     if (bsp.Spawns.Spawn[currentObject].frozen)
                     {
                         this.selectFreezeMenuItem.Text = "UnFreeze";
@@ -6807,6 +9108,308 @@ namespace entity.Renderers
         }
 
         /// <summary>
+        /// Exports all spawns under the selected treeview category to a CSV file.
+        /// </summary>
+        private void exportSpawnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode parentNode = exportSpawnsToolStripMenuItem.Tag as TreeNode;
+            if (parentNode == null || parentNode.Nodes.Count == 0) return;
+
+            string typeName = parentNode.Text;
+            int bracket = typeName.IndexOf('[');
+            if (bracket > 0) typeName = typeName.Substring(0, bracket).Trim();
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Title = "Export " + typeName + " Spawns";
+                sfd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+                sfd.FileName = typeName + "_spawns.csv";
+                if (sfd.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine("Index,Type,Name,TagPath,X,Y,Z,Yaw,Pitch,Roll");
+
+                    for (int n = 0; n < parentNode.Nodes.Count; n++)
+                    {
+                        TreeNode child = parentNode.Nodes[n];
+                        int spawnIdx;
+                        if (!int.TryParse(child.Tag.ToString(), out spawnIdx)) continue;
+                        if (spawnIdx < 0 || spawnIdx >= bsp.Spawns.Spawn.Count) continue;
+
+                        SpawnInfo.BaseSpawn sp = bsp.Spawns.Spawn[spawnIdx];
+                        string name = (child.Text ?? "").Replace(",", ";");
+                        string tagPath = (sp.TagPath ?? "").Replace(",", ";");
+                        float yaw = 0, pitch = 0, roll = 0;
+
+                        if (sp is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)sp;
+                            yaw = rot.Yaw;
+                            pitch = rot.Pitch;
+                            roll = rot.Roll;
+                        }
+                        else if (sp is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateDirectionBaseSpawn)sp;
+                            yaw = rot.RotationDirection;
+                        }
+
+                        sb.AppendLine(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                            n, sp.Type, name, tagPath,
+                            sp.X.ToString("G"), sp.Y.ToString("G"), sp.Z.ToString("G"),
+                            yaw.ToString("G"), pitch.ToString("G"), roll.ToString("G")));
+                    }
+
+                    File.WriteAllText(sfd.FileName, sb.ToString());
+                    MessageBox.Show("Exported " + parentNode.Nodes.Count + " " + typeName + " spawns.",
+                        "Export Complete");
+                }
+                catch (Exception ex)
+                {
+                    Global.ShowErrorMsg("Error exporting spawns", ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Imports spawns from a CSV file into the selected treeview category.
+        /// </summary>
+        private void importSpawnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode parentNode = importSpawnsToolStripMenuItem.Tag as TreeNode;
+            if (parentNode == null) return;
+
+            // Parse spawn type from category node text
+            string typeText = parentNode.Text;
+            int bracket = typeText.IndexOf('[');
+            if (bracket > 0) typeText = typeText.Substring(0, bracket).Trim();
+
+            SpawnInfo.SpawnType targetType;
+            try { targetType = (SpawnInfo.SpawnType)Enum.Parse(typeof(SpawnInfo.SpawnType), typeText); }
+            catch { MessageBox.Show("Unknown spawn type: " + typeText); return; }
+
+            int scnrRefOffset, chunkSize;
+            if (!GetSpawnReflexiveInfo(targetType, out scnrRefOffset, out chunkSize))
+            {
+                MessageBox.Show("Unsupported spawn type for import: " + targetType);
+                return;
+            }
+
+            // Open CSV file
+            string csvPath;
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Import " + typeText + " Spawns from CSV";
+                ofd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+                if (ofd.ShowDialog() != DialogResult.OK) return;
+                csvPath = ofd.FileName;
+            }
+
+            try
+            {
+                string[] lines = File.ReadAllLines(csvPath);
+                if (lines.Length < 2)
+                {
+                    MessageBox.Show("CSV file is empty or has no data rows.");
+                    return;
+                }
+
+                // Parse header to find column indices
+                string[] header = lines[0].Split(',');
+                int colType = Array.IndexOf(header, "Type");
+                int colTagPath = Array.IndexOf(header, "TagPath");
+                int colX = Array.IndexOf(header, "X");
+                int colY = Array.IndexOf(header, "Y");
+                int colZ = Array.IndexOf(header, "Z");
+                int colYaw = Array.IndexOf(header, "Yaw");
+                int colPitch = Array.IndexOf(header, "Pitch");
+                int colRoll = Array.IndexOf(header, "Roll");
+
+                if (colX < 0 || colY < 0 || colZ < 0)
+                {
+                    MessageBox.Show("CSV must have X, Y, Z columns.");
+                    return;
+                }
+
+                // Parse data rows
+                var rows = new List<CsvSpawnRow>();
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(lines[i].Trim())) continue;
+                    string[] cols = lines[i].Split(',');
+
+                    // Validate type column if present
+                    if (colType >= 0 && colType < cols.Length)
+                    {
+                        string rowType = cols[colType].Trim();
+                        if (rowType != targetType.ToString())
+                        {
+                            MessageBox.Show("Row " + i + " has type '" + rowType + "' but expected '" + targetType +
+                                "'. Import aborted.\n\nMake sure you import into the matching category.");
+                            return;
+                        }
+                    }
+
+                    var row = new CsvSpawnRow();
+                    row.TagPath = (colTagPath >= 0 && colTagPath < cols.Length) ? cols[colTagPath].Replace(";", ",").Trim() : null;
+                    row.X = float.Parse(cols[colX]);
+                    row.Y = float.Parse(cols[colY]);
+                    row.Z = float.Parse(cols[colZ]);
+                    row.Yaw = (colYaw >= 0 && colYaw < cols.Length) ? float.Parse(cols[colYaw]) : 0;
+                    row.Pitch = (colPitch >= 0 && colPitch < cols.Length) ? float.Parse(cols[colPitch]) : 0;
+                    row.Roll = (colRoll >= 0 && colRoll < cols.Length) ? float.Parse(cols[colRoll]) : 0;
+                    rows.Add(row);
+                }
+
+                if (rows.Count == 0)
+                {
+                    MessageBox.Show("No valid rows found in CSV.");
+                    return;
+                }
+
+                // Build a map of TagPath -> within-type chunk index for existing spawns
+                var tagPathToTypeIndex = new Dictionary<string, int>();
+                int typeIdx = 0;
+                for (int i = 0; i < bsp.Spawns.Spawn.Count; i++)
+                {
+                    if (bsp.Spawns.Spawn[i].Type == targetType)
+                    {
+                        string tp = bsp.Spawns.Spawn[i].TagPath ?? "";
+                        if (!tagPathToTypeIndex.ContainsKey(tp))
+                            tagPathToTypeIndex[tp] = typeIdx;
+                        typeIdx++;
+                    }
+                }
+
+                int existingCount = typeIdx;
+
+                BackupMapForUndo();
+
+                int scnrTagIndex = 3;
+                MetaSplitter ms = SplitScnrMeta(scnrTagIndex);
+                MetaSplitter.SplitReflexive container = FindReflexiveByOffset(ms, scnrRefOffset);
+
+                if (container == null)
+                {
+                    MessageBox.Show("Could not find reflexive for " + targetType + " in SCNR.");
+                    return;
+                }
+
+                // Add chunks for each CSV row
+                for (int r = 0; r < rows.Count; r++)
+                {
+                    MetaSplitter.SplitReflexive templateChunk = null;
+
+                    // Try to find a template chunk matching the TagPath
+                    if (rows[r].TagPath != null && tagPathToTypeIndex.ContainsKey(rows[r].TagPath))
+                    {
+                        int chunkIdx = tagPathToTypeIndex[rows[r].TagPath];
+                        if (chunkIdx < container.Chunks.Count)
+                            templateChunk = container.Chunks[chunkIdx];
+                    }
+
+                    // Fall back to last existing chunk
+                    if (templateChunk == null && container.Chunks.Count > 0)
+                        templateChunk = container.Chunks[container.Chunks.Count - 1];
+
+                    if (templateChunk != null)
+                    {
+                        var copy = templateChunk.DeepCopy();
+                        // Zero out position bytes (will be set properly after reload)
+                        if (copy.MS != null && copy.MS.Length >= 20)
+                        {
+                            byte[] zeros = new byte[12];
+                            copy.MS.Position = 8;
+                            copy.MS.Write(zeros, 0, 12);
+                        }
+                        container.Chunks.Add(copy);
+                    }
+                    else
+                    {
+                        // No existing chunks at all - create blank
+                        var blank = new MetaSplitter.SplitReflexive();
+                        blank.splitReflexiveType = MetaSplitter.SplitReflexive.SplitReflexiveType.Chunk;
+                        blank.chunksize = chunkSize;
+                        blank.MS = new MemoryStream(new byte[chunkSize], 0, chunkSize, true, true);
+                        blank.ChunkResources = new List<Meta.Item>();
+                        blank.Chunks = new List<MetaSplitter.SplitReflexive>();
+                        container.Chunks.Add(blank);
+                    }
+                }
+
+                WriteRebuiltScnrDirect(scnrTagIndex, ms);
+
+                string filePath = map.filePath;
+                map = Map.LoadFromFile(filePath);
+                MapWasModified = true;
+
+                ClearTreeHighlights();
+                RefreshSpawnsInPlace();
+
+                // Now set positions on the newly imported spawns and write them back
+                // The new spawns are the last N of their type
+                var newSpawnIndices = new List<int>();
+                int idx = 0;
+                for (int i = 0; i < bsp.Spawns.Spawn.Count; i++)
+                {
+                    if (bsp.Spawns.Spawn[i].Type == targetType)
+                    {
+                        if (idx >= existingCount)
+                            newSpawnIndices.Add(i);
+                        idx++;
+                    }
+                }
+
+                if (newSpawnIndices.Count == rows.Count)
+                {
+                    map.OpenMap(MapTypes.Internal);
+                    for (int r = 0; r < rows.Count; r++)
+                    {
+                        int si = newSpawnIndices[r];
+                        bsp.Spawns.Spawn[si].X = rows[r].X;
+                        bsp.Spawns.Spawn[si].Y = rows[r].Y;
+                        bsp.Spawns.Spawn[si].Z = rows[r].Z;
+
+                        if (bsp.Spawns.Spawn[si] is SpawnInfo.RotateYawPitchRollBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateYawPitchRollBaseSpawn)bsp.Spawns.Spawn[si];
+                            rot.Yaw = rows[r].Yaw;
+                            rot.Pitch = rows[r].Pitch;
+                            rot.Roll = rows[r].Roll;
+                        }
+                        else if (bsp.Spawns.Spawn[si] is SpawnInfo.RotateDirectionBaseSpawn)
+                        {
+                            var rot = (SpawnInfo.RotateDirectionBaseSpawn)bsp.Spawns.Spawn[si];
+                            rot.RotationDirection = rows[r].Yaw;
+                        }
+
+                        bsp.Spawns.Spawn[si].Write(map);
+                    }
+                    map.CloseMap();
+
+                    // Reload to pick up written positions
+                    map = Map.LoadFromFile(filePath);
+                    ClearTreeHighlights();
+                    RefreshSpawnsInPlace();
+                }
+
+                MessageBox.Show("Imported " + rows.Count + " " + targetType + " spawn(s).", "Import Complete");
+            }
+            catch (Exception ex)
+            {
+                Global.ShowErrorMsg("Error importing spawns from CSV", ex);
+            }
+        }
+
+        private class CsvSpawnRow
+        {
+            public string TagPath;
+            public float X, Y, Z, Yaw, Pitch, Roll;
+        }
+
+        /// <summary>
         /// The select tool strip menu item_ click.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -7129,7 +9732,7 @@ namespace entity.Renderers
                     }
 
                     break;
-                case SpawnInfo.SpawnType.Obstacle:
+                case SpawnInfo.SpawnType.Crate:
                     if (ObstacleList == null)
                     {
                         doInfo(bm.ToString());
@@ -7605,6 +10208,95 @@ namespace entity.Renderers
             }
         }
 
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            TreeNode clicked = e.Node;
+            if (clicked == null || !(clicked.Tag is int)) return;
+            int clickedIdx = (int)clicked.Tag;
+            if (clickedIdx < 0) return; // category node
+
+            bool ctrl = (Control.ModifierKeys & Keys.Control) != 0;
+            bool shift = (Control.ModifierKeys & Keys.Shift) != 0;
+
+            if (shift && treeAnchorNode != null && treeAnchorNode.Parent == clicked.Parent && clicked.Parent != null)
+            {
+                // Shift-click: range select between anchor and clicked node
+                ClearTreeHighlights();
+                SelectedSpawn.Clear();
+
+                TreeNode parent = clicked.Parent;
+                int anchorIndex = parent.Nodes.IndexOf(treeAnchorNode);
+                int clickIndex = parent.Nodes.IndexOf(clicked);
+                int start = Math.Min(anchorIndex, clickIndex);
+                int end = Math.Max(anchorIndex, clickIndex);
+
+                for (int n = start; n <= end; n++)
+                {
+                    TreeNode node = parent.Nodes[n];
+                    if (node.Tag is int && (int)node.Tag >= 0)
+                    {
+                        int spawnIdx = (int)node.Tag;
+                        if (!SelectedSpawn.Contains(spawnIdx))
+                            SelectedSpawn.Add(spawnIdx);
+                        node.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                        node.ForeColor = System.Drawing.Color.White;
+                        highlightedTreeNodes.Add(node);
+                    }
+                }
+
+                if (SelectedSpawn.Count > 0)
+                    selectedSpawnType = bsp.Spawns.Spawn[SelectedSpawn[SelectedSpawn.Count - 1]].Type;
+            }
+            else if (ctrl)
+            {
+                // Ctrl-click: toggle this spawn in/out of selection
+                int tempi = SelectedSpawn.IndexOf(clickedIdx);
+                if (tempi != -1)
+                {
+                    SelectedSpawn.RemoveAt(tempi);
+                    // Remove highlight
+                    clicked.BackColor = treeView1.BackColor;
+                    clicked.ForeColor = treeView1.ForeColor;
+                    highlightedTreeNodes.Remove(clicked);
+                }
+                else
+                {
+                    SelectedSpawn.Add(clickedIdx);
+                    clicked.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                    clicked.ForeColor = System.Drawing.Color.White;
+                    highlightedTreeNodes.Add(clicked);
+                }
+
+                selectedSpawnType = bsp.Spawns.Spawn[clickedIdx].Type;
+            }
+            else
+            {
+                // Normal click: single select
+                ClearTreeHighlights();
+                SelectedSpawn.Clear();
+                SelectedSpawn.Add(clickedIdx);
+                selectedSpawnType = bsp.Spawns.Spawn[clickedIdx].Type;
+
+                clicked.BackColor = System.Drawing.Color.FromArgb(51, 153, 255);
+                clicked.ForeColor = System.Drawing.Color.White;
+                highlightedTreeNodes.Add(clicked);
+
+                treeAnchorNode = clicked;
+            }
+
+        }
+
+        private void ClearTreeHighlights()
+        {
+            foreach (TreeNode n in highlightedTreeNodes)
+            {
+                n.BackColor = treeView1.BackColor;
+                n.ForeColor = treeView1.ForeColor;
+            }
+            highlightedTreeNodes.Clear();
+        }
+
         /// <summary>
         /// The tree view 1_ double click.
         /// </summary>
@@ -7613,7 +10305,9 @@ namespace entity.Renderers
         /// <remarks></remarks>
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
-            int tempint = (int)((TreeView)sender).SelectedNode.Tag;
+            TreeNode node = ((TreeView)sender).SelectedNode;
+            if (node == null || !(node.Tag is int)) return;
+            int tempint = (int)node.Tag;
             if (tempint >= 0)
             {
                 setCameraPosition(
@@ -7641,8 +10335,11 @@ namespace entity.Renderers
 
                     // Set camera postion
                     string tempstring = toolStripLabel2.Text;
+                    float yawDeg2 = cam.radianh * (180f / (float)Math.PI);
+                    float pitchDeg2 = cam.radianv * (180f / (float)Math.PI);
                     string tempstring2 = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " � Y: " +
-                                         cam.y.ToString().PadRight(10) + " � Z: " + cam.z.ToString().PadRight(10);
+                                         cam.y.ToString().PadRight(10) + " � Z: " + cam.z.ToString().PadRight(10) +
+                                         " � Yaw: " + yawDeg2.ToString("F1").PadRight(8) + " � Pitch: " + pitchDeg2.ToString("F1").PadRight(8);
                     if (tempstring != tempstring2)
                     {
                         toolStripLabel2.Text = tempstring2;
@@ -8102,7 +10799,7 @@ namespace entity.Renderers
 
                 #region CollectionObjectsOnly
 
-                if (showCollection)
+                if (showCollection && WeaponsList != null)
                 {
                     // Selects Last Spawn Clicked
                     SpawnInfo.Collection os;
@@ -8328,7 +11025,7 @@ namespace entity.Renderers
 
                 #region ObstacleObjectsOnly
 
-                if (showObstacles)
+                if (showObstacles && ObstacleList != null)
                 {
                     ToolStripComboBox comboBlock;
                     int tempindex;
@@ -8383,7 +11080,7 @@ namespace entity.Renderers
 
                 #region SceneryObjectsOnly
 
-                if (showScenery)
+                if (showScenery && SceneryList != null)
                 {
                     ToolStripComboBox comboScen;
                     int tempindex;
@@ -8438,7 +11135,7 @@ namespace entity.Renderers
 
                 #region SoundObjectsOnly
 
-                if (showSounds)
+                if (showSounds && SoundsList != null)
                 {
                     SpawnInfo.SoundSpawn os;
                     os = bsp.Spawns.Spawn[lastSelectedSpawn] as SpawnInfo.SoundSpawn;
@@ -8649,13 +11346,22 @@ namespace entity.Renderers
             }
 
             // Add the camera position
+            float yawDegStatus = cam.radianh * (180f / (float)Math.PI);
+            float pitchDegStatus = cam.radianv * (180f / (float)Math.PI);
             toolStripLabel2.Text = "Camera Position: X: " + cam.x.ToString().PadRight(10) + " � Y: " +
-                                   cam.y.ToString().PadRight(10) + " � Z: " + cam.z.ToString().PadRight(10);
+                                   cam.y.ToString().PadRight(10) + " � Z: " + cam.z.ToString().PadRight(10) +
+                                   " � Yaw: " + yawDegStatus.ToString("F1").PadRight(8) + " � Pitch: " + pitchDegStatus.ToString("F1").PadRight(8);
             statusStrip.Items.Add(toolStripLabel2);
             statusStrip.ResumeLayout();
 
             // Allow quick update of statusBar, then disable again
             statusStrip.SuspendLayout();
+
+            // Sync spawn property panel (sliders + up/down controls)
+            if (!spawnPropsUpdating)
+            {
+                UpdateSpawnPropertyControls();
+            }
         }
 
         #endregion
@@ -8815,6 +11521,10 @@ namespace entity.Renderers
                     // Parse all other fields
                     float yaw = getFloat(parts, "yawdeg");
                     if (yaw == 0) yaw = getFloat(parts, "yaw") * (180f / (float)Math.PI);
+                    if (yaw == 0) yaw = getFloat(parts, "facingyaw") * (180f / (float)Math.PI);
+                    float pitch = getFloat(parts, "pitchdeg");
+                    if (pitch == 0) pitch = getFloat(parts, "pitch") * (180f / (float)Math.PI);
+                    if (pitch == 0) pitch = getFloat(parts, "facingpitch") * (180f / (float)Math.PI);
                     string weapon = getStr(parts, "currentweapon");
                     bool crouching = getBool(parts, "iscrouching");
                     bool airborne = getBool(parts, "isairborne");
@@ -8873,7 +11583,7 @@ namespace entity.Renderers
                         playerPrevKills[playerName] = kills;
                     }
 
-                    PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, playerName, weapon,
+                    PlayerPathPoint point = new PlayerPathPoint(x, y, z, timestamp, team, yaw, pitch, playerName, weapon,
                         crouching, airborne, isDead, emblemFg, emblemBg, colorPrimary, colorSecondary, colorTertiary, colorQuaternary);
 
                     // Add to legacy single list
@@ -9069,6 +11779,7 @@ namespace entity.Renderers
                     cam.Position.Z = cam.z;
                     // Use Yaw (radians) directly if available, otherwise convert YawDeg
                     cam.radianh = livePlayer.Yaw != 0 ? livePlayer.Yaw : livePlayer.YawDeg * (float)(Math.PI / 180.0);
+                    cam.radianv = livePlayer.Pitch != 0 ? livePlayer.Pitch : livePlayer.PitchDeg * (float)(Math.PI / 180.0);
                     cam.ComputePosition();
                     return;
                 }
@@ -9115,8 +11826,9 @@ namespace entity.Renderers
             cam.Position.Y = cam.y;
             cam.Position.Z = cam.z;
 
-            // Set camera yaw to player's facing direction
+            // Set camera yaw and pitch to player's facing direction
             cam.radianh = point.FacingYaw * (float)(Math.PI / 180.0);
+            cam.radianv = point.FacingPitch * (float)(Math.PI / 180.0);
             cam.ComputePosition();
         }
 

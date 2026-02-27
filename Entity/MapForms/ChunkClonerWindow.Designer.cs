@@ -33,6 +33,7 @@ namespace entity.MapForms
             this.expand = new System.Windows.Forms.Button();
             this.collapse = new System.Windows.Forms.Button();
             this.savemeta = new System.Windows.Forms.Button();
+            this.deleteAllButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -63,6 +64,7 @@ namespace entity.MapForms
             this.panel2.Controls.Add(this.expand);
             this.panel2.Controls.Add(this.collapse);
             this.panel2.Controls.Add(this.savemeta);
+            this.panel2.Controls.Add(this.deleteAllButton);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button2);
@@ -117,7 +119,17 @@ namespace entity.MapForms
             this.button4.Text = "Delete Reflex/Chunk";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
+            //
+            // deleteAllButton
+            //
+            this.deleteAllButton.Location = new System.Drawing.Point(514, 180);
+            this.deleteAllButton.Name = "deleteAllButton";
+            this.deleteAllButton.Size = new System.Drawing.Size(217, 23);
+            this.deleteAllButton.TabIndex = 13;
+            this.deleteAllButton.Text = "Delete All Chunks";
+            this.deleteAllButton.UseVisualStyleBackColor = true;
+            this.deleteAllButton.Click += new System.EventHandler(this.deleteAllButton_Click);
+            //
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(514, 122);
@@ -225,6 +237,7 @@ namespace entity.MapForms
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button deleteAllButton;
         private System.Windows.Forms.Button savemeta;
         private System.Windows.Forms.Button expand;
         private System.Windows.Forms.Button collapse;

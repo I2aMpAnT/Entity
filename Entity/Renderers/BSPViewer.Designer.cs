@@ -66,11 +66,16 @@ namespace entity.Renderers
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectCurrentToolStripMenuItem;
         List<int> SelectedSpawn = new List<int>();
+        TreeNode treeAnchorNode = null;
+        List<TreeNode> highlightedTreeNodes = new List<TreeNode>();
         private System.Windows.Forms.ToolStripMenuItem selectFreezeAllMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectFreezeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectGroupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectUnFreezeAllMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportSpawnsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importSpawnsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem placeAsCrateToolStripMenuItem;
         List<SpawnLoads.SceneryInfo> SoundsList; //= new List<SpawnLoads.SceneryInfo>();
         List<ParsedModel> SpawnModel = new List<ParsedModel>();
         private Label speedLabel;
@@ -81,6 +86,12 @@ namespace entity.Renderers
         private ToolStripDropDownButton ToolStripDropDownButtonRotatePitch;
         private ToolStripDropDownButton toolStripDropDownButtonRotateRoll;
         private ToolStripDropDownButton ToolStripDropDownButtonRotateYaw;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton tsBtnDeleteChunk;
+        private ToolStripButton tsBtnDuplicateChunk;
+        private ToolStripButton tsBtnAddChunk;
+        private ToolStripButton tsBtnPlaceAsCrate;
+        private ToolStripButton tsBtnUndo;
         private ToolStripLabel toolStripLabel2;
         private ToolStripMenuItem ToolStripMenuItemRP180;
         private ToolStripMenuItem ToolStripMenuItemRP45CCW;
@@ -185,6 +196,9 @@ namespace entity.Renderers
             this.selectGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSpawnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.placeAsCrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedBar = new System.Windows.Forms.TrackBar();
             this.speedLabel = new System.Windows.Forms.Label();
             this.rightSandDock = new TD.SandDock.DockContainer();
@@ -261,12 +275,16 @@ namespace entity.Renderers
             this.ToolStripMenuItemRR180 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemRR90CW = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemRR45CW = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsBtnDeleteChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnDuplicateChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnAddChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnPlaceAsCrate = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
             this.cbBSPTextures = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             this.identContext.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).BeginInit();
-            this.dockControl6.SuspendLayout();
-            this.dockControl5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -394,7 +412,7 @@ namespace entity.Renderers
             // 
             // tsLabelYaw
             // 
-            this.tsLabelYaw.AutoSize = false;
+            this.tsLabelYaw.AutoSize = true;
             this.tsLabelYaw.Name = "tsLabelYaw";
             this.tsLabelYaw.Size = new System.Drawing.Size(28, 22);
             this.tsLabelYaw.Text = "tsLabelYaw";
@@ -411,7 +429,7 @@ namespace entity.Renderers
             // 
             // tsLabelPitch
             // 
-            this.tsLabelPitch.AutoSize = false;
+            this.tsLabelPitch.AutoSize = true;
             this.tsLabelPitch.Name = "tsLabelPitch";
             this.tsLabelPitch.Size = new System.Drawing.Size(28, 22);
             this.tsLabelPitch.Text = "tsLabelPitch";
@@ -428,7 +446,7 @@ namespace entity.Renderers
             // 
             // tsLabelRoll
             // 
-            this.tsLabelRoll.AutoSize = false;
+            this.tsLabelRoll.AutoSize = true;
             this.tsLabelRoll.Name = "tsLabelRoll";
             this.tsLabelRoll.Size = new System.Drawing.Size(28, 22);
             this.tsLabelRoll.Text = "tsLabelRoll";
@@ -456,7 +474,10 @@ namespace entity.Renderers
             this.selectCurrentToolStripMenuItem,
             this.selectGroupToolStripMenuItem,
             this.selectAllToolStripMenuItem,
-            this.selectNoneToolStripMenuItem});
+            this.selectNoneToolStripMenuItem,
+            this.exportSpawnsToolStripMenuItem,
+            this.importSpawnsToolStripMenuItem,
+            this.placeAsCrateToolStripMenuItem});
             this.identContext.Name = "identContext";
             this.identContext.Size = new System.Drawing.Size(189, 158);
             this.identContext.Opening += new System.ComponentModel.CancelEventHandler(this.identContext_Opening);
@@ -516,7 +537,31 @@ namespace entity.Renderers
             this.selectNoneToolStripMenuItem.Tag = "DES-1";
             this.selectNoneToolStripMenuItem.Text = "Deselect All";
             this.selectNoneToolStripMenuItem.Click += new System.EventHandler(this.selectToolStripMenuItem_Click);
-            // 
+            //
+            // exportSpawnsToolStripMenuItem
+            //
+            this.exportSpawnsToolStripMenuItem.Name = "exportSpawnsToolStripMenuItem";
+            this.exportSpawnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.exportSpawnsToolStripMenuItem.Text = "Export Spawns to CSV";
+            this.exportSpawnsToolStripMenuItem.Visible = false;
+            this.exportSpawnsToolStripMenuItem.Click += new System.EventHandler(this.exportSpawnsToolStripMenuItem_Click);
+            //
+            // importSpawnsToolStripMenuItem
+            //
+            this.importSpawnsToolStripMenuItem.Name = "importSpawnsToolStripMenuItem";
+            this.importSpawnsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.importSpawnsToolStripMenuItem.Text = "Import Spawns from CSV";
+            this.importSpawnsToolStripMenuItem.Visible = false;
+            this.importSpawnsToolStripMenuItem.Click += new System.EventHandler(this.importSpawnsToolStripMenuItem_Click);
+            //
+            // placeAsCrateToolStripMenuItem
+            //
+            this.placeAsCrateToolStripMenuItem.Name = "placeAsCrateToolStripMenuItem";
+            this.placeAsCrateToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.placeAsCrateToolStripMenuItem.Text = "Place as Crate";
+            this.placeAsCrateToolStripMenuItem.Visible = false;
+            this.placeAsCrateToolStripMenuItem.Click += new System.EventHandler(this.tsBtnPlaceAsCrate_Click);
+            //
             // speedBar
             // 
             this.speedBar.Location = new System.Drawing.Point(757, 13);
@@ -539,7 +584,7 @@ namespace entity.Renderers
             this.speedLabel.Name = "speedLabel";
             this.speedLabel.Size = new System.Drawing.Size(38, 13);
             this.speedLabel.TabIndex = 19;
-            this.speedLabel.Text = "speed";
+            this.speedLabel.Text = "0.25";
             this.speedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rightSandDock
@@ -575,18 +620,6 @@ namespace entity.Renderers
             this.topSandDock.Size = new System.Drawing.Size(541, 0);
             this.topSandDock.TabIndex = 16;
             // 
-            // dockControl6
-            // 
-            this.dockControl6.Controls.Add(this.button5);
-            this.dockControl6.Controls.Add(this.button4);
-            this.dockControl6.Controls.Add(this.checkedListBox2);
-            this.dockControl6.Guid = new System.Guid("8a474c02-64bc-429b-8d89-83c818109d18");
-            this.dockControl6.Location = new System.Drawing.Point(0, 18);
-            this.dockControl6.Name = "dockControl6";
-            this.dockControl6.Size = new System.Drawing.Size(250, 584);
-            this.dockControl6.TabIndex = 5;
-            this.dockControl6.Text = "BSP Selections";
-            this.dockControl6.Enter += new System.EventHandler(this.dockControl6_Enter);
             // 
             // button5
             // 
@@ -622,16 +655,6 @@ namespace entity.Renderers
             // 
             // dockControl5
             // 
-            this.dockControl5.Controls.Add(this.button3);
-            this.dockControl5.Controls.Add(this.groupBox2);
-            this.dockControl5.Controls.Add(this.panel1);
-            this.dockControl5.Controls.Add(this.groupBox1);
-            this.dockControl5.Guid = new System.Guid("f641181f-8274-43e0-8421-3f46471b23a2");
-            this.dockControl5.Location = new System.Drawing.Point(0, 18);
-            this.dockControl5.Name = "dockControl5";
-            this.dockControl5.Size = new System.Drawing.Size(250, 584);
-            this.dockControl5.TabIndex = 4;
-            this.dockControl5.Text = "Lightmap Palettes";
             // 
             // button3
             // 
@@ -918,6 +941,7 @@ namespace entity.Renderers
             this.treeView1.TabIndex = 1;
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             this.treeView1.Click += new System.EventHandler(this.treeView1_Click);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
             // dockControl2
             // 
@@ -1030,6 +1054,8 @@ namespace entity.Renderers
             // CameraCulling
             // 
             this.CameraCulling.AutoSize = true;
+            this.CameraCulling.Checked = true;
+            this.CameraCulling.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CameraCulling.Location = new System.Drawing.Point(25, 264);
             this.CameraCulling.Name = "CameraCulling";
             this.CameraCulling.Size = new System.Drawing.Size(207, 17);
@@ -1097,6 +1123,8 @@ namespace entity.Renderers
             // NoCulling
             // 
             this.NoCulling.AutoSize = true;
+            this.NoCulling.Checked = true;
+            this.NoCulling.CheckState = System.Windows.Forms.CheckState.Checked;
             this.NoCulling.Location = new System.Drawing.Point(25, 119);
             this.NoCulling.Name = "NoCulling";
             this.NoCulling.Size = new System.Drawing.Size(163, 17);
@@ -1107,6 +1135,8 @@ namespace entity.Renderers
             // RenderSky
             // 
             this.RenderSky.AutoSize = true;
+            this.RenderSky.Checked = true;
+            this.RenderSky.CheckState = System.Windows.Forms.CheckState.Checked;
             this.RenderSky.Location = new System.Drawing.Point(25, 139);
             this.RenderSky.Name = "RenderSky";
             this.RenderSky.Size = new System.Drawing.Size(149, 17);
@@ -1120,8 +1150,6 @@ namespace entity.Renderers
             this.leftSandDock.Controls.Add(this.dockControl2);
             this.leftSandDock.Controls.Add(this.dockControl3);
             this.leftSandDock.Controls.Add(this.dockControl4);
-            this.leftSandDock.Controls.Add(this.dockControl5);
-            this.leftSandDock.Controls.Add(this.dockControl6);
             this.leftSandDock.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftSandDock.Guid = new System.Guid("7b82af44-7394-4006-9310-e7e7e6293930");
             this.leftSandDock.LayoutSystem = new TD.SandDock.SplitLayoutSystem(250, 400, System.Windows.Forms.Orientation.Horizontal, new TD.SandDock.LayoutSystemBase[] {
@@ -1130,8 +1158,7 @@ namespace entity.Renderers
                         this.dockControl2,
                         this.dockControl3,
                         this.dockControl4,
-                        this.dockControl5,
-                        this.dockControl6}, this.dockControl1)))});
+                        }, this.dockControl1)))});
             this.leftSandDock.Location = new System.Drawing.Point(0, 0);
             this.leftSandDock.Manager = this.sandDockManager1;
             this.leftSandDock.Name = "leftSandDock";
@@ -1146,7 +1173,13 @@ namespace entity.Renderers
             this.toolStripButtonReset,
             this.ToolStripDropDownButtonRotateYaw,
             this.ToolStripDropDownButtonRotatePitch,
-            this.toolStripDropDownButtonRotateRoll});
+            this.toolStripDropDownButtonRotateRoll,
+            this.toolStripSeparator1,
+            this.tsBtnDeleteChunk,
+            this.tsBtnDuplicateChunk,
+            this.tsBtnAddChunk,
+            this.tsBtnPlaceAsCrate,
+            this.tsBtnUndo});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip.Location = new System.Drawing.Point(254, 0);
             this.toolStrip.Name = "toolStrip";
@@ -1320,7 +1353,57 @@ namespace entity.Renderers
             this.ToolStripMenuItemRR45CW.Size = new System.Drawing.Size(143, 22);
             this.ToolStripMenuItemRR45CW.Text = "45* CW";
             this.ToolStripMenuItemRR45CW.Click += new System.EventHandler(this.ToolStripMenuItemRotate_Click);
-            // 
+            //
+            // toolStripSeparator1
+            //
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            //
+            // tsBtnDeleteChunk
+            //
+            this.tsBtnDeleteChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnDeleteChunk.Name = "tsBtnDeleteChunk";
+            this.tsBtnDeleteChunk.Size = new System.Drawing.Size(48, 20);
+            this.tsBtnDeleteChunk.Text = "Delete";
+            this.tsBtnDeleteChunk.ToolTipText = "Delete selected spawn chunk (Del)";
+            this.tsBtnDeleteChunk.Click += new System.EventHandler(this.tsBtnDeleteChunk_Click);
+            //
+            // tsBtnDuplicateChunk
+            //
+            this.tsBtnDuplicateChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnDuplicateChunk.Name = "tsBtnDuplicateChunk";
+            this.tsBtnDuplicateChunk.Size = new System.Drawing.Size(64, 20);
+            this.tsBtnDuplicateChunk.Text = "Duplicate";
+            this.tsBtnDuplicateChunk.ToolTipText = "Duplicate selected spawn chunk";
+            this.tsBtnDuplicateChunk.Click += new System.EventHandler(this.tsBtnDuplicateChunk_Click);
+            //
+            // tsBtnAddChunk
+            //
+            this.tsBtnAddChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnAddChunk.Name = "tsBtnAddChunk";
+            this.tsBtnAddChunk.Size = new System.Drawing.Size(33, 20);
+            this.tsBtnAddChunk.Text = "Add";
+            this.tsBtnAddChunk.ToolTipText = "Add a new spawn chunk (clones last)";
+            this.tsBtnAddChunk.Click += new System.EventHandler(this.tsBtnAddChunk_Click);
+            //
+            // tsBtnPlaceAsCrate
+            //
+            this.tsBtnPlaceAsCrate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnPlaceAsCrate.Name = "tsBtnPlaceAsCrate";
+            this.tsBtnPlaceAsCrate.Size = new System.Drawing.Size(90, 20);
+            this.tsBtnPlaceAsCrate.Text = "Place as Crate";
+            this.tsBtnPlaceAsCrate.ToolTipText = "Place selected machine spawn(s) as crate spawn(s)";
+            this.tsBtnPlaceAsCrate.Click += new System.EventHandler(this.tsBtnPlaceAsCrate_Click);
+            //
+            // tsBtnUndo
+            //
+            this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnUndo.Name = "tsBtnUndo";
+            this.tsBtnUndo.Size = new System.Drawing.Size(40, 20);
+            this.tsBtnUndo.Text = "Undo";
+            this.tsBtnUndo.ToolTipText = "Undo last chunk operation (Ctrl+Z)";
+            this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
+            //
             // cbBSPTextures
             // 
             this.cbBSPTextures.AutoSize = true;
@@ -1354,8 +1437,6 @@ namespace entity.Renderers
             this.statusStrip.PerformLayout();
             this.identContext.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.speedBar)).EndInit();
-            this.dockControl6.ResumeLayout(false);
-            this.dockControl5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();

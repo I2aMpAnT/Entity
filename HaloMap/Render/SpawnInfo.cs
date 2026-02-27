@@ -92,7 +92,7 @@ using System.IO;
             Weapon = 0x2, 
             Collection = 0x4, 
             Vehicle = 0x8, 
-            Obstacle = 0x10, 
+            Crate = 0x10,
             Machine = 0x20, 
             Scenery = 0x40, 
             Objective = 0x80, 
@@ -966,7 +966,7 @@ using System.IO;
                     map.BR.BaseStream.Position = tempr + (76 * x);
                     os.Read(map);
 
-                    if (os.PaletteIndex == -1)
+                    if (os.PaletteIndex == -1 || os.PaletteIndex >= temppalette.Length)
                     {
                         continue;
                     }
@@ -2336,7 +2336,7 @@ using System.IO;
             /// <remarks></remarks>
             public ObstacleSpawn()
             {
-                this.Type = SpawnType.Obstacle;
+                this.Type = SpawnType.Crate;
                 this.RotationType = SpawnRotationType.YawPitchRoll;
             }
 

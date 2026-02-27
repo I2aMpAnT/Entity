@@ -262,6 +262,18 @@ namespace entity.MapForms
         public Map map { get; private set; }
 
         /// <summary>
+        /// Reloads the map from disk and refreshes the current view.
+        /// </summary>
+        public void ReloadMap()
+        {
+            int selectedTag = (map.SelectedMeta != null) ? map.SelectedMeta.TagIndex : -1;
+            string filePath = map.filePath;
+            map = Map.LoadFromFile(filePath);
+            if (selectedTag >= 0 && selectedTag < map.IndexHeader.metaCount)
+                LoadMeta(selectedTag);
+        }
+
+        /// <summary>
         /// Gets or sets pictureBox.
         /// </summary>
         /// <value>The picture box.</value>
@@ -880,7 +892,7 @@ namespace entity.MapForms
 
             Prefs.CustomPluginMask pluginMask = Prefs.CustomPluginMasks[comboBox1.SelectedIndex - 1];
 
-            metaEditor1.pluginName = comboBox1.SelectedItem.ToString();
+            metaEditor1.pluginName = comboBox1.SelectedItem != null ? comboBox1.SelectedItem.ToString() : string.Empty;
 
             // Check quick list
             TreeNode tn = treeView1.Nodes.Count > 1 ? treeView1.Nodes[1] : null;
@@ -1830,6 +1842,18 @@ namespace entity.MapForms
         }
 
         /// <summary>
+        /// Refreshes the map and reloads the current meta after a chunk add/delete/duplicate operation.
+        /// </summary>
+        public void RefreshAfterChunkEdit()
+        {
+            int i = map.SelectedMeta.TagIndex;
+            Meta.ItemType me = map.DisplayType;
+            map = Map.Refresh(map);
+            LoadMeta(i);
+            formFuncs.AddReferencesToListView(map.SelectedMeta, references, me);
+        }
+
+        /// <summary>
         /// The clear tag quick list tool strip menu item_ click.
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -1971,7 +1995,7 @@ namespace entity.MapForms
             CustomPluginEditor cpe = new CustomPluginEditor(map);
             cpe.Owner = this;
             cpe.ShowDialog();
-            string tempS = (string)cpe.comboBoxPluginName.SelectedItem;
+            string tempS = cpe.comboBoxPluginName.SelectedItem as string;
             cpe.Dispose();
 
             // Remove all but the Complete Listing
@@ -2197,7 +2221,7 @@ namespace entity.MapForms
         /// <remarks></remarks>
         private void duplicateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (map.SelectedMeta == null)
+            if (map.SelectedMeta == null || treeView1.SelectedNode == null)
             {
                 return;
             }
@@ -3068,8 +3092,16 @@ namespace entity.MapForms
             if (bsp.BspNumber != -1)
             {
                 BSPViewer bv = new BSPViewer(bsp, map);
+                bool mapModified = bv.MapWasModified;
                 bv.Dispose();
                 bv = null;
+
+                // If BSPViewer modified the map (chunk add/delete/duplicate),
+                // reload the map from the updated file so MapForm stays in sync.
+                if (mapModified)
+                {
+                    map = Map.LoadFromFile(map.filePath);
+                }
             }
 
             meta.Dispose();
@@ -3092,8 +3124,14 @@ namespace entity.MapForms
             if (bsp.BspNumber != -1)
             {
                 BSPViewer bv = new BSPViewer(bsp, map, theaterMode: true);
+                bool mapModified = bv.MapWasModified;
                 bv.Dispose();
                 bv = null;
+
+                if (mapModified)
+                {
+                    map = Map.LoadFromFile(map.filePath);
+                }
             }
 
             meta.Dispose();
@@ -3478,7 +3516,9 @@ namespace entity.MapForms
         /// <remarks></remarks>
         private void removeFromQuickListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // If using registry, remove the selected tag 
+            if (treeView1.SelectedNode == null) return;
+
+            // If using registry, remove the selected tag
             if (Prefs.useRegistryEntries)
             {
                 if (treeView1.SelectedNode.FullPath == treeView1.SelectedNode.Name)
@@ -4255,7 +4295,7 @@ namespace entity.MapForms
                     if (tagNum != -1)
                     {
                         // If we are within the <ALL TAGS> listing, add to registry and main tag listing
-                        if (((TreeView)sender).SelectedNode.FullPath.StartsWith(this.treeView1.Nodes[0].Text))
+                        if (e.Node != null && e.Node.FullPath.StartsWith(this.treeView1.Nodes[0].Text))
                         {
                             addToQuickList(map.MetaInfo.TagType[tagNum], map.FileNames.Name[tagNum]);
                         }
