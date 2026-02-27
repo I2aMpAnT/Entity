@@ -784,6 +784,81 @@ namespace entity.MapForms
             treeView1.SelectedNode.EnsureVisible();
         }
 
+        private void deleteAllButton_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode == null)
+            {
+                return;
+            }
+
+            // Find the selected reflexive node (Container type)
+            // If a chunk is selected, use its parent reflexive
+            TreeNode reflexNode = treeView1.SelectedNode;
+            if (reflexNode.Text.StartsWith("Chunk -"))
+            {
+                reflexNode = reflexNode.Parent;
+            }
+
+            if (reflexNode == null || !reflexNode.Text.StartsWith("Reflexive -"))
+            {
+                MessageBox.Show("Please select a Reflexive node to delete all its chunks.");
+                return;
+            }
+
+            int chunkCount = 0;
+            foreach (TreeNode child in reflexNode.Nodes)
+            {
+                if (child.Text.StartsWith("Chunk -"))
+                    chunkCount++;
+            }
+
+            if (chunkCount == 0)
+            {
+                return;
+            }
+
+            DialogResult dr = MessageBox.Show(
+                "Delete all " + chunkCount + " chunks from " + reflexNode.Text + "?",
+                "Confirm Delete All",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (dr != DialogResult.Yes)
+            {
+                return;
+            }
+
+            treeView1.BeginUpdate();
+            string parentPath = reflexNode.FullPath;
+
+            // Delete chunks one by one from the end
+            for (int i = chunkCount - 1; i >= 0; i--)
+            {
+                // Select the last chunk node
+                TreeNode lastChunk = null;
+                foreach (TreeNode child in reflexNode.Nodes)
+                {
+                    if (child.Text.StartsWith("Chunk -"))
+                        lastChunk = child;
+                }
+
+                if (lastChunk == null) break;
+
+                treeView1.SelectedNode = lastChunk;
+                FindSelectedNodeAndDelete(metasplit.Header, treeView1.Nodes[0]);
+                treeView1.Nodes[0].Nodes.Clear();
+                DisplaySplit(metasplit.Header, treeView1.Nodes[0]);
+
+                // Re-find the reflexive node after tree rebuild
+                ExpandToNode(treeView1.Nodes, parentPath, treeView1.PathSeparator);
+                reflexNode = treeView1.SelectedNode;
+                if (reflexNode == null) break;
+            }
+
+            treeView1.EndUpdate();
+            MessageBox.Show("Deleted " + chunkCount + " chunks. Click 'Add Meta To Map' to save.");
+        }
+
         /// <summary>
         /// The chunkamount_ text changed.
         /// </summary>

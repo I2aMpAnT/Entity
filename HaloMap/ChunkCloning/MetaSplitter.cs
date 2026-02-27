@@ -444,6 +444,78 @@ namespace HaloMap.ChunkCloning
                 label = sr.label;
             }
 
+            /// <summary>
+            /// Creates a deep copy of this SplitReflexive, cloning the MemoryStream,
+            /// ChunkResources, and child Chunks so the copy can be independently mutated.
+            /// </summary>
+            public SplitReflexive DeepCopy()
+            {
+                SplitReflexive copy = new SplitReflexive();
+
+                // Meta.Item fields
+                copy.child = this.child;
+                copy.description = this.description;
+                copy.intag = this.intag;
+                copy.intagname = this.intagname;
+                copy.intagtype = this.intagtype;
+                copy.mapOffset = this.mapOffset;
+                copy.offset = this.offset;
+                copy.parent = this.parent;
+                copy.sibling = this.sibling;
+                copy.type = this.type;
+
+                // Meta.Reflexive fields
+                copy.chunkcount = this.chunkcount;
+                copy.chunksize = this.chunksize;
+                copy.pointstotagname = this.pointstotagname;
+                copy.pointstoTagIndex = this.pointstoTagIndex;
+                copy.pointstotagtype = this.pointstotagtype;
+                copy.translation = this.translation;
+
+                // SplitReflexive fields
+                copy.inchunknumber = this.inchunknumber;
+                copy.realtranslation = this.realtranslation;
+                copy.realTagIndex = this.realTagIndex;
+                copy.splitReflexiveType = this.splitReflexiveType;
+                copy.label = this.label;
+
+                // Deep copy MemoryStream
+                if (this.MS != null)
+                {
+                    byte[] data = this.MS.ToArray();
+                    copy.MS = new MemoryStream(data.Length);
+                    copy.MS.Write(data, 0, data.Length);
+                }
+
+                // Deep copy ChunkResources
+                copy.ChunkResources = new List<Meta.Item>(this.ChunkResources.Count);
+                for (int i = 0; i < this.ChunkResources.Count; i++)
+                {
+                    Meta.Item item = this.ChunkResources[i];
+                    switch (item.type)
+                    {
+                        case Meta.ItemType.Ident:
+                            copy.ChunkResources.Add(new SplitIdent((SplitIdent)item));
+                            break;
+                        case Meta.ItemType.Reflexive:
+                            copy.ChunkResources.Add(((SplitReflexive)item).DeepCopy());
+                            break;
+                        default:
+                            copy.ChunkResources.Add(item);
+                            break;
+                    }
+                }
+
+                // Deep copy child Chunks
+                copy.Chunks = new List<SplitReflexive>(this.Chunks.Count);
+                for (int i = 0; i < this.Chunks.Count; i++)
+                {
+                    copy.Chunks.Add(this.Chunks[i].DeepCopy());
+                }
+
+                return copy;
+            }
+
             #endregion
 
             #region Enums

@@ -57,6 +57,10 @@
             this.tsBtnResetReflexiveAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsBtnCopyToAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsBtnAddChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnDeleteChunk = new System.Windows.Forms.ToolStripButton();
+            this.tsBtnDuplicateChunk = new System.Windows.Forms.ToolStripButton();
             this.tsDebugCommands = new System.Windows.Forms.ToolStrip();
             this.tsbtnPeek = new System.Windows.Forms.ToolStripButton();
             this.tsbtnPoke = new System.Windows.Forms.ToolStripButton();
@@ -288,10 +292,14 @@
             this.tsBtnResetReflexiveChunk,
             this.tsBtnResetReflexiveAll,
             this.toolStripSeparator1,
-            this.tsBtnCopyToAll});
+            this.tsBtnCopyToAll,
+            this.toolStripSeparator2,
+            this.tsBtnAddChunk,
+            this.tsBtnDeleteChunk,
+            this.tsBtnDuplicateChunk});
             this.tsMetaMassEdit.Location = new System.Drawing.Point(3, 25);
             this.tsMetaMassEdit.Name = "tsMetaMassEdit";
-            this.tsMetaMassEdit.Size = new System.Drawing.Size(355, 25);
+            this.tsMetaMassEdit.Size = new System.Drawing.Size(600, 25);
             this.tsMetaMassEdit.TabIndex = 0;
             this.tsMetaMassEdit.Text = "toolStrip1";
             // 
@@ -340,7 +348,42 @@
             this.tsBtnCopyToAll.Text = "Copy to all chunks";
             this.tsBtnCopyToAll.ToolTipText = "Copies the current selected value to all reflexive chunks";
             this.tsBtnCopyToAll.Click += new System.EventHandler(this.tsBtnCopyToAll_Click);
-            // 
+            //
+            // toolStripSeparator2
+            //
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            //
+            // tsBtnAddChunk
+            //
+            this.tsBtnAddChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnAddChunk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnAddChunk.Name = "tsBtnAddChunk";
+            this.tsBtnAddChunk.Size = new System.Drawing.Size(65, 22);
+            this.tsBtnAddChunk.Text = "Add Chunk";
+            this.tsBtnAddChunk.ToolTipText = "Adds a new blank chunk to the current reflexive";
+            this.tsBtnAddChunk.Click += new System.EventHandler(this.tsBtnAddChunk_Click);
+            //
+            // tsBtnDeleteChunk
+            //
+            this.tsBtnDeleteChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnDeleteChunk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnDeleteChunk.Name = "tsBtnDeleteChunk";
+            this.tsBtnDeleteChunk.Size = new System.Drawing.Size(78, 22);
+            this.tsBtnDeleteChunk.Text = "Delete Chunk";
+            this.tsBtnDeleteChunk.ToolTipText = "Deletes the currently selected chunk from the reflexive";
+            this.tsBtnDeleteChunk.Click += new System.EventHandler(this.tsBtnDeleteChunk_Click);
+            //
+            // tsBtnDuplicateChunk
+            //
+            this.tsBtnDuplicateChunk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsBtnDuplicateChunk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsBtnDuplicateChunk.Name = "tsBtnDuplicateChunk";
+            this.tsBtnDuplicateChunk.Size = new System.Drawing.Size(95, 22);
+            this.tsBtnDuplicateChunk.Text = "Duplicate Chunk";
+            this.tsBtnDuplicateChunk.ToolTipText = "Duplicates the currently selected chunk";
+            this.tsBtnDuplicateChunk.Click += new System.EventHandler(this.tsBtnDuplicateChunk_Click);
+            //
             // tsDebugCommands
             // 
             this.tsDebugCommands.Dock = System.Windows.Forms.DockStyle.None;
@@ -493,6 +536,10 @@
         private System.Windows.Forms.ToolStripButton tsBtnResetReflexiveAll;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton tsBtnCopyToAll;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tsBtnAddChunk;
+        private System.Windows.Forms.ToolStripButton tsBtnDeleteChunk;
+        private System.Windows.Forms.ToolStripButton tsBtnDuplicateChunk;
         private System.Windows.Forms.ContextMenuStrip cmIdent;
         private System.Windows.Forms.ToolStripPanel toolStripPanel1;
         private System.Windows.Forms.ToolStrip tsDebugCommands;

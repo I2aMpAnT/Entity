@@ -258,12 +258,16 @@ namespace entity.Main
                 mapFileName = openmapdialog.FileName;
             }
 
-            // Check map isn't already loaded into a map form
+            // If map is already open, reload it and bring to front
             foreach (MapForm mapForm in this.MdiChildren)
             {
                 if (mapForm.map.filePath == mapFileName)
                 {
-                    MessageBox.Show("This map is already open in this editor!..");
+                    this.Cursor = Cursors.WaitCursor;
+                    mapForm.ReloadMap();
+                    this.Cursor = Cursors.Arrow;
+                    mapForm.BringToFront();
+                    mapForm.Focus();
                     return mapForm;
                 }
             }
@@ -938,6 +942,7 @@ namespace entity.Main
                                      "",
                                      tscbPluginSet.SelectedItem);
             }
+            if (tscbPluginSet.SelectedItem == null) return;
             Prefs.pathPluginsFolder = Globals.PluginSetSelector.getPath(tscbPluginSet.SelectedItem.ToString());
 
             // Make sure to reload all plugins!

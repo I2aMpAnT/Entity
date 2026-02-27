@@ -139,10 +139,14 @@ namespace HaloMap.Render
                             // Retrieve the Model HLMT tag from the Scenery tag (+56)
                             map.BR.BaseStream.Position = map.MetaInfo.Offset[Obstacle.ScenTagNumber] + 56;
                             Obstacle.HlmtTagNumber = map.Functions.ForMeta.FindMetaByID(map.BR.ReadInt32());
+                            if (Obstacle.HlmtTagNumber == -1)
+                                continue;
 
                             // Base address of HLMT tag, offset of MODE pointer (+4)
                             map.BR.BaseStream.Position = map.MetaInfo.Offset[Obstacle.HlmtTagNumber] + 4;
                             Obstacle.ModelTagNumber = map.Functions.ForMeta.FindMetaByID(map.BR.ReadInt32());
+                            if (Obstacle.ModelTagNumber == -1)
+                                continue;
 
                             m.ReadMetaFromMap(Obstacle.ModelTagNumber, false);
                             Obstacle.Model = new ParsedModel(ref m);

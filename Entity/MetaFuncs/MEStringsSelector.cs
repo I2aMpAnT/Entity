@@ -675,16 +675,14 @@ namespace entity.MetaFuncs
             if (!lbStringIDs.Enabled)
                 return;
             updateUnicodeFromStringID();
-            if (lbUnicodes.SelectedIndex != -1)
-                lblUnicodePosition.Text = "Unicode #" + ((Unicode)lbUnicodes.SelectedItem).position + " / " + unicodes.Count;
+            Unicode selUni = lbUnicodes.SelectedItem as Unicode;
+            if (selUni != null)
+                lblUnicodePosition.Text = "Unicode #" + selUni.position + " / " + unicodes.Count;
             else
                 lblUnicodePosition.Text = string.Empty;
-            try
-            {
-                lblStringIDNumber.Text = "String ID #" + ((StringID)lbStringIDs.SelectedItem).id.ToString() + " (Total: " + lbStringIDs.Items.Count + ")";
-            }
-            catch
-            {}
+            StringID selSid = lbStringIDs.SelectedItem as StringID;
+            if (selSid != null)
+                lblStringIDNumber.Text = "String ID #" + selSid.id.ToString() + " (Total: " + lbStringIDs.Items.Count + ")";
 
         }
 
@@ -697,8 +695,9 @@ namespace entity.MetaFuncs
             {
                 lbUnicodes.SelectedIndex = 0;
             }
-            if (lbUnicodes.SelectedItem != null)
-                lblUnicodePosition.Text = "Unicode #" + ((Unicode)lbUnicodes.SelectedItem).position + " / " + unicodes.Count;
+            Unicode selUni2 = lbUnicodes.SelectedItem as Unicode;
+            if (selUni2 != null)
+                lblUnicodePosition.Text = "Unicode #" + selUni2.position + " / " + unicodes.Count;
             
         }
 
@@ -713,8 +712,9 @@ namespace entity.MetaFuncs
         /// </param>
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
-            string s = lbStringIDs.SelectedItem.ToString();
-            _selectedID = ((StringID)lbStringIDs.SelectedItem).id;
+            StringID sel = lbStringIDs.SelectedItem as StringID;
+            if (sel == null) return;
+            _selectedID = sel.id;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -745,16 +745,12 @@ namespace entity.MetaFuncs
                 lbUnicodes.DataSource = unicodes;
             else
             {
-                StringID SID = (StringID)lbStringIDs.SelectedItem;
-                lbUnicodes.DataSource = SID.unicodes;
+                StringID SID = lbStringIDs.SelectedItem as StringID;
+                if (SID != null)
+                    lbUnicodes.DataSource = SID.unicodes;
             }
-            try
-            {
+            if (o != null)
                 lbUnicodes.SelectedItem = o;
-            }
-            catch
-            {
-            }
             sortUnicodeLists();
         }
 
@@ -792,7 +788,9 @@ namespace entity.MetaFuncs
                 if (o != null)
                     lbStringIDs.SelectedItem = o;
                 // Make sure selection # & count is up to date
-                lblStringIDNumber.Text = "String ID #" + ((StringID)lbStringIDs.SelectedItem).id.ToString() + " (Total: " + lbStringIDs.Items.Count + ")";
+                StringID sel = lbStringIDs.SelectedItem as StringID;
+                if (sel != null)
+                    lblStringIDNumber.Text = "String ID #" + sel.id.ToString() + " (Total: " + lbStringIDs.Items.Count + ")";
             }
             catch
             { }
@@ -942,7 +940,7 @@ namespace entity.MetaFuncs
 
         private void updateUnicodeFromStringID()
         {
-            StringID SID = (StringID)lbStringIDs.SelectedItem;
+            StringID SID = lbStringIDs.SelectedItem as StringID;
             if (SID == null)
                 return;
             lbUnicodes.Enabled = false;
@@ -967,7 +965,7 @@ namespace entity.MetaFuncs
                     string s = SID.unicodes[0].unicode.ToString();
                     byte[] tempbytes = System.Text.Encoding.Unicode.GetBytes(s);
                     string temps = "Unknown Codes:\n";
-                    for(int i = 0; i < tempbytes.Length; i++)
+                    for(int i = 0; i < tempbytes.Length - 2; i++)
                         if (tempbytes[i] == 238)
                         {
                             temps += tempbytes[i].ToString() + " " + tempbytes[i + 1].ToString() + " " + tempbytes[i + 2].ToString() + "\n";
@@ -981,7 +979,7 @@ namespace entity.MetaFuncs
 
         private void updateStringIDFromUnicode()
         {
-            Unicode uni = (Unicode)lbUnicodes.SelectedItem;
+            Unicode uni = lbUnicodes.SelectedItem as Unicode;
             if (uni == null)
                 return;
             lbStringIDs.Enabled = false;

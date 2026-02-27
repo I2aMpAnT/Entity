@@ -855,7 +855,9 @@ namespace entity.MetaEditor2
             this.BR.BaseStream.Position = 0;
             FieldControl.meta.MS.Close();
             FieldControl.meta.MS.Dispose();
-            FieldControl.meta.MS = new MemoryStream(this.BR.ReadBytes((int)this.BR.BaseStream.Length));
+            byte[] data = this.BR.ReadBytes((int)this.BR.BaseStream.Length);
+            FieldControl.meta.MS = new MemoryStream(data.Length);
+            FieldControl.meta.MS.Write(data, 0, data.Length);
             this.progressBar1.Value = 100;
             this.progressBar1.Refresh();
             System.Threading.Thread.Sleep(200);

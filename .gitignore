@@ -360,3 +360,6 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Map backup files
+*_backup*.map

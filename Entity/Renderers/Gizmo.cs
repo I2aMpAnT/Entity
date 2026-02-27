@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Gizmo.cs" company="">
-//   
+//
 // </copyright>
 // <summary>
 //   The gizmo.
@@ -9,6 +9,7 @@
 
 namespace entity.Renderers
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
@@ -42,7 +43,7 @@ namespace entity.Renderers
         private readonly Microsoft.DirectX.Direct3D.Font font;
 
         /// <summary>
-        /// The gizmo.
+        /// The gizmo mesh (used for picking).
         /// </summary>
         private Mesh gizmo;
 
@@ -55,6 +56,37 @@ namespace entity.Renderers
         /// The selected axis.
         /// </summary>
         private axis selectedAxis = axis.none;
+
+        /// <summary>
+        /// The current transform mode.
+        /// </summary>
+        private transform currentTransform = transform.movement;
+
+        /// <summary>
+        /// Number of mesh subsets for the current gizmo type.
+        /// </summary>
+        private int meshSubsetCount = 9;
+
+        /// <summary>
+        /// Whether a rotation drag is in progress.
+        /// </summary>
+        private bool isDragging = false;
+
+        /// <summary>
+        /// Accumulated rotation during the current drag (radians).
+        /// </summary>
+        private float totalRotation = 0f;
+
+        /// <summary>
+        /// The axis being dragged for rotation feedback.
+        /// </summary>
+        private axis dragAxis = axis.none;
+
+        // Rotation ring constants
+        private const int ringSegments = 48;
+        private const float ringRadius = 10f;
+        private const float ringInnerR = 8.5f;
+        private const float ringOuterR = 11.5f;
 
         #endregion
 
@@ -86,32 +118,32 @@ namespace entity.Renderers
             /// <summary>
             /// The none.
             /// </summary>
-            none, 
+            none,
 
             /// <summary>
             /// The x.
             /// </summary>
-            X, 
+            X,
 
             /// <summary>
             /// The y.
             /// </summary>
-            Y, 
+            Y,
 
             /// <summary>
             /// The z.
             /// </summary>
-            Z, 
+            Z,
 
             /// <summary>
             /// The xy.
             /// </summary>
-            XY, 
+            XY,
 
             /// <summary>
             /// The xz.
             /// </summary>
-            XZ, 
+            XZ,
 
             /// <summary>
             /// The yz.
@@ -128,12 +160,12 @@ namespace entity.Renderers
             /// <summary>
             /// The movement.
             /// </summary>
-            movement, 
+            movement,
 
             /// <summary>
             /// The rotation.
             /// </summary>
-            rotation, 
+            rotation,
 
             /// <summary>
             /// The scale.
@@ -143,14 +175,89 @@ namespace entity.Renderers
 
         #endregion
 
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the current transform mode.
+        /// </summary>
+        public transform CurrentTransform
+        {
+            get { return currentTransform; }
+        }
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
-        /// Checks for intersection with a given mouse point. Pass the results from a call to System.Windows.Forms.MouseEventArgs()
+        /// Switches between gizmo modes (movement, rotation).
+        /// </summary>
+        /// <param name="tForm">The transform mode.</param>
+        public void SetGizmoMode(transform tForm)
+        {
+            if (currentTransform == tForm)
+                return;
+
+            currentTransform = tForm;
+            selectedAxis = axis.none;
+            isDragging = false;
+            totalRotation = 0f;
+
+            if (gizmo != null)
+            {
+                gizmo.Dispose();
+                gizmo = null;
+            }
+
+            switch (tForm)
+            {
+                case transform.movement:
+                    createMovementGizmo();
+                    meshSubsetCount = 9;
+                    break;
+                case transform.rotation:
+                    createRotationGizmo();
+                    meshSubsetCount = 3;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Begins tracking a rotation drag for visual feedback.
+        /// </summary>
+        /// <param name="ax">The axis being rotated.</param>
+        public void BeginDrag(axis ax)
+        {
+            isDragging = true;
+            totalRotation = 0f;
+            dragAxis = ax;
+        }
+
+        /// <summary>
+        /// Ends rotation drag tracking.
+        /// </summary>
+        public void EndDrag()
+        {
+            isDragging = false;
+            totalRotation = 0f;
+            dragAxis = axis.none;
+        }
+
+        /// <summary>
+        /// Accumulates rotation amount for arc feedback display.
+        /// </summary>
+        /// <param name="amount">Rotation in radians.</param>
+        public void AddRotation(float amount)
+        {
+            totalRotation += amount;
+        }
+
+        /// <summary>
+        /// Checks for intersection with a given mouse point.
         /// </summary>
         /// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
-        /// <param name="mat">The mat.</param>
-        /// <returns></returns>
+        /// <param name="mat">The world matrix.</param>
+        /// <returns>The intersected axis.</returns>
         /// <remarks></remarks>
         public axis checkForIntersection(MouseEventArgs e, Matrix mat)
         {
@@ -158,32 +265,53 @@ namespace entity.Renderers
             temp = MeshPick(e.X, e.Y, this.gizmo, mat);
             if (temp.Count > 0)
             {
-                switch (temp[0])
+                if (currentTransform == transform.rotation)
                 {
-                    case 0:
-                    case 3:
-                        this.selectedAxis = axis.X;
-                        break;
-                    case 1:
-                    case 4:
-                        this.selectedAxis = axis.Y;
-                        break;
-                    case 2:
-                    case 5:
-                        this.selectedAxis = axis.Z;
-                        break;
-                    case 6:
-                        this.selectedAxis = axis.XY;
-                        break;
-                    case 7:
-                        this.selectedAxis = axis.YZ;
-                        break;
-                    case 8:
-                        this.selectedAxis = axis.XZ;
-                        break;
-                    default:
-                        this.selectedAxis = axis.none;
-                        break;
+                    switch (temp[0])
+                    {
+                        case 0:
+                            this.selectedAxis = axis.X;
+                            break;
+                        case 1:
+                            this.selectedAxis = axis.Y;
+                            break;
+                        case 2:
+                            this.selectedAxis = axis.Z;
+                            break;
+                        default:
+                            this.selectedAxis = axis.none;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (temp[0])
+                    {
+                        case 0:
+                        case 3:
+                            this.selectedAxis = axis.X;
+                            break;
+                        case 1:
+                        case 4:
+                            this.selectedAxis = axis.Y;
+                            break;
+                        case 2:
+                        case 5:
+                            this.selectedAxis = axis.Z;
+                            break;
+                        case 6:
+                            this.selectedAxis = axis.XY;
+                            break;
+                        case 7:
+                            this.selectedAxis = axis.YZ;
+                            break;
+                        case 8:
+                            this.selectedAxis = axis.XZ;
+                            break;
+                        default:
+                            this.selectedAxis = axis.none;
+                            break;
+                    }
                 }
             }
             else
@@ -191,24 +319,35 @@ namespace entity.Renderers
                 this.selectedAxis = axis.none;
             }
 
-            /*
-            for (int x = 0; x < this.gizmo.Count; x++)
-            {
-                //check bitmask for object visibility
-
-                    // Check under mouse cursor for object selection/deselection?
-                }
-            }
-            */
             return this.selectedAxis;
         }
 
         /// <summary>
-        /// The draw.
+        /// Draws the gizmo. Dispatches to the appropriate drawing method based on current mode.
         /// </summary>
         /// <param name="scale">The scale.</param>
         /// <remarks></remarks>
         public void draw(float scale)
+        {
+            switch (currentTransform)
+            {
+                case transform.movement:
+                    drawMovement(scale);
+                    break;
+                case transform.rotation:
+                    drawRotation(scale);
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Draws the movement gizmo (translation arrows).
+        /// </summary>
+        private void drawMovement(float scale)
         {
             // Store current world matrix
             Matrix mat = device.Transform.World;
@@ -220,6 +359,17 @@ namespace entity.Renderers
             device.RenderState.FillMode = FillMode.Solid;
             Cull oldCull = device.RenderState.CullMode;
             device.RenderState.CullMode = Cull.None;
+            bool oldLighting = device.RenderState.Lighting;
+            device.RenderState.Lighting = false;
+            bool oldZBuffer = device.RenderState.ZBufferEnable;
+            device.RenderState.ZBufferEnable = false;
+
+            // Clear any bound texture and set texture stage to use vertex (diffuse) color
+            // instead of texture color, which may be left over from model rendering
+            device.SetTexture(0, null);
+            device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+            device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
+            device.VertexFormat = CustomVertex.PositionColored.Format;
 
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[18];
 
@@ -339,6 +489,11 @@ namespace entity.Renderers
             device.VertexFormat = CustomVertex.PositionColored.Format;
             device.DrawUserPrimitives(PrimitiveType.LineList, 9, vertices);
 
+            // Re-clear texture and stage state after font rendering (font.DrawText changes device state)
+            device.SetTexture(0, null);
+            device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+            device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
+
             #region Drawing axis cones
 
             this.gizmo.DrawSubset(0); // X-Axis
@@ -347,25 +502,250 @@ namespace entity.Renderers
 
             #endregion
 
-            this.gizmo.DrawSubset(3); // Z-Axis
-            this.gizmo.DrawSubset(4); // Z-Axis
-            this.gizmo.DrawSubset(5); // Z-Axis
-
-            /*
-            for (int i = 3; i < 9; i++)
-                this.gizmo.DrawSubset(i);
-            */
+            this.gizmo.DrawSubset(3); // X-Shaft
+            this.gizmo.DrawSubset(4); // Y-Shaft
+            this.gizmo.DrawSubset(5); // Z-Shaft
 
             // Restore previous world matrix
             device.RenderState.FillMode = oldFill;
             device.RenderState.CullMode = oldCull;
+            device.RenderState.Lighting = oldLighting;
+            device.RenderState.ZBufferEnable = oldZBuffer;
             device.Transform.World = mat;
             this.scale = scale;
         }
 
-        #endregion
+        /// <summary>
+        /// Draws the rotation gizmo (colored rings with feedback arc).
+        /// </summary>
+        private void drawRotation(float scale)
+        {
+            Matrix mat = device.Transform.World;
+            device.Transform.World = Matrix.Scaling(scale, scale, scale) * mat;
 
-        #region Methods
+            FillMode oldFill = device.RenderState.FillMode;
+            device.RenderState.FillMode = FillMode.Solid;
+            Cull oldCull = device.RenderState.CullMode;
+            device.RenderState.CullMode = Cull.None;
+            bool oldZWrite = device.RenderState.ZBufferWriteEnable;
+            bool oldZBuffer = device.RenderState.ZBufferEnable;
+            device.RenderState.ZBufferEnable = false;
+            bool oldLighting = device.RenderState.Lighting;
+            device.RenderState.Lighting = false;
+
+            device.SetTexture(0, null);
+            device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+            device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
+            device.VertexFormat = CustomVertex.PositionColored.Format;
+
+            // Draw each ring as a filled TriangleStrip ribbon for true thick appearance
+            float halfW = 0.25f; // Half-width of the ribbon (gives ~3px thick look)
+            int stripVertCount = (ringSegments + 1) * 2;
+            CustomVertex.PositionColored[] stripVerts = new CustomVertex.PositionColored[stripVertCount];
+
+            // X ring (YZ plane) - Red
+            Color xColor = (selectedAxis == axis.X) ? Color.Yellow : Color.Red;
+            for (int i = 0; i <= ringSegments; i++)
+            {
+                float angle = (float)(2 * Math.PI * i / ringSegments);
+                float cos = ringRadius * (float)Math.Cos(angle);
+                float sin = ringRadius * (float)Math.Sin(angle);
+                stripVerts[i * 2].Position = new Vector3(-halfW, cos, sin);
+                stripVerts[i * 2].Color = xColor.ToArgb();
+                stripVerts[i * 2 + 1].Position = new Vector3(halfW, cos, sin);
+                stripVerts[i * 2 + 1].Color = xColor.ToArgb();
+            }
+            device.DrawUserPrimitives(PrimitiveType.TriangleStrip, stripVertCount - 2, stripVerts);
+
+            // Y ring (XZ plane) - Green
+            Color yColor = (selectedAxis == axis.Y) ? Color.Yellow : Color.Green;
+            for (int i = 0; i <= ringSegments; i++)
+            {
+                float angle = (float)(2 * Math.PI * i / ringSegments);
+                float cos = ringRadius * (float)Math.Cos(angle);
+                float sin = ringRadius * (float)Math.Sin(angle);
+                stripVerts[i * 2].Position = new Vector3(cos, -halfW, sin);
+                stripVerts[i * 2].Color = yColor.ToArgb();
+                stripVerts[i * 2 + 1].Position = new Vector3(cos, halfW, sin);
+                stripVerts[i * 2 + 1].Color = yColor.ToArgb();
+            }
+            device.DrawUserPrimitives(PrimitiveType.TriangleStrip, stripVertCount - 2, stripVerts);
+
+            // Z ring (XY plane) - Blue
+            Color zColor = (selectedAxis == axis.Z) ? Color.Yellow : Color.Blue;
+            for (int i = 0; i <= ringSegments; i++)
+            {
+                float angle = (float)(2 * Math.PI * i / ringSegments);
+                float cos = ringRadius * (float)Math.Cos(angle);
+                float sin = ringRadius * (float)Math.Sin(angle);
+                stripVerts[i * 2].Position = new Vector3(cos, sin, -halfW);
+                stripVerts[i * 2].Color = zColor.ToArgb();
+                stripVerts[i * 2 + 1].Position = new Vector3(cos, sin, halfW);
+                stripVerts[i * 2 + 1].Color = zColor.ToArgb();
+            }
+            device.DrawUserPrimitives(PrimitiveType.TriangleStrip, stripVertCount - 2, stripVerts);
+
+            // Axis labels
+            Vector3 pos = new Vector3(0, ringRadius + 2, 0);
+            Vector3 plot2d = Vector3.Project(
+                pos, device.Viewport, device.Transform.Projection, device.Transform.View, device.Transform.World);
+            font.DrawText(null, "x", new Point((int)plot2d.X, (int)plot2d.Y), xColor);
+
+            pos = new Vector3(ringRadius + 2, 0, 0);
+            plot2d = Vector3.Project(
+                pos, device.Viewport, device.Transform.Projection, device.Transform.View, device.Transform.World);
+            font.DrawText(null, "y", new Point((int)plot2d.X, (int)plot2d.Y), yColor);
+
+            pos = new Vector3(0, 0, ringRadius + 2);
+            plot2d = Vector3.Project(
+                pos, device.Viewport, device.Transform.Projection, device.Transform.View, device.Transform.World);
+            font.DrawText(null, "z", new Point((int)plot2d.X, (int)plot2d.Y), zColor);
+
+            // Draw rotation feedback arc when dragging
+            if (isDragging && Math.Abs(totalRotation) > 0.01f)
+            {
+                drawRotationArc();
+            }
+
+            device.RenderState.FillMode = oldFill;
+            device.RenderState.CullMode = oldCull;
+            device.RenderState.ZBufferWriteEnable = oldZWrite;
+            device.RenderState.ZBufferEnable = oldZBuffer;
+            device.RenderState.Lighting = oldLighting;
+            device.Transform.World = mat;
+            this.scale = scale;
+        }
+
+        /// <summary>
+        /// Draws the yellow arc/wedge showing rotation amount during a drag.
+        /// Also draws reference lines from center to start and current positions.
+        /// </summary>
+        private void drawRotationArc()
+        {
+            // Calculate number of arc segments based on rotation amount
+            int arcSegments = Math.Max(1, (int)(Math.Abs(totalRotation) / (2 * Math.PI) * ringSegments));
+            if (arcSegments > ringSegments * 2) arcSegments = ringSegments * 2;
+
+            // Enable alpha blending for semi-transparent arc fill
+            bool oldAlpha = device.RenderState.AlphaBlendEnable;
+            device.RenderState.AlphaBlendEnable = true;
+            device.RenderState.SourceBlend = Blend.SourceAlpha;
+            device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+
+            int arcColor = Color.FromArgb(100, 255, 255, 0).ToArgb(); // Semi-transparent yellow
+
+            // Draw filled wedge using TriangleFan: center vertex + arc edge vertices
+            CustomVertex.PositionColored[] arcVerts = new CustomVertex.PositionColored[arcSegments + 2];
+            arcVerts[0].Position = new Vector3(0, 0, 0);
+            arcVerts[0].Color = arcColor;
+
+            float step = totalRotation / arcSegments;
+
+            for (int i = 0; i <= arcSegments; i++)
+            {
+                float angle = step * i;
+                switch (dragAxis)
+                {
+                    case axis.X: // YZ plane
+                        arcVerts[i + 1].Position = new Vector3(0,
+                            ringRadius * (float)Math.Cos(angle),
+                            ringRadius * (float)Math.Sin(angle));
+                        break;
+                    case axis.Y: // XZ plane
+                        arcVerts[i + 1].Position = new Vector3(
+                            ringRadius * (float)Math.Cos(angle),
+                            0,
+                            ringRadius * (float)Math.Sin(angle));
+                        break;
+                    case axis.Z: // XY plane
+                        arcVerts[i + 1].Position = new Vector3(
+                            ringRadius * (float)Math.Cos(angle),
+                            ringRadius * (float)Math.Sin(angle),
+                            0);
+                        break;
+                    default:
+                        arcVerts[i + 1].Position = new Vector3(0, 0, 0);
+                        break;
+                }
+                arcVerts[i + 1].Color = arcColor;
+            }
+
+            device.VertexFormat = CustomVertex.PositionColored.Format;
+            device.DrawUserPrimitives(PrimitiveType.TriangleFan, arcSegments, arcVerts);
+
+            // Draw reference lines from center to start and current positions on the ring
+            int lineColor = Color.FromArgb(255, 255, 255, 0).ToArgb(); // Solid yellow
+            CustomVertex.PositionColored[] lineVerts = new CustomVertex.PositionColored[4];
+
+            // Line from center to start position (angle = 0)
+            lineVerts[0].Position = new Vector3(0, 0, 0);
+            lineVerts[0].Color = lineColor;
+            // Line from center to current position (angle = totalRotation)
+            lineVerts[2].Position = new Vector3(0, 0, 0);
+            lineVerts[2].Color = lineColor;
+
+            switch (dragAxis)
+            {
+                case axis.X:
+                    lineVerts[1].Position = new Vector3(0, ringRadius, 0);
+                    lineVerts[3].Position = new Vector3(0,
+                        ringRadius * (float)Math.Cos(totalRotation),
+                        ringRadius * (float)Math.Sin(totalRotation));
+                    break;
+                case axis.Y:
+                    lineVerts[1].Position = new Vector3(ringRadius, 0, 0);
+                    lineVerts[3].Position = new Vector3(
+                        ringRadius * (float)Math.Cos(totalRotation),
+                        0,
+                        ringRadius * (float)Math.Sin(totalRotation));
+                    break;
+                case axis.Z:
+                    lineVerts[1].Position = new Vector3(ringRadius, 0, 0);
+                    lineVerts[3].Position = new Vector3(
+                        ringRadius * (float)Math.Cos(totalRotation),
+                        ringRadius * (float)Math.Sin(totalRotation),
+                        0);
+                    break;
+            }
+            lineVerts[1].Color = lineColor;
+            lineVerts[3].Color = lineColor;
+
+            device.DrawUserPrimitives(PrimitiveType.LineList, 2, lineVerts);
+
+            // Draw the arc edge line (solid yellow outline along the wedge edge)
+            int edgeSegments = arcSegments;
+            CustomVertex.PositionColored[] edgeVerts = new CustomVertex.PositionColored[edgeSegments + 1];
+            int edgeColor = Color.Yellow.ToArgb();
+
+            for (int i = 0; i <= edgeSegments; i++)
+            {
+                float angle = step * i;
+                switch (dragAxis)
+                {
+                    case axis.X:
+                        edgeVerts[i].Position = new Vector3(0,
+                            ringRadius * (float)Math.Cos(angle),
+                            ringRadius * (float)Math.Sin(angle));
+                        break;
+                    case axis.Y:
+                        edgeVerts[i].Position = new Vector3(
+                            ringRadius * (float)Math.Cos(angle),
+                            0,
+                            ringRadius * (float)Math.Sin(angle));
+                        break;
+                    case axis.Z:
+                        edgeVerts[i].Position = new Vector3(
+                            ringRadius * (float)Math.Cos(angle),
+                            ringRadius * (float)Math.Sin(angle),
+                            0);
+                        break;
+                }
+                edgeVerts[i].Color = edgeColor;
+            }
+            device.DrawUserPrimitives(PrimitiveType.LineStrip, edgeSegments, edgeVerts);
+
+            device.RenderState.AlphaBlendEnable = oldAlpha;
+        }
 
         /// <summary>
         /// The mesh pick.
@@ -379,29 +759,44 @@ namespace entity.Renderers
         private List<int> MeshPick(float x, float y, Mesh mesh, Matrix mat)
         {
             Vector3 s = Vector3.Unproject(
-                new Vector3(x, y, 0), 
-                device.Viewport, 
-                device.Transform.Projection, 
-                device.Transform.View, 
+                new Vector3(x, y, 0),
+                device.Viewport,
+                device.Transform.Projection,
+                device.Transform.View,
                 Matrix.Scaling(scale, scale, scale) * mat);
 
             Vector3 d = Vector3.Unproject(
-                new Vector3(x, y, 1), 
-                device.Viewport, 
-                device.Transform.Projection, 
-                device.Transform.View, 
+                new Vector3(x, y, 1),
+                device.Viewport,
+                device.Transform.Projection,
+                device.Transform.View,
                 Matrix.Scaling(scale, scale, scale) * mat);
 
             Vector3 rPosition = s;
             Vector3 rDirection = Vector3.Normalize(d - s);
 
-            List<int> temp = new List<int>();
-            for (int i = 0; i < 9; i++)
+            // Collect all intersected subsets with their closest hit distance
+            List<KeyValuePair<int, float>> hits = new List<KeyValuePair<int, float>>();
+            for (int i = 0; i < meshSubsetCount; i++)
             {
-                if (mesh.IntersectSubset(i, rPosition, rDirection))
+                IntersectInformation closestHit;
+                IntersectInformation[] allHits;
+                if (mesh.IntersectSubset(i, rPosition, rDirection, out closestHit, out allHits))
                 {
-                    temp.Add(i);
+                    hits.Add(new KeyValuePair<int, float>(i, closestHit.Dist));
                 }
+            }
+
+            // Sort by distance so the closest subset is first
+            hits.Sort(delegate(KeyValuePair<int, float> a, KeyValuePair<int, float> b)
+            {
+                return a.Value.CompareTo(b.Value);
+            });
+
+            List<int> temp = new List<int>();
+            for (int i = 0; i < hits.Count; i++)
+            {
+                temp.Add(hits[i].Key);
             }
 
             return temp;
@@ -416,16 +811,16 @@ namespace entity.Renderers
             int eachVLength = 17; // 9
             int eachILength = 24;
             Mesh m = new Mesh(
-                (6 * eachILength + 18) / 3, 
-                3 * eachVLength + 7, 
-                MeshFlags.Managed, 
-                CustomVertex.PositionColored.Format, 
+                (6 * eachILength + 18) / 3,
+                3 * eachVLength + 7,
+                MeshFlags.Managed,
+                CustomVertex.PositionColored.Format,
                 this.device);
 
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[eachVLength * 3 + 7];
             for (int i = 0; i < 3; i++)
             {
-                Color tempColor = i == 0 ? Color.DarkRed : i == 1 ? Color.DarkGreen : Color.DarkBlue;
+                Color tempColor = i == 0 ? Color.Red : i == 1 ? Color.Green : Color.Blue;
                 for (int ii = 1; ii < eachVLength; ii++)
                 {
                     vertices[i * eachVLength + ii].Color = tempColor.ToArgb();
@@ -498,10 +893,6 @@ namespace entity.Renderers
             vertices[2 * eachVLength + 16].Position = new Vector3(-0.25f, -0.25f, 10f);
 
             // X Bottom Square Basic
-            /*// Debugging only. These are NOT visible!
-            for (int i = 0; i < 7; i++)
-                vertices[3 * eachVLength + i].Color = Color.Yellow.ToArgb();
-            */
             vertices[3 * eachVLength + 0].Position = new Vector3(0f, 0f, 0f);
             vertices[3 * eachVLength + 1].Position = new Vector3(5f, 0f, 0f);
             vertices[3 * eachVLength + 2].Position = new Vector3(0f, 5f, 0f);
@@ -634,22 +1025,91 @@ namespace entity.Renderers
         }
 
         /// <summary>
-        /// The set gizmo.
+        /// Creates the rotation gizmo mesh (flat ring annuli for ray picking).
+        /// 3 subsets: 0=X (YZ plane), 1=Y (XZ plane), 2=Z (XY plane).
         /// </summary>
-        /// <param name="tForm">The t form.</param>
-        /// <remarks></remarks>
-        private void setGizmo(transform tForm)
+        private void createRotationGizmo()
         {
-            switch (tForm)
+            int vertsPerRing = ringSegments * 2;
+            int trisPerRing = ringSegments * 2;
+            int totalVerts = vertsPerRing * 3;
+            int totalTris = trisPerRing * 3;
+
+            Mesh m = new Mesh(
+                totalTris,
+                totalVerts,
+                MeshFlags.Managed,
+                CustomVertex.PositionColored.Format,
+                this.device);
+
+            CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[totalVerts];
+            short[] indices = new short[totalTris * 3];
+
+            for (int ring = 0; ring < 3; ring++)
             {
-                case transform.movement:
-                    createMovementGizmo();
-                    break;
-                case transform.rotation:
-                    break;
-                case transform.scale:
-                    break;
+                Color c = ring == 0 ? Color.Red : ring == 1 ? Color.Green : Color.Blue;
+                int vBase = ring * vertsPerRing;
+                int iBase = ring * trisPerRing * 3;
+
+                for (int seg = 0; seg < ringSegments; seg++)
+                {
+                    float angle = (float)(2 * Math.PI * seg / ringSegments);
+                    float cos = (float)Math.Cos(angle);
+                    float sin = (float)Math.Sin(angle);
+
+                    int innerIdx = vBase + seg * 2;
+                    int outerIdx = vBase + seg * 2 + 1;
+
+                    switch (ring)
+                    {
+                        case 0: // X ring in YZ plane
+                            vertices[innerIdx].Position = new Vector3(0, ringInnerR * cos, ringInnerR * sin);
+                            vertices[outerIdx].Position = new Vector3(0, ringOuterR * cos, ringOuterR * sin);
+                            break;
+                        case 1: // Y ring in XZ plane
+                            vertices[innerIdx].Position = new Vector3(ringInnerR * cos, 0, ringInnerR * sin);
+                            vertices[outerIdx].Position = new Vector3(ringOuterR * cos, 0, ringOuterR * sin);
+                            break;
+                        case 2: // Z ring in XY plane
+                            vertices[innerIdx].Position = new Vector3(ringInnerR * cos, ringInnerR * sin, 0);
+                            vertices[outerIdx].Position = new Vector3(ringOuterR * cos, ringOuterR * sin, 0);
+                            break;
+                    }
+
+                    vertices[innerIdx].Color = c.ToArgb();
+                    vertices[outerIdx].Color = c.ToArgb();
+
+                    int nextSeg = (seg + 1) % ringSegments;
+                    int nextInnerIdx = vBase + nextSeg * 2;
+                    int nextOuterIdx = vBase + nextSeg * 2 + 1;
+
+                    int triIdx = iBase + seg * 6;
+                    indices[triIdx + 0] = (short)innerIdx;
+                    indices[triIdx + 1] = (short)outerIdx;
+                    indices[triIdx + 2] = (short)nextInnerIdx;
+                    indices[triIdx + 3] = (short)nextInnerIdx;
+                    indices[triIdx + 4] = (short)outerIdx;
+                    indices[triIdx + 5] = (short)nextOuterIdx;
+                }
             }
+
+            m.SetVertexBufferData(vertices, LockFlags.None);
+            m.SetIndexBufferData(indices, LockFlags.None);
+
+            int[] attr = m.LockAttributeBufferArray(LockFlags.Discard);
+            for (int ring = 0; ring < 3; ring++)
+            {
+                for (int tri = 0; tri < trisPerRing; tri++)
+                {
+                    attr[ring * trisPerRing + tri] = ring;
+                }
+            }
+            m.UnlockAttributeBuffer(attr);
+
+            int[] adj = new int[m.NumberFaces * 3];
+            m.GenerateAdjacency(0.001f, adj);
+            m.OptimizeInPlace(MeshFlags.OptimizeVertexCache, adj);
+            this.gizmo = m;
         }
 
         #endregion

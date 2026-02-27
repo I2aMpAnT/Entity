@@ -284,9 +284,11 @@ namespace entity.Main
         {
             if (!cbBitmapIdent.Focused)
                 return;
-            baseData sd = (baseData)cbBitmapIdent.SelectedItem;
-            bitmapInfo bi = (bitmapInfo)sd.link;
-            bitmapData bsd = (bitmapData)lbBitmaps.SelectedItem;
+            baseData sd = cbBitmapIdent.SelectedItem as baseData;
+            if (sd == null) return;
+            bitmapInfo bi = sd.link as bitmapInfo;
+            if (bi == null) return;
+            bitmapData bsd = lbBitmaps.SelectedItem as bitmapData;
             if (sd.meta == null)
             {
                 sd.meta = new Meta(map);
@@ -316,7 +318,9 @@ namespace entity.Main
             }
 
             int selIndex = lbBitmaps.SelectedIndex;
-            ((bitmapData)lbBitmaps.SelectedItem).title = bsd.title;
+            bitmapData selBitmap = lbBitmaps.SelectedItem as bitmapData;
+            if (selBitmap == null) return;
+            selBitmap.title = bsd.title;
             // Actually update ListBox with data source
             ((CurrencyManager)lbBitmaps.BindingContext[lbBitmaps.DataSource]).Refresh();
             #endregion
@@ -326,8 +330,10 @@ namespace entity.Main
         {
             if (!cbBitmapIndex.Focused)
                 return;
-            bitmapData bd = (bitmapData)lbBitmaps.SelectedItem;
-            bitmapInfo bi = (bitmapInfo)((baseData)cbBitmapIdent.SelectedItem).link;
+            bitmapData bd = lbBitmaps.SelectedItem as bitmapData;
+            baseData identBase = cbBitmapIdent.SelectedItem as baseData;
+            if (bd == null || identBase == null) return;
+            bitmapInfo bi = (bitmapInfo)identBase.link;
             bd.bitmNumber = bi.BitmapIndex = (short)cbBitmapIndex.SelectedIndex;
             ParsedBitmap pm = new ParsedBitmap(ref bd.meta, map);
             bd.link = bi.Image = pm.FindChunkAndDecode(bd.bitmNumber, 0, 0, ref bd.meta, map, 0, 0);
@@ -338,7 +344,9 @@ namespace entity.Main
             if (cbLBSkinIdent.SelectedIndex == -1)
                 return;
 
-            int i = Math.Min(((paneData)lbPanes.SelectedItem).listBlocks[0].visibleItemCount, currentScreen.strings.Count);
+            paneData pdSkin = lbPanes.SelectedItem as paneData;
+            if (pdSkin == null || pdSkin.listBlocks.Count == 0) return;
+            int i = Math.Min(pdSkin.listBlocks[0].visibleItemCount, currentScreen.strings.Count);
             int selection = 1;
             if (lbPanes.Items.Count > 0)
                 selection = lbPanes.SelectedIndex;
@@ -432,7 +440,8 @@ namespace entity.Main
             if (lbPanes.SelectedIndex == -1)
                 return;
 
-            paneData pd = (paneData)lbPanes.SelectedItem;
+            paneData pd = lbPanes.SelectedItem as paneData;
+            if (pd == null) return;
             br = new BinaryReader(pd.meta.MS);
 
             #region Bitmaps
@@ -654,7 +663,8 @@ namespace entity.Main
             tabControl1.TabPages[5].Enabled = (buttonsCount > 0);
             #endregion
 
-            screenData screenSelected = (screenData)lbScreensList.SelectedItem;
+            screenData screenSelected = lbScreensList.SelectedItem as screenData;
+            if (screenSelected == null) return;
             // offset stores the last currently selected pane for that screen
             screenSelected.offset = lbPanes.SelectedIndex;
 
@@ -686,7 +696,7 @@ namespace entity.Main
 
                 entity.MetaFuncs.MEStringsSelector.Unicode[] ul = sSwap.getUnicodesFromID(td.stringID.sidIndexer);
 
-                screenData sd = ((screenData)lbScreensList.SelectedItem);
+                screenData sd = screenSelected;
                 // Default to first
                 string s = ul.Length > 0 ? ul[0].unicode : string.Empty;
                 for (int i = 0; i < ul.Length; i++)
@@ -733,7 +743,8 @@ namespace entity.Main
             if (lbScreensList.Focused)
                 writePaneToMemory();
 
-            currentScreen = (screenData)lbScreensList.SelectedItem;
+            currentScreen = lbScreensList.SelectedItem as screenData;
+            if (currentScreen == null) return;
 
             currentScreen.panes.Clear();
 
@@ -791,7 +802,7 @@ namespace entity.Main
                         pd.title += name;
                 }
                 else
-                    pd.title += lbScreensList.SelectedItem.ToString();
+                    pd.title += currentScreen.ToString();
                 currentScreen.panes.Add(pd);
             }
             
@@ -802,7 +813,7 @@ namespace entity.Main
             if (lbPanes.Items.Count > 0)
             {
                 lbPanes.SelectedIndex = -1; // force it to reload, even if same pane is selected
-                lbPanes.SelectedIndex = ((baseData)lbScreensList.SelectedItem).offset;
+                lbPanes.SelectedIndex = currentScreen.offset;
             }
         }
 
@@ -851,10 +862,11 @@ namespace entity.Main
                         currentDragStart = new Point(e.X - int.Parse(tbXPos.Text), (e.Y + int.Parse(tbYPos.Text)));
                     }
                     break;
-                case 1:                    
-                    if (((paneData)lbPanes.SelectedItem).listBlocks.Count > 0)
+                case 1:
+                    paneData pdDrag = lbPanes.SelectedItem as paneData;
+                    if (pdDrag != null && pdDrag.listBlocks.Count > 0)
                     {
-                        listBlockData lbd = ((paneData)lbPanes.SelectedItem).listBlocks[0];
+                        listBlockData lbd = pdDrag.listBlocks[0];
                         currentDragBitmap = 0;
                         currentDragStart = new Point(e.X - lbd.left, (e.Y + lbd.bottom));
                     }
@@ -878,7 +890,8 @@ namespace entity.Main
                         }
                         break;
                     case 1:
-                        if (((paneData)lbPanes.SelectedItem).listBlocks.Count > 0)
+                        paneData pdMove = lbPanes.SelectedItem as paneData;
+                        if (pdMove != null && pdMove.listBlocks.Count > 0)
                         {
                             tbLBLeft.Text = (e.X - currentDragStart.X).ToString();
                             tbLBBottom.Text = (currentDragStart.Y - e.Y).ToString();
@@ -890,7 +903,8 @@ namespace entity.Main
             {
                 int mx = e.X - pictureBox1.Image.Width / 2;
                 int my = pictureBox1.Image.Height / 2 - e.Y;
-                paneData pd = (paneData)lbPanes.SelectedItem;
+                paneData pd = lbPanes.SelectedItem as paneData;
+                if (pd == null) return;
                 for (int i = 0; i < pd.listBlocks.Count; i++)
                 {
                     int foundActive = lbPanes.SelectedIndex;
@@ -925,7 +939,8 @@ namespace entity.Main
             int value;
             if (int.TryParse(tb.Text, out value))
             {
-                bitmapData bd = (bitmapData)lbBitmaps.SelectedItem;
+                bitmapData bd = lbBitmaps.SelectedItem as bitmapData;
+                if (bd == null) return;
                 if (tb == tbXPos)
                     bd.left = (short)value;
                 if (tb == tbYPos)
@@ -934,9 +949,10 @@ namespace entity.Main
                     bd.renderDepth = (short)value;
 
                 // Do not try to access list blocks if they don't exist
-                if (((paneData)lbPanes.SelectedItem).listBlocks.Count > 0)
+                paneData pdTb = lbPanes.SelectedItem as paneData;
+                if (pdTb != null && pdTb.listBlocks.Count > 0)
                 {
-                    listBlockData ld = (listBlockData)((paneData)lbPanes.SelectedItem).listBlocks[0];
+                    listBlockData ld = (listBlockData)pdTb.listBlocks[0];
                     if (tb == tbLBLeft)
                         ld.left = (short)value;
                     if (tb == tbLBBottom)
@@ -957,7 +973,8 @@ namespace entity.Main
             float value;
             if (float.TryParse(tb.Text, out value))
             {
-                bitmapData bd = (bitmapData)lbBitmaps.SelectedItem;
+                bitmapData bd = lbBitmaps.SelectedItem as bitmapData;
+                if (bd == null) return;
                 if (tb == tbXScroll)
                     bd.horizontalWrapsPerSec = (float)Math.Round(value, 2, MidpointRounding.AwayFromZero);
                 if (tb == tbYScroll)
@@ -1014,9 +1031,10 @@ namespace entity.Main
         {
             // Create the menu and save it as a Bitmap to be drawn in the drawBitmap() function
 
-            skinData sd = (skinData)cbLBSkinIdent.SelectedItem;
-            paneData pd = ((paneData)lbPanes.SelectedItem);
-            screenData scrData = ((screenData)lbScreensList.SelectedItem);
+            skinData sd = cbLBSkinIdent.SelectedItem as skinData;
+            paneData pd = lbPanes.SelectedItem as paneData;
+            screenData scrData = lbScreensList.SelectedItem as screenData;
+            if (sd == null || pd == null || scrData == null) return;
 
             // Get trial bitmap for sizing purposes
             //Rectangle bTrial = sd.skin.getMenuSize();
@@ -1223,9 +1241,10 @@ namespace entity.Main
                 #region List Box lines
                 if (tabControl1.SelectedTab == tpListBlocks)
                 {
-                    if (((paneData)lbPanes.SelectedItem).listBlocks.Count > 0)
+                    paneData pdLines = lbPanes.SelectedItem as paneData;
+                    if (pdLines != null && pdLines.listBlocks.Count > 0)
                     {
-                        listBlockData ld = (listBlockData)((paneData)lbPanes.SelectedItem).listBlocks[0];
+                        listBlockData ld = (listBlockData)pdLines.listBlocks[0];
                         int startX = finalImage.Width / 2;
                         int startY = finalImage.Height / 2;
                         g.DrawLines(
@@ -1463,13 +1482,13 @@ namespace entity.Main
 
         private void showListBoxData()
         {
-            if (((paneData)lbPanes.SelectedItem).listBlocks.Count == 0)
+            paneData pdShow = lbPanes.SelectedItem as paneData;
+            if (pdShow == null || pdShow.listBlocks.Count == 0)
             {
-
                 return;
             }
-            
-            listBlockData ld = (listBlockData)((paneData)lbPanes.SelectedItem).listBlocks[0];
+
+            listBlockData ld = (listBlockData)pdShow.listBlocks[0];
             // Option Flags
             cbLBButtonsLoop.Checked = ld.buttonsLoop;
 

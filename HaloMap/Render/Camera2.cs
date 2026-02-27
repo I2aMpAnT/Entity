@@ -91,7 +91,7 @@ namespace HaloMap.Render
         /// <summary>
         /// The speed.
         /// </summary>
-        public float speed = 0.5f;
+        public float speed = 0.25f;
 
         /// <summary>
         /// The x.
@@ -571,7 +571,7 @@ namespace HaloMap.Render
                 prevBackButton = currentBackButton;
 
                 // D-pad handling via POV (point-of-view) controller
-                int[] pov = state.GetPointOfViewControllers();
+                int[] pov = state.GetPointOfView();
                 bool currentDPadUp = false;
                 if (pov.Length > 0 && pov[0] != -1)
                 {
@@ -602,6 +602,7 @@ namespace HaloMap.Render
                     Position.X = x;
                     Position.Y = y;
                     Position.Z = z;
+                    ComputePosition();
                 }
 
                 if (gamepadLeftX != 0)
@@ -618,6 +619,7 @@ namespace HaloMap.Render
                     y += strafeJ * effectiveSpeed * gamepadLeftX;
                     Position.X = x;
                     Position.Y = y;
+                    ComputePosition();
                 }
 
                 // Apply right stick to camera look
